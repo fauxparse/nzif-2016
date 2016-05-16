@@ -1,4 +1,6 @@
 class Festival < ApplicationRecord
+  before_validation :fill_in_year, :unless => :year?
+
   validates :year, :start_date, :end_date,
     presence: true
 
@@ -8,5 +10,11 @@ class Festival < ApplicationRecord
 
   def to_param
     year.to_s
+  end
+
+  private
+
+  def fill_in_year
+    self.year ||= start_date.try(:year)
   end
 end
