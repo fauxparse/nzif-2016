@@ -6,6 +6,7 @@ en:
 
     show:
       title: "NZIF %{year}"
+      register: "Register now!"
 
   date:
     formats:

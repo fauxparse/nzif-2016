@@ -1,6 +1,6 @@
 class FestivalsController < ApplicationController
   def index
-    redirect_to "/#{festival.year}" if festival.present?
+    redirect_to festival_path(festival) if festival.present?
   end
 
   def show

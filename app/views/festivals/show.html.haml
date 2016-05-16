@@ -1,2 +1,4 @@
 %h1= t('.title', year: festival.year)
 %h2= date_range(festival.start_date, festival.end_date)
+
+= link_to t('.register'), new_registration_path(festival.year)
