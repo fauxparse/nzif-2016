@@ -1,4 +1,6 @@
 class Festival < ApplicationRecord
+  has_many :registrations, inverse_of: :festival, dependent: :destroy
+
   before_validation :fill_in_year, :unless => :year?
 
   validates :year, :start_date, :end_date,
