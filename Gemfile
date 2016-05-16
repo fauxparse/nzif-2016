@@ -38,6 +38,10 @@ gem 'figaro'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'cucumber-rails', :require => false
+  gem 'spring-commands-rspec'
+  gem 'spring-commands-cucumber'
+  gem 'factory_girl_rails', '~> 4.0'
 end
 
 group :development do
@@ -47,9 +51,16 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
 end
 
-gem 'codeclimate-test-reporter', group: :test, require: nil
+group :test do
+  gem 'codeclimate-test-reporter', require: nil
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', '~> 3.1'
+end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

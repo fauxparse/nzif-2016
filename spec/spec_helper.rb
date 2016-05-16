@@ -1,6 +1,10 @@
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  CodeClimate::TestReporter::Formatter
+])
 SimpleCov.start do
   add_filter '/app/controllers'
   add_filter '/vendor'
