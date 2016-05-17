@@ -9,11 +9,11 @@ When(/^I enter my registration details$/) do
   fill_in("Password confirmation", with: "p4$$w0rd")
 end
 
-Then(/^I receive an email confirming my registration$/) do
+Then(/^I should receive an email confirming my registration$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
-Then(/^I am on my registration details page$/) do
+Then(/^I should be on my registration details page$/) do
   expect(page.current_path).to eq registration_path(@festival)
 end
 
