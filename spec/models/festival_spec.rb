@@ -7,6 +7,11 @@ RSpec.describe Festival, type: :model do
   it { is_expected.to validate_presence_of(:end_date) }
   it { is_expected.to validate_uniqueness_of(:year) }
 
+  describe '#name' do
+    subject { festival.name }
+    it { is_expected.to eq "NZIF #{festival.year}" }
+  end
+
   describe '#to_param' do
     subject { festival.to_param }
     it { is_expected.to eq festival.year.to_s }

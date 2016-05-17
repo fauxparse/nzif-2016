@@ -14,6 +14,10 @@ class Festival < ApplicationRecord
     year.to_s
   end
 
+  def name
+    I18n.t('festival.name', year: year)
+  end
+
   private
 
   def fill_in_year

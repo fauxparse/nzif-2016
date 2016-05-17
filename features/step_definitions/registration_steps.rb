@@ -10,10 +10,9 @@ When(/^I enter my registration details$/) do
 end
 
 Then(/^I should receive an email confirming my registration$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(unread_emails_for("alice@example.com").size).to eq 1
 end
 
 Then(/^I should be on my registration details page$/) do
   expect(page.current_path).to eq registration_path(@festival)
 end
-

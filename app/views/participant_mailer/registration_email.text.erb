@@ -1,0 +1,9 @@
+<%= t('emails.registration.greeting', name: @participant.name) %>
+
+You're now registered for <%= @festival.name %>.
+
+Check it out online:
+  <%= festival_url(@festival) %>
+
+Thanks,
+The NZIF team

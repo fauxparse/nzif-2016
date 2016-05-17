@@ -12,6 +12,10 @@ class RegistrationsController < ApplicationController
 
   def create
     registration_form.save!
+    ParticipantMailer
+      .registration_email(registration_form.registration)
+      .deliver_later
+
     sign_in registration_form.user
     redirect_to registration_path(festival)
   rescue ActiveModel::ValidationError

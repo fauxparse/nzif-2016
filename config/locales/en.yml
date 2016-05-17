@@ -1,4 +1,7 @@
 en:
+  festival:
+    name: "NZIF %{year}"
+
   header:
     authentication:
       log_in: "Log in"
@@ -29,3 +32,7 @@ en:
       range_years_start: "%d %B, %Y"
       range_years_end: " – %d %B, %Y"
 
+  emails:
+    registration:
+      subject: "Registered for %{festival}"
+      greeting: "Hi %{name},"
