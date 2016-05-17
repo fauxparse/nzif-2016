@@ -1,5 +1,5 @@
-When(/^I click the "([^"]*)" button$/) do |arg1|
-  pending # Write code here that turns the phrase above into concrete actions
+When(/^I click the "([^"]*)" button$/) do |button_text|
+  click_button(button_text)
 end
 
 Then(/^I see "([^"]*)"$/) do |text|

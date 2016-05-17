@@ -8,8 +8,8 @@ Feature: Register for an event
       And I am on the festival homepage
      When I click the registration link
       And I enter my registration details
-      And I click the "continue" button
-     Then I am on my account page
+      And I click the "Continue" button
+     Then I am on my registration details page
       And I am logged in
       And I see "registered"
       And I receive an email confirming my registration

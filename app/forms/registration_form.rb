@@ -42,6 +42,10 @@ class RegistrationForm
     (existing_user? ? participant : user).email = value
   end
 
+  def self.permitted_parameters
+    new_user_parameters
+  end
+
   private
 
   def self.new_user_parameters
@@ -54,7 +58,7 @@ class RegistrationForm
   end
 
   def permitted_parameters
-    self.class.new_user_parameters
+    self.class.permitted_parameters
   end
 
   def permitted_attributes(params)

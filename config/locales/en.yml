@@ -1,12 +1,18 @@
 en:
   festivals:
     index:
-      title: NZIF
-      no_festivals: Sorry, registrations aren’t open right now. Check back later!
+      title: "NZIF"
+      no_festivals: "Sorry, registrations aren’t open right now. Check back later!"
 
     show:
       title: "NZIF %{year}"
       register: "Register now!"
+
+  registrations:
+    new:
+      continue: "Continue"
+    show:
+      registered: "Registered for %{year}"
 
   date:
     formats:

@@ -1,4 +1,6 @@
 class RegistrationsController < ApplicationController
+  wrap_parameters :registration, include: RegistrationForm.permitted_parameters
+
   helper_method :registration_form
 
   def show
@@ -9,11 +11,11 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    if registration_form.save
-      redirect_to registration_path(festival)
-    else
-      render :new
-    end
+    registration_form.save!
+    sign_in registration_form.user
+    redirect_to registration_path(festival)
+  rescue ActiveModel::ValidationError
+    render :new
   end
 
   private

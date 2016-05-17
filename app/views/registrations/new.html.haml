@@ -1,16 +1,15 @@
-= form_for registration_form, url: register_path(festival) do |form|
+= form_for registration_form, as: :registration, url: register_path(festival) do |form|
   .field
     = form.label :name
     = form.text_field :name
   .field
     = form.label :email
-    = form.text_field :email, disabled: form.object.registered_user?
-  - unless form.object.registered_user?
+    = form.text_field :email, disabled: form.object.existing_user?
+  - unless form.object.existing_user?
     .field
       = form.label :password
       = form.password_field :password
     .field
       = form.label :password_confirmation
       = form.password_field :password_confirmation
-  = form.submit
-
+  = form.submit t('.continue')
