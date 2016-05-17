@@ -43,6 +43,7 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'
   gem 'factory_girl_rails', '~> 4.0'
+  gem 'rspec-collection_matchers'
 end
 
 group :development do

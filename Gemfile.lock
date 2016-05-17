@@ -212,6 +212,8 @@ GEM
       rspec-core (= 3.5.0.beta3)
       rspec-expectations (= 3.5.0.beta3)
       rspec-mocks (= 3.5.0.beta3)
+    rspec-collection_matchers (1.1.2)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.5.0.beta3)
       rspec-support (= 3.5.0.beta3)
     rspec-expectations (3.5.0.beta3)
@@ -307,6 +309,7 @@ DEPENDENCIES
   pg (~> 0.18)
   puma (~> 3.0)
   rails (>= 5.0.0.beta4, < 5.1)
+  rspec-collection_matchers
   rspec-rails (= 3.5.0.beta3)
   sass-rails (~> 5.0)
   shoulda-matchers (~> 3.1)

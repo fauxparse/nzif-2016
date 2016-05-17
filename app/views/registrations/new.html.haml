@@ -1,2 +1,16 @@
-%h1 Registrations#new
-%p Find me in app/views/registrations/new.html.haml
+= form_for registration_form, url: register_path(festival) do |form|
+  .field
+    = form.label :name
+    = form.text_field :name
+  .field
+    = form.label :email
+    = form.text_field :email, disabled: form.object.registered_user?
+  - unless form.object.registered_user?
+    .field
+      = form.label :password
+      = form.password_field :password
+    .field
+      = form.label :password_confirmation
+      = form.password_field :password_confirmation
+  = form.submit
+

@@ -8,6 +8,14 @@ class ApplicationController < ActionController::Base
   private
 
   def festival
-    @festival ||= Festival.most_recent_first.first
+    @festival ||= if params[:year]
+                    Festival.find_by!(year: params[:year])
+                  else
+                    Festival.most_recent_first.first
+                  end
+  end
+
+  def participant
+    @participant ||= current_user.participants.first if user_signed_in?
   end
 end
