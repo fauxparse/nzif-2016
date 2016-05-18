@@ -16,3 +16,7 @@ end
 Then(/^I should be on my registration details page$/) do
   expect(page.current_path).to eq registration_path(@festival)
 end
+
+Then(/^I should be on the registration page$/) do
+  expect(page.current_path).to eq register_path(@festival)
+end

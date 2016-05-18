@@ -13,3 +13,12 @@ Feature: Register for an event
       And I should be logged in
       And I should see "registered"
       And I should receive an email confirming my registration
+
+  Scenario: Unsuccessful registration
+    Given there is a 2016 festival
+      And I am on the festival homepage
+     When I click the registration link
+      And I click the "Continue" button
+     Then I should be on the registration page
+      And I should see "Name can't be blank"
+      And I should see "Email can't be blank"

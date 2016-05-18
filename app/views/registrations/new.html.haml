@@ -2,14 +2,18 @@
   .field
     = form.label :name
     = form.text_field :name
+    = form.error_messages_for :name
   .field
     = form.label :email
     = form.text_field :email, disabled: form.object.existing_user?
+    = form.error_messages_for :email
   - unless form.object.existing_user?
     .field
       = form.label :password
       = form.password_field :password
+      = form.error_messages_for :password
     .field
       = form.label :password_confirmation
       = form.password_field :password_confirmation
+      = form.error_messages_for :password_confirmation
   = form.submit t('.continue')
