@@ -18,6 +18,9 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'rspec-rails', '3.5.0.beta3'
 gem 'haml-rails', '~> 0.9'
+gem 'bourbon', '>= 5.0.0.beta.5'
+gem 'neat'
+gem 'normalize-scss'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

@@ -1,15 +1,18 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     %title NZIF
     = csrf_meta_tags
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Montserrat:400,700'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
-    %header
-      - if signed_in?
-        = link_to t('header.authentication.log_out'), logout_path, method: :destroy
-      - else
-        = link_to t('header.authentication.log_in'), login_path
+    %nav.top-navigation
+      .inner
+        = homepage_link
+        - if signed_in?
+          = link_to t('header.authentication.log_out'), logout_path, method: :delete
+        - else
+          = link_to t('header.authentication.log_in'), login_path
     = yield

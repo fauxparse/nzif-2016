@@ -1,0 +1,29 @@
+.top-navigation {
+  background: $navigation-background-color;
+  color: $navigation-color;
+  padding: 0 1rem;
+
+  .inner {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  a {
+    margin: 0 -1rem;
+    padding: 1rem;
+    line-height: 1.5rem;
+    color: $light-gray;
+    transition: background-color $base-duration $base-timing;
+    text-shadow: 0 1px 0 $dark-gray;
+
+    &:hover {
+      color: white;
+      background-color: $medium-gray;
+    }
+  }
+}
