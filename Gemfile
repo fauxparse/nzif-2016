@@ -21,6 +21,7 @@ gem 'haml-rails', '~> 0.9'
 gem 'bourbon', '>= 5.0.0.beta.5'
 gem 'neat'
 gem 'normalize-scss'
+gem 'autoprefixer-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -59,6 +60,7 @@ group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-cucumber'
+  gem 'guard-rails', require: false
   gem 'letter_opener'
 end
 

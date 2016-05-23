@@ -40,6 +40,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (7.0.0)
+    autoprefixer-rails (6.3.6.1)
+      execjs
     bcrypt (3.1.11)
     bourbon (5.0.0.beta.5)
       sass (~> 3.4)
@@ -123,6 +125,9 @@ GEM
       cucumber (~> 2.0)
       guard-compat (~> 1.0)
       nenv (~> 0.1)
+    guard-rails (0.7.2)
+      guard (~> 2.11)
+      guard-compat (~> 1.0)
     guard-rspec (4.6.5)
       guard (~> 2.1)
       guard-compat (~> 1.1)
@@ -308,6 +313,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autoprefixer-rails
   bourbon (>= 5.0.0.beta.5)
   byebug
   codeclimate-test-reporter
@@ -320,6 +326,7 @@ DEPENDENCIES
   figaro
   guard
   guard-cucumber
+  guard-rails
   guard-rspec
   haml-rails (~> 0.9)
   jbuilder (~> 2.0)

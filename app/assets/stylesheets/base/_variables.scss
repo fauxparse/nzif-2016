@@ -3,7 +3,7 @@ $medium-screen: 600px;
 $large-screen: 900px;
 
 // Typography
-$base-font-family: "Montserrat", $font-stack-system;
+$base-font-family: "Open Sans", $font-stack-system;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
@@ -22,16 +22,16 @@ $base-z-index: 0;
 // Colors
 $tomato: #ff6347;
 $teal: #009688;
-$dark-gray: #263238;
-$medium-gray: #607D8B;
-$light-gray: #ECEFF1;
+$dark-grey: #263238;
+$medium-grey: #607D8B;
+$light-grey: #ECEFF1;
 
 // Font Colors
-$base-font-color: $dark-gray;
+$base-font-color: $dark-grey;
 $action-color: $tomato;
 
 // Border
-$base-border-color: $light-gray;
+$base-border-color: $light-grey;
 $base-border: 1px solid $base-border-color;
 
 // Background Colors
@@ -46,5 +46,5 @@ $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $l
 $base-duration: 150ms;
 $base-timing: ease;
 
-$navigation-background-color: $dark-gray;
-$navigation-color: $light-gray;
+$navigation-background-color: $dark-grey;
+$navigation-color: $light-grey;

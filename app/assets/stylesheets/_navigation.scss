@@ -2,6 +2,7 @@
   background: $navigation-background-color;
   color: $navigation-color;
   padding: 0 1rem;
+  -webkit-font-smoothing: antialiased;
 
   .inner {
     display: flex;
@@ -17,13 +18,12 @@
     margin: 0 -1rem;
     padding: 1rem;
     line-height: 1.5rem;
-    color: $light-gray;
-    transition: background-color $base-duration $base-timing;
-    text-shadow: 0 1px 0 $dark-gray;
+    color: $light-grey;
+    text-shadow: 0 1px 0 $dark-grey;
 
     &:hover {
       color: white;
-      background-color: $medium-gray;
+      background-color: $medium-grey;
     }
   }
 }
