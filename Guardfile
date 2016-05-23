@@ -96,5 +96,6 @@ end
 
 guard 'rails', port: 5000 do
   watch('Gemfile.lock')
-  watch(%r{^(config|lib)/.*})
+  watch(%r{^config/(environments/|initializers/)?[^/]*$})
+  watch(%r{^lib/.*})
 end
