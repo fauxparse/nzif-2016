@@ -1,4 +1,26 @@
 body {
   margin: 0;
   padding: 0;
+
+  > header,
+  > section,
+  > form > section {
+    padding: 0 1rem;
+
+    > .inner {
+      @include outer-container;
+      padding: 1rem 0;
+    }
+  }
+
+  > header {
+    background-color: $secondary-background-color;
+    color: white;
+
+    h1 {
+      margin: 0;
+      font-weight: $light-font-weight;
+      font-size: 200%;
+    }
+  }
 }

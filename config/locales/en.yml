@@ -18,6 +18,7 @@ en:
 
   registrations:
     new:
+      title: "Register for NZIF"
       continue: "Continue"
     show:
       registered: "Registered for %{year}"
