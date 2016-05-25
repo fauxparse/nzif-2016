@@ -4,9 +4,13 @@
   padding: 0 1rem;
   -webkit-font-smoothing: antialiased;
 
+  @include media($medium-screen) {
+    padding: 0 2rem;
+  }
+
   .inner {
     display: flex;
-    max-width: 1200px;
+    max-width: $max-width;
     margin: 0 auto;
     flex-direction: row;
     flex-wrap: wrap;

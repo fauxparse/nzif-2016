@@ -7,6 +7,10 @@ body {
   > form > section {
     padding: 0 1rem;
 
+    @include media($medium-screen) {
+      padding: 0 2rem;
+    }
+
     > .inner {
       @include outer-container;
       padding: 1rem 0;
@@ -14,7 +18,7 @@ body {
   }
 
   > header {
-    background-color: $secondary-background-color;
+    background-color: $header-background-color;
     color: white;
 
     h1 {

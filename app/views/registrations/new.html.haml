@@ -1,6 +1,7 @@
 %header
   .inner
     %h1= t('.title')
+    = render "steps"
 
 = form_for registration_form, as: :registration, url: register_path(festival) do |form|
   %section

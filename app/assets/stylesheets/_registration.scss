@@ -1,0 +1,46 @@
+.registration-steps {
+  padding-top: 1rem;
+
+  li {
+    opacity: .5;
+    &.active { opacity: 1; }
+  }
+
+  li {
+    padding: .75rem 1rem .75rem 3rem;
+    position: relative;
+    line-height: 1.5rem;
+
+    &::before {
+      @include position(absolute, .5rem null null 0rem);
+      @include size(2rem);
+      padding: .5rem;
+      border-radius: 50%;
+      background: white;
+      content: "";
+      font: normal 1rem/1 $icon-font;
+      text-align: center;
+      vertical-align: middle;
+      color: $header-background-color;
+    }
+
+    &.complete::before { content: "done"; }
+    &.active::before { content: "mode_edit"; }
+  }
+
+  @include media($medium-screen) {
+    display: flex;
+    margin: 0 (-$small-spacing);
+    justify-content: flex-start;
+
+    li {
+      margin: 0 $small-spacing;
+      padding: 1rem 1rem 1rem 3.5rem;
+
+      &::before {
+        @include size(2.5rem);
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

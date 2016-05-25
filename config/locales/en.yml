@@ -22,6 +22,10 @@ en:
       continue: "Continue"
     show:
       registered: "Registered for %{year}"
+    steps:
+      details: "Your details"
+      package: "Select a package"
+      payment: "Payment"
 
   date:
     formats:

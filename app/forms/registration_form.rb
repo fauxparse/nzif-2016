@@ -4,7 +4,7 @@ class RegistrationForm
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
-  attr_reader :festival, :registration, :attributes
+  attr_reader :festival, :attributes
 
   delegate :participant, to: :registration
   delegate :name, :email, to: :participant
@@ -16,8 +16,9 @@ class RegistrationForm
   validate :validate_child_objects
 
   def initialize(festival, participant, params)
-    @registration = festival.registrations.build(participant: participant)
-    registration.build_participant unless participant.present?
+    @festival = festival
+    @participant = participant
+
     assign_attributes(permitted_attributes(params))
   end
 
@@ -27,6 +28,12 @@ class RegistrationForm
       user.save!
       participant.save!
       registration.save!
+    end
+  end
+
+  def registration
+    @registration ||= new_or_existing_registration.tap do |registration|
+      registration.build_participant unless registration.participant.present?
     end
   end
 
@@ -46,7 +53,23 @@ class RegistrationForm
     new_user_parameters
   end
 
+  def step
+    if !existing_user?
+      :details
+    else
+      :payment
+    end
+  end
+
+  def steps
+    %i[details package payment]
+  end
+
   private
+
+  def new_or_existing_registration
+    festival.registrations.find_or_initialize_by(participant: @participant)
+  end
 
   def self.new_user_parameters
     %i[
