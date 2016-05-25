@@ -9,10 +9,10 @@ header.hero {
   }
 
   h1 {
+    font-weight: $black-font-weight;
     font-size: 300%;
     line-height: 1;
     margin: 0 0 0 -.08em;
-    font-weight: $black-font-weight;
   }
 
   h2 {
