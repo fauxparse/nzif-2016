@@ -2,103 +2,151 @@ class RegistrationForm
   include ActiveModel::Model
   include ActiveModel::AttributeAssignment
   include ActiveModel::Validations
-  extend ActiveModel::Naming
+  extend ActiveModel::Translation
 
-  attr_reader :festival, :attributes
+  attr_reader :festival, :participant
+  attr_writer :step
 
-  delegate :participant, to: :registration
-  delegate :name, :email, to: :participant
-  delegate :name=, to: :participant
-  delegate :password, :password_confirmation,
-    :password=, :password_confirmation=,
-    to: :user
+  delegate :user, :name, to: :participant
+  delegate :email, :password, :password_confirmation, to: :user
 
-  validate :validate_child_objects
-
-  def initialize(festival, participant, params)
+  def initialize(festival, participant = nil, params = {})
+    @params = params
     @festival = festival
-    @participant = participant
-
-    assign_attributes(permitted_attributes(params))
+    @participant = find_or_build_participant(participant)
   end
 
-  def save!
-    registration.transaction do
-      validate!
-      user.save!
-      participant.save!
-      registration.save!
+  def step
+    @step || if user.new_record?
+      :details
+    else
+      :package
     end
+  end
+
+  def steps
+    %i[
+      details
+      package
+      payment
+    ]
   end
 
   def registration
-    @registration ||= new_or_existing_registration.tap do |registration|
-      registration.build_participant unless registration.participant.present?
-    end
+    @registration ||= festival.registrations
+      .find_or_initialize_by(participant: participant)
   end
 
-  def user
-    participant.user || participant.build_user
+  def save!
+    valid? && models.all?(&:save) || raise_validation_error
+  end
+
+  def valid?
+    models.each(&:valid?) unless attempting_login?
+    merge_errors
+    errors.empty?
+  end
+
+  def params(attributes = nil)
+    @permitted_params ||= if @params[:registration].blank?
+      ActionController::Parameters.new.permit!
+    else
+      @params
+        .require(:registration)
+        .permit(*self.class.permitted_attributes)
+    end
   end
 
   def existing_user?
     !user.new_record?
   end
 
-  def email=(value)
-    (existing_user? ? participant : user).email = value
+  def existing_email
+    participant && user.try(:email)
   end
 
-  def self.permitted_parameters
-    new_user_parameters
+  def existing_password
+    nil
   end
 
-  def step
-    if !existing_user?
-      :details
-    else
-      :payment
-    end
-  end
-
-  def steps
-    %i[details package payment]
-  end
-
-  private
-
-  def new_or_existing_registration
-    festival.registrations.find_or_initialize_by(participant: @participant)
-  end
-
-  def self.new_user_parameters
+  def self.permitted_user_attributes
     %i[
-      name
       email
       password
       password_confirmation
     ]
   end
 
-  def permitted_parameters
-    self.class.permitted_parameters
+  def self.permitted_participant_attributes
+    %i[name]
   end
 
-  def permitted_attributes(params)
-    return ActionController::Parameters.new.permit! \
-      if params[:registration].blank?
-
-    params
-      .require(:registration)
-      .permit(*permitted_parameters)
+  def self.permitted_login_attributes
+    %i[existing_email existing_password]
   end
 
-  def validate_child_objects
-    [registration, participant, user].each do |object|
-      object.validate
-      object.errors.each do |attr, message|
-        errors.add(attr, message)
+  def self.permitted_attributes
+    permitted_participant_attributes +
+      permitted_user_attributes +
+      permitted_login_attributes
+  end
+
+  private
+
+  def models
+    [user, participant, registration]
+  end
+
+  def find_or_build_participant(participant)
+    if attempting_login?
+      user = FindValidUser.new(login_attributes).user
+      Participant.find_or_initialize_by(user: user).tap do |participant|
+        if participant.user.blank?
+          participant.build_user(login_attributes.slice[:email])
+          errors.add(:existing_email, :invalid)
+        end
+      end
+    else
+      participant ||= params[:email] &&
+        Participant.find_by(email: params[:email]) ||
+        Participant.new
+      participant.tap do |participant|
+        participant.attributes =
+          params.slice(*self.class.permitted_participant_attributes)
+        participant.user ||= User.new(user_attributes)
       end
     end
+  end
+
+  def attempting_login?
+    !login_attributes.blank?
+  end
+
+  def login_attributes
+    {
+      email: params[:existing_email],
+      password: params[:existing_password]
+    }.compact
+  end
+
+  def user_attributes
+    params
+      .slice(*self.class.permitted_user_attributes)
+      .tap do |attributes|
+        attributes[:email].try(:strip!)
+        attributes[:email].try(:downcase!)
+      end
+  end
+
+  def merge_errors
+    models.each do |model|
+      model.errors.each do |attr, message|
+        errors.add(attr, message) unless errors[attr].include?(message)
+      end
+    end
+  end
+
+  def raise_validation_error
+    raise ActiveModel::ValidationError.new(self)
   end
 end

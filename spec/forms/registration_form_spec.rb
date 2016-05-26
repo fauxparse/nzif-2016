@@ -3,10 +3,16 @@ require 'rails_helper'
 describe RegistrationForm do
   subject(:form) { RegistrationForm.new(festival, participant, params) }
   let(:festival) { FactoryGirl.create(:festival) }
+  let(:participant) { nil }
   let(:params) { ActionController::Parameters.new(registration: raw_params) }
+  let(:raw_params) { nil }
+
+  describe '#steps' do
+    subject { form.steps }
+    it { is_expected.to have_exactly(3).items }
+  end
 
   context 'for a new user' do
-    let(:participant) { nil }
     let(:name) { "Alice" }
     let(:email) { "alice@example.com" }
     let(:password) { "p4$$w0rd" }
@@ -20,6 +26,11 @@ describe RegistrationForm do
     end
 
     it { is_expected.to be_valid }
+
+    describe '#step' do
+      subject { form.step }
+      it { is_expected.to eq :details }
+    end
 
     describe '#save' do
       subject(:save) { form.save! }
@@ -100,6 +111,11 @@ describe RegistrationForm do
 
     it { is_expected.to be_valid }
 
+    describe '#step' do
+      subject { form.step }
+      it { is_expected.to eq :package }
+    end
+
     it 'has a user' do
       expect(form.existing_user?).to be true
     end
@@ -119,5 +135,93 @@ describe RegistrationForm do
         expect { save }.to change { Registration.count }.by 1
       end
     end
+  end
+
+  context 'for a participant created without a user' do
+    before { participant }
+
+    let(:participant) { FactoryGirl.create(:participant) }
+    let(:password) { "p4$$w0rd" }
+    let(:raw_params) do
+      {
+        name: "Alice",
+        email: participant.email.capitalize + " ",
+        password: password,
+        password_confirmation: password
+      }
+    end
+
+    it { is_expected.to be_valid }
+
+    it 'creates a new user' do
+      expect(form.existing_user?).to be false
+    end
+
+    describe '#save' do
+      subject(:save) { form.save! }
+
+      it 'creates a user' do
+        expect { save }.to change { User.count }.from(0).to(1)
+      end
+
+      it 'does not create a participant' do
+        expect { save }.not_to change { Participant.count }
+      end
+
+      it 'creates a registration' do
+        expect { save }.to change { Registration.count }.by 1
+      end
+
+      it 'updates the participant’s name' do
+        expect { save }
+          .to change { Participant.first.name }
+          .to "Alice"
+      end
+    end
+  end
+
+  context 'logging in as an existing user' do
+    before { participant }
+
+    let(:participant) do
+      FactoryGirl.create(:participant, :with_associated_user)
+    end
+
+    let(:raw_params) do
+      {
+        existing_email: participant.user.email,
+        existing_password: participant.user.password
+      }
+    end
+
+    it { is_expected.to be_valid }
+
+    describe '#save' do
+      subject(:save) { form.save! }
+
+      it 'does not create a user' do
+        expect { save }.not_to change { User.count }
+      end
+
+      it 'does not create a participant' do
+        expect { save }.not_to change { Participant.count }
+      end
+
+      it 'creates a registration' do
+        expect { save }.to change { Registration.count }.by 1
+      end
+    end
+  end
+
+  context 'attempting to log in as a non-existant user' do
+    let(:raw_params) do
+      {
+        existing_email: "broken",
+        existing_password: "br0k3n"
+      }
+    end
+
+    it { is_expected.not_to be_valid }
+    it { is_expected.to have_exactly(1).error_on(:existing_email) }
   end
 end

@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  wrap_parameters :registration, include: RegistrationForm.permitted_parameters
+  wrap_parameters :registration, include: RegistrationForm.permitted_attributes
 
   helper_method :registration_form
 

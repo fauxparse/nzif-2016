@@ -20,6 +20,7 @@ en:
     new:
       title: "Register for NZIF"
       continue: "Continue"
+      log_in: "Log in"
     show:
       registered: "Registered for %{year}"
     steps:
@@ -41,3 +42,15 @@ en:
     registration:
       subject: "Registered for %{festival}"
       greeting: "Hi %{name},"
+
+  activemodel:
+    attributes:
+      registration_form:
+        existing_email: Email
+        existing_password: Password
+    errors:
+      models:
+        registration_form:
+          attributes:
+            existing_email:
+              invalid: "Invalid email address or password"

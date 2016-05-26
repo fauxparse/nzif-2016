@@ -3,10 +3,19 @@ When(/^I click the registration link$/) do
 end
 
 When(/^I enter my registration details$/) do
-  fill_in("Name", with: "Alice")
-  fill_in("Email", with: "alice@example.com")
-  fill_in("Password", with: "p4$$w0rd")
-  fill_in("Password confirmation", with: "p4$$w0rd")
+  within(:css, ".new-user") do
+    fill_in("Name", with: "Alice")
+    fill_in("Email", with: "alice@example.com")
+    fill_in("Password", with: "p4$$w0rd!")
+    fill_in("Password confirmation", with: "p4$$w0rd!")
+  end
+end
+
+When(/^I enter my existing registration details$/) do
+  within(:css, ".existing-user") do
+    fill_in("Email", with: "alice@example.com")
+    fill_in("Password", with: "p4$$w0rd!")
+  end
 end
 
 Then(/^I should receive an email confirming my registration$/) do
