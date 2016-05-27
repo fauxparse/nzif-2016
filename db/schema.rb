@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516221434) do
+ActiveRecord::Schema.define(version: 20160527034133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20160516221434) do
   end
 
   create_table "registrations", force: :cascade do |t|
-    t.integer  "participant_id"
-    t.integer  "festival_id"
+    t.integer  "participant_id", null: false
+    t.integer  "festival_id",    null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["festival_id", "participant_id"], name: "index_registrations_on_festival_id_and_participant_id", using: :btree
@@ -57,4 +57,7 @@ ActiveRecord::Schema.define(version: 20160516221434) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "participants", "users", on_delete: :nullify
+  add_foreign_key "registrations", "festivals", on_delete: :cascade
+  add_foreign_key "registrations", "participants", on_delete: :cascade
 end
