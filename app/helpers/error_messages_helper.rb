@@ -14,6 +14,12 @@ module ErrorMessagesHelper
     def error_messages_for(attribute)
       @template.error_messages_for(@object, attribute)
     end
+
+    def label_text(attribute)
+      ActionView::Helpers::Tags::Translator
+        .new(object, object_name.to_s, attribute.to_s, scope: "helpers.label")
+        .translate || attribute.to_s.humanize
+    end
   end
 end
 

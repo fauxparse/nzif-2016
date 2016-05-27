@@ -49,6 +49,20 @@ Feature: Register for an event
       And I should receive an email confirming my registration
       And there should be only one participant with my details
 
+  Scenario: Registration with existing user without a participant
+    Given I am an existing user without a participant
+      And I am logged in
+      And there is a 2016 festival
+      And I am on the festival homepage
+     When I click the registration link
+      And I enter my name
+      And I click the "Continue" button
+     Then I should be on my registration details page
+      And I should be logged in
+      And I should see "registered"
+      And I should receive an email confirming my registration
+      And there should be only one participant with my details
+
   Scenario: Registration attempt with bad login
     Given there is a 2016 festival
       And I am on the festival homepage

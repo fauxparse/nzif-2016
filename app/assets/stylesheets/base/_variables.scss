@@ -11,6 +11,7 @@ $icon-font: "Material Icons";
 
 // Font Sizes
 $base-font-size: 1em;
+$small-font-size: .875rem;
 
 $base-font-weight: 400;
 $light-font-weight: 300;
@@ -30,6 +31,7 @@ $base-z-index: 0;
 // Colors
 $tomato: #ff6347;
 $teal: #009688;
+$red: #ed1c24;
 $dark-grey: #263238;
 $medium-grey: #607D8B;
 $light-grey: #ECEFF1;
@@ -37,6 +39,7 @@ $light-grey: #ECEFF1;
 // Font Colors
 $base-font-color: $dark-grey;
 $action-color: $teal;
+$error-color: $red;
 
 // Border
 $base-border-color: $light-grey;
@@ -44,7 +47,7 @@ $base-border: 1px solid $base-border-color;
 
 // Background Colors
 $base-background-color: #fff;
-$secondary-background-color: $light-grey;
+$secondary-background-color: rgba($light-grey, .5);
 $header-background-color: $tomato;
 
 // Forms

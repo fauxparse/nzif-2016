@@ -3,38 +3,4 @@
     %h1= t('.title')
     = render "steps"
 
-%section
-  .inner
-    %section.new-user
-      .inner
-        = form_for registration_form, as: :registration, url: register_path(festival) do |form|
-          .field
-            = form.label :name
-            = form.text_field :name
-            = form.error_messages_for :name
-          .field
-            = form.label :email
-            = form.text_field :email, disabled: form.object.existing_user?
-            = form.error_messages_for :email
-          - unless form.object.existing_user?
-            .field
-              = form.label :password
-              = form.password_field :password
-              = form.error_messages_for :password
-            .field
-              = form.label :password_confirmation
-              = form.password_field :password_confirmation
-              = form.error_messages_for :password_confirmation
-          = form.submit t('.continue')
-    %section.existing-user
-      .inner
-        = form_for registration_form, as: :registration, url: register_path(festival) do |form|
-          .field
-            = form.label :existing_email
-            = form.text_field :existing_email
-            = form.error_messages_for :existing_email
-          .field
-            = form.label :existing_password
-            = form.password_field :existing_password
-            = form.error_messages_for :existing_password
-          = form.submit t('.log_in')
+= render registration_form.step

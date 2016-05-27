@@ -17,19 +17,11 @@ class RegistrationForm
   end
 
   def step
-    @step || if user.new_record?
-      :details
-    else
-      :package
-    end
+    @step ||= steps.detect(&:pending?)
   end
 
   def steps
-    %i[
-      details
-      package
-      payment
-    ]
+    @steps ||= Registration::Step.list(registration)
   end
 
   def registration

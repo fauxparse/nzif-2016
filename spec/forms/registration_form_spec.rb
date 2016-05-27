@@ -29,7 +29,7 @@ describe RegistrationForm do
 
     describe '#step' do
       subject { form.step }
-      it { is_expected.to eq :details }
+      it { is_expected.to be_an_instance_of(Registration::Step::Details) }
     end
 
     describe '#save' do
@@ -110,11 +110,6 @@ describe RegistrationForm do
     let(:raw_params) { {} }
 
     it { is_expected.to be_valid }
-
-    describe '#step' do
-      subject { form.step }
-      it { is_expected.to eq :package }
-    end
 
     it 'has a user' do
       expect(form.existing_user?).to be true

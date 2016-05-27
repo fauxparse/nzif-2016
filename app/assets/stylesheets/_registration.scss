@@ -2,14 +2,12 @@
   padding-top: 1rem;
 
   li {
-    opacity: .5;
-    &.active { opacity: 1; }
-  }
-
-  li {
     padding: .75rem 1rem .75rem 3rem;
     position: relative;
     line-height: 1.5rem;
+    opacity: .5;
+
+    &.current { opacity: 1; }
 
     &::before {
       @include position(absolute, .5rem null null 0rem);
@@ -25,7 +23,7 @@
     }
 
     &.complete::before { content: "done"; }
-    &.active::before { content: "mode_edit"; }
+    &.current::before { content: "mode_edit"; }
   }
 
   @include media($medium-screen) {
@@ -40,6 +38,70 @@
       &::before {
         @include size(2.5rem);
         font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+.registration-user-details {
+  > .inner {
+    .existing-user {
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+          text-align: center;
+          padding: 0 $small-spacing;
+          line-height: 1.25;
+        }
+      }
+    }
+
+    @include media($medium-screen) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+
+      .intro {
+        width: 100%;
+        margin-bottom: $base-spacing;
+      }
+
+      .new-user {
+        flex: 2;
+      }
+
+      .existing-user {
+        flex: 1;
+        margin-left: $base-spacing;
+        padding: $small-spacing;
+        background: $secondary-background-color;
+        border-radius: $base-border-radius;
+        border: $base-border;
+
+        label {
+          display: none;
+        }
+      }
+    }
+
+    @include media($large-screen) {
+      .passwords {
+        display: flex;
+
+        .field {
+          flex: 1;
+
+          &:not(:first-child) {
+            padding-left: $small-spacing;
+          }
+
+          &:not(:last-child) {
+            padding-right: $small-spacing;
+          }
+        }
       }
     }
   }

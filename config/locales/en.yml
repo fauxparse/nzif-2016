@@ -19,7 +19,13 @@ en:
   registrations:
     new:
       title: "Register for NZIF"
+    details:
+      intro:
+        existing_participant: "First, please check that the details below are correct."
+        logged_in: "First we need to grab a few details from you. It looks like you’re already logged in, so all we need is your name."
+        new_participant: "First we need to grab a few details from you: your email address (so we can keep in touch) and a password (so you can manage your registration details and select activities)."
       continue: "Continue"
+      existing: "Been here before?"
       log_in: "Log in"
     show:
       registered: "Registered for %{year}"

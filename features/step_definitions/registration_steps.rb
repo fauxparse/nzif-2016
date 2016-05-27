@@ -11,6 +11,12 @@ When(/^I enter my registration details$/) do
   end
 end
 
+When(/^I enter my name$/) do
+  within(:css, ".new-user") do
+    fill_in("Name", with: "Alice")
+  end
+end
+
 When(/^I enter my existing registration details$/) do
   within(:css, ".existing-user") do
     fill_in("Email", with: "alice@example.com")

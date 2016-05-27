@@ -17,6 +17,9 @@ class ApplicationController < ActionController::Base
   end
 
   def participant
-    @participant ||= current_user.participants.first if user_signed_in?
+    @participant ||= current_user && (
+      current_user.participants.first ||
+      current_user.participants.build
+    )
   end
 end
