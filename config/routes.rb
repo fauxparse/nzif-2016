@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   scope "/:year", constraints: { year: /\d{4}/ } do
+    get "/register/:step" => "registrations#new", as: :registration_step
     get "/register" => "registrations#new"
     post "/register" => "registrations#create"
     resource :registration, only: %i[show update]

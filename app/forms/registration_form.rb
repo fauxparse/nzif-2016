@@ -20,8 +20,18 @@ class RegistrationForm
     @step ||= steps.detect(&:pending?)
   end
 
+  def step=(step_id)
+    @step = steps.detect do |step|
+      step.complete? && step.id == step_id.to_sym
+    end if step_id.present?
+  end
+
   def steps
     @steps ||= Registration::Step.list(registration)
+  end
+
+  def complete?
+    steps.all?(&:complete?)
   end
 
   def registration

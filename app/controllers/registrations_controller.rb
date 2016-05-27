@@ -8,16 +8,22 @@ class RegistrationsController < ApplicationController
   end
 
   def new
+    registration_form.step = params[:step]
   end
 
   def create
     registration_form.save!
-    ParticipantMailer
-      .registration_email(registration_form.registration)
-      .deliver_later
-
     sign_in registration_form.user
-    redirect_to registration_path(festival)
+
+    if registration_form.complete?
+      ParticipantMailer
+        .registration_email(registration_form.registration)
+        .deliver_later
+
+      redirect_to registration_path(festival)
+    else
+      render :new
+    end
   rescue ActiveModel::ValidationError
     render :new
   end

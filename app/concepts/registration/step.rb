@@ -13,6 +13,10 @@ class Registration::Step
     id.to_s
   end
 
+  def to_param
+    id
+  end
+
   def name
     I18n.translate("registrations.steps.#{id}")
   end
