@@ -7,6 +7,30 @@ describe RegistrationForm do
   let(:params) { ActionController::Parameters.new(registration: raw_params) }
   let(:raw_params) { nil }
 
+  shared_examples_for "a form with an existing user" do
+    it { is_expected.to be_valid }
+
+    it 'has a user' do
+      expect(form.existing_user?).to be true
+    end
+
+    describe '#save' do
+      subject(:save) { form.save! }
+
+      it 'does not create a user' do
+        expect { save }.not_to change { User.count }
+      end
+
+      it 'does not create a participant' do
+        expect { save }.not_to change { Participant.count }
+      end
+
+      it 'creates a registration' do
+        expect { save }.to change { Registration.count }.by 1
+      end
+    end
+  end
+
   describe '#steps' do
     subject { form.steps }
     it { is_expected.to have_exactly(3).items }
@@ -109,27 +133,7 @@ describe RegistrationForm do
     end
     let(:raw_params) { {} }
 
-    it { is_expected.to be_valid }
-
-    it 'has a user' do
-      expect(form.existing_user?).to be true
-    end
-
-    describe '#save' do
-      subject(:save) { form.save! }
-
-      it 'does not create a user' do
-        expect { save }.not_to change { User.count }
-      end
-
-      it 'does not create a participant' do
-        expect { save }.not_to change { Participant.count }
-      end
-
-      it 'creates a registration' do
-        expect { save }.to change { Registration.count }.by 1
-      end
-    end
+    it_behaves_like "a form with an existing user"
   end
 
   context 'for a participant created without a user' do
@@ -189,23 +193,7 @@ describe RegistrationForm do
       }
     end
 
-    it { is_expected.to be_valid }
-
-    describe '#save' do
-      subject(:save) { form.save! }
-
-      it 'does not create a user' do
-        expect { save }.not_to change { User.count }
-      end
-
-      it 'does not create a participant' do
-        expect { save }.not_to change { Participant.count }
-      end
-
-      it 'creates a registration' do
-        expect { save }.to change { Registration.count }.by 1
-      end
-    end
+    it_behaves_like "a form with an existing user"
   end
 
   context 'attempting to log in as a non-existant user' do
