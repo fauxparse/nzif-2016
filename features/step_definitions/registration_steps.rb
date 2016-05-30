@@ -4,28 +4,28 @@ end
 
 When(/^I enter my registration details$/) do
   within(:css, ".new-user") do
-    fill_in("Name", with: "Alice")
-    fill_in("Email", with: "alice@example.com")
-    fill_in("Password", with: "p4$$w0rd!")
-    fill_in("Password confirmation", with: "p4$$w0rd!")
+    fill_in("Name", with: participant_name)
+    fill_in("Email", with: participant_email)
+    fill_in("Password", with: password)
+    fill_in("Password confirmation", with: password)
   end
 end
 
 When(/^I enter my name$/) do
   within(:css, ".new-user") do
-    fill_in("Name", with: "Alice")
+    fill_in("Name", with: participant_name)
   end
 end
 
 When(/^I enter my existing registration details$/) do
   within(:css, ".existing-user") do
-    fill_in("Email", with: "alice@example.com")
-    fill_in("Password", with: "p4$$w0rd!")
+    fill_in("Email", with: participant_email)
+    fill_in("Password", with: password)
   end
 end
 
 Then(/^I should receive an email confirming my registration$/) do
-  expect(unread_emails_for("alice@example.com").size).to eq 1
+  expect(unread_emails_for(participant_email).size).to eq 1
 end
 
 Then(/^I should be on my registration details page$/) do

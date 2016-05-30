@@ -1,19 +1,15 @@
 Given(/^I am an existing participant who has never logged in$/) do
-  FactoryGirl.create(:participant, name: "Alice", email: "alice@example.com")
+  create_participant
 end
 
 Given(/^I am an existing user$/) do
-  FactoryGirl.create(
-    :participant,
-    name: "Alice",
-    user: FactoryGirl.create(:user, email: "alice@example.com")
-  )
+  create_participant(true)
 end
 
 Given(/^I am an existing user without a participant$/) do
-  FactoryGirl.create(:user, email: "alice@example.com")
+  create_user
 end
 
 Then(/^there should be only one participant with my details$/) do
-  expect(Participant.where(name: "Alice").count).to eq 1
+  expect(Participant.where(name: participant_name).count).to eq 1
 end
