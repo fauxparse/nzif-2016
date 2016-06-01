@@ -1,6 +1,8 @@
 class Registration::Step
   attr_reader :registration
 
+  delegate :festival, :package, to: :registration
+
   def initialize(registration)
     @registration = registration
   end
@@ -42,6 +44,7 @@ class Registration::Step
   end
 
   def self.get(registration, id)
-    const_get(id.to_s.camelize).new(registration)
+    step_class = "#{name}::#{id.to_s.camelize}".constantize
+    step_class.new(registration)
   end
 end

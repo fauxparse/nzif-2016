@@ -4,5 +4,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :participants, inverse_of: :user
+  has_many :participants, dependent: :nullify
 end

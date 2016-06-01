@@ -1,0 +1,9 @@
+%section.package-selection
+  .inner
+    = form_for registration_form, as: :registration, url: register_path(festival) do |form|
+      %ul.packages
+        - festival.packages.each do |package|
+          %li
+            %label
+              = form.radio_button :package_id, package.id
+              %span= package.name

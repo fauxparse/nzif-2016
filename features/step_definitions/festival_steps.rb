@@ -3,7 +3,7 @@ Given(/^there are no existing festivals$/) do
 end
 
 Given(/^there is a (\d{4}) festival$/) do |year|
-  @festival ||= FactoryGirl.create(:festival, year: year.to_i)
+  @festival ||= FactoryGirl.create(:festival, :with_packages, year: year.to_i)
 end
 
 Given(/^I am on the festival homepage$/) do

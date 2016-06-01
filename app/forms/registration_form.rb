@@ -9,6 +9,7 @@ class RegistrationForm
 
   delegate :user, :name, to: :participant
   delegate :email, :password, :password_confirmation, to: :user
+  delegate :package_id, to: :registration
 
   def initialize(festival, participant = nil, params = {})
     @params = params
@@ -87,10 +88,15 @@ class RegistrationForm
     %i[existing_email existing_password]
   end
 
+  def self.permitted_package_attributes
+    %i[package_id]
+  end
+
   def self.permitted_attributes
     permitted_participant_attributes +
       permitted_user_attributes +
-      permitted_login_attributes
+      permitted_login_attributes +
+      permitted_package_attributes
   end
 
   private

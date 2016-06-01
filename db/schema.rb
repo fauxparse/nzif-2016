@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527034133) do
+ActiveRecord::Schema.define(version: 20160601203051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20160527034133) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["year"], name: "index_festivals_on_year", using: :btree
+  end
+
+  create_table "packages", force: :cascade do |t|
+    t.integer  "festival_id"
+    t.string   "name"
+    t.string   "slug",        limit: 128
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["festival_id"], name: "index_packages_on_festival_id", using: :btree
   end
 
   create_table "participants", force: :cascade do |t|
@@ -39,8 +48,10 @@ ActiveRecord::Schema.define(version: 20160527034133) do
     t.integer  "festival_id",    null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "package_id"
     t.index ["festival_id", "participant_id"], name: "index_registrations_on_festival_id_and_participant_id", using: :btree
     t.index ["festival_id"], name: "index_registrations_on_festival_id", using: :btree
+    t.index ["package_id"], name: "index_registrations_on_package_id", using: :btree
     t.index ["participant_id", "festival_id"], name: "index_registrations_on_participant_id_and_festival_id", using: :btree
     t.index ["participant_id"], name: "index_registrations_on_participant_id", using: :btree
   end
@@ -57,7 +68,9 @@ ActiveRecord::Schema.define(version: 20160527034133) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "packages", "festivals"
   add_foreign_key "participants", "users", on_delete: :nullify
   add_foreign_key "registrations", "festivals", on_delete: :cascade
+  add_foreign_key "registrations", "packages"
   add_foreign_key "registrations", "participants", on_delete: :cascade
 end
