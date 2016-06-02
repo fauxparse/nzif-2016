@@ -12,20 +12,21 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    registration_form.save!
-    sign_in registration_form.user
+    sign_in registration_form.user if registration_form.apply(params)
+    continue_with_registration
 
-    if registration_form.complete?
-      ParticipantMailer
-        .registration_email(registration_form.registration)
-        .deliver_later
-
-      redirect_to registration_path(festival)
-    else
-      render :new
-    end
   rescue ActiveModel::ValidationError
     render :new
+  end
+
+  def login
+    if user = FindValidUser.new(login_parameters).user
+      sign_in(user)
+      continue_with_registration
+    else
+      registration_form.step.errors.add(:email, :bad_credentials)
+      render :new
+    end
   end
 
   private
@@ -35,6 +36,27 @@ class RegistrationsController < ApplicationController
   end
 
   def registration_form
-    @registration_form ||= RegistrationForm.new(festival, participant, params)
+    @registration_form ||= RegistrationForm.new(festival, participant)
+  end
+
+  def login_parameters
+    params.require(:registration).permit(:email, :password)
+  end
+
+  def logging_in?
+    action_name == "login"
+  end
+  helper_method :logging_in?
+
+  def continue_with_registration
+    if registration_form.complete?
+      ParticipantMailer
+        .registration_email(registration_form.registration)
+        .deliver_later
+
+      redirect_to registration_path(festival)
+    else
+      render :new
+    end
   end
 end

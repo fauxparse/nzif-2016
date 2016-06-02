@@ -50,13 +50,9 @@ en:
       greeting: "Hi %{name},"
 
   activemodel:
-    attributes:
-      registration_form:
-        existing_email: Email
-        existing_password: Password
     errors:
       models:
-        registration_form:
+        registration/step/details:
           attributes:
-            existing_email:
-              invalid: "Invalid email address or password"
+            email:
+              bad_credentials: "doesn’t match password"

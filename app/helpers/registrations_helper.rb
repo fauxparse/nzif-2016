@@ -1,8 +1,8 @@
 module RegistrationsHelper
   def registration_step(step, current_step)
     content_tag(:li, class: step_state(step, current_step)) do
-      concat(link_to_if(step.complete?, step.name, step_path(step)) {
-        content_tag(:span, step.name)
+      concat(link_to_if(step.complete?, step.description, step_path(step)) {
+        content_tag(:span, step.description)
       })
     end
   end

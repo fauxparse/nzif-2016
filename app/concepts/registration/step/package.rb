@@ -4,6 +4,10 @@ class Registration::Step::Package < Registration::Step
     true
   end
 
+  def self.parameters
+    %i[package_id]
+  end
+
   private
 
   def package_selection_required?

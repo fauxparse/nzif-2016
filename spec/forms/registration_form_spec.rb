@@ -1,22 +1,25 @@
 require 'rails_helper'
 
 describe RegistrationForm do
-  subject(:form) { RegistrationForm.new(festival, participant, params) }
+  subject(:form) { RegistrationForm.new(festival, participant) }
   let(:festival) { FactoryGirl.create(:festival) }
   let(:participant) { nil }
   let(:params) { ActionController::Parameters.new(registration: raw_params) }
   let(:raw_params) { nil }
+  let(:save) { form.apply(params) }
 
   shared_examples_for "a form with an existing user" do
-    it { is_expected.to be_valid }
-
-    it 'has a user' do
-      expect(form.existing_user?).to be true
+    describe '#step' do
+      before { save }
+      subject { form.step }
+      it { is_expected.to be_valid }
     end
 
-    describe '#save' do
-      subject(:save) { form.save! }
+    it 'has a user' do
+      expect(form.user).to be_present
+    end
 
+    describe 'applying the details step' do
       it 'does not create a user' do
         expect { save }.not_to change { User.count }
       end
@@ -49,18 +52,14 @@ describe RegistrationForm do
       }
     end
 
-    it { is_expected.to be_valid }
-
     describe '#step' do
+      before { save }
       subject { form.step }
       it { is_expected.to be_an_instance_of(Registration::Step::Details) }
+      it { is_expected.to be_valid }
     end
 
-    describe '#save' do
-      subject(:save) { form.save! }
-
-      it { is_expected.to be true }
-
+    describe 'applying the details step' do
       it 'creates a user' do
         expect { save }.to change { User.count }.by 1
       end
@@ -115,7 +114,7 @@ describe RegistrationForm do
       context 'when email is missing' do
         let(:email) { nil }
 
-        it 'fails validation' do
+        xit 'fails validation' do
           expect { save }.to raise_error(ActiveModel::ValidationError)
         end
 
@@ -150,15 +149,13 @@ describe RegistrationForm do
       }
     end
 
-    it { is_expected.to be_valid }
-
-    it 'creates a new user' do
-      expect(form.existing_user?).to be false
+    describe '#step' do
+      before { save }
+      subject { form.step }
+      it { is_expected.to be_valid }
     end
 
-    describe '#save' do
-      subject(:save) { form.save! }
-
+    describe 'applying the details step' do
       it 'creates a user' do
         expect { save }.to change { User.count }.from(0).to(1)
       end
@@ -177,34 +174,5 @@ describe RegistrationForm do
           .to "Alice"
       end
     end
-  end
-
-  context 'logging in as an existing user' do
-    before { participant }
-
-    let(:participant) do
-      FactoryGirl.create(:participant, :with_associated_user)
-    end
-
-    let(:raw_params) do
-      {
-        existing_email: participant.user.email,
-        existing_password: participant.user.password
-      }
-    end
-
-    it_behaves_like "a form with an existing user"
-  end
-
-  context 'attempting to log in as a non-existant user' do
-    let(:raw_params) do
-      {
-        existing_email: "broken",
-        existing_password: "br0k3n"
-      }
-    end
-
-    it { is_expected.not_to be_valid }
-    it { is_expected.to have_exactly(1).error_on(:existing_email) }
   end
 end

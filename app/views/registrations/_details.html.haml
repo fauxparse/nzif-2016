@@ -5,7 +5,7 @@
         %header.intro
           %p= I18n.t("registrations.details.intro.#{registration_form.step.participant_state}")
 
-        = form_for registration_form, as: :registration, url: register_path(festival) do |form|
+        = form_for registration_form.step, as: :registration, url: register_path(festival) do |form|
           .field
             = form.label :name
             = form.text_field :name
@@ -13,13 +13,13 @@
           .field
             = form.label :email
             = form.text_field :email, disabled: form.object.existing_user?
-            = form.error_messages_for :email
+            = form.error_messages_for :email unless logging_in?
           - unless form.object.existing_user?
             .passwords
               .field
                 = form.label :password
                 = form.password_field :password
-                = form.error_messages_for :password
+                = form.error_messages_for :password unless logging_in?
               .field
                 = form.label :password_confirmation
                 = form.password_field :password_confirmation
@@ -28,16 +28,16 @@
     - unless signed_in?
       %section.existing-user
         .inner
-          = form_for registration_form, as: :registration, url: register_path(festival) do |form|
+          = form_for registration_form.step, as: :registration, url: register_and_login_path(festival) do |form|
             %h3= t('.existing')
             .field
-              = form.label :existing_email
-              = form.text_field :existing_email, placeholder: form.label_text(:existing_email)
-              = form.error_messages_for :existing_email
+              = form.label :email
+              = form.text_field :email, placeholder: form.label_text(:email)
+              = form.error_messages_for :email if logging_in?
             .field
-              = form.label :existing_password
-              = form.password_field :existing_password, placeholder: form.label_text(:existing_password)
-              = form.error_messages_for :existing_password
+              = form.label :password
+              = form.password_field :password, placeholder: form.label_text(:password)
+              = form.error_messages_for :password if logging_in?
             .buttons
               = form.submit t('.log_in')
               = link_to "Forgot your password?", new_password_path(:user)

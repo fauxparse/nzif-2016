@@ -33,5 +33,5 @@ Then(/^I should be on my registration details page$/) do
 end
 
 Then(/^I should be on the registration page$/) do
-  expect(page.current_path).to eq register_path(@festival)
+  expect(page.current_path).to match /^#{register_path(@festival)}(\/login)?$/
 end

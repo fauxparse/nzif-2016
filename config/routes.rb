@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   scope "/:year", constraints: { year: /\d{4}/ } do
+    post "/register/login" => "registrations#login", as: :register_and_login
     get "/register/:step" => "registrations#new", as: :registration_step
     get "/register" => "registrations#new"
     post "/register" => "registrations#create"
