@@ -9,7 +9,7 @@ class RegistrationForm
 
   def apply(params)
     step.apply(params)
-    step.valid?
+    step.valid? && advance!
   end
 
   def participant
@@ -32,6 +32,11 @@ class RegistrationForm
 
   def steps
     @steps ||= Registration::Step.list(registration)
+  end
+
+  def advance!
+    @step = nil
+    true
   end
 
   def complete?

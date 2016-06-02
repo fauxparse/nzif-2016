@@ -3,7 +3,7 @@ class Registration::Step::Details < Registration::Step
   delegate :password, :password_confirmation, to: :participant
 
   def complete?
-    [registration, participant, user].all?(&:persisted?)
+    registration.persisted?
   end
 
   def valid?

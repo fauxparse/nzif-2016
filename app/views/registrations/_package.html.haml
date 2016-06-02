@@ -1,9 +1,10 @@
 %section.package-selection
   .inner
-    = form_for registration_form, as: :registration, url: register_path(festival) do |form|
+    = form_for registration_form.step, as: :registration, url: register_path(festival), method: :post do |form|
       %ul.packages
-        - festival.packages.each do |package|
+        - festival.packages.sort_by(&:id).each do |package|
           %li
             %label
               = form.radio_button :package_id, package.id
-              %span= package.name
+              = form.label :"package_id_#{package.id}", package.name
+      = form.submit t('.continue')

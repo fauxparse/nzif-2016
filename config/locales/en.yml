@@ -27,6 +27,8 @@ en:
       continue: "Continue"
       existing: "Been here before?"
       log_in: "Log in"
+    package:
+      continue: "Continue"
     show:
       registered: "Registered for %{year}"
     steps:

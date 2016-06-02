@@ -72,6 +72,7 @@ class Registration::Step
   private
 
   def apply_filtered_parameters(params)
+    registration.update!(params)
   end
 
   def filter_parameters(params)

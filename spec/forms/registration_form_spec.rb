@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe RegistrationForm do
   subject(:form) { RegistrationForm.new(festival, participant) }
-  let(:festival) { FactoryGirl.create(:festival) }
+  let(:festival) { FactoryGirl.create(:festival, :with_packages) }
   let(:participant) { nil }
   let(:params) { ActionController::Parameters.new(registration: raw_params) }
   let(:raw_params) { nil }
@@ -10,7 +10,7 @@ describe RegistrationForm do
 
   shared_examples_for "a form with an existing user" do
     describe '#step' do
-      before { save }
+      before { subject && save }
       subject { form.step }
       it { is_expected.to be_valid }
     end
@@ -53,7 +53,7 @@ describe RegistrationForm do
     end
 
     describe '#step' do
-      before { save }
+      before { subject && save }
       subject { form.step }
       it { is_expected.to be_an_instance_of(Registration::Step::Details) }
       it { is_expected.to be_valid }

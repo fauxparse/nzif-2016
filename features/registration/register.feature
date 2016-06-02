@@ -9,6 +9,8 @@ Feature: Register for an event
      When I click the registration link
       And I enter my registration details
       And I click the "Continue" button
+      And I select the "Medium" package
+      And I click the "Continue" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
@@ -30,6 +32,8 @@ Feature: Register for an event
      When I click the registration link
       And I enter my registration details
       And I click the "Continue" button
+      And I select the "Medium" package
+      And I click the "Continue" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
@@ -44,6 +48,8 @@ Feature: Register for an event
       And I enter my existing registration details
       And I click the "Log in" button
       And I click the "Continue" button
+      And I select the "Medium" package
+      And I click the "Continue" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
@@ -57,6 +63,8 @@ Feature: Register for an event
       And I am on the festival homepage
      When I click the registration link
       And I enter my name
+      And I click the "Continue" button
+      And I select the "Medium" package
       And I click the "Continue" button
      Then I should be on my registration details page
       And I should be logged in
