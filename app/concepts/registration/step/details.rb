@@ -61,16 +61,16 @@ class Registration::Step::Details < Registration::Step
 
   def find_or_build_participant(params)
     if user.new_record?
-      participant_by_email(params[:email]) || participant
+      participant_from_params(params) || participant
     else
       user.participants.first || user.build_participant
     end
   end
 
-  def participant_by_email(email)
-    email &&
-      Participant.find_by(email: email) ||
-      User.includes(:participant).find_by(email: email).try(:participant) ||
+  def participant_from_params(params)
+    params[:email] &&
+      Participant.find_by(email: params[:email], user_id: nil) ||
+      FindValidUser.new(params).participant ||
       Participant.new
   end
 

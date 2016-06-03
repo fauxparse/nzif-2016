@@ -21,7 +21,8 @@ class RegistrationForm
   end
 
   def step
-    @step ||= steps.detect(&:pending?)
+    @step ||= steps.detect(&:pending?) ||
+      Registration::Step::Finished.new(registration)
   end
 
   def step=(step_id)
