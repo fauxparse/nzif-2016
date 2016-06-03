@@ -24,8 +24,4 @@ class Participant < ApplicationRecord
   def has_own_non_blank_email?
     !read_attribute(:email).blank?
   end
-
-  def self.without_associated_user
-    where(user_id: nil)
-  end
 end

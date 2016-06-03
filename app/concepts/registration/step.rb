@@ -42,14 +42,6 @@ class Registration::Step
     !complete?
   end
 
-  def state
-    if complete?
-      :complete
-    else
-      :pending
-    end
-  end
-
   def self.parameters
     ids
       .flat_map { |id| "#{name}::#{id.to_s.camelize}".constantize.parameters }
@@ -81,9 +73,5 @@ class Registration::Step
     else
       {}
     end
-  end
-
-  def raise_validation_error
-    raise ActiveModel::ValidationError.new(self)
   end
 end

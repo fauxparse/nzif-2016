@@ -1,6 +1,5 @@
 class Registration::Step::Details < Registration::Step
   delegate :name, :email, to: :participant
-  delegate :password, :password_confirmation, to: :participant
 
   def complete?
     registration.persisted?
@@ -25,11 +24,11 @@ class Registration::Step::Details < Registration::Step
     end
   end
 
-  def existing_email
-    participant && user.try(:email)
+  def password
+    nil
   end
 
-  def existing_password
+  def password_confirmation
     nil
   end
 
@@ -84,10 +83,5 @@ class Registration::Step::Details < Registration::Step
 
   def participant
     registration.participant || registration.build_participant
-  end
-
-  def registration_for_participant(participant)
-    festival.registrations.find_by(participant: participant) ||
-      registration
   end
 end

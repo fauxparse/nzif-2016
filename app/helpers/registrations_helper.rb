@@ -10,7 +10,7 @@ module RegistrationsHelper
   private
 
   def step_state(step, current_step)
-    (current_step == step) ? :current : step.state
+    (step == current_step) ? :current : step.complete? ? :complete : :pending
   end
 
   def step_path(step)

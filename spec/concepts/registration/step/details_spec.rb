@@ -41,6 +41,19 @@ describe Registration::Step::Details do
         end
       end
     end
+
+    context 'with no parameters' do
+      let(:parameters) { ActionController::Parameters.new({}) }
+
+      it 'is invalid' do
+        apply
+        expect(step).not_to be_valid
+      end
+
+      it 'copes with empty parameters' do
+        expect { apply }.not_to raise_error
+      end
+    end
   end
 
   context 'for an existing participant with no user' do
@@ -79,6 +92,15 @@ describe Registration::Step::Details do
           expect { apply }
             .to change { Participant.first.name }
             .to raw_parameters[:name]
+        end
+      end
+
+      describe '#participant_state' do
+        it 'changes when the parameters are applied' do
+          expect { apply }
+            .to change { step.participant_state }
+            .from(:new_participant)
+            .to(:existing_participant)
         end
       end
     end
@@ -143,5 +165,25 @@ describe Registration::Step::Details do
         end
       end
     end
+  end
+
+  describe '#description' do
+    subject { step.description }
+    it { is_expected.to eq "Your details" }
+  end
+
+  describe '#id' do
+    subject { step.id }
+    it { is_expected.to eq :details }
+  end
+
+  describe '#to_param' do
+    subject { step.to_param }
+    it { is_expected.to eq :details }
+  end
+
+  describe '#to_partial_path' do
+    subject { step.to_partial_path }
+    it { is_expected.to eq "details" }
   end
 end

@@ -25,6 +25,20 @@ describe RegistrationForm do
           .from(:details)
           .to(:package)
       end
+
+      it 'saves the participant' do
+        expect { apply }
+          .to change { form.participant.new_record? }
+          .from(true)
+          .to(false)
+      end
+
+      it 'saves the user' do
+        expect { apply }
+          .to change { form.user.new_record? }
+          .from(true)
+          .to(false)
+      end
     end
   end
 
@@ -66,6 +80,49 @@ describe RegistrationForm do
       end
 
       it { is_expected.to be_complete }
+    end
+  end
+
+  describe '.permitted_attributes' do
+    subject { RegistrationForm.permitted_attributes }
+    let(:all_attributes) do
+      %i[
+        name
+        email
+        password
+        password_confirmation
+        package_id
+      ]
+    end
+
+    it { is_expected.to match_array(all_attributes) }
+  end
+
+  describe '#step=' do
+    context 'when details have not been completed' do
+      it 'cannot move to package selection' do
+        expect { form.step = :package }
+          .not_to change { form.step.id }
+      end
+    end
+
+    context 'when details have not been completed' do
+      before do
+        allow_any_instance_of(Registration::Step::Details)
+          .to receive(:complete?)
+          .and_return(true)
+      end
+
+      it 'is in the package step by default' do
+        expect(form.step.id).to eq :package
+      end
+
+      it 'cannot move to package selection' do
+        expect { form.step = :details }
+          .to change { form.step.id }
+          .from(:package)
+          .to(:details)
+      end
     end
   end
 end
