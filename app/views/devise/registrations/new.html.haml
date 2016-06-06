@@ -2,18 +2,24 @@
 
 = render "devise/shared/flash"
 = form_for(resource, as: resource_name, url: user_signup_path) do |f|
-  = devise_error_messages!
+  .field
+    = f.label :name
+    = f.text_field :name, autofocus: true
+    = f.error_messages_for :name
   .field
     = f.label :email
-    = f.email_field :email, autofocus: true
+    = f.email_field :email
+    = f.error_messages_for :email
   .field
     = f.label :password do
       %span= f.label_text :password
       - if @minimum_password_length
         %small (#{@minimum_password_length} characters minimum)
     = f.password_field :password, autocomplete: "off"
+    = f.error_messages_for :password
   .field
     = f.label :password_confirmation
     = f.password_field :password_confirmation, autocomplete: "off"
+    = f.error_messages_for :password_confirmation
   = f.submit t('.submit')
 %footer= render "devise/shared/links"

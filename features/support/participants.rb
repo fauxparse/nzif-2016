@@ -9,7 +9,7 @@ module ParticipantHelpers
   end
 
   def create_user
-    FactoryGirl.create(:user, email: participant_email)
+    FactoryGirl.create(:user, name: participant_name, email: participant_email)
   end
 
   def participant_name
