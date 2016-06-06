@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    - content_for :head do
+      = stylesheet_link_tag 'login', media: 'all', 'data-turbolinks-track': 'reload'
+    = render "shared/head"
+  %body
+    %main
+      %header
+        %h1= link_to t('application.name'), root_path
+      = yield

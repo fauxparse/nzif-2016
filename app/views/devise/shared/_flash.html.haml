@@ -1,0 +1,4 @@
+- if flash.any?
+  %section{role: "alert"}
+    %p= flash[:alert] if flash[:alert]
+    %p= flash[:notice] if flash[:notice]

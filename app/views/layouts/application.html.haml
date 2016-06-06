@@ -1,13 +1,10 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %title NZIF
-    = csrf_meta_tags
-    = stylesheet_link_tag 'https://fonts.googleapis.com/icon?family=Material+Icons'
-    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900'
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    - content_for :head do
+      = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+      = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = render "shared/head"
   %body
     %nav.top-navigation
       .inner

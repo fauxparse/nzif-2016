@@ -1,21 +1,19 @@
-%h2 Sign up
+- content_for :title, t('.title'), flush: true
+
+= render "devise/shared/flash"
 = form_for(resource, as: resource_name, url: user_signup_path) do |f|
   = devise_error_messages!
   .field
     = f.label :email
-    %br/
     = f.email_field :email, autofocus: true
   .field
-    = f.label :password
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-    %br/
+    = f.label :password do
+      %span= f.label_text :password
+      - if @minimum_password_length
+        %small (#{@minimum_password_length} characters minimum)
     = f.password_field :password, autocomplete: "off"
   .field
     = f.label :password_confirmation
-    %br/
     = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+  = f.submit t('.submit')
+%footer= render "devise/shared/links"

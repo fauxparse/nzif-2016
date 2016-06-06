@@ -3,3 +3,10 @@
   font-size: $small-font-size;
   color: $error-color;
 }
+
+label small {
+  font-size: $small-font-size;
+  color: $medium-grey;
+  font-weight: $base-font-weight;
+  float: right;
+}

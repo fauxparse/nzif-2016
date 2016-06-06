@@ -1,4 +1,7 @@
 en:
+  application:
+    name: "NZIF"
+
   festival:
     name: "NZIF %{year}"
 
@@ -35,6 +38,22 @@ en:
       details: "Your details"
       package: "Select a package"
       payment: "Payment"
+
+  devise:
+    sessions:
+      new:
+        title: "Log in"
+        submit: "Log in"
+    registrations:
+      new:
+        title: "Sign up"
+        submit: "Sign up"
+    passwords:
+      new:
+        title: "Forgot your password?"
+        nope: "Looks like there's something wrong with that email address."
+        enter_email: "Enter your email address:"
+        submit: "Reset password"
 
   date:
     formats:
