@@ -1,0 +1,7 @@
+%nav
+  .inner
+    = homepage_link
+    - if signed_in?
+      = link_to t('header.authentication.log_out'), logout_path, method: :delete
+    - else
+      = link_to t('header.authentication.log_in'), login_path

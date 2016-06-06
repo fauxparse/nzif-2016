@@ -6,7 +6,7 @@ Given(/^I am logged in$/) do
 end
 
 Then(/^I should be logged in$/) do
-  within(:css, ".top-navigation") do
+  within(:css, "body > nav") do
     expect(page).to have_content(/Log out/i)
   end
 end
