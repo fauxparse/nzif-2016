@@ -2,11 +2,11 @@ Rails.application.routes.draw do
   devise_scope :user do
     get "/login" => "devise/sessions#new", as: :login
     delete "/logout" => "devise/sessions#destroy", as: :logout
-    get "/signup" => "devise/registrations#new", as: :user_signup
-    post "/signup" => "devise/registrations#create"
+    get "/signup" => "signup#new", as: :user_signup
+    post "/signup" => "signup#create"
   end
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'signup' }
 
   scope "/:year", constraints: { year: /\d{4}/ } do
     post "/register/login" => "registrations#login", as: :register_and_login

@@ -41,7 +41,7 @@ class Registration::Step::Details < Registration::Step
   end
 
   def self.user_parameters
-    %i[email password password_confirmation]
+    %i[name email password password_confirmation]
   end
 
   def self.participant_parameters
