@@ -194,6 +194,8 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     puma (3.4.0)
+    pundit (1.1.0)
+      activesupport (>= 3.0.0)
     rack (2.0.0.rc1)
       json
     rack-test (0.6.3)
@@ -338,6 +340,7 @@ DEPENDENCIES
   normalize-scss
   pg (~> 0.18)
   puma (~> 3.0)
+  pundit
   rails (>= 5.0.0.rc1, < 5.1)
   rspec-collection_matchers
   rspec-rails (= 3.5.0.beta3)

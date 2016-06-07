@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    - content_for :head do
+      = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload'
+    = render "shared/head"
+  %body
+    = check_box_tag "show-navigation", "show", false, autocomplete: :off
+    %nav
+      %ul
+        = admin_menu :festival, icon: :home, label: festival.name
+        = admin_menu :participants, icon: :people
+    %main
+      %label{for: "show-navigation"}= icon :menu
+      = yield

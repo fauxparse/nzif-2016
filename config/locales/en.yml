@@ -39,6 +39,15 @@ en:
       package: "Select a package"
       payment: "Payment"
 
+  admin:
+    festivals:
+      show:
+        submit: "Save changes"
+    menu:
+      participants:
+        index: "Participants"
+        new: "New participant"
+
   devise:
     sessions:
       new:

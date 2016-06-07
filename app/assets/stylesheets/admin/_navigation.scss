@@ -1,0 +1,126 @@
+body {
+  background: $dark-grey;
+
+  > nav {
+    @include position(fixed, 0% 0% 0% 0%);
+    color: rgba(white, .85);
+    padding: .5rem;
+    -webkit-font-smoothing: antialiased;
+
+    ul {
+      li {
+        margin: 0;
+        padding: 0;
+
+        i {
+          width: 2.5rem;
+          padding: .5rem;
+        }
+
+        &[aria-selected="true"] > a {
+          color: rgba(white, .85);
+          &:hover { color: white; }
+        }
+      }
+
+      > li:not(:last-child) {
+        border-bottom: 1px solid rgba(white, .15);
+      }
+
+      ul {
+        margin: 0 0 0 2.5rem;
+      }
+    }
+
+    a {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      color: rgba(white, .5);
+
+      :not(:first-child) {
+        @include ellipsis;
+        line-height: 1.5;
+        padding: .5rem 0;
+        transition: opacity $base-duration $base-timing;
+      }
+
+      &:hover {
+        color: rgba(white, 1);
+      }
+    }
+  }
+}
+
+main {
+  @include position(fixed, 0% 0% 0% 0%);
+  z-index: 1;
+  overflow-y: auto;
+  background: $base-background-color;
+  transition: transform $base-duration $base-timing;
+  padding: 1rem 1rem 1rem 3.5rem;
+
+  label[for="show-navigation"] {
+    @include position(absolute, .5rem null null .5rem);
+    padding: .5rem;
+    cursor: pointer;
+    color: $dark-grey;
+  }
+}
+
+#show-navigation {
+  display: none;
+
+  &:checked {
+    ~ nav {
+      width: 16.5rem;
+
+      li {
+        a > :not(:first-child) {
+          opacity: 1;
+        }
+      }
+    }
+
+    ~ main {
+      transform: translateX(16.5rem);
+    }
+  }
+}
+
+@include media($medium-screen) {
+  main {
+    left: 3.5rem;
+    box-shadow: 0 0 1rem rgba(black, .5);
+  }
+
+  body > nav {
+    width: 3.5rem;
+    transition: width $base-duration $base-timing;
+
+    li {
+      a > :not(:first-child) {
+        opacity: 0;
+      }
+
+      ul {
+        transform: scaleY(0);
+        transform-origin: 50% 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: all $base-duration $base-timing;
+      }
+    }
+  }
+
+  #show-navigation:checked {
+    ~ nav li ul {
+      transform: scaleY(1);
+      max-height: 9999rem;
+    }
+
+    ~ main {
+      transform: translateX(13rem);
+    }
+  }
+}
