@@ -58,7 +58,8 @@ $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $l
 
 // Animations
 $base-duration: 150ms;
-$base-timing: ease;
+$long-duration: 350ms;
+$base-timing: $ease-out-cubic;
 
 $navigation-background-color: $dark-grey;
 $navigation-color: $light-grey;

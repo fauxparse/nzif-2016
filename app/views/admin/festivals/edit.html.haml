@@ -1,0 +1,19 @@
+- content_for :title, t('.title')
+
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+
+%section
+  = form_for festival, url: admin_festival_path(festival) do |form|
+    .field
+      = form.label :start_date
+      = form.date_field :start_date
+      = form.error_messages_for :start_date
+    .field
+      = form.label :end_date
+      = form.date_field :end_date
+      = form.error_messages_for :end_date
+    %footer
+      = form.submit t('.submit')

@@ -1,0 +1,31 @@
+main > header {
+  border-bottom: $base-border;
+  padding-bottom: $small-spacing;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: $base-spacing;
+
+  section {
+    flex: 1;
+  }
+
+  aside {
+    height: 100%;
+    display: flex;
+    margin-left: $base-spacing;
+  }
+
+  h1 {
+    margin: 0;
+    line-height: 1.5rem;
+  }
+
+  h2 {
+    margin: 0;
+    line-height: 1.5rem;
+    font-size: $base-font-size;
+    font-weight: $light-font-weight;
+    color: $medium-grey;
+  }
+}

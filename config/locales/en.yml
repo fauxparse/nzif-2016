@@ -43,6 +43,9 @@ en:
     festivals:
       show:
         submit: "Save changes"
+      edit:
+        title: "Edit festival details"
+        submit: "Save changes"
     menu:
       participants:
         index: "Participants"

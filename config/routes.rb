@@ -1,16 +1,4 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'participants/index'
-  end
-
-  namespace :admin do
-    get 'participants/show'
-  end
-
-  namespace :admin do
-    get 'participants/new'
-  end
-
   devise_scope :user do
     get "/login" => "devise/sessions#new", as: :login
     delete "/logout" => "devise/sessions#destroy", as: :logout
@@ -31,7 +19,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do
-      resource :festival, only: [:show, :update]
+      resource :festival, only: [:show, :edit, :update]
       resources :participants
     end
   end

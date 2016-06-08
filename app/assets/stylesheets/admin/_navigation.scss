@@ -57,7 +57,7 @@ main {
   z-index: 1;
   overflow-y: auto;
   background: $base-background-color;
-  transition: transform $base-duration $base-timing;
+  transition: transform $long-duration $base-timing;
   padding: 1rem 1rem 1rem 3.5rem;
 
   label[for="show-navigation"] {
@@ -96,7 +96,7 @@ main {
 
   body > nav {
     width: 3.5rem;
-    transition: width $base-duration $base-timing;
+    transition: width $long-duration $base-timing;
 
     li {
       a > :not(:first-child) {
@@ -108,7 +108,7 @@ main {
         transform-origin: 50% 0;
         max-height: 0;
         overflow: hidden;
-        transition: all $base-duration $base-timing;
+        transition: all $long-duration $base-timing;
       }
     }
   }
