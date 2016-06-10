@@ -67,6 +67,15 @@ en:
         register: "Register now"
       empty:
         empty: "No participants to show here"
+    registrations:
+      show:
+        title: "%{festival} registration for %{participant}"
+      new:
+        title: "%{festival} registration for %{participant}"
+        submit: "Register this participant"
+      edit:
+        title: "%{festival} registration for %{participant}"
+        submit: "Save changes"
     menu:
       participants:
         index: "Participants"

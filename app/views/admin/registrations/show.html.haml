@@ -1,0 +1,9 @@
+- content_for :title, t('.title', festival: festival.name, participant: registration.participant)
+
+%header
+  %section
+    %h1= registration.participant
+    %h2= festival
+  %aside
+    = link_to edit_admin_festival_participant_registration_path(festival, registration.participant) do
+      = icon :edit

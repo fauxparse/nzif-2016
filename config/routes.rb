@@ -23,7 +23,6 @@ Rails.application.routes.draw do
       resources :participants, only: [:index, :show], as: :festival_participants do
         resource :registration
       end
-      resources :registrations
     end
 
     resources :participants

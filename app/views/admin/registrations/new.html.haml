@@ -1,0 +1,10 @@
+- content_for :title, t('.title', festival: festival.name, participant: registration.participant)
+
+%header
+  %section
+    %h1= registration.participant
+    %h2= festival
+
+%section
+  = form_for :registration, url: admin_festival_participant_registration_path(festival, registration.participant), method: :post do |form|
+    = render partial: "form", object: form
