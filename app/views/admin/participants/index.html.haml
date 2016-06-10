@@ -1,2 +1,23 @@
-%h1 Admin::Participants#index
-%p Find me in app/views/admin/participants/index.html.haml
+- content_for :title, t('.title')
+
+%header
+  %section
+    %h1= t('.title')
+    %p
+      = link_to_if @participants.show_all?, festival.name, admin_festival_participants_path(festival) do
+        %span= festival.name
+      = link_to_unless @participants.show_all?, t('.show.all'), admin_participants_path do
+        %span= t('.show.all')
+  %aside
+    = link_to new_admin_participant_path, role: :button do
+      = icon :add
+
+%section
+  %table.participants
+    %thead
+      %tr
+        %th{colspan: 2}
+        %th= t('.table.name')
+        %th= t('.table.registered')
+    %tbody
+      = render(@participants) || render("empty")

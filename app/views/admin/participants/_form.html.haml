@@ -1,0 +1,12 @@
+.field
+  = form.label :name
+  = form.text_field :name
+  = form.error_messages_for :name
+.field
+  = form.label :email
+  = form.email_field :email
+  = form.error_messages_for :email
+.field
+  = form.label :admin do
+    = form.check_box :admin, disabled: form.object.user == current_user
+    Administrator?

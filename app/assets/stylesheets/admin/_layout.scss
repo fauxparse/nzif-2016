@@ -14,6 +14,29 @@ main > header {
     height: 100%;
     display: flex;
     margin-left: $base-spacing;
+
+    [role="button"] {
+      padding: .5rem;
+      border-radius: 50%;
+      @include size(2.5rem);
+      background: none;
+      color: rgba($action-color, .5);
+      transition: color $base-duration $base-timing;
+
+      &:hover, &:focus {
+        color: rgba($action-color, 1);
+        background: none;
+      }
+    }
+
+    > :not([role="button"]) {
+      padding: 0 .5rem;
+      font-size: $small-font-size;
+
+      + :not([role="button"]) {
+        border-left: $base-border;
+      }
+    }
   }
 
   h1 {
@@ -27,5 +50,20 @@ main > header {
     font-size: $base-font-size;
     font-weight: $light-font-weight;
     color: $medium-grey;
+  }
+
+  p {
+    margin: 0 -.5rem;
+    font-size: $small-font-size;
+    display: flex;
+
+    > * {
+      line-height: 1.5rem;
+      padding: 0 .5rem;
+
+      + * {
+        border-left: $base-border;
+      }
+    }
   }
 }

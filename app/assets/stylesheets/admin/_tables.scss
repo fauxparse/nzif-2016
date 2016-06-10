@@ -1,0 +1,48 @@
+table {
+  table-layout: fixed;
+
+  [role="button"] {
+    padding: .25rem .5rem;
+    font-size: $small-font-size;
+    line-height: 1.5rem;
+
+    &[rel="new"] {
+      background: $light-grey;
+      color: $medium-grey;
+    }
+  }
+
+  [rel="icon"] {
+    width: 2.5rem;
+    text-align: center;
+
+    i {
+      display: inline-block;
+      line-height: 1.5rem;
+      vertical-align: middle;
+    }
+  }
+
+  a {
+    display: inline-block;
+    line-height: 1.5rem;
+  }
+
+  .empty {
+    color: $light-grey;
+    padding: $base-spacing;
+    text-align: center;
+  }
+}
+
+table.participants {
+  thead {
+    th:nth-child(1) { width: 6rem; }
+    th:nth-child(2) { width: 70%; }
+    th:nth-child(3) { width: 30%; }
+  }
+
+  tbody {
+    td:nth-child(2) { padding-right: 1rem; }
+  }
+}

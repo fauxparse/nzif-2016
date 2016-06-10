@@ -5,5 +5,5 @@
     %h1= festival.name
     %h2= date_range(festival.start_date, festival.end_date)
   %aside
-    = link_to edit_admin_festival_path(festival) do
+    = link_to edit_admin_festival_path(festival), role: :button do
       = icon :settings

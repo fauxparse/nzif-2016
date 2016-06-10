@@ -19,6 +19,10 @@ class Festival < ApplicationRecord
     I18n.t('festival.name', year: year)
   end
 
+  def self.most_recent
+    most_recent_first.first
+  end
+
   private
 
   def fill_in_year

@@ -46,6 +46,27 @@ en:
       edit:
         title: "Edit festival details"
         submit: "Save changes"
+    participants:
+      index:
+        title: "Participants"
+        show:
+          all: "All"
+        table:
+          user: "Options"
+          name: "Name"
+          registered: "Registered?"
+      new:
+        title: "New participant"
+        submit: "Create participant"
+      edit:
+        title: "Edit participant details"
+        submit: "Save changes"
+      participant:
+        admin: "Administrator"
+        verified: "Verified user"
+        register: "Register now"
+      empty:
+        empty: "No participants to show here"
     menu:
       participants:
         index: "Participants"

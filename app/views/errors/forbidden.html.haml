@@ -1,0 +1,10 @@
+= icon :lock
+%h1 No, but.
+%h2 You don't have access to that page.
+%p
+  If you think this is an error, please
+  = succeed "," do
+    = mail_to "fauxparse@gmail.com", "email Matt"
+  or return to the
+  = succeed "." do
+    = link_to "home page", root_path

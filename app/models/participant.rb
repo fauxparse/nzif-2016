@@ -12,11 +12,23 @@ class Participant < ApplicationRecord
     if: :has_own_non_blank_email?
 
   def email
-    user.try(:email) || super
+    [user.try(:email), super].reject(&:blank?).first
   end
 
   def user?
     user.present?
+  end
+
+  def to_s
+    name
+  end
+
+  def self.with_user
+    includes(:user)
+  end
+
+  def self.by_name
+    order(name: :asc)
   end
 
   private

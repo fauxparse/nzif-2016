@@ -4,7 +4,8 @@ module Admin::MenuHelper
     selected = options[:"aria-selected"] = options.delete(:selected) ||
       controller_name == name.to_s.pluralize
     label = options.delete(:label) || t("admin.menu.#{name}.index")
-    path = options.delete(:path) || send(:"admin_#{name}_path", festival)
+    path = options.delete(:path) ||
+      send(:"admin_festival_#{name}_path", festival)
     icon = options.delete(:icon) || :web_asset
 
     content_tag(:li, options) do
