@@ -66,6 +66,7 @@ group :development do
   gem 'guard-cucumber'
   gem 'guard-rails', require: false
   gem 'letter_opener'
+  gem 'pry-rails'
 end
 
 group :test do
