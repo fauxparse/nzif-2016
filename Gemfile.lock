@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/swanandp/acts_as_list.git
+  revision: cf26784e1c96ccf26bf4c989a3ec1c790ce8c2d7
+  specs:
+    acts_as_list (0.7.4)
+      activerecord (>= 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -316,6 +323,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_list!
   autoprefixer-rails
   bourbon (>= 5.0.0.beta.5)
   byebug

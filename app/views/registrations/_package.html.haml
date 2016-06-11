@@ -2,7 +2,7 @@
   .inner
     = form_for registration_form.step, as: :registration, url: register_path(festival), method: :post do |form|
       %ul.packages
-        - festival.packages.sort_by(&:id).each do |package|
+        - festival.packages.sort.each do |package|
           %li
             %label
               = form.radio_button :package_id, package.id

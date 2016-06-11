@@ -24,6 +24,7 @@ gem 'normalize-scss'
 gem 'autoprefixer-rails'
 
 gem 'stringex'
+gem 'acts_as_list', github: 'swanandp/acts_as_list'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

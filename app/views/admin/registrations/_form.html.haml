@@ -1,6 +1,6 @@
 .field
   = form.label :package_id
-  - festival.packages.sort_by(&:id).each do |package|
+  - festival.packages.sort.each do |package|
     %label
       = form.radio_button :package_id, package.id
       %span= package.name
