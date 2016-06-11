@@ -1,23 +1,37 @@
-.packages {
-  > * {
-    display: flex;
-    align-items: center;
+li.package {
+  list-style: none;
+  display: flex;
+  align-items: center;
 
-    &:not(:first-child) {
-      border-top: $base-border;
+  &:not(:first-child) {
+    border-top: $base-border;
+  }
+
+  span {
+    flex: 1;
+  }
+
+  a {
+    padding: .5rem 0;
+  }
+
+  i {
+    display: block;
+    padding: .5rem;
+
+    &:first-child {
+      margin-right: .5rem;
+      color: $light-grey;
+      cursor: move;
     }
+  }
 
-    span {
-      flex: 1;
-    }
+  &:not(:first-of-type) {
+    border-top: $base-border;
+  }
 
-    a {
-      padding: .5rem 0;
-
-      i {
-        display: block;
-        @include size(1.5rem);
-      }
-    }
+  &.gu-mirror {
+    border: $base-border;
+    background: $base-background-color;
   }
 }

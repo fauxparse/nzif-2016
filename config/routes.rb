@@ -23,7 +23,9 @@ Rails.application.routes.draw do
       resources :participants do
         resource :registration
       end
-      resources :packages
+      resources :packages do
+        put "reorder/:position" => "packages#reorder", on: :member
+      end
     end
 
     resources :participants, as: :users

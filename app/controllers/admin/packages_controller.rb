@@ -32,6 +32,12 @@ class Admin::PackagesController < Admin::Controller
     redirect_to admin_packages_path(festival)
   end
 
+  def reorder
+    package.remove_from_list
+    package.insert_at(params[:position].to_i)
+    head :ok
+  end
+
   private
 
   def package_params

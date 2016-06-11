@@ -1,2 +1,3 @@
-%li
-  = link_to package.name, edit_admin_package_path(festival, package)
+%li.package
+  = icon :reorder, rel: :move
+  = link_to package.name, edit_admin_package_path(festival, package), rel: :edit
