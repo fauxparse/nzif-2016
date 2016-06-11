@@ -1,0 +1,16 @@
+- content_for :title, t('.title')
+- content_for :navigation_button, back_button(admin_packages_path(festival))
+
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+
+%section
+  = form_for package, url: admin_packages_path(festival) do |form|
+    .field
+      = form.label :name
+      = form.text_field :name
+      = form.error_messages_for :name
+    %footer
+      = form.submit t('.submit')

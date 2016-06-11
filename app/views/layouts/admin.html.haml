@@ -3,6 +3,7 @@
   %head
     - content_for :head do
       = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload'
+      = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
     = render "shared/head"
   %body
     = check_box_tag "show-navigation", "show", false, autocomplete: :off
@@ -10,6 +11,8 @@
       %ul
         = admin_menu :festival, icon: :home, label: festival.name
         = admin_menu :participants, icon: :people
+        = admin_menu :packages, icon: :pages
     %main
-      %label{for: "show-navigation"}= icon :menu
+      .menu-navigation
+        = content_for(:navigation_button) || content_tag(:label, icon(:menu), for: "show-navigation")
       = yield

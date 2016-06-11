@@ -22,4 +22,8 @@ module Admin::MenuHelper
 
     include_list_item ?  content_tag(:li, link) : link
   end
+
+  def back_button(path)
+    link_to icon(:arrow_back), path, rel: :back, role: :button
+  end
 end

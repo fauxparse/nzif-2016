@@ -1,0 +1,13 @@
+- content_for :title, t('.title')
+
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+  %aside
+    = link_to new_admin_package_path(festival), role: :button do
+      = icon :add
+
+%section
+  %ul.packages
+    = render @packages

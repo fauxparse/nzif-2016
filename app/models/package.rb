@@ -10,6 +10,10 @@ class Package < ApplicationRecord
 
   scope :ordered, -> { order(position: :asc) }
 
+  def to_param
+    slug
+  end
+
   def <=>(another)
     position <=> another.position
   end

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       resources :participants do
         resource :registration
       end
+      resources :packages
     end
 
     resources :participants, as: :users

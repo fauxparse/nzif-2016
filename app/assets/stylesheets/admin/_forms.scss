@@ -4,3 +4,11 @@ form {
     padding: $small-spacing 0;
   }
 }
+
+#{$all-buttons},
+[role="button"] {
+  &[rel*="delete"] {
+    background: none;
+    color: $tomato;
+  }
+}

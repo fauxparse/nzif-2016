@@ -1,0 +1,23 @@
+.packages {
+  > * {
+    display: flex;
+    align-items: center;
+
+    &:not(:first-child) {
+      border-top: $base-border;
+    }
+
+    span {
+      flex: 1;
+    }
+
+    a {
+      padding: .5rem 0;
+
+      i {
+        display: block;
+        @include size(1.5rem);
+      }
+    }
+  }
+}
