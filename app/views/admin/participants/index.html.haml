@@ -4,12 +4,12 @@
   %section
     %h1= t('.title')
     %p
-      = link_to_if @participants.show_all?, festival.name, admin_festival_participants_path(festival) do
+      = link_to_if @participants.show_all?, festival.name, admin_participants_path(festival) do
         %span= festival.name
-      = link_to_unless @participants.show_all?, t('.show.all'), admin_participants_path do
+      = link_to_unless @participants.show_all?, t('.show.all'), admin_users_path do
         %span= t('.show.all')
   %aside
-    = link_to new_admin_participant_path, role: :button do
+    = link_to new_admin_user_path, role: :button do
       = icon :add
 
 %section

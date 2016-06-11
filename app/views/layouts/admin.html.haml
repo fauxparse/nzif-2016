@@ -8,7 +8,7 @@
     = check_box_tag "show-navigation", "show", false, autocomplete: :off
     %nav
       %ul
-        = admin_menu :festival, icon: :home, label: festival.name, path: admin_festival_path(festival)
+        = admin_menu :festival, icon: :home, label: festival.name
         = admin_menu :participants, icon: :people
     %main
       %label{for: "show-navigation"}= icon :menu

@@ -5,7 +5,7 @@
     %h1= t('.title')
 
 %section
-  = form_for @participant, url: admin_participants_path do |form|
+  = form_for @participant, url: admin_users_path do |form|
     = render partial: "form", object: form
     %footer
       = form.submit t('.submit')

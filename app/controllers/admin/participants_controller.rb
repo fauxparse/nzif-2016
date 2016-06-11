@@ -15,7 +15,7 @@ class Admin::ParticipantsController < Admin::Controller
   def create
     @participant = ParticipantForm.new(nil, params)
     if @participant.save
-      redirect_to admin_participants_path
+      redirect_to admin_users_path
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admin::ParticipantsController < Admin::Controller
   def update
     @participant = ParticipantForm.new(Participant.find(params[:id]), params)
     if @participant.save
-      redirect_to admin_participants_path
+      redirect_to admin_users_path
     else
       render :edit
     end

@@ -20,12 +20,12 @@ Rails.application.routes.draw do
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do
       resource :festival, only: [:show, :edit, :update]
-      resources :participants, only: [:index, :show], as: :festival_participants do
+      resources :participants do
         resource :registration
       end
     end
 
-    resources :participants
+    resources :participants, as: :users
   end
 
   root to: "festivals#index"

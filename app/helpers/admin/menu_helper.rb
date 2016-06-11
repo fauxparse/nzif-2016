@@ -5,7 +5,7 @@ module Admin::MenuHelper
       controller_name == name.to_s.pluralize
     label = options.delete(:label) || t("admin.menu.#{name}.index")
     path = options.delete(:path) ||
-      send(:"admin_festival_#{name}_path", festival)
+      send(:"admin_#{name}_path", festival)
     icon = options.delete(:icon) || :web_asset
 
     content_tag(:li, options) do

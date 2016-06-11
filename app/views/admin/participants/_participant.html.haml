@@ -3,9 +3,9 @@
     = icon :vpn_key, title: t('.admin') if participant.admin?
   %td{rel: :icon}
     = icon :verified_user, title: t('.verified') if participant.verified_user?
-  %td{rel: :expand}= link_to participant, edit_admin_participant_path(participant)
+  %td{rel: :expand}= link_to participant, edit_admin_user_path(participant)
   %td{rel: :actions}
     - if participant.registered?
-      = link_to festival.name, admin_festival_participant_registration_path(festival, participant), role: :button, rel: :show
+      = link_to festival.name, admin_participant_registration_path(festival, participant), role: :button, rel: :show
     - else
-      = link_to t('.register'), new_admin_festival_participant_registration_path(festival, participant), role: :button, rel: :new
+      = link_to t('.register'), new_admin_participant_registration_path(festival, participant), role: :button, rel: :new
