@@ -98,6 +98,8 @@ en:
         submit: "Create %{type}"
       edit:
         submit: "Save changes"
+      form:
+        select_facilitators: "Select facilitators…"
 
   devise:
     sessions:
@@ -137,3 +139,8 @@ en:
           attributes:
             email:
               bad_credentials: "doesn’t match password"
+
+  helpers:
+    label:
+      activity:
+        facilitator_ids: "Facilitators"

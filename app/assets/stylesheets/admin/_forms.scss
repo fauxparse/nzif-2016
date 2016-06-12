@@ -12,3 +12,58 @@ form {
     color: $tomato;
   }
 }
+
+.chosen-container {
+  .chosen-choices {
+    padding: 0 .25rem;
+    background: $base-background-color;
+
+    li.search-choice {
+      border: none;
+      background: $light-grey;
+      box-shadow: none;
+      padding: .375rem 1.5rem .5rem .5rem;
+      margin: .25rem .25rem .25rem 0;
+
+      .search-choice-close {
+        background: none !important;
+        font: normal 1rem/1 "Material Icons";
+        @include size(1.5rem);
+        padding: .25rem;
+        top: 2px;
+        right: 0;
+        color: $medium-grey;
+        opacity: .5;
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &::before {
+          content: "close";
+        }
+      }
+    }
+
+    li.search-field {
+      padding: .1875rem .25rem .3125rem;
+    }
+  }
+
+  &.chosen-container-active {
+    .chosen-choices,
+    .chosen-choices:hover {
+      border-color: $action-color;
+      box-shadow: $form-box-shadow-focus;
+      outline: none;
+    }
+  }
+
+  .chosen-drop {
+    margin-top: -.5rem;
+
+    li.no-results {
+      background: none;
+    }
+  }
+}

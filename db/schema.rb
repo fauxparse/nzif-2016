@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160611233554) do
+ActiveRecord::Schema.define(version: 20160612050518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 20160611233554) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["festival_id"], name: "index_activities_on_festival_id", using: :btree
+  end
+
+  create_table "facilitators", force: :cascade do |t|
+    t.integer "participant_id"
+    t.integer "activity_id"
+    t.integer "position",       default: 0
+    t.index ["activity_id"], name: "index_facilitators_on_activity_id", using: :btree
+    t.index ["participant_id"], name: "index_facilitators_on_participant_id", using: :btree
   end
 
   create_table "festivals", force: :cascade do |t|
@@ -83,6 +91,8 @@ ActiveRecord::Schema.define(version: 20160611233554) do
   end
 
   add_foreign_key "activities", "festivals"
+  add_foreign_key "facilitators", "activities"
+  add_foreign_key "facilitators", "participants"
   add_foreign_key "packages", "festivals"
   add_foreign_key "participants", "users", on_delete: :nullify
   add_foreign_key "registrations", "festivals", on_delete: :cascade

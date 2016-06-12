@@ -1,4 +1,4 @@
-$ ->
+document.addEventListener 'turbolinks:load', ->
   $('.package [rel=move]').closest('.packages').first().each ->
     dragula [this],
       moves: (el, container, handle) ->

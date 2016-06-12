@@ -1,6 +1,7 @@
 class Participant < ApplicationRecord
   belongs_to :user, optional: true
   has_many :registrations, dependent: :destroy
+  has_many :facilitators, dependent: :destroy
 
   validates :name, presence: true
   validates :email,

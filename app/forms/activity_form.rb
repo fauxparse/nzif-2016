@@ -2,7 +2,7 @@ class ActivityForm
   attr_reader :activity
 
   delegate :name, :name=, :description, :description=,
-    :valid?, :save, :errors,
+    :valid?, :save, :errors, :model_name,
     to: :activity
 
   def initialize(activity, params = {})
@@ -18,8 +18,26 @@ class ActivityForm
     activity
   end
 
+  def facilitator_ids
+    activity.facilitators.map(&:participant_id)
+  end
+
+  def facilitator_ids=(ids)
+    ids = Array(ids).reject(&:blank?).map(&:to_i)
+    ids.each.with_index do |id, i|
+      facilitator = activity.facilitators
+        .detect { |facilitator| facilitator.participant_id == id } ||
+        activity.facilitators.build(participant_id: id)
+      facilitator.position = i
+    end
+
+    activity.facilitators.each do |f|
+      f.mark_for_destruction unless ids.include?(f.participant_id)
+    end
+  end
+
   def self.parameters
-    %i[name description]
+    [:name, :description, { facilitator_ids: [] }]
   end
 
   private

@@ -3,11 +3,13 @@ require 'rails_helper'
 describe ActivityForm do
   subject(:form) { ActivityForm.new(activity, params) }
   let(:festival) { FactoryGirl.create(:festival) }
+  let(:participant) { FactoryGirl.create(:participant) }
   let(:params) { ActionController::Parameters.new(activity: raw_params) }
   let(:valid_params) do
     {
       name: "A workshop",
-      description: "Lorem ipsum dolor sit amet"
+      description: "Lorem ipsum dolor sit amet",
+      facilitator_ids: [participant.id]
     }
   end
   let(:invalid_params) { { name: "" } }
@@ -25,6 +27,18 @@ describe ActivityForm do
           expect { form.save }
             .to change { Workshop.count }
             .by 1
+        end
+
+        it 'creates a facilitator' do
+          expect { form.save }
+            .to change { Facilitator.count }
+            .by 1
+        end
+
+        it 'creates the right facilitator' do
+          form.save
+          expect(form.activity.facilitators.map(&:participant))
+            .to include(participant)
         end
       end
     end
@@ -47,7 +61,9 @@ describe ActivityForm do
   end
 
   context 'for an existing activity' do
-    let(:activity) { FactoryGirl.create(:workshop, festival: festival) }
+    let(:activity) do
+      FactoryGirl.create(:workshop, :facilitated, festival: festival)
+    end
     before { activity }
 
     context 'with valid parameters' do
@@ -65,6 +81,13 @@ describe ActivityForm do
           expect { form.save }
             .to change { Workshop.first.name }
             .to "A workshop"
+        end
+
+        it 'updates the facilitators' do
+          expect { form.save }
+            .to change { Facilitator.count }
+            .from(2)
+            .to(1)
         end
       end
     end

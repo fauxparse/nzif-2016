@@ -26,7 +26,8 @@ textarea {
 }
 
 #{$all-text-inputs},
-select[multiple] {
+select[multiple],
+.chosen-container .chosen-choices {
   background-color: $base-background-color;
   border: $base-border;
   border-radius: $base-border-radius;
