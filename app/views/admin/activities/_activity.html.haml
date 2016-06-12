@@ -1,0 +1,3 @@
+.activity{role: :listitem}
+  = link_to activity.name, admin_activity_path(activity.festival, activity)
+  %small= activity.model_name.human

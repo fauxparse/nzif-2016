@@ -3,7 +3,7 @@ module Admin::MenuHelper
     options[:"data-menu-name"] = name
     selected = options[:"aria-selected"] = options.delete(:selected) ||
       controller_name == name.to_s.pluralize
-    label = options.delete(:label) || t("admin.menu.#{name}.index")
+    label = options.delete(:label) || t("admin.#{name}.index.title")
     path = options.delete(:path) ||
       send(:"admin_#{name}_path", festival)
     icon = options.delete(:icon) || :web_asset
@@ -15,7 +15,7 @@ module Admin::MenuHelper
   end
 
   def admin_menu_item(label, path, icon = nil, include_list_item = true)
-    link = link_to(path) do
+    link = link_to(path, title: label) do
       concat icon(icon) if icon.present?
       concat content_tag(:span, label)
     end

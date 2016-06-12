@@ -1,0 +1,14 @@
+- content_for :title, activity.name
+- content_for :navigation_button, back_button(admin_activity_path(festival, activity))
+
+%header
+  %section
+    %h1= activity.name
+    %h2= festival.name
+
+%section
+  = form_for activity_form, as: :activity, url: admin_activity_path(festival, activity) do |form|
+    = render partial: "form", object: form
+
+    %footer
+      = form.submit t('.submit')

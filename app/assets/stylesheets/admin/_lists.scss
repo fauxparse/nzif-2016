@@ -1,0 +1,55 @@
+[role="list"] {
+  .empty {
+    color: $light-grey;
+    text-align: center;
+    padding: $base-spacing;
+  }
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: $small-spacing;
+
+    > * {
+      margin-bottom: $small-spacing;
+    }
+
+    [type="search"] {
+      flex: 1 0 50%;
+      margin-right: $base-spacing;
+      border-color: shade($base-border-color, 25%);
+      border-width: 0 0 1px;
+      box-shadow: none;
+      border-radius: 0;
+      padding-left: 1.5rem;
+
+      + label {
+        order: -1;
+        margin-right: -1.5rem;
+        padding: .5rem 0;
+        position: relative;
+        z-index: 1;
+        pointer-events: none;
+
+        i {
+          display: block;
+        }
+      }
+    }
+
+    button {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+  }
+
+  [role="listitem"] {
+    border-bottom: $base-border;
+    display: flex;
+    align-items: flex-start;
+
+    &:first-of-type {
+      border-top: $base-border;
+    }
+  }
+}

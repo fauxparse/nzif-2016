@@ -5,6 +5,7 @@ main > header {
   display: flex;
   align-items: center;
   margin-bottom: $base-spacing;
+  flex-wrap: wrap;
 
   section {
     flex: 1;

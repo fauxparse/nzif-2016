@@ -1,6 +1,7 @@
 class Festival < ApplicationRecord
   has_many :registrations, dependent: :destroy
   has_many :packages, dependent: :destroy
+  has_many :activities, dependent: :destroy
 
   before_validation :fill_in_year, :unless => :year?
 

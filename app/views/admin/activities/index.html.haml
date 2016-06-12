@@ -1,0 +1,17 @@
+- content_for :title, t('.title')
+
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+  %section{role: :tablist}
+    - @activity_list.types.each do |type|
+      = link_to type.model_name.human.pluralize, admin_activities_path(festival, type: type), role: :tab, "aria-selected" => @activity_list.type == type
+
+%section{role: :tabpanel}
+  .activities{role: :list}
+    %header
+      %input{type: :search, placeholder: t('.search', type: @activity_list.type_name.downcase.pluralize)}
+      %label= icon :search
+      = link_to t('.add', type: @activity_list.type_name.downcase), new_admin_activity_path(festival, type: @activity_list.type), role: :button
+    = render(partial: "activity", collection: @activity_list) || render("empty")

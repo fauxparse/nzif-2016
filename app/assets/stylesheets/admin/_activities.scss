@@ -1,0 +1,18 @@
+.activities {
+  [role="listitem"] {
+    a:first-of-type {
+      flex: 1;
+      padding: .5rem 0;
+      font-weight: $bold-font-weight;
+    }
+
+    small:last-child {
+      font-size: $small-font-size;
+      line-height: 1.5rem;
+      padding: .5rem 0;
+      color: $secondary-color;
+      text-transform: uppercase;
+      font-weight: $light-font-weight;
+    }
+  }
+}

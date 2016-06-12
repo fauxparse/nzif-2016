@@ -1,0 +1,24 @@
+[role="tablist"] {
+  margin-bottom: -$small-spacing;
+  display: flex;
+  flex: 1 0 100%;
+  align-items: flex-end;
+
+  [role="tab"] {
+    flex: 1 0 0%;
+    text-align: center;
+    padding: .5rem 1rem .75rem;
+    margin-bottom: -1px;
+    color: $medium-grey;
+    font-size: $small-font-size;
+    font-weight: $light-font-weight;
+    text-transform: uppercase;
+    line-height: 1rem;
+
+    &[aria-selected="true"] {
+      padding-bottom: .5rem;
+      border-bottom: .25rem solid $action-color;
+      color: $base-font-color;
+    }
+  }
+}

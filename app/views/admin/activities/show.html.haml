@@ -1,0 +1,9 @@
+- content_for :title, activity.name
+- content_for :navigation_button, back_button(admin_activities_path(festival, type: activity.class.to_param))
+
+%header
+  %section
+    %h1= activity.name
+    %h2= festival.name
+  %aside
+    = link_to icon(:settings), edit_admin_activity_path(festival, activity), role: :button, rel: :edit

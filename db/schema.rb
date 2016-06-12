@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160611030610) do
+ActiveRecord::Schema.define(version: 20160611233554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.string   "type"
+    t.integer  "festival_id"
+    t.string   "name"
+    t.string   "slug"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["festival_id"], name: "index_activities_on_festival_id", using: :btree
+  end
 
   create_table "festivals", force: :cascade do |t|
     t.integer  "year"
@@ -71,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160611030610) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "activities", "festivals"
   add_foreign_key "packages", "festivals"
   add_foreign_key "participants", "users", on_delete: :nullify
   add_foreign_key "registrations", "festivals", on_delete: :cascade
