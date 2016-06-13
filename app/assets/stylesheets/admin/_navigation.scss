@@ -62,6 +62,8 @@ main {
 
   .menu-navigation {
     @include position(absolute, .5rem null null .5rem);
+    z-index: 10;
+
     [role="button"],
     label[for="show-navigation"] {
       display: block;

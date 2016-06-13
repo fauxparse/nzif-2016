@@ -3,7 +3,8 @@ module Admin::MenuHelper
     options[:"data-menu-name"] = name
     selected = options[:"aria-selected"] = options.delete(:selected) ||
       controller_name == name.to_s.pluralize
-    label = options.delete(:label) || t("admin.#{name}.index.title")
+    label = options.delete(:label) ||
+      t("admin.#{name.to_s.pluralize}.index.title")
     path = options.delete(:path) ||
       send(:"admin_#{name}_path", festival)
     icon = options.delete(:icon) || :web_asset

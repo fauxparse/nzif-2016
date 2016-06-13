@@ -100,6 +100,11 @@ en:
         submit: "Save changes"
       form:
         select_facilitators: "Select facilitators…"
+    timetables:
+      index:
+        title: "Timetable"
+      show:
+        title: "Timetable"
 
   devise:
     sessions:
@@ -126,6 +131,11 @@ en:
       range_months_end: " – %d %B, %Y"
       range_years_start: "%d %B, %Y"
       range_years_end: " – %d %B, %Y"
+      weekday: "%A"
+      full: "%A, %e %B"
+  time:
+    formats:
+      short: "%I:%M"
 
   emails:
     registration:

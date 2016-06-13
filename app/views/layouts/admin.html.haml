@@ -5,13 +5,14 @@
       = stylesheet_link_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload'
       = javascript_include_tag 'admin', 'data-turbolinks-track': 'reload'
     = render "shared/head"
-  %body
+  %body{data: { controller: controller_name, action: action_name }}
     = check_box_tag "show-navigation", "show", false, autocomplete: :off
     %nav
       %ul
         = admin_menu :festival, icon: :home, label: festival.name
         = admin_menu :participants, icon: :people
         = admin_menu :activities, icon: :local_activity
+        = admin_menu :timetable, icon: :today
         = admin_menu :packages, icon: :pages
     %main
       .menu-navigation

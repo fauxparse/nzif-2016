@@ -16,26 +16,29 @@ main > header {
     display: flex;
     margin-left: $base-spacing;
 
+    > * {
+      padding: 0 .5rem;
+      font-size: $small-font-size;
+
+      + * {
+        border-left: $base-border;
+      }
+    }
+
+    button,
     [role="button"] {
       padding: .5rem;
+      border: none;
       border-radius: 50%;
       @include size(2.5rem);
       background: none;
       color: rgba($action-color, .5);
       transition: color $base-duration $base-timing;
+      outline: none;
 
       &:hover, &:focus {
         color: rgba($action-color, 1);
         background: none;
-      }
-    }
-
-    > :not([role="button"]) {
-      padding: 0 .5rem;
-      font-size: $small-font-size;
-
-      + :not([role="button"]) {
-        border-left: $base-border;
       }
     }
   }

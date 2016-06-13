@@ -1,0 +1,144 @@
+$timetable-border-color: mix($medium-grey, $light-grey, 25%);
+$timetable-background-color: $light-grey;
+
+@mixin selected-day {
+  [role="rowheader"]::before {
+    content: "";
+    @include position(absolute, 0rem 100% null null);
+    z-index: 10;
+    width: 3.5rem;
+    height: 2rem;
+    background: linear-gradient($timetable-background-color 50%,
+    rgba($timetable-background-color, 0));
+  }
+}
+
+[data-controller="timetables"] main {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+
+  > header {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 1rem 1rem $small-spacing 3.5rem;
+
+    [rel="range"] { display: none; }
+  }
+
+  > section {
+    min-height: 2rem;
+    overflow-y: auto;
+    position: relative;
+    padding: 2rem 3.5625rem 0 0;
+    background: $timetable-background-color;
+    flex: 1;
+
+    [role="grid"] {
+      display: flex;
+      flex-direction: row;
+
+      [role="row"] {
+        flex: 1 0 0%;
+        border-left: 1px solid $timetable-border-color;
+        border-right: 1px solid $timetable-border-color;
+        position: relative;
+        display: none;
+        margin-right: -1px;
+
+        &:first-child {
+          display: block;
+          flex: 0 0 3.5rem;
+          border-left: none;
+          transform: translateY(-.5rem);
+
+          [role="columnheader"] {
+            white-space: nowrap;
+            height: 1rem;
+            margin: 0;
+            line-height: 1rem;
+            font-size: .75rem;
+            font-weight: $light-font-weight;
+            color: $medium-grey;
+            text-align: right;
+            padding-right: .5rem;
+
+            &:nth-of-type(even) {
+              visibility: hidden;
+            }
+          }
+        }
+
+        &[aria-selected="true"] {
+          display: block;
+          @include selected-day;
+        }
+
+        [role="rowheader"] {
+          @include position(absolute, null 0rem 100% 0rem);
+          font-size: $small-font-size;
+          font-weight: $light-font-weight;
+          color: $medium-grey;
+          background: $timetable-background-color;
+          border-bottom: 1px solid $timetable-border-color;
+          text-transform: uppercase;
+          margin: 0 -1px -1px;
+          text-align: center;
+          line-height: 2rem;
+          vertical-align: middle;
+          box-sizing: content-box;
+          padding: 0 1px;
+          width: 100%;
+        }
+
+        [role="gridcell"] {
+          height: 1rem;
+          border-top: 1px solid $timetable-border-color;
+
+          &:nth-of-type(even) {
+            border-top-color: rgba($timetable-border-color, .35);
+          }
+        }
+      }
+    }
+  }
+
+  > footer {
+    position: relative;
+    height: 40%;
+    min-height: 2rem;
+    border-top: $base-border;
+
+    [role="separator"] {
+      @include position(absolute, 0rem 0rem null 0rem);
+      margin: 0;
+      height: 1rem;
+      border: 0;
+      cursor: ns-resize;
+    }
+  }
+
+  @include media($large-screen) {
+    > header {
+      [rel="next"],
+      [rel="prev"] {
+        display: none;
+      }
+
+      [rel="single"] { display: none; }
+      [rel="range"] { display: block; }
+    }
+
+    > section [role="grid"] [role="row"] {
+      display: block;
+
+      &:not(:first-of-type) [role="rowheader"]::before {
+        display: none;
+      }
+
+      &:first-of-type {
+        @include selected-day;
+      }
+    }
+  }
+}
