@@ -22,3 +22,12 @@
 
 %footer
   %hr{role: :separator}
+  %header{role: :tablist}
+    - timetable.activities.each.with_index do |(type, _), i|
+      %button{role: :tab, data: { tab: type.to_param }, aria: { selected: i.zero?.inspect }}
+        = type.model_name.human.pluralize
+  %section
+    - timetable.activities.each.with_index do |(type, activities), i|
+      %section{role: :tabpanel, data: { tab: type.to_param }, aria: { expanded: i.zero?.inspect }}
+        %section{role: :group, data: { columns: timetable.length } }
+          = render partial: "activity", collection: activities

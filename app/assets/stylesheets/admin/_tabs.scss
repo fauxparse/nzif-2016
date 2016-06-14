@@ -1,8 +1,7 @@
 [role="tablist"] {
-  margin-bottom: -$small-spacing;
   display: flex;
-  flex: 1 0 100%;
   align-items: flex-end;
+  border-bottom: $base-border;
 
   [role="tab"] {
     flex: 1 0 0%;
@@ -10,15 +9,26 @@
     padding: .5rem 1rem .75rem;
     margin-bottom: -1px;
     color: $medium-grey;
+    background: none;
+    border-radius: 0;
     font-size: $small-font-size;
     font-weight: $light-font-weight;
     text-transform: uppercase;
     line-height: 1rem;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
 
     &[aria-selected="true"] {
       padding-bottom: .5rem;
       border-bottom: .25rem solid $action-color;
       color: $base-font-color;
     }
+  }
+
+  main > header & {
+    flex: 1 0 100%;
+    margin-bottom: -$small-spacing;
+    border-bottom: none;
   }
 }

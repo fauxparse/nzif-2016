@@ -1,31 +1,54 @@
 class Timetable
   constructor: (el) ->
-    @el = el
-    $('header [rel=next]', @el).click(@nextDay)
-    $('header [rel=prev]', @el).click(@previousDay)
-    $('main > section', @el).on('scroll', @scrolled)
+    @el = $(el)
+    @el.find('header [rel=next]').click(@nextDay)
+    @el.find('header [rel=prev]').click(@previousDay)
+    @el.find('main > section').on('scroll', @scrolled)
+    @activityList = new ActivityList(@el.find('main > footer'))
+    @drag = dragula @containers(),
+      copy: (el, source) -> $(source).attr('role') == 'group'
+      accepts: (el, source) -> $(source).attr('role') != 'group'
+    @drag.on 'drop', @drop
+
+  containers: ->
+    [].concat(
+      @el.find('footer [role=group]').get()
+      @el.find('[role=gridcell]').get()
+    )
+
+  drop: (el, target, source, sibling) =>
+    $target = $(target)
+    if $target.attr('role') == 'gridcell'
+      $target = $('<div></div>').addClass('timeslot').appendTo(target)
+      $target.append(el)
+      @drag.containers.push $target.get(0)
+    $(source).filter('.timeslot:empty').remove()
 
   days: ->
-    @_days ||= $('main section[role=row]', @el)
+    @_days ||= @el.find('main section[role=row]')
 
   nextDay: =>
     day = $(@days().filter('[aria-selected=true]').next().get()
       .concat(@days().first().get())).first()
     day.attr('aria-selected', 'true')
       .siblings().attr('aria-selected', 'false').end()
-    $('header [rel=single]', @el).text(day.data('title'))
+    @el.find('header [rel=single]').text(day.data('title'))
 
   previousDay: =>
     day = $(@days().filter('[aria-selected=true]').prev(':not(header)').get()
       .concat(@days().last().get())).first()
     day.attr('aria-selected', 'true')
       .siblings().attr('aria-selected', 'false').end()
-    $('header [rel=single]', @el).text(day.data('title'))
+    @el.find('header [rel=single]').text(day.data('title'))
 
   scrolled: (e) =>
     section = $(e.target).closest('section')
     section.find('[role=rowheader]')
       .css(transform: "translateY(#{section.scrollTop()}px)")
+
+class ActivityList
+  constructor: (el) ->
+    @el = el
 
 document.addEventListener 'turbolinks:load', ->
   $(document).on 'mousedown', 'footer [role=separator]', (e) ->

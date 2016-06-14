@@ -76,6 +76,7 @@ $timetable-background-color: $light-grey;
 
         [role="rowheader"] {
           @include position(absolute, null 0rem 100% 0rem);
+          z-index: 10;
           font-size: $small-font-size;
           font-weight: $light-font-weight;
           color: $medium-grey;
@@ -93,10 +94,27 @@ $timetable-background-color: $light-grey;
 
         [role="gridcell"] {
           height: 1rem;
+          max-height: 1rem;
+          overflow: visible;
           border-top: 1px solid $timetable-border-color;
+          position: relative;
 
           &:nth-of-type(even) {
             border-top-color: rgba($timetable-border-color, .35);
+          }
+
+          .timeslot {
+            @include position(absolute, 0rem 0rem null 0rem);
+            z-index: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+
+            .timetable-activity {
+              flex: 1 1 0%;
+            }
+
+            &:empty { display: none; }
           }
         }
       }
@@ -104,17 +122,39 @@ $timetable-background-color: $light-grey;
   }
 
   > footer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     position: relative;
     height: 40%;
-    min-height: 2rem;
+    min-height: 2.5rem;
     border-top: $base-border;
+    padding-top: .25rem;
+    border-bottom: none;
 
     [role="separator"] {
       @include position(absolute, 0rem 0rem null 0rem);
       margin: 0;
-      height: 1rem;
+      height: .5rem;
       border: 0;
       cursor: ns-resize;
+    }
+
+    > section {
+      position: relative;
+      flex: 1 1 0%;
+      min-height: 0;
+    }
+
+    [role="tabpanel"] {
+      display: none;
+      padding: 1rem 3.5rem;
+      overflow-y: auto;
+      @include position(absolute, 0rem 0rem 0rem 0rem);
+
+      &[aria-expanded="true"] {
+        display: block;
+      }
     }
   }
 
@@ -140,5 +180,51 @@ $timetable-background-color: $light-grey;
         @include selected-day;
       }
     }
+
+    > footer {
+      [role="group"] {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+
+        @for $i from 1 through 10 {
+          &[data-columns="#{$i}"] [role="listitem"] {
+            flex: 0 1 percentage(1/$i);
+          }
+        }
+      }
+    }
+  }
+}
+
+.timetable-activity {
+  position: relative;
+
+  .inner {
+    @include position(absolute, 1px 1px 2px 1px);
+    border: $base-border;
+    border-radius: $base-border-radius;
+    padding: .25rem;
+    cursor: move;
+  }
+
+  h4 {
+    font-size: .75rem;
+    font-weight: $base-font-weight;
+  }
+
+  &.workshop     .inner { background: $tomato; }
+  &.show         .inner { background: $amber; }
+  &.social-event .inner { background: $pink; }
+
+  @for $i from 1 through 10 {
+    &[data-duration="#{$i}"] {
+      height: #{$i}rem;
+    }
+  }
+
+  &.gu-transit {
+    pointer-events: none;
   }
 }
