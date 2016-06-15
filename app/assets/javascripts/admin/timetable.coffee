@@ -35,7 +35,10 @@ class Timetable
     $target = $(target)
     role = $target.attr('role')
     if role == 'gridcell'
-      $target = $('<div></div>').addClass('timeslot').appendTo(target)
+      $target = $('<div></div>')
+        .addClass('timeslot')
+        .attr('data-time', $(target).attr('data-time'))
+        .appendTo(target)
       $target.append(el)
       @drag.containers.push $target.get(0)
     @moved(el, source, target)

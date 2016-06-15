@@ -18,7 +18,7 @@ class Timetable
   end
 
   def activities
-    @activities = festival.activities.group_by(&:class)
+    @activities = festival.activities.alphabetically.group_by(&:class)
     Hash[Activity.types.map { |type| [type, @activities[type] || []] }]
   end
 

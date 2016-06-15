@@ -17,6 +17,8 @@ $timetable-background-color: $light-grey;
   display: flex;
   flex-direction: column;
   padding: 0;
+  height: 100vh;
+  overflow: hidden;
 
   > header {
     flex-shrink: 0;
@@ -258,6 +260,7 @@ $timetable-background-color: $light-grey;
   &.workshop     .inner { background: $tomato; }
   &.show         .inner { background: $amber; }
   &.social-event .inner { background: $pink; }
+  &.discussion   .inner { background: $purple; }
 
   @for $i from 1 through 50 {
     &[data-duration="#{$i}"] {

@@ -7,7 +7,7 @@ class Activity < ApplicationRecord
 
   validates :name,
     presence: true,
-    uniqueness: { scope: :festival_id, case_sensitive: false }
+    uniqueness: { scope: [:festival_id, :type], case_sensitive: false }
 
   scope :alphabetically, -> { order(name: :asc) }
 
@@ -16,7 +16,7 @@ class Activity < ApplicationRecord
   end
 
   def self.types
-    [Workshop, Show, SocialEvent]
+    [Workshop, Show, SocialEvent, Discussion]
   end
 
   def self.type(name = nil)
