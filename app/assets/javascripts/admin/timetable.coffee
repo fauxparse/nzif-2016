@@ -3,7 +3,7 @@ class Timetable
     @el = $(el)
     @el.find('header [rel=next]').click(@nextDay)
     @el.find('header [rel=prev]').click(@previousDay)
-    @el.find('main > section').on('scroll', @scrolled)
+    @timetable = @el.find('main > section').on('scroll', @scrolled)
     @activityList = new ActivityList(@el.find('main > footer'))
     @drag = dragula @containers(),
       moves: (el, source, handle, sibling) ->
@@ -98,12 +98,12 @@ class Timetable
     height = $el.height()
     blockSize = height / duration
     top = $el.offset().top
-    offset = top + height - e.pageY
-    $('main > section').on 'mousemove.resize-activity', (e) ->
-      h = e.pageY + offset - top
+    offset = top - @timetable.scrollTop() + height - e.pageY
+    @timetable.on 'mousemove.resize-activity', (e) =>
+      h = e.pageY + offset - top + @timetable.scrollTop()
       $el.attr('data-duration', Math.max(Math.round(h / blockSize), 1))
     $(document).on 'mouseup.resize-activity', (e) =>
-      $('main > section').off('.resize-activity')
+      @timetable.off('.resize-activity')
       $(document).off('.resize-activity')
       end = moment($el.closest('.timeslot').attr('data-time'))
         .add(parseInt($el.attr('data-duration'), 10) * 30, 'minutes')

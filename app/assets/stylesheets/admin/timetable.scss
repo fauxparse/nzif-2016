@@ -30,10 +30,15 @@ $timetable-background-color: $light-grey;
     min-height: 2rem;
     overflow-y: auto;
     position: relative;
-    padding: 2rem 3.5625rem 0 0;
     background: $timetable-background-color;
     flex: 1;
     user-select: none;
+
+    > .inner {
+      padding: 2rem 3.5625rem 0 0;
+      max-height: 34rem;
+      overflow: hidden;
+    }
 
     [role="grid"] {
       display: flex;
@@ -51,6 +56,7 @@ $timetable-background-color: $light-grey;
           display: block;
           flex: 0 0 3.5rem;
           border-left: none;
+          border-bottom: none;
           transform: translateY(-.5rem);
 
           [role="columnheader"] {

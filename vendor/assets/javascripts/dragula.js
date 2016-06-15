@@ -124,7 +124,7 @@ function dragula (initialContainers, options) {
 
   function preventGrabbed (e) {
     if (_grabbed) {
-      e.preventDefault();
+      // e.preventDefault();
     }
   }
 
@@ -147,7 +147,7 @@ function dragula (initialContainers, options) {
       if (isInput(item)) { // see also: https://github.com/bevacqua/dragula/issues/208
         item.focus(); // fixes https://github.com/bevacqua/dragula/issues/176
       } else {
-        e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
+        // e.preventDefault(); // fixes https://github.com/bevacqua/dragula/issues/155
       }
     }
   }
@@ -393,7 +393,7 @@ function dragula (initialContainers, options) {
     if (!_mirror) {
       return;
     }
-    e.preventDefault();
+    // e.preventDefault();
 
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);

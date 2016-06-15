@@ -10,18 +10,19 @@
     %button{rel: :next}= icon :keyboard_arrow_right
 
 %section
-  %section{role: :grid}
-    %header{role: :row}
-      - timetable.times.each do |time|
-        %p{role: :columnheader}= l(time, format: :short).sub(/^0/, '')
-    - timetable.dates.each.with_index do |date, index|
-      %section{role: :row, aria: { selected: index.zero?.inspect }, data: { date: l(date), title: l(date, format: :full) }}
-        %h3{role: :rowheader}= l(date, format: :weekday)
-        - timetable.times(date).each do |time|
-          %section{role: :gridcell, data: { time: time.iso8601 }}
-            - timetable.scheduled_at(time).each do |timeslot, schedules|
-              .timeslot{data: { time: time.iso8601 }}
-                = render partial: "activity", collection: schedules.sort_by(&:position)
+  .inner
+    %section{role: :grid}
+      %header{role: :row}
+        - timetable.times.each do |time|
+          %p{role: :columnheader}= l(time, format: :short).sub(/^0/, '')
+      - timetable.dates.each.with_index do |date, index|
+        %section{role: :row, aria: { selected: index.zero?.inspect }, data: { date: l(date), title: l(date, format: :full) }}
+          %h3{role: :rowheader}= l(date, format: :weekday)
+          - timetable.times(date).each do |time|
+            %section{role: :gridcell, data: { time: time.iso8601 }}
+              - timetable.scheduled_at(time).each do |timeslot, schedules|
+                .timeslot{data: { time: time.iso8601 }}
+                  = render partial: "activity", collection: schedules.sort_by(&:position)
 %aside{rel: :trash}
   = icon(:delete)
 
