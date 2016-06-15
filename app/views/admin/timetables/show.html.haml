@@ -19,6 +19,9 @@
         %h3{role: :rowheader}= l(date, format: :weekday)
         - timetable.times(date).each do |time|
           %section{role: :gridcell, data: { time: time.iso8601 }}
+            - timetable.scheduled_at(time).each do |timeslot, schedules|
+              .timeslot{data: { time: time.iso8601 }}
+                = render partial: "activity", collection: schedules.sort_by(&:position)
 
 %footer
   %hr{role: :separator}

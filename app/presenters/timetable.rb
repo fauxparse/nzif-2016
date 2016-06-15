@@ -21,4 +21,18 @@ class Timetable
     @activities = festival.activities.group_by(&:class)
     Hash[Activity.types.map { |type| [type, @activities[type] || []] }]
   end
+
+  def schedule
+    @schedules ||= all_activities.flat_map(&:schedules).group_by(&:timeslot)
+  end
+
+  def scheduled_at(time)
+    schedule.select { |timeslot, _| timeslot.first == time }
+  end
+
+  private
+
+  def all_activities
+    @all_activities ||= festival.activities.includes(:schedules).all
+  end
 end

@@ -4,6 +4,10 @@ class Admin::TimetablesController < Admin::Controller
 
   private
 
+  def festival_scope
+    Festival.with_schedule
+  end
+
   def timetable
     @timetable ||= Timetable.new(festival)
   end

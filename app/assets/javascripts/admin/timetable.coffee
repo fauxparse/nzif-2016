@@ -14,15 +14,44 @@ class Timetable
     [].concat(
       @el.find('footer [role=group]').get()
       @el.find('[role=gridcell]').get()
+      @el.find('.timeslot').get()
     )
+
+  url: (path...) ->
+    [location.pathname].concat(path).join('/')
 
   drop: (el, target, source, sibling) =>
     $target = $(target)
-    if $target.attr('role') == 'gridcell'
+    role = $target.attr('role')
+    if role == 'gridcell'
       $target = $('<div></div>').addClass('timeslot').appendTo(target)
       $target.append(el)
       @drag.containers.push $target.get(0)
+    @moved(el, source, target)
     $(source).filter('.timeslot:empty').remove()
+
+  moved: (el, source, target) ->
+    $el = $(el)
+    $target = $(target)
+    $source = $(source)
+    start = moment($target.data('time'))
+    duration = parseInt($el.data('duration'), 10) * 30
+    end = start.clone().add(duration, 'minutes')
+    options =
+      data:
+        schedule:
+          activity_id: $el.data('id')
+          starts_at: start.toISOString()
+          ends_at: end.toISOString()
+          position: $el.prevAll().length
+    if $source.is('.timeslot')
+      options.url = @url('schedules', $el.data('schedule-id'))
+      options.method = 'put'
+    else
+      options.url = @url('schedules')
+      options.method = 'post'
+    $.ajax(options)
+      .done (data) -> $el.attr("data-schedule-id", data.id)
 
   days: ->
     @_days ||= @el.find('main section[role=row]')

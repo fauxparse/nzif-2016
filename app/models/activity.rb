@@ -1,6 +1,7 @@
 class Activity < ApplicationRecord
   belongs_to :festival
   has_many :facilitators, dependent: :destroy, autosave: true
+  has_many :schedules, dependent: :destroy, autosave: true
 
   acts_as_url :name, url_attribute: :slug, sync_url: true, scope: :festival_id
 

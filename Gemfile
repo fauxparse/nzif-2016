@@ -25,6 +25,7 @@ gem 'autoprefixer-rails'
 
 gem 'stringex'
 gem 'acts_as_list', github: 'swanandp/acts_as_list'
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

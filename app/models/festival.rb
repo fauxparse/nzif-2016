@@ -2,6 +2,7 @@ class Festival < ApplicationRecord
   has_many :registrations, dependent: :destroy
   has_many :packages, dependent: :destroy
   has_many :activities, dependent: :destroy
+  has_many :schedules, through: :activities
 
   before_validation :fill_in_year, :unless => :year?
 
@@ -11,6 +12,7 @@ class Festival < ApplicationRecord
   validates :year, uniqueness: true
 
   scope :most_recent_first, -> { order(year: :desc) }
+  scope :with_schedule, -> { includes(:activities => :schedules) }
 
   def to_param
     year.to_s
