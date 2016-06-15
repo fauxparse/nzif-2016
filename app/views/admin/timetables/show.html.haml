@@ -22,6 +22,8 @@
             - timetable.scheduled_at(time).each do |timeslot, schedules|
               .timeslot{data: { time: time.iso8601 }}
                 = render partial: "activity", collection: schedules.sort_by(&:position)
+%aside{rel: :trash}
+  = icon(:delete)
 
 %footer
   %hr{role: :separator}

@@ -7,14 +7,22 @@ class Timetable
     @activityList = new ActivityList(@el.find('main > footer'))
     @drag = dragula @containers(),
       copy: (el, source) -> $(source).attr('role') == 'group'
-      accepts: (el, source) -> $(source).attr('role') != 'group'
+      accepts: (el, target) ->
+        $target = $(target)
+        return true if $target.is('[rel=trash]') &&
+          $(el).is('[data-schedule-id')
+        $target.attr('role') != 'group' &&
+          !$target.has("[data-id=#{$(el).data('id')}]").length
     @drag.on 'drop', @drop
+    @drag.on 'over', (el, target, source) -> $(target).addClass('over')
+    @drag.on 'out', (el, target, source) -> $(target).removeClass('over')
 
   containers: ->
     [].concat(
       @el.find('footer [role=group]').get()
       @el.find('[role=gridcell]').get()
       @el.find('.timeslot').get()
+      @el.find('[rel=trash]').get()
     )
 
   url: (path...) ->
@@ -34,24 +42,30 @@ class Timetable
     $el = $(el)
     $target = $(target)
     $source = $(source)
-    start = moment($target.data('time'))
-    duration = parseInt($el.data('duration'), 10) * 30
-    end = start.clone().add(duration, 'minutes')
-    options =
-      data:
-        schedule:
-          activity_id: $el.data('id')
-          starts_at: start.toISOString()
-          ends_at: end.toISOString()
-          position: $el.prevAll().length
-    if $source.is('.timeslot')
-      options.url = @url('schedules', $el.data('schedule-id'))
-      options.method = 'put'
+    if $target.is('[rel=trash]')
+      $.ajax
+        url: @url('schedules', $el.data('schedule-id'))
+        method: 'delete'
+      $el.remove()
     else
-      options.url = @url('schedules')
-      options.method = 'post'
-    $.ajax(options)
-      .done (data) -> $el.attr("data-schedule-id", data.id)
+      start = moment($target.data('time'))
+      duration = parseInt($el.data('duration'), 10) * 30
+      end = start.clone().add(duration, 'minutes')
+      options =
+        data:
+          schedule:
+            activity_id: $el.data('id')
+            starts_at: start.toISOString()
+            ends_at: end.toISOString()
+            position: $el.prevAll().length
+      if $source.is('.timeslot')
+        options.url = @url('schedules', $el.data('schedule-id'))
+        options.method = 'put'
+      else
+        options.url = @url('schedules')
+        options.method = 'post'
+      $.ajax(options)
+        .done (data) -> $el.attr("data-schedule-id", data.id)
 
   days: ->
     @_days ||= @el.find('main section[role=row]')

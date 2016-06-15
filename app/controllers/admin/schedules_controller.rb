@@ -14,6 +14,10 @@ class Admin::SchedulesController < ApplicationController
     render json: @schedule
   end
 
+  def destroy
+    schedule.destroy
+  end
+
   private
 
   def schedule
