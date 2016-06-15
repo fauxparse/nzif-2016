@@ -33,6 +33,7 @@ $timetable-background-color: $light-grey;
     padding: 2rem 3.5625rem 0 0;
     background: $timetable-background-color;
     flex: 1;
+    user-select: none;
 
     [role="grid"] {
       display: flex;
@@ -232,6 +233,7 @@ $timetable-background-color: $light-grey;
 
 .timetable-activity {
   position: relative;
+  min-height: 1.625rem;
 
   .inner {
     @include position(absolute, 1px 1px 2px 1px);
@@ -239,6 +241,7 @@ $timetable-background-color: $light-grey;
     border-radius: $base-border-radius;
     padding: .25rem;
     cursor: move;
+    overflow: hidden;
   }
 
   h4 {
@@ -250,7 +253,7 @@ $timetable-background-color: $light-grey;
   &.show         .inner { background: $amber; }
   &.social-event .inner { background: $pink; }
 
-  @for $i from 1 through 10 {
+  @for $i from 1 through 50 {
     &[data-duration="#{$i}"] {
       height: #{$i}rem;
     }
@@ -259,4 +262,16 @@ $timetable-background-color: $light-grey;
   &.gu-transit {
     pointer-events: none;
   }
+
+  hr {
+    @include position(absolute, null 0rem 0rem 0rem);
+    height: .5rem;
+    cursor: ns-resize;
+    background: none;
+    border: none;
+    margin: 0;
+    display: none;
+  }
+
+  &[data-schedule-id] hr { display: block; }
 }

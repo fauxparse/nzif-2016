@@ -7,10 +7,9 @@ class Admin::SchedulesController < ApplicationController
 
   def update
     schedule.remove_from_list
-    if schedule_params[:position].present?
-      schedule.update!(schedule_params.except(:position))
-      schedule.insert_at(schedule_params[:position].to_i)
-    end
+    schedule.update!(schedule_params.except(:position))
+    schedule.insert_at(schedule_params[:position].to_i) \
+      if schedule_params[:position].present?
     render json: @schedule
   end
 

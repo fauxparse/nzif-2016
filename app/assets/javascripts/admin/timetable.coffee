@@ -6,6 +6,8 @@ class Timetable
     @el.find('main > section').on('scroll', @scrolled)
     @activityList = new ActivityList(@el.find('main > footer'))
     @drag = dragula @containers(),
+      moves: (el, source, handle, sibling) ->
+        !$(handle).is('hr')
       copy: (el, source) -> $(source).attr('role') == 'group'
       accepts: (el, target) ->
         $target = $(target)
@@ -16,6 +18,7 @@ class Timetable
     @drag.on 'drop', @drop
     @drag.on 'over', (el, target, source) -> $(target).addClass('over')
     @drag.on 'out', (el, target, source) -> $(target).removeClass('over')
+    @el.on('mousedown', '.timetable-activity hr', @resize)
 
   containers: ->
     [].concat(
@@ -88,6 +91,28 @@ class Timetable
     section = $(e.target).closest('section')
     section.find('[role=rowheader]')
       .css(transform: "translateY(#{section.scrollTop()}px)")
+
+  resize: (e) =>
+    $el = $(e.target).closest('.timetable-activity')
+    duration = parseInt($el.attr('data-duration'), 10)
+    height = $el.height()
+    blockSize = height / duration
+    top = $el.offset().top
+    offset = top + height - e.pageY
+    $('main > section').on 'mousemove.resize-activity', (e) ->
+      h = e.pageY + offset - top
+      $el.attr('data-duration', Math.max(Math.round(h / blockSize), 1))
+    $(document).on 'mouseup.resize-activity', (e) =>
+      $('main > section').off('.resize-activity')
+      $(document).off('.resize-activity')
+      end = moment($el.closest('.timeslot').attr('data-time'))
+        .add(parseInt($el.attr('data-duration'), 10) * 30, 'minutes')
+      $.ajax
+        url: @url('schedules', $el.attr('data-schedule-id'))
+        method: 'put'
+        data:
+          schedule:
+            ends_at: end.toISOString()
 
 class ActivityList
   constructor: (el) ->
