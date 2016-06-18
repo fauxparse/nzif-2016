@@ -9,7 +9,7 @@ document.addEventListener 'turbolinks:load', ->
         .replace(/edit$/, 'reorder/' + position)
       $.ajax(url: url, method: 'put')
 
-  $('.new_package, .edit_package')
+  $('.new-package, .edit-package')
     .on 'change', '[type=checkbox]', (e) ->
       $(e.target).nextAll('[type=number]').first()
         .attr(disabled: !e.target.checked).get(0).focus()
