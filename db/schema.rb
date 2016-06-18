@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614230425) do
+ActiveRecord::Schema.define(version: 20160617213530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 20160614230425) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["festival_id"], name: "index_activities_on_festival_id", using: :btree
+  end
+
+  create_table "allocations", force: :cascade do |t|
+    t.integer "package_id"
+    t.string  "activity_type_name", limit: 32
+    t.integer "maximum",                       default: 0
+    t.index ["package_id", "activity_type_name"], name: "index_allocations_on_package_id_and_activity_type_name", unique: true, using: :btree
+    t.index ["package_id"], name: "index_allocations_on_package_id", using: :btree
   end
 
   create_table "facilitators", force: :cascade do |t|
@@ -100,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160614230425) do
   end
 
   add_foreign_key "activities", "festivals"
+  add_foreign_key "allocations", "packages"
   add_foreign_key "facilitators", "activities"
   add_foreign_key "facilitators", "participants"
   add_foreign_key "packages", "festivals"

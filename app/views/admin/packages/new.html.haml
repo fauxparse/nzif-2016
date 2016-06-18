@@ -7,10 +7,7 @@
     %h2= festival.name
 
 %section
-  = form_for package, url: admin_packages_path(festival) do |form|
-    .field
-      = form.label :name
-      = form.text_field :name
-      = form.error_messages_for :name
+  = form_for package_form, url: admin_packages_path(festival) do |form|
+    = render partial: "form", object: form
     %footer
       = form.submit t('.submit')

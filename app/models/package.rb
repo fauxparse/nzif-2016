@@ -1,5 +1,6 @@
 class Package < ApplicationRecord
   belongs_to :festival
+  has_many :allocations, autosave: true, dependent: :destroy
 
   acts_as_url :name, url_attribute: :slug, sync_url: true, scope: :festival_id
   acts_as_list scope: :festival, top_of_list: 0
@@ -7,6 +8,7 @@ class Package < ApplicationRecord
   validates :name,
     presence: true,
     uniqueness: { scope: :festival_id, case_sensitive: false }
+  validates_associated :allocations
 
   scope :ordered, -> { order(position: :asc) }
 

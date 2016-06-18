@@ -1,0 +1,10 @@
+.field
+  = form.label :name
+  = form.text_field :name
+  = form.error_messages_for :name
+- form.object.allocations.each do |key, limit|
+  .field.allocation
+    %label
+      = check_box_tag "package[allocations][#{key}]", 1, limit.present?
+      %span= t('.limit', type: Activity.type(key).model_name.human.pluralize.downcase)
+      = number_field_tag "package[allocations][#{key}]", limit || 0, disabled: limit.blank?, min: 0, step: 1

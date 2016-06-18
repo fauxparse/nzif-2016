@@ -35,3 +35,23 @@ li.package {
     background: $base-background-color;
   }
 }
+
+.new_package,
+.edit_package {
+  .allocation {
+    label {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      span {
+        width: 10rem;
+      }
+
+      [type="number"] {
+        width: 4rem;
+        margin: 0;
+      }
+    }
+  }
+}

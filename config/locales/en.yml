@@ -87,6 +87,9 @@ en:
         submit: "Save changes"
         delete: "Delete this package"
         confirm_delete: "Are you sure you want to delete this package?"
+      form:
+        limit: "Limit %{type} to"
+        unlimited: "Unlimited %{type}"
     activities:
       index:
         title: "Activities"

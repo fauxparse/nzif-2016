@@ -1,15 +1,15 @@
 class Admin::PackagesController < Admin::Controller
+  wrap_parameters :package, include: PackageForm.parameters
+
   def index
     @packages = festival.packages.sort
   end
 
   def new
-    @package = festival.packages.build
   end
 
   def create
-    @package = festival.packages.build(package_params)
-    if @package.save
+    if package_form.save
       redirect_to admin_packages_path(festival)
     else
       render :new
@@ -20,7 +20,7 @@ class Admin::PackagesController < Admin::Controller
   end
 
   def update
-    if package.update(package_params)
+    if package_form.save
       redirect_to admin_packages_path(festival)
     else
       render :edit
@@ -40,13 +40,15 @@ class Admin::PackagesController < Admin::Controller
 
   private
 
-  def package_params
-    params.require(:package).permit(:name)
+  def package_form
+    @package_form ||= PackageForm.new(
+      params[:id] ? package : festival.packages.build, params
+    )
   end
 
   def package
     @package ||= festival.packages.find_by(slug: params[:id])
   end
 
-  helper_method :package
+  helper_method :package, :package_form
 end
