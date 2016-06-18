@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'itineraries/show'
+
   devise_scope :user do
     get "/login" => "devise/sessions#new", as: :login
     delete "/logout" => "devise/sessions#destroy", as: :logout
@@ -14,6 +16,7 @@ Rails.application.routes.draw do
     get "/register" => "registrations#new"
     post "/register" => "registrations#create"
     resource :registration, only: %i[show update]
+    resource :itinerary
     get "/" => "festivals#show", as: :festival
   end
 

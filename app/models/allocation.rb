@@ -10,6 +10,14 @@ class Allocation < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0, only_integer: true },
     if: :maximum?
 
+  def name
+    activity_type.model_name.human.pluralize.downcase
+  end
+
+  def allowed?
+    maximum != 0
+  end
+
   def unlimited?
     maximum.blank?
   end

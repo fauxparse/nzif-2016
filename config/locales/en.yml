@@ -152,6 +152,12 @@ en:
           attributes:
             email:
               bad_credentials: "doesn’t match password"
+        itinerary:
+          attributes:
+            base:
+              not_allowed: "Your package does not include any %{type}"
+              too_many: "Too many %{type} selected (maximum is %{max})"
+              activity_full: "That session of %{activity} is full"
 
   helpers:
     label:
