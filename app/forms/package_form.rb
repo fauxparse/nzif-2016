@@ -1,14 +1,12 @@
 class PackageForm
+  include ActiveModel::Validations
+
   attr_reader :package
-  delegate :valid?, :errors, to: :package
+  delegate :valid?, :errors, :save, to: :package
 
   def initialize(package, params = nil)
     @package = package
     apply(sanitize(params))
-  end
-
-  def save
-    package.save!
   end
 
   def name
