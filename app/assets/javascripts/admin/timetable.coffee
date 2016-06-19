@@ -71,7 +71,11 @@ class Timetable
         options.url = @url('schedules')
         options.method = 'post'
       $.ajax(options)
-        .done (data) -> $el.attr("data-schedule-id", data.id)
+        .done (data) =>
+          $el
+            .attr("data-schedule-id", data.id)
+            .find("h4")
+            .html("<a href=\"#{data.url}\" rel=\"edit\">#{data.name}</a>")
 
   days: ->
     @_days ||= @el.find('main section[role=row]')

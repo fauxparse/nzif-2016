@@ -1,4 +1,4 @@
 %article.timetable-activity{role: :listitem, class: activity_class_name(activity), data: activity_data(activity)}
   .inner
-    %h4= activity.name
+    %h4= link_to_if activity.respond_to?(:activity_id), activity.name, edit_admin_timetable_schedule_path(id: activity), rel: :edit
   %hr

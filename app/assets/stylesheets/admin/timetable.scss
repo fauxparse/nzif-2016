@@ -257,6 +257,11 @@ $timetable-background-color: $light-grey;
     font-weight: $base-font-weight;
   }
 
+  [rel="edit"] {
+    color: $base-font-color;
+    &:hover { text-decoration: underline; }
+  }
+
   &.workshop     .inner { background: $tomato; }
   &.show         .inner { background: $amber; }
   &.social-event .inner { background: $pink; }
