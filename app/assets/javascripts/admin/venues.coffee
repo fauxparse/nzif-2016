@@ -4,38 +4,13 @@ class VenueManager
     @container = @el.find('.map')
     @list = @el.find('.list ul')
     @footer = @el.children('footer').first()
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZmF1eHBhcnNlIiwiYSI6ImNpcGx3MGRtbTAyZGN0eG00andtcHg2NHIifQ.ZSbjNkEtkpwtxrFlEQzEDA'
-    @map = new mapboxgl.Map
-      container: @container.get(0)
-      style: 'mapbox://styles/fauxparse/cipm2sk380012beng3lbs8h3q'
-      attributionControl: false
-      center: [
-        parseFloat(@container.data('longitude')),
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZmF1eHBhcnNlIiwiYSI6ImNpcGx3MGRtbTAyZGN0eG00andtcHg2NHIifQ.ZSbjNkEtkpwtxrFlEQzEDA'
+    @map = L.mapbox.map(@container.get(0), 'mapbox.streets')
+      .setView([
         parseFloat(@container.data('latitude'))
-      ]
-      zoom: 16
-    @map.addControl(new mapboxgl.Navigation(position: 'top-left'))
-
-    @map.on 'load', =>
-      @source = new mapboxgl.GeoJSONSource
-        data:
-          type: 'FeatureCollection'
-          features: []
-      @map.addSource('markers', @source)
-      @map.addLayer
-        id: 'markers'
-        type: 'symbol'
-        source: 'markers'
-        layout:
-          'icon-image': '{marker-symbol}-15'
-          'text-field': '{title}'
-          'text-size': 12
-          'text-offset': [0, 0.6],
-          'text-anchor': 'top'
-        paint:
-          'text-halo-color': 'rgb(255, 255, 255)'
-          'text-halo-width': 1
-      @updateMarkers()
+        parseFloat(@container.data('longitude'))
+      ], 16)
+    @updateMarkers()
 
     @el
       .on('click', '[rel=new]', @newVenue)
@@ -61,6 +36,7 @@ class VenueManager
 
   editVenue: (e) =>
     e.preventDefault()
+    @panToVenue(e.target)
     @footer.addClass('editing')
     url = $(e.target).closest('[href]').attr('href')
     $('.form', @footer).empty().load(url + ' #form')
@@ -75,39 +51,61 @@ class VenueManager
 
   venueUpdated: (e, data, status, xhr) =>
     id = $(e.target).data('id')
-    @list.find("[data-id=#{id}]").replaceWith(data)
+    li = @list.find("[data-id=#{id}]")
+    marker = li.data('marker')
+    li.replaceWith(data)
+    li = @list.find("[data-id=#{id}]")
+    li.data(marker: marker)
+    @panToVenue(li)
     @updateMarkers()
     @footer.removeClass('editing')
 
   venueCreated: (e, data, status, xhr) =>
     @list.append(data)
+    @panToVenue(@list.children().last())
     @updateMarkers()
     @footer.removeClass('editing')
 
   venueDeleted: (e, data, status, xhr) =>
     id = $(e.target).closest('form').data('id')
-    @list.find("[data-id=#{id}]").remove()
-    @updateMarkers()
+    li = @list.find("[data-id=#{id}]")
+    @map.removeLayer(li.data('marker'))
+    li.remove()
     @footer.removeClass('editing')
 
   updateMarkers: ->
-    features = @list.find('.venue').map (i, el) ->
+    @list.find('.venue').each (i, el) =>
       li = $(el)
-      longitude = parseFloat(li.attr('data-longitude'))
       latitude = parseFloat(li.attr('data-latitude'))
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
+      longitude = parseFloat(li.attr('data-longitude'))
+      geoJSON =
+        type: 'Feature'
+        geometry:
+          type: 'Point'
           coordinates: [longitude, latitude]
-        }
-        properties: {
+        properties:
           title: li.find('[rel=name]').text()
+          description: li.find('[rel=address]').text()
+          id: li.attr('data-id')
+          'marker-size': 'large',
+          'marker-color': '#ff6447',
           'marker-symbol': 'theatre'
-        }
-      }
-    .get()
-    @source.setData(type: 'FeatureCollection', features: features)
+
+      if marker = li.data('marker')
+        marker.setGeoJSON(geoJSON)
+      else
+        marker = L.mapbox.featureLayer(geoJSON)
+        li.data(marker: marker)
+        marker.addTo(@map)
+        marker.on 'mouseover', (e) -> e.layer.openPopup()
+        marker.on 'mouseout', (e) -> e.layer.closePopup()
+        marker.on 'click', -> li.find('[rel=edit]').click()
+
+  panToVenue: (venue) ->
+    li = $(venue).closest('.venue')
+    latitude = parseFloat(li.attr('data-latitude'))
+    longitude = parseFloat(li.attr('data-longitude'))
+    @map.panTo(L.latLng(latitude, longitude))
 
 document.addEventListener 'turbolinks:load', ->
   $('[data-controller=venues] main').each -> new VenueManager(this)
