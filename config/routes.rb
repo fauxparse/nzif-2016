@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'itineraries/show'
-
   devise_scope :user do
     get "/login" => "devise/sessions#new", as: :login
     delete "/logout" => "devise/sessions#destroy", as: :logout
@@ -33,6 +31,10 @@ Rails.application.routes.draw do
       resource :timetable do
         resources :schedules, only: [:create, :update, :destroy]
       end
+      resources :venues do
+        put "reorder/:position" => "venues#reorder", on: :member
+      end
+
     end
 
     resources :participants, as: :users

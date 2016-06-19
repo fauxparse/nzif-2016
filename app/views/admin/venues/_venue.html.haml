@@ -1,0 +1,5 @@
+%li.venue{data: { id: venue.id, latitude: venue.latitude, longitude: venue.longitude }}
+  = icon(:reorder, rel: :move)
+  = link_to edit_admin_venue_path(festival, venue), rel: :edit do
+    %span{rel: :name}= venue.name
+    %span{rel: :address}= venue.address

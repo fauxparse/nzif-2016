@@ -108,6 +108,15 @@ en:
         title: "Timetable"
       show:
         title: "Timetable"
+    venues:
+      index:
+        title: "Venues"
+      new:
+        submit: "Create venue"
+      edit:
+        submit: "Save changes"
+        delete: "Delete venue"
+        confirm_delete: "Delete this venue?"
 
   devise:
     sessions:

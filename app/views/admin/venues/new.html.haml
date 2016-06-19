@@ -1,0 +1,5 @@
+= form_for @venue, url: admin_venues_path, remote: true, html: { id: :form, class: "new-venue" } do |form|
+  = render partial: 'form', object: form
+  %footer
+    = form.submit t('.submit')
+    %button{rel: :cancel}= icon(:arrow_back)

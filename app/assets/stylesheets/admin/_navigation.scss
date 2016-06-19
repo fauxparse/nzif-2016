@@ -74,6 +74,8 @@ main {
       transition: all $base-duration $base-timing;
       opacity: .5;
 
+      i { display: block; }
+
       &:hover {
         background: none;
         opacity: 1;

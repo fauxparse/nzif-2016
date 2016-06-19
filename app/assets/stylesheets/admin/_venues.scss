@@ -1,0 +1,124 @@
+[data-controller="venues"] main {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+
+  > header {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 1rem 1rem $small-spacing 3.5rem;
+  }
+
+  .map {
+    flex: 1 1 50%;
+
+  }
+
+  > footer {
+    flex: 1 1 50%;
+    border-top: $base-border;
+    position: relative;
+
+    section {
+      @include position(absolute, 0rem 0rem 0rem 0rem);
+      transition: transform $long-duration $base-timing;
+      overflow-y: auto;
+    }
+
+    .list {
+      padding: 0rem 4.5rem 0rem .5rem;
+
+      li:not(:last-child) a {
+        border-bottom: $base-border;
+      }
+    }
+
+    .form {
+      padding: 1rem 3.5rem;
+      transform: translateX(100%);
+
+      footer {
+        margin: 0;
+      }
+    }
+
+    &.editing {
+      .list {
+        transform: translateX(-100%);
+      }
+
+      .form {
+        transform: translateX(0%);
+      }
+    }
+
+    [rel="new"] {
+      @include position(fixed, null 1rem 1rem null);
+      @include size(2.5rem);
+      padding: .5rem;
+      border-radius: 50%;
+      background: $accent-color;
+      color: white;
+      margin: 0;
+      outline: none;
+
+      i {
+        display: block;
+      }
+    }
+
+    [rel="cancel"] {
+      @include position(absolute, .5rem null null .5rem);
+      background: none;
+      padding: .5rem;
+      cursor: pointer;
+      color: $dark-grey;
+      background: none;
+      transition: all $base-duration $base-timing;
+      opacity: .5;
+      outline: none;
+
+      &:hover {
+        background: none;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+li.venue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: $base-background-color;
+  display: flex;
+  align-items: flex-start;
+
+  i, a {
+    padding: .5rem;
+    margin: 0;
+  }
+
+  a {
+    flex: 1;
+    padding-left: 0;
+    margin-left: .5rem;
+    color: $base-font-color;
+  }
+
+  span {
+    display: block;
+
+    &[rel="address"] {
+      font-size: $small-font-size;
+      color: $secondary-color;
+    }
+  }
+
+  i {
+    color: $light-grey;
+    cursor: ns-resize;
+  }
+}

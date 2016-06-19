@@ -1,0 +1,6 @@
+= form_for venue, url: admin_venue_path(festival, venue), remote: true, html: { id: :form, class: "edit-venue", data: { id: venue.id } } do |form|
+  = render partial: 'form', object: form
+  %footer
+    = form.submit t('.submit')
+    = link_to t('.delete'), admin_venue_path(festival, venue), role: :button, rel: :delete, method: :delete, data: { confirm: t('.confirm_delete') }
+    %button{rel: :cancel}= icon(:arrow_back)

@@ -1,0 +1,16 @@
+- content_for :title, t('.title')
+- content_for :head do
+  = javascript_include_tag 'https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.js', 'data-turbolinks-track': 'reload'
+  = stylesheet_link_tag 'https://api.mapbox.com/mapbox-gl-js/v0.20.0/mapbox-gl.css', media: 'all', 'data-turbolinks-track': 'reload'
+
+%header
+  %section
+    %h1= t('.title')
+
+%section.map{data: {latitude: Venue::HOME[:latitude], longitude: Venue::HOME[:longitude]}}
+
+%footer
+  %section.list
+    %ul= render @venues
+    %button{rel: :new}= icon(:add_location)
+  %section.form
