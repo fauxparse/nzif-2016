@@ -289,3 +289,12 @@ $timetable-background-color: $light-grey;
 
   &[data-schedule-id] hr { display: block; }
 }
+
+.dialog.edit-schedule {
+  section {
+    @include media($medium-screen) {
+      // max-height: 6.5rem;
+      overflow-y: visible;
+    }
+  }
+}

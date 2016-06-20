@@ -108,6 +108,10 @@ en:
         title: "Timetable"
       show:
         title: "Timetable"
+    schedules:
+      edit:
+        submit: "Save changes"
+        select_venue: "Select a venue"
     venues:
       index:
         title: "Venues"

@@ -3,4 +3,8 @@ class Facilitator < ApplicationRecord
   belongs_to :activity
 
   acts_as_list scope: :activity_id, top_of_list: 0
+
+  def to_s
+    participant.name
+  end
 end

@@ -61,9 +61,85 @@ form {
 
   .chosen-drop {
     margin-top: -.5rem;
+    border-radius: $base-border-radius;
 
     li.no-results {
       background: none;
+    }
+
+    .chosen-search {
+      padding: 0;
+      border-bottom: $base-border;
+
+      input {
+        margin: 0;
+        background: none !important;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    .chosen-results {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &.chosen-container-single {
+    display: block;
+    width: 100% !important;
+
+    .chosen-drop {
+      margin-top: .5rem;
+    }
+  }
+
+  .chosen-single {
+    height: auto;
+    line-height: 1.1875;
+    background: $base-background-color;
+    box-shadow: $select-box-shadow;
+    border-radius: $base-border-radius;
+
+    div,
+    .search-choice-close {
+      font-family: "Material Icons";
+      width: 2rem;
+      height: 2.25rem;
+      line-height: 2.25rem;
+      font-size: 1.5rem;
+      vertical-align: middle;
+      text-align: center;
+
+      b {
+        background-image: none !important;
+        transition: transform $long-duration $base-timing;
+        &::after { content: "arrow_drop_down"; }
+      }
+    }
+
+    &.chosen-single-with-deselect span {
+      margin-right: 4rem;
+    }
+
+    .search-choice-close {
+      background-image: none !important;
+      right: 2rem;
+      top: 0;
+      font-size: 1rem;
+
+      &::after { content: "close"; }
+    }
+  }
+
+  &.chosen-with-drop .chosen-single {
+    border-color: $action-color;
+    background: $base-background-color;
+    box-shadow: $select-box-shadow-focus;
+    border-radius: $base-border-radius;
+
+    div b {
+      transform: rotate(180deg);
     }
   }
 }

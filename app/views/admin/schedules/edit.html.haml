@@ -1,0 +1,13 @@
+= form_for schedule, url: admin_timetable_schedule_path(id: schedule), remote: true, html: { id: :form } do |form|
+  %header
+    %h2
+      = schedule.name
+      %small= schedule.activity.facilitators.to_a.to_sentence
+    %button{rel: :close}= icon(:close)
+  %section
+    .field
+      = form.label :venue_id
+      = form.select :venue_id, [[]] + Venue.in_order.map { |venue| [venue.name, venue.id] }, data: { placeholder: t('.select_venue') }
+      = form.error_messages_for :venue_id
+  %footer
+    = form.submit t('.submit')

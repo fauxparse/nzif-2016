@@ -65,7 +65,7 @@ class Timetable
             ends_at: end.toISOString()
             position: $el.prevAll().length
       if $source.is('.timeslot')
-        options.url = @url('schedules', $el.data('schedule-id'))
+        options.url = @url('schedules', $el.data('schedule-id') + '.json')
         options.method = 'put'
       else
         options.url = @url('schedules')
@@ -75,7 +75,7 @@ class Timetable
           $el
             .attr("data-schedule-id", data.id)
             .find("h4")
-            .html("<a href=\"#{data.url}\" rel=\"edit\">#{data.name}</a>")
+            .html("<a href=\"#{data.url}\" rel=\"edit\" data-dialog=\"edit-schedule\">#{data.name}</a>")
 
   days: ->
     @_days ||= @el.find('main section[role=row]')
@@ -115,7 +115,7 @@ class Timetable
       end = moment($el.closest('.timeslot').attr('data-time'))
         .add(parseInt($el.attr('data-duration'), 10) * 30, 'minutes')
       $.ajax
-        url: @url('schedules', $el.attr('data-schedule-id'))
+        url: @url('schedules', $el.attr('data-schedule-id') + '.json')
         method: 'put'
         data:
           schedule:
@@ -141,3 +141,6 @@ document.addEventListener 'turbolinks:load', ->
 
   $('[data-controller=timetables]').each ->
     new Timetable(this)
+
+  $(document).on 'dialog:loaded', '.edit-schedule', (e) ->
+    $('select', e.target).chosen(allow_single_deselect: true)
