@@ -143,4 +143,4 @@ document.addEventListener 'turbolinks:load', ->
     new Timetable(this)
 
   $(document).on 'dialog:loaded', '.edit-schedule', (e) ->
-    $('select', e.target).chosen(allow_single_deselect: true)
+    $('select', e.target).chosen(allow_single_deselect: true, search_contains: true)
