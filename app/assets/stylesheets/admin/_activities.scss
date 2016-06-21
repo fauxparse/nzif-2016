@@ -15,4 +15,12 @@
       font-weight: $light-font-weight;
     }
   }
+
+  .empty {
+    display: none;
+
+    &:last-child {
+      display: block;
+    }
+  }
 }

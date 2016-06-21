@@ -1,6 +1,6 @@
 [role="list"] {
   .empty {
-    color: $light-grey;
+    color: $secondary-color;
     text-align: center;
     padding: $base-spacing;
   }
@@ -48,7 +48,7 @@
     display: flex;
     align-items: flex-start;
 
-    &:first-of-type {
+    &:first-of-type, &.first {
       border-top: $base-border;
     }
   }

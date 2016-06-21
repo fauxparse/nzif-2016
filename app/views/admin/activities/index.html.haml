@@ -14,4 +14,5 @@
       %input{type: :search, placeholder: t('.search', type: @activity_list.type_name.downcase.pluralize)}
       %label= icon :search
       = link_to t('.add', type: @activity_list.type_name.downcase), new_admin_activity_path(festival, type: @activity_list.type), role: :button
-    = render(partial: "activity", collection: @activity_list) || render("empty")
+    = render("empty")
+    = render(partial: "activity", collection: @activity_list)
