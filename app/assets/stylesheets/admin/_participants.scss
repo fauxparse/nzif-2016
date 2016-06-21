@@ -1,0 +1,28 @@
+.participant[role="listitem"] {
+  padding: .5rem 0 .5rem 4.5rem;
+  position: relative;
+  align-items: center;
+
+  [rel="admin"],
+  [rel="verified"] {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -.75rem;
+    color: $secondary-color;
+  }
+
+  [rel="verified"] {
+    left: 2rem;
+  }
+
+  [rel="edit"] {
+    @include ellipsis;
+    flex: 1;
+  }
+
+  [role="button"] {
+    margin-left: $small-spacing;
+    padding: .25rem .5rem;
+  }
+}

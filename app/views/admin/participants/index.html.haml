@@ -13,11 +13,9 @@
       = icon :add
 
 %section
-  %table.participants
-    %thead
-      %tr
-        %th{colspan: 2}
-        %th= t('.table.name')
-        %th= t('.table.registered')
-    %tbody
-      = render(@participants) || render("empty")
+  .participants{role: :list}
+    %header
+      %input{type: :search, placeholder: t('.search')}
+      %label= icon :search
+    = render("empty")
+    = render(@participants)

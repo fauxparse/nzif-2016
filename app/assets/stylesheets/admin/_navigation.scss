@@ -17,6 +17,7 @@ body {
           padding: .5rem;
         }
 
+        a:focus,
         &[aria-selected="true"] > a {
           color: rgba(white, .85);
           &:hover { color: white; }
@@ -37,6 +38,7 @@ body {
       flex-direction: row;
       align-items: flex-start;
       color: rgba(white, .5);
+      outline: none;
 
       :not(:first-child) {
         @include ellipsis;

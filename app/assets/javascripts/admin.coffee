@@ -5,4 +5,5 @@
 #= require moment-timezone
 #= require dragula
 #= require chosen.jquery
+#= require_tree ./admin/lib
 #= require_tree ./admin

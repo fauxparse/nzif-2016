@@ -3,6 +3,11 @@
     color: $secondary-color;
     text-align: center;
     padding: $base-spacing;
+    display: none;
+
+    &:last-child {
+      display: block;
+    }
   }
 
   header {
@@ -16,7 +21,6 @@
 
     [type="search"] {
       flex: 1 0 50%;
-      margin-right: $base-spacing;
       border-color: shade($base-border-color, 25%);
       border-width: 0 0 1px;
       box-shadow: none;
@@ -37,7 +41,9 @@
       }
     }
 
-    button {
+    button,
+    [role="button"] {
+      margin-left: $base-spacing;
       flex-shrink: 0;
       white-space: nowrap;
     }

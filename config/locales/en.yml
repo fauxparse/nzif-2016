@@ -51,6 +51,7 @@ en:
         title: "Participants"
         show:
           all: "All"
+        search: "Search participants…"
         table:
           user: "Options"
           name: "Name"
