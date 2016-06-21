@@ -1,3 +1,4 @@
 .activity{role: :listitem}
-  = link_to activity.name, admin_activity_path(activity.festival, activity), rel: :edit
-  %small= activity.model_name.human
+  = link_to admin_activity_path(activity.festival, activity), rel: :edit do
+    %b= activity.name
+    %small= activity.facilitators.to_a.to_sentence

@@ -25,6 +25,6 @@ class ActivityList
   end
 
   def scope
-    festival.activities.by_type(type).alphabetically
+    festival.activities.by_type(type).alphabetically.includes(:facilitators)
   end
 end
