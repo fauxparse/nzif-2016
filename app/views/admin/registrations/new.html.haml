@@ -1,4 +1,5 @@
 - content_for :title, t('.title', festival: festival.name, participant: registration.participant)
+- content_for :navigation_button, back_button(admin_users_path)
 
 %header
   %section
@@ -6,5 +7,5 @@
     %h2= festival
 
 %section
-  = form_for :registration, url: admin_festival_participant_registration_path(festival, registration.participant), method: :post do |form|
+  = form_for :registration, url: admin_participant_registration_path(festival, registration.participant), method: :post do |form|
     = render partial: "form", object: form

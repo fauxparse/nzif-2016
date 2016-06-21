@@ -9,7 +9,7 @@ class Admin::RegistrationsController < Admin::Controller
     registration.attributes = registration_params
     if registration.save
       redirect_to \
-        admin_festival_participant_registration_path(festival, participant)
+        admin_participant_registration_path(festival, participant)
     else
       render :new
     end
@@ -21,7 +21,7 @@ class Admin::RegistrationsController < Admin::Controller
   def update
     if registration.update!(registration_params)
       redirect_to \
-        admin_festival_participant_registration_path(festival, participant)
+        admin_participant_registration_path(festival, participant)
     else
       render :edit
     end
@@ -34,7 +34,7 @@ class Admin::RegistrationsController < Admin::Controller
   end
 
   def participant
-    @participant ||= Participant.find(params[:festival_participant_id])
+    @participant ||= Participant.find(params[:participant_id])
   end
 
   def registration
