@@ -89,8 +89,14 @@ en:
         delete: "Delete this package"
         confirm_delete: "Are you sure you want to delete this package?"
       form:
+        allocations: "Package limits"
         limit: "Limit %{type} to"
         unlimited: "Unlimited %{type}"
+        prices: "Prices"
+        price: "Price"
+        deposit: "Deposit"
+        until: "until"
+        with: "with"
     activities:
       index:
         title: "Activities"

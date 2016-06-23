@@ -27,6 +27,8 @@ gem 'stringex'
 gem 'acts_as_list', github: 'swanandp/acts_as_list'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'geocoder'
+gem 'cry'
+gem 'money-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -54,6 +56,7 @@ group :development, :test do
   gem 'spring-commands-cucumber'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'rspec-collection_matchers'
+  gem 'timecop'
 end
 
 group :development do

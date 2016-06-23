@@ -143,3 +143,37 @@ form {
     }
   }
 }
+
+.money-field {
+  display: flex;
+  flex-direction: row;
+  font-weight: normal;
+  margin-bottom: $small-spacing;
+
+  span {
+    border: $base-border;
+    background: $secondary-background-color;
+    line-height: normal;
+    padding: .5rem 1rem;
+  }
+
+  span:first-of-type {
+    order: -1;
+    border-right: none;
+    @include border-left-radius($base-border-radius);
+  }
+
+  span:last-of-type:not(:first-of-type) {
+    border-left: none;
+    @include border-right-radius($base-border-radius);
+  }
+
+  input {
+    @include border-left-radius(0);
+    margin: 0;
+
+    &:not(:last-child) {
+      @include border-right-radius(0);
+    }
+  }
+}

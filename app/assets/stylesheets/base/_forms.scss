@@ -60,6 +60,10 @@ select[multiple],
   }
 }
 
+input[type="date"] {
+  padding: .375rem .5rem .3125rem;
+}
+
 textarea {
   resize: vertical;
 }

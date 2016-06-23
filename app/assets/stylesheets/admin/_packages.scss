@@ -38,6 +38,10 @@ li.package {
 
 .new-package,
 .edit-package {
+  h3 {
+    margin-top: $base-spacing;
+  }
+
   .allocation {
     label {
       display: flex;
@@ -53,5 +57,62 @@ li.package {
         margin: 0;
       }
     }
+  }
+
+  .price-with-expiry {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: $small-spacing;
+
+    > span {
+      border: $base-border;
+      border-width: 1px 0;
+      background: $secondary-background-color;
+      line-height: normal;
+      padding: .5rem 1rem;
+
+      + input,
+      + .money-field :first-child {
+        @include border-left-radius(0);
+      }
+    }
+
+    .money-field {
+      margin: 0;
+
+      input {
+        @include border-right-radius(0);
+      }
+    }
+
+    [type="number"] {
+      width: 6rem;
+    }
+
+    [type="date"] {
+      width: 12rem;
+      margin-bottom: 0;
+      @include border-right-radius(0);
+    }
+
+    button {
+      padding: .5rem;
+      background: none;
+      color: $base-font-color;
+      outline: none;
+
+      &:first-of-type {
+        margin-left: $small-spacing;
+      }
+
+      i {
+        display: block;
+      }
+    }
+  }
+
+  :not(.price-with-expiry) + .price-with-expiry [rel="delete-price"] {
+    display: none;
   }
 }

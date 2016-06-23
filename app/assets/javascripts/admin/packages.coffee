@@ -13,3 +13,10 @@ document.addEventListener 'turbolinks:load', ->
     .on 'change', '[type=checkbox]', (e) ->
       $(e.target).nextAll('[type=number]').first()
         .attr(disabled: !e.target.checked).get(0).focus()
+    .on 'click', '[rel=duplicate-price]', (e) ->
+      e.preventDefault()
+      li = $(e.target).closest('.price-with-expiry')
+      li.clone().insertAfter(li)
+    .on 'click', '[rel=delete-price]', (e) ->
+      e.preventDefault()
+      $(e.target).closest('.price-with-expiry').remove()
