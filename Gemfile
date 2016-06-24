@@ -22,6 +22,7 @@ gem 'bourbon', '>= 5.0.0.beta.5'
 gem 'neat'
 gem 'normalize-scss'
 gem 'autoprefixer-rails'
+gem 'inline_svg'
 
 gem 'stringex'
 gem 'acts_as_list', github: 'swanandp/acts_as_list'

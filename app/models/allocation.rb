@@ -18,6 +18,10 @@ class Allocation < ApplicationRecord
     maximum != 0
   end
 
+  def limited?
+    allowed? && !unlimited?
+  end
+
   def unlimited?
     maximum.blank?
   end

@@ -1,0 +1,8 @@
+%li
+  = form.radio_button :package_id, package.id
+  = form.label :"package_id_#{package.id}" do
+    = inline_svg "icons/check-circle-large"
+    .description
+      %h4= package.name
+      %p= package.description
+    %span.price= m package.price.try(:amount)
