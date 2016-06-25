@@ -24,5 +24,7 @@ module Nzif
 
     config.time_zone = 'Wellington'
     config.active_record.default_timezone = :local
+
+    config.active_record.schema_format = :sql
   end
 end
