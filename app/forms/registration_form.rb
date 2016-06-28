@@ -49,6 +49,10 @@ class RegistrationForm
       .find_or_initialize_by(participant: @participant)
   end
 
+  def account
+    @account ||= Account.new(registration)
+  end
+
   def self.permitted_attributes
     Registration::Step.parameters
   end

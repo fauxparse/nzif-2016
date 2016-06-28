@@ -65,8 +65,8 @@ $select-box-shadow-focus: $select-box-shadow, $form-focus-box-shadow;
 
 // Animations
 $base-duration: 150ms;
-$long-duration: 350ms;
-$base-timing: $ease-out-cubic;
+$long-duration: 500ms;
+$base-timing: $ease-in-out-cubic;
 
 $navigation-background-color: $dark-grey;
 $navigation-color: $light-grey;

@@ -5,7 +5,7 @@ class PackagePrice < ApplicationRecord
   monetize :deposit_cents
   before_validation :set_default_expiry
 
-  validates :package_id, :expires_at, presence: true
+  validates :package, :expires_at, presence: true
 
   validates :amount_cents,
     presence: true,

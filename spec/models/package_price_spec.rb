@@ -27,8 +27,8 @@ RSpec.shared_context 'an earlybird discount is available' do
 end
 
 RSpec.describe PackagePrice, type: :model do
-  subject(:price) { FactoryGirl.create(:package_price) }
-  let(:package) { price.package }
+  subject(:price) { package.prices.expiring_first.last }
+  let(:package) { FactoryGirl.create(:package) }
   let(:festival) { package.festival }
 
   it { is_expected.to be_valid }

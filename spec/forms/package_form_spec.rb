@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe PackageForm do
   subject(:form) { PackageForm.new(package, params) }
+  let(:festival) { FactoryGirl.create(:festival) }
   let(:params) { ActionController::Parameters.new(package: raw_params) }
   let(:valid_params) do
     {
@@ -11,7 +12,10 @@ describe PackageForm do
         shows: 2,
         social_events: nil,
         discussions: 0
-      }
+      },
+      prices: [500],
+      deposits: [250],
+      expiries: [festival.end_date.succ.strftime("%Y-%m-%d")]
     }
   end
   let(:invalid_params) { { name: "" } }
@@ -52,7 +56,7 @@ describe PackageForm do
   end
 
   context 'for an existing package' do
-    let(:package) { FactoryGirl.create(:package) }
+    let(:package) { FactoryGirl.create(:package, festival: festival) }
 
     describe '#save' do
       context 'with valid parameters' do

@@ -123,7 +123,7 @@
 
 .package-selection {
   .packages {
-    margin: 0 0 $base-spacing;
+    @include checkbox-list;
 
     li {
       border-bottom: $base-border;
@@ -132,39 +132,8 @@
         border-top: $base-border;
       }
 
-      input {
-        display: none;
-      }
-
       .description {
         flex: 1;
-        padding: 0 1rem;
-      }
-
-      svg {
-        @include size(2.5rem);
-        cursor: pointer;
-
-        circle, polyline {
-          stroke: $secondary-color;
-          transition: stroke $base-duration $base-timing;
-        }
-
-        polyline {
-          stroke-dasharray: 28;
-          stroke-dashoffset: 28;
-        }
-      }
-
-      :checked ~ label svg {
-        circle, polyline {
-          stroke: $base-font-color;
-        }
-
-        polyline {
-          stroke-dashoffset: 0;
-          transition-property: stroke, stroke-dashoffset;
-        }
       }
 
       h4 {
@@ -180,14 +149,55 @@
 
       .price {
         font-size: 1.5rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
+.payment {
+  .payment-methods,
+  .payment-amounts {
+    @include checkbox-list;
+  }
+
+  .payment-amounts {
+    p {
+      flex: 0 1 50%;
+      margin: 0;
+    }
+
+    .money {
+      font-size: 1.5rem;
+      flex: 1 0 100%;
+      padding-left: 3.5rem;
+    }
+
+    label {
+      flex-wrap: wrap;
+    }
+
+    @include media($medium-screen) {
+      .money {
+        flex: 0 0 auto;
+        padding: 0;
+        order: 1;
+      }
+
+      p {
+        flex: 0 1 auto;
       }
 
       label {
-        display: flex;
-        position: relative;
-        padding: .5rem 0;
-        font-weight: $base-font-weight;
-        align-items: center;
+        flex-wrap: nowrap;
+        flex: 0 0 auto;
+
+        &::after {
+          content: "";
+          flex: 1;
+          margin: 0 1rem;
+          border-bottom: 1px dotted $secondary-color;
+        }
       }
     }
   }

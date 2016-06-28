@@ -1,0 +1,2 @@
+class InternetBanking < PaymentMethod
+end

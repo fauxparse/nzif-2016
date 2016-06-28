@@ -64,22 +64,37 @@ describe RegistrationForm do
           expect { apply }
             .to change { form.step.id }
             .from(:package)
-            .to(:finished)
+            .to(:payment)
         end
       end
     end
 
     context 'and a package selected' do
       let(:package) { festival.packages.first }
-
-      before do
+      let(:registration) do
         festival.registrations.create(
           participant: participant,
           package: package
         )
       end
 
-      it { is_expected.to be_complete }
+      before { registration }
+
+      describe '#step' do
+        subject { form.step }
+        it { is_expected.to be_an_instance_of(Registration::Step::Payment) }
+      end
+
+      context 'and a payment made' do
+        before do
+          registration.payments.create!(
+            amount: registration.package.prices.last.amount,
+            payment_type: 'internet_banking'
+          )
+        end
+
+        it { is_expected.to be_complete }
+      end
     end
   end
 
@@ -92,6 +107,8 @@ describe RegistrationForm do
         password
         password_confirmation
         package_id
+        payment_type
+        amount
       ]
     end
 

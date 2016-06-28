@@ -11,6 +11,7 @@ Feature: Register for an event
       And I click the "Continue" button
       And I select the "Medium" package
       And I click the "Continue" button
+      And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
@@ -34,6 +35,7 @@ Feature: Register for an event
       And I click the "Continue" button
       And I select the "Medium" package
       And I click the "Continue" button
+      And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
@@ -50,6 +52,7 @@ Feature: Register for an event
       And I click the "Continue" button
       And I select the "Medium" package
       And I click the "Continue" button
+      And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
@@ -66,6 +69,7 @@ Feature: Register for an event
       And I click the "Continue" button
       And I select the "Medium" package
       And I click the "Continue" button
+      And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"

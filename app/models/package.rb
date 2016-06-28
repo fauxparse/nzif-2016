@@ -11,6 +11,7 @@ class Package < ApplicationRecord
     presence: true,
     uniqueness: { scope: :festival_id, case_sensitive: false }
   validates_associated :allocations
+  validate :at_least_one_price
 
   scope :ordered, -> { order(position: :asc) }
 
@@ -20,5 +21,12 @@ class Package < ApplicationRecord
 
   def <=>(another)
     position <=> another.position
+  end
+
+  private
+
+  def at_least_one_price
+    errors.add(:base, :no_price) \
+      unless prices.reject(&:marked_for_destruction?).any?
   end
 end

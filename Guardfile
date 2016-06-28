@@ -35,6 +35,7 @@ guard 'rails', port: 5000 do
   watch('Gemfile.lock')
   watch(%r{^config/(environments/|initializers/)?[^/]*$})
   watch(%r{^lib/.*})
+  watch('db/structure.sql')
 end
 
 # Note: The cmd option is now required due to the increasing number of ways

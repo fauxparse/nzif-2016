@@ -64,7 +64,7 @@ describe Itinerary do
   context 'trying to book for a full workshop' do
     let(:workshop) { FactoryGirl.create(:workshop, festival: festival) }
     let(:schedule) { FactoryGirl.create(:schedule, activity: workshop, maximum: 1) }
-    let(:other_registration) { FactoryGirl.create(:registration, festival: festival) }
+    let(:other_registration) { FactoryGirl.create(:registration, festival: festival, package: package) }
     before do
       Selection.create(registration: other_registration, schedule: schedule)
       registration.selections.build(schedule: schedule)

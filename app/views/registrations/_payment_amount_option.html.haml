@@ -1,0 +1,6 @@
+%li
+  = form.radio_button :amount, registration_form.account.send(option)
+  = form.label "amount_#{registration_form.account.send(option).cents}" do
+    = inline_svg "icons/check-circle-large"
+    %p= t("registrations.payment.#{option}")
+    = m(registration_form.account.send(option))

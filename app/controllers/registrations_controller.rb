@@ -4,11 +4,12 @@ class RegistrationsController < ApplicationController
   helper_method :registration_form
 
   def show
-    redirect_to registration_path(festival) unless registration.present?
+    redirect_to register_path(festival) unless registered?
   end
 
   def new
     registration_form.step = params[:step]
+    render_next_registration_step
   end
 
   def create
@@ -49,14 +50,21 @@ class RegistrationsController < ApplicationController
   helper_method :logging_in?
 
   def continue_with_registration
-    if registration_form.complete?
-      ParticipantMailer
-        .registration_email(registration_form.registration)
-        .deliver_later
+    ParticipantMailer
+      .registration_email(registration_form.registration)
+      .deliver_later if registration_form.complete?
+    render_next_registration_step
+  end
 
+  def render_next_registration_step
+    if registration_form.complete?
       redirect_to registration_path(festival)
     else
       render :new
     end
+  end
+
+  def registered?
+    registration.present? && registration_form.complete?
   end
 end

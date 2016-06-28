@@ -25,6 +25,18 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: payment_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE payment_status AS ENUM (
+    'pending',
+    'approved',
+    'failed',
+    'cancelled'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -273,6 +285,43 @@ ALTER SEQUENCE participants_id_seq OWNED BY participants.id;
 
 
 --
+-- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payments (
+    id integer NOT NULL,
+    registration_id integer,
+    status payment_status DEFAULT 'pending'::payment_status,
+    payment_type character varying,
+    amount_cents integer DEFAULT 0 NOT NULL,
+    amount_currency character varying DEFAULT 'NZD'::character varying NOT NULL,
+    reference character varying(32),
+    failure_message character varying(128),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
+
+
+--
 -- Name: registrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -504,6 +553,13 @@ ALTER TABLE ONLY participants ALTER COLUMN id SET DEFAULT nextval('participants_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY registrations ALTER COLUMN id SET DEFAULT nextval('registrations_id_seq'::regclass);
 
 
@@ -597,6 +653,14 @@ ALTER TABLE ONLY packages
 
 ALTER TABLE ONLY participants
     ADD CONSTRAINT participants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
 
 
 --
@@ -715,6 +779,34 @@ CREATE INDEX index_packages_on_festival_id ON packages USING btree (festival_id)
 --
 
 CREATE INDEX index_participants_on_user_id ON participants USING btree (user_id);
+
+
+--
+-- Name: index_payments_on_payment_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payments_on_payment_type ON payments USING btree (payment_type);
+
+
+--
+-- Name: index_payments_on_registration_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payments_on_registration_id ON payments USING btree (registration_id);
+
+
+--
+-- Name: index_payments_on_registration_id_and_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payments_on_registration_id_and_status ON payments USING btree (registration_id, status);
+
+
+--
+-- Name: index_payments_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payments_on_status ON payments USING btree (status);
 
 
 --
@@ -889,6 +981,14 @@ ALTER TABLE ONLY participants
 
 
 --
+-- Name: fk_rails_bb9133230f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payments
+    ADD CONSTRAINT fk_rails_bb9133230f FOREIGN KEY (registration_id) REFERENCES registrations(id) ON DELETE CASCADE;
+
+
+--
 -- Name: fk_rails_ce75c0542b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -918,6 +1018,6 @@ ALTER TABLE ONLY registrations
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037');
+INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819');
 
 

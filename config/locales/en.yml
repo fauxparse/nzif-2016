@@ -32,6 +32,14 @@ en:
       log_in: "Log in"
     package:
       continue: "Continue"
+    payment:
+      amount_owing: "You have %{amount} to pay."
+      how: "How would you like to proceed?"
+      total_to_pay: "Pay the full amount now."
+      deposit: "Just pay the deposit; I’ll pay the rest before the Festival starts."
+      continue: "Continue"
+      methods:
+        internet_banking: "Pay by Internet banking"
     show:
       registered: "Registered for %{year}"
     steps:
@@ -164,6 +172,14 @@ en:
     registration:
       subject: "Registered for %{festival}"
       greeting: "Hi %{name},"
+
+  activerecord:
+    errors:
+      models:
+        package:
+          attributes:
+            base:
+              no_price: "You must define at least one price for this package"
 
   activemodel:
     errors:

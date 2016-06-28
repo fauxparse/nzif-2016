@@ -3,6 +3,15 @@
     font-variant: small-caps;
     text-transform: lowercase;
     color: $secondary-color;
-    margin-right: .25rem;
+    &::before { content: " "; }
+
+    p & {
+      color: inherit;
+      text-transform: uppercase;
+      margin: 0;
+
+      &::before { content: " ("; }
+      &::after { content: ")"; }
+    }
   }
 }
