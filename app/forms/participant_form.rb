@@ -2,7 +2,8 @@ class ParticipantForm
   include ActiveModel::Validations
 
   attr_reader :participant
-  delegate :name, :email, :name=, :to_param, to: :participant
+  delegate :name, :email, :name=, :avatar, :avatar=, :to_param,
+    to: :participant
   delegate :admin, :admin=, to: :user
 
   def initialize(participant = nil, params = nil)
@@ -43,7 +44,7 @@ class ParticipantForm
   end
 
   def self.parameters
-    %i[name email admin]
+    %i[name email admin avatar]
   end
 
   private

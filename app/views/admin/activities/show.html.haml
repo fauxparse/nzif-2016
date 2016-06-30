@@ -7,3 +7,6 @@
     %h2= festival.name
   %aside
     = link_to icon(:settings), edit_admin_activity_path(festival, activity), role: :button, rel: :edit
+
+%section
+  = image_tag activity.image.url(:small) if activity.image?

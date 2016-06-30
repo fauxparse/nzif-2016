@@ -31,6 +31,9 @@ gem 'geocoder'
 gem 'cry'
 gem 'money-rails'
 
+gem 'paperclip', github: 'thoughtbot/paperclip'
+gem 'aws-sdk'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
