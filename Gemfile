@@ -16,7 +16,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
-gem 'rspec-rails', '3.5.0.beta3'
+gem 'rspec-rails', '3.5.0.beta4'
 gem 'haml-rails', '~> 0.9'
 gem 'bourbon', '>= 5.0.0.beta.5'
 gem 'neat'
@@ -58,6 +58,12 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'rspec-collection_matchers'
   gem 'timecop'
+
+  gem 'rspec', '= 3.5.0.beta4'
+  gem 'rspec-core', '= 3.5.0.beta4'
+  gem 'rspec-expectations', '= 3.5.0.beta4'
+  gem 'rspec-mocks', '= 3.5.0.beta4'
+  gem 'rspec-support', '= 3.5.0.beta4'
 end
 
 group :development do
@@ -68,7 +74,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'guard'
-  gem 'guard-rspec'
+  gem 'guard-rspec', '>= 4.7.2'
   gem 'guard-cucumber'
   gem 'guard-rails', require: false
   gem 'letter_opener'
