@@ -3,6 +3,12 @@ class Participant < ApplicationRecord
   has_many :registrations, dependent: :destroy
   has_many :facilitators, dependent: :destroy
 
+  has_attached_file :avatar, styles: {
+    small:  ['64x64#',   :jpg],
+    medium: ['128x128#', :jpg],
+    large:  ['256x256#', :jpg]
+  }
+
   validates :name, presence: true
   validates :email,
     presence: true,
@@ -11,6 +17,7 @@ class Participant < ApplicationRecord
   validates :email,
     format: { with: Devise.email_regexp },
     if: :has_own_non_blank_email?
+  validates_attachment_content_type :avatar, :content_type => %w(image/jpeg image/jpg image/png)
 
   def email
     [user.try(:email), super].reject(&:blank?).first
