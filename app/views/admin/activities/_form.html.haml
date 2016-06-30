@@ -9,7 +9,14 @@
 .field
   = form.label :description do
     = form.label_text :description
-    %small
-      = link_to "Formatting help", "https://daringfireball.net/projects/markdown/syntax", target: :_blank
+    %small= link_to "Formatting help", "https://daringfireball.net/projects/markdown/syntax", target: :_blank
   = form.text_area :description, rows: 10
   = form.error_messages_for :description
+.field
+  = form.label :image do
+    = form.label_text :image
+    %small= t('.best_image_size')
+  = image_tag form.object.image.url(:small) if form.object.image.present?
+  = form.file_field :image
+  = form.error_messages_for :image
+

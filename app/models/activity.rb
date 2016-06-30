@@ -5,9 +5,16 @@ class Activity < ApplicationRecord
 
   acts_as_url :name, url_attribute: :slug, sync_url: true, scope: :festival_id
 
+  has_attached_file :image, styles: {
+    small:  ['320x180#',  :jpg],
+    medium: ['640x360#',  :jpg],
+    large:  ['1280x720#', :jpg]
+  }
+
   validates :name,
     presence: true,
     uniqueness: { scope: [:festival_id, :type], case_sensitive: false }
+  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/jpg image/png)
 
   scope :alphabetically, -> { order(name: :asc) }
 

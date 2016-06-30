@@ -118,6 +118,7 @@ en:
         submit: "Save changes"
       form:
         select_facilitators: "Select facilitators…"
+        best_image_size: "1280×720"
     timetables:
       index:
         title: "Timetable"
