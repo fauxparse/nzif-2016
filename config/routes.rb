@@ -35,9 +35,11 @@ Rails.application.routes.draw do
         put "reorder/:position" => "venues#reorder", on: :member
       end
 
+      get "/" => "dashboards#show"
     end
 
     resources :participants, as: :users
+    get "/" => "dashboards#show"
   end
 
   root to: "festivals#index"
