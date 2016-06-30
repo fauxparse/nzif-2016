@@ -58,6 +58,8 @@ class Timetable
       duration = parseInt($el.data('duration'), 10) * 30
       end = start.clone().add(duration, 'minutes')
       options =
+        dataType: 'json'
+        contentType: 'application/json'
         data:
           schedule:
             activity_id: $el.data('id')
@@ -65,11 +67,12 @@ class Timetable
             ends_at: end.toISOString()
             position: $el.prevAll().length
       if $source.is('.timeslot')
-        options.url = @url('schedules', $el.data('schedule-id') + '.json')
+        options.url = @url('schedules', $el.data('schedule-id'))
         options.method = 'put'
       else
         options.url = @url('schedules')
         options.method = 'post'
+      options.data = JSON.stringify(options.data)
       $.ajax(options)
         .done (data) =>
           $el
