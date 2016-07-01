@@ -17,3 +17,7 @@ end
 Then(/^I should be redirected to the (\d{4}) festival page$/) do |year|
   expect(page.current_path).to eq "/#{year}"
 end
+
+Then(/^I should be on the festival homepage$/) do
+  expect(page.current_path).to eq festival_path(@festival)
+end

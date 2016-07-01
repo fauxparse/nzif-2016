@@ -27,8 +27,8 @@ Feature: Register for an event
       And I should see "Email can't be blank"
 
   Scenario: Registration with existing participant
-    Given I am an existing participant who has never logged in
-      And there is a 2016 festival
+    Given there is a 2016 festival
+      And I am an existing participant who has never logged in
       And I am on the festival homepage
      When I click the registration link
       And I enter my registration details
@@ -60,9 +60,9 @@ Feature: Register for an event
       And there should be only one participant with my details
 
   Scenario: Registration with existing user without a participant
-    Given I am an existing user without a participant
+    Given there is a 2016 festival
+      And I am an existing user without a participant
       And I am logged in
-      And there is a 2016 festival
       And I am on the festival homepage
      When I click the registration link
       And I enter my name

@@ -7,7 +7,7 @@
           = avatar(participant)
         %ul
           - if current_user.admin?
-            = menu_link(t('header.links.festival_admin'), admin_festival_path, :settings)
+            = menu_link(t('header.links.festival_admin'), admin_festival_path(festival), :settings)
           = menu_link(t('header.authentication.log_out'), logout_path, :exit_to_app, method: :delete)
     - else
       = link_to t('header.authentication.log_in'), login_path
