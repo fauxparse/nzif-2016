@@ -1,6 +1,7 @@
 %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
 %title= content_for(:title) || "NZIF"
 = csrf_meta_tags
+%meta{name: "viewport", content: "width=device-width"}
 = stylesheet_link_tag 'https://fonts.googleapis.com/icon?family=Material+Icons'
 = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900'
 = yield :head

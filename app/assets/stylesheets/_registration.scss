@@ -202,3 +202,40 @@
     }
   }
 }
+
+.registration-checklist {
+  li {
+    margin-bottom: $small-spacing;
+  }
+
+  a {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    color: $base-font-color;
+  }
+
+  svg {
+    @include size(2.5rem);
+    margin-right: 1rem;
+    circle { stroke: $base-font-color; }
+    polyline { display: none; }
+  }
+
+  [data-done] {
+    a {
+      color: $secondary-color;
+    }
+
+    svg {
+      circle, polyline { stroke: $secondary-color; }
+    }
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: $base-font-weight;
+    margin: .5rem 0;
+  }
+}

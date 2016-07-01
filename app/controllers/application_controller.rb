@@ -26,4 +26,8 @@ class ApplicationController < ActionController::Base
       current_user.participants.build
     )
   end
+
+  def registration
+    @registration ||= festival.registrations.find_by!(participant: participant)
+  end
 end

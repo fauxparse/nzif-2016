@@ -1,0 +1,31 @@
+%table.account-summary
+  %tbody
+    %tr
+      %td= l(account.opened_on, format: :account)
+      %td= t('account.package', package: account.package.name)
+      %td
+      %td= m account.full_package_price.amount
+    - if account.earlybird_discount?
+      %tr.discount
+        %td
+        %td= t('account.earlybird_discount')
+        %td
+        %td= m account.earlybird_discount
+    %tr.subtotal
+      %td
+      %td= t('account.total')
+      %td
+      %td= m account.total
+    = render partial: 'payment', collection: account.approved_payments
+    %tr.subtotal
+      %td
+      %td= t('account.total_paid')
+      %td= m account.total_paid
+      %td
+    - if account.pending_payments.any?
+      = render partial: 'payment', collection: account.pending_payments
+    %tr.total
+      %td
+      %td= t('account.balance')
+      %td
+      %td= m account.total_to_pay

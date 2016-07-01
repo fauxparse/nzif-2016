@@ -1,3 +1,26 @@
+@mixin svg-checkbox {
+  circle, polyline {
+    stroke: $secondary-color;
+    transition: stroke $base-duration $base-timing;
+  }
+
+  polyline {
+    stroke-dasharray: 28;
+    stroke-dashoffset: 28;
+  }
+}
+
+@mixin svg-checkbox-checked {
+  circle, polyline {
+    stroke: $base-font-color;
+  }
+
+  polyline {
+    stroke-dashoffset: 0;
+    transition: stroke $base-duration $base-timing, stroke-dashoffset $long-duration $ease-out-cubic;
+  }
+}
+
 @mixin checkbox-list {
   margin: 0 0 $base-spacing;
 
@@ -16,30 +39,14 @@
     }
 
     svg {
+      @include svg-checkbox;
       flex: 0 0 2.5rem;
       cursor: pointer;
       margin-right: 1rem;
-
-      circle, polyline {
-        stroke: $secondary-color;
-        transition: stroke $base-duration $base-timing;
-      }
-
-      polyline {
-        stroke-dasharray: 28;
-        stroke-dashoffset: 28;
-      }
     }
 
     :checked ~ label svg {
-      circle, polyline {
-        stroke: $base-font-color;
-      }
-
-      polyline {
-        stroke-dashoffset: 0;
-        transition: stroke $base-duration $base-timing, stroke-dashoffset $long-duration $ease-out-cubic;
-      }
+      @include svg-checkbox-checked;
     }
   }
 }

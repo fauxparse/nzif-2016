@@ -1,0 +1,8 @@
+%header
+  .inner
+    %h1= t('.title', festival: festival)
+
+%section.account
+  .inner
+    = render account
+    %p= link_to t('account.pay_outstanding'), new_account_payment_path, role: :button, rel: "pay-now" unless account.paid_in_full?

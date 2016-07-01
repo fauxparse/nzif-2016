@@ -1,1 +1,7 @@
-%h1= t('.registered', year: festival.year)
+%header
+  .inner
+    %h1= t('.registered', year: festival.year)
+
+%section
+  .inner
+    = render @checklist

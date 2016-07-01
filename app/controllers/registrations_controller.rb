@@ -5,6 +5,8 @@ class RegistrationsController < ApplicationController
 
   def show
     redirect_to register_path(festival) unless registered?
+
+    @checklist = RegistrationChecklist.new(registration)
   end
 
   def new
@@ -31,10 +33,6 @@ class RegistrationsController < ApplicationController
   end
 
   private
-
-  def registration
-    @registration ||= festival.registrations.find_by!(participant: participant)
-  end
 
   def registration_form
     @registration_form ||= RegistrationForm.new(festival, participant)

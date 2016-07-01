@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     post "/register" => "registrations#create"
     resource :registration, only: %i[show update]
     resource :itinerary
+    resource :account do
+      resources :payments
+    end
     get "/" => "festivals#show", as: :festival
   end
 

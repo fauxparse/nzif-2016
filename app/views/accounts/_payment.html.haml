@@ -1,0 +1,7 @@
+%tr.payment
+  %td= l(payment.created_at.to_date, format: :account)
+  %td
+    = t('account.payment', payment_method: payment.payment_method.model_name.human)
+    = content_tag(:b, t('account.payment_pending')) if payment.pending?
+  %td= m payment.amount 
+  %td

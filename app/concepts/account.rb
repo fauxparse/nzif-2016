@@ -1,5 +1,6 @@
 class Account
   attr_reader :registration
+  delegate :package, to: :registration
 
   def initialize(registration, as_at = Time.now)
     @registration = registration
@@ -15,16 +16,39 @@ class Account
   end
 
   def total_paid
-    approved_payments.sum(&:amount)
+    Money.new(approved_payments.sum(&:amount))
+  end
+
+  def total_pending
+    Money.new(pending_payments.sum(&:amount))
   end
 
   def total_to_pay
     total - total_paid
   end
 
+  def paid_in_full?
+    total_to_pay <= 0
+  end
+
   def total_pending_or_approved
-    payments.select { |payment| payment.pending? || payment.approved? }
-      .sum(&:amount)
+    total_paid + total_pending
+  end
+
+  def applicable_package_price
+    price_when_deposit_paid || price_with_next_expiry || full_package_price
+  end
+
+  def full_package_price
+    prices.last
+  end
+
+  def earlybird_discount
+    full_package_price.amount - applicable_package_price.amount
+  end
+
+  def earlybird_discount?
+    earlybird_discount > 0
   end
 
   def payments
@@ -35,14 +59,22 @@ class Account
     payments.select(&:approved?)
   end
 
+  def pending_payments
+    payments.select(&:pending?)
+  end
+
+  def opened_on
+    registration.created_at.to_date
+  end
+
+  def to_partial_path
+    "account"
+  end
+
   private
 
   def prices
-    @prices ||= registration.package.prices.expiring_first
-  end
-
-  def applicable_package_price
-    price_when_deposit_paid || price_with_next_expiry || prices.last
+    @prices ||= package.prices.expiring_first
   end
 
   def price_when_deposit_paid

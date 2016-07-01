@@ -46,6 +46,22 @@ en:
       details: "Your details"
       package: "Select a package"
       payment: "Payment"
+    checklist:
+      complete_payment: "Complete payment"
+
+  accounts:
+    show:
+      title: "Your %{festival} account"
+
+  account:
+    package: "Package: %{package}"
+    earlybird_discount: "Earlybird discount"
+    total: "Total due"
+    payment: "%{payment_method} payment"
+    payment_pending: "(awaiting processing)"
+    total_pending: "Payments awaiting processing"
+    balance: "Total outstanding"
+    pay_outstanding: "Pay outstanding amount"
 
   admin:
     festivals:
@@ -165,6 +181,7 @@ en:
       range_years_end: " – %d %B, %Y"
       weekday: "%A"
       full: "%A, %e %B"
+      account: "%e %b %Y"
   time:
     formats:
       short: "%I:%M"

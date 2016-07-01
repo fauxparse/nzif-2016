@@ -1,0 +1,66 @@
+.account-summary {
+  font-size: $small-font-size;
+
+  td {
+    vertical-align: top;
+    border: none;
+
+    b {
+      display: block;
+      color: $red;
+      font-weight: $base-font-weight;
+      font-size: $small-font-size;
+    }
+
+    &:first-child, abbr {
+      display: none;
+    }
+  }
+
+  tr {
+    > :not(:nth-child(2)) {
+      text-align: right;
+    }
+
+    > :first-child {
+      text-align: left;
+      color: $secondary-color;
+      font-weight: $light-font-weight;
+      font-size: $small-font-size;
+      padding: .9375rem 0 .75rem;
+    }
+
+    > :not(:first-child) {
+      border-top: $base-border;
+    }
+
+    &.subtotal td:not(:first-child),
+    &.total td:not(:first-child) {
+      border-top: 1px solid $secondary-color;
+      border-bottom: 1px solid $secondary-color;
+      font-weight: $bold-font-weight;
+    }
+  }
+
+  @include media($medium-screen) {
+    font-size: $base-font-size;
+
+    tr {
+      > :first-child {
+        display: table-cell;
+      }
+
+      abbr {
+        display: inline;
+      }
+
+      > :not(:nth-child(2)) {
+        width: 8rem;
+      }
+    }
+  }
+}
+
+.account p {
+  text-align: right;
+}
