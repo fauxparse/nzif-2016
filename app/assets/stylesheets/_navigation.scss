@@ -1,8 +1,25 @@
+@mixin main-menu-item {
+  display: block;
+  padding: 1rem;
+  line-height: 1.5rem;
+  color: $light-grey;
+  text-shadow: 0 1px 0 $dark-grey;
+  -webkit-font-smoothing: antialiased;
+
+  &:hover,
+  &:focus,
+  &.user-menu-enabled {
+    color: white;
+    background-color: $medium-grey;
+  }
+}
+
 body > nav {
+  position: relative;
+  z-index: 100;
   background: $navigation-background-color;
   color: $navigation-color;
   padding: 0 1rem;
-  -webkit-font-smoothing: antialiased;
 
   @include media($medium-screen) {
     padding: 0 2rem;
@@ -19,15 +36,65 @@ body > nav {
   }
 
   a {
+    @include main-menu-item;
     margin: 0 -1rem;
-    padding: 1rem;
-    line-height: 1.5rem;
-    color: $light-grey;
-    text-shadow: 0 1px 0 $dark-grey;
+  }
+}
 
-    &:hover {
-      color: white;
-      background-color: $medium-grey;
+.user-menu-target {
+  display: flex;
+  padding: 0;
+  align-items: center;
+
+  &::before {
+    content: "";
+    @include size(2.5rem);
+    background: white;
+    border-radius: 50%;
+    margin: .5rem 1rem .5rem .5rem;
+  }
+
+  &::after {
+    padding: 0 .5rem;
+    font-family: "Material Icons";
+    content: "arrow_drop_down";
+    font-size: 1.5rem;
+  }
+}
+
+.user-menu-element {
+  opacity: 0;
+  transition: opacity $base-duration $base-timing;
+
+  &.user-menu-open-transitionend {
+    display: block;
+  }
+
+  &.user-menu-after-open {
+    opacity: 1;
+
+    > .user-menu-content {
+      transform: translateY(0%);
+      transition: transform $base-duration $ease-out-back;
     }
+  }
+
+  &.user-menu-open { display: none; }
+  &.user-menu-open-transitionend { display: block; }
+}
+
+.user-menu-content {
+  z-index: 99;
+  background: $dark-grey;
+  box-shadow: 0 .125rem 1rem rgba(0, 0, 0, .25);
+  font-family: inherit;
+  min-width: 12rem;
+  transform: translateY(-100%);
+  transition: transform $base-duration $ease-in-back;
+  margin-top: -2rem;
+  padding-top: 2rem;
+
+  a {
+    @include main-menu-item;
   }
 }

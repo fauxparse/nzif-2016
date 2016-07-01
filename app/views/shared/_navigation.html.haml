@@ -2,6 +2,10 @@
   .inner
     = homepage_link
     - if signed_in?
-      = link_to t('header.authentication.log_out'), logout_path, method: :delete
+      .user-menu
+        = link_to registration_path, class: "user-menu-target" do
+          %span= participant.name
+        %ul
+          %li= link_to t('header.authentication.log_out'), logout_path, method: :delete
     - else
       = link_to t('header.authentication.log_in'), login_path

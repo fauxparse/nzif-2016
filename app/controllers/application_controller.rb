@@ -27,6 +27,8 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  helper_method :participant
+
   def registration
     @registration ||= festival.registrations.find_by!(participant: participant)
   end
