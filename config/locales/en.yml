@@ -9,6 +9,8 @@ en:
     authentication:
       log_in: "Log in"
       log_out: "Log out"
+    links:
+      festival_admin: "Festival admin"
 
   festivals:
     index:

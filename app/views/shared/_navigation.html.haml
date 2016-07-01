@@ -4,8 +4,10 @@
     - if signed_in?
       .user-menu
         = link_to registration_path, class: "user-menu-target" do
-          %span= participant.name
+          = avatar(participant)
         %ul
-          %li= link_to t('header.authentication.log_out'), logout_path, method: :delete
+          - if current_user.admin?
+            = menu_link(t('header.links.festival_admin'), admin_festival_path, :settings)
+          = menu_link(t('header.authentication.log_out'), logout_path, :exit_to_app, method: :delete)
     - else
       = link_to t('header.authentication.log_in'), login_path

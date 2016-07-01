@@ -7,4 +7,14 @@ module NavigationHelper
     end
     link_to name, path, class: "homepage-link"
   end
+
+  def menu_link(text, path, icon, options = {})
+    content_tag(:li) do
+      link = link_to(path, options) do
+        concat icon(icon) unless icon.blank?
+        concat content_tag(:span, text)
+      end
+      concat link
+    end
+  end
 end
