@@ -11,6 +11,8 @@ en:
       log_out: "Log out"
     links:
       festival_admin: "Festival admin"
+      registration: "%{festival} registration"
+      register: "Register for %{festival}"
 
   festivals:
     index:

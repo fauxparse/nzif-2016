@@ -4,9 +4,12 @@ class RegistrationsController < ApplicationController
   helper_method :registration_form
 
   def show
-    redirect_to register_path(festival) unless registered?
-
     @checklist = RegistrationChecklist.new(registration)
+
+    respond_to do |format|
+      format.html { redirect_to register_path(festival) unless registered?  }
+      format.json { render json: @checklist }
+    end
   end
 
   def new

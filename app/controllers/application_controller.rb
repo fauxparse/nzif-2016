@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :festival
+  helper_method :festival, :registration
 
   private
 
@@ -30,6 +30,6 @@ class ApplicationController < ActionController::Base
   helper_method :participant
 
   def registration
-    @registration ||= festival.registrations.find_by!(participant: participant)
+    @registration ||= festival.registrations.find_by(participant: participant)
   end
 end

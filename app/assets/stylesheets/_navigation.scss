@@ -3,7 +3,6 @@
   padding: 1rem;
   line-height: 1.5rem;
   color: $light-grey;
-  text-shadow: 0 1px 0 $dark-grey;
   -webkit-font-smoothing: antialiased;
 
   &:hover,
@@ -104,6 +103,17 @@ body > nav {
 
     span {
       flex: 1;
+      margin-left: 1rem;
+    }
+
+    abbr {
+      @include size(1.5rem);
+      line-height: 1.5rem;
+      font-size: $small-font-size;
+      background: $accent-color;
+      color: white;
+      text-align: center;
+      border-radius: 50%;
       margin-left: 1rem;
     }
   }
