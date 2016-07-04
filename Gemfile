@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.0.0.rc2', '< 5.1'
+gem 'rails', '>= 5.0.0', '< 5.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -55,7 +55,7 @@ gem 'figaro'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', :require => false, github: 'olleolleolle/cucumber-rails', branch: 'feature/rails-5-railtie'
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'
   gem 'factory_girl_rails', '~> 4.0'
