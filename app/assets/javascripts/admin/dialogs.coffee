@@ -6,7 +6,12 @@ class Dialog
   load: (url, className) ->
     @_className = className
     @contents().load url, =>
-      @contents().trigger('dialog:loaded').parent().addClass('in')
+      @contents().trigger('dialog:loaded').parent()
+        .addClass('in')
+        .transitionEnd =>
+          @contents()
+            .trigger('dialog:shown')
+            .find(':input:visible').first().focus().select()
 
   contents: ->
     @_el ||= $('<div>', class: "dialog #{@_className}")
@@ -17,6 +22,7 @@ class Dialog
   close: =>
     @_el.parent()
       .transitionEnd =>
+        @contents().trigger('dialog:hidden')
         @_el.parent().remove()
       .removeClass('in')
 

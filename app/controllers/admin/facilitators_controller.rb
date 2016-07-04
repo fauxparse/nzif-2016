@@ -2,7 +2,7 @@ class Admin::FacilitatorsController < Admin::Controller
   wrap_parameters :participant, include: ParticipantForm.parameters
 
   def new
-    @facilitator = ParticipantForm.new
+    @facilitator = ParticipantForm.new(nil, params)
     render layout: false
   end
 

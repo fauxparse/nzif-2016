@@ -50,7 +50,7 @@ class ParticipantForm
   private
 
   def sanitize(params)
-    return {} if params.blank?
+    return {} if params.blank? || params[:participant].blank?
     params.require(:participant)
       .permit(*self.class.parameters)
   end
