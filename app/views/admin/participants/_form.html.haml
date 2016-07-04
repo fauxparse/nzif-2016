@@ -11,6 +11,10 @@
     = form.check_box :admin, disabled: form.object.user == current_user
     Administrator?
 .field
+  = form.label :bio
+  = form.text_area :bio, rows: 5
+  = form.error_messages_for :bio
+.field
   = form.label :avatar
   = image_tag form.object.avatar.url(:medium) if form.object.avatar.present?
   = form.file_field :avatar

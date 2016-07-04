@@ -3,6 +3,27 @@ form {
     margin-top: $base-spacing;
     padding: $small-spacing 0;
   }
+
+  .split {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > :not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    > a {
+      margin-bottom: $small-spacing;
+      margin-left: -.5rem;
+      padding: .25rem .5rem;
+
+      i {
+        display: block;
+        width: 1.5rem;
+      }
+    }
+  }
 }
 
 #{$all-buttons},

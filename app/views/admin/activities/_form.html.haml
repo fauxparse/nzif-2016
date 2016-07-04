@@ -4,7 +4,10 @@
   = form.error_messages_for :name
 .field
   = form.label :facilitator_ids
-  = form.select :facilitator_ids, Participant.by_name.all.map { |p| [p.name, p.id] }, {}, multiple: true, data: { placeholder: t('.select_facilitators') }
+  .split
+    = form.select :facilitator_ids, Participant.by_name.all.map { |p| [p.name, p.id] }, {}, multiple: true, data: { placeholder: t('.select_facilitators') }
+    = link_to new_admin_facilitator_path, data: { dialog: 'new-facilitator' } do
+      = icon(:person_add)
   = form.error_messages_for :facilitator_ids
 .field
   = form.label :description do

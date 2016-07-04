@@ -7,7 +7,7 @@
     %h2= festival.name
 
 %section
-  = form_for activity_form, as: :activity, url: admin_activity_path(festival, activity) do |form|
+  = form_for activity_form, as: :activity, url: admin_activity_path(festival, activity), html: { class: "activity-form" } do |form|
     = render partial: "form", object: form
 
     %footer

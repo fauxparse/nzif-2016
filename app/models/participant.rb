@@ -12,10 +12,10 @@ class Participant < ApplicationRecord
   validates :name, presence: true
   validates :email,
     presence: true,
-    uniqueness: { case_sensitive: false },
-    unless: :user?
+    unless: :user_email_present?
   validates :email,
     format: { with: Devise.email_regexp },
+    uniqueness: { case_sensitive: false },
     if: :has_own_non_blank_email?
   validates_attachment_content_type :avatar, :content_type => %w(image/jpeg image/jpg image/png)
 
@@ -31,6 +31,10 @@ class Participant < ApplicationRecord
     name
   end
 
+  def <=>(another)
+    name <=> another.name
+  end
+
   def self.with_user
     includes(:user)
   end
@@ -43,5 +47,9 @@ class Participant < ApplicationRecord
 
   def has_own_non_blank_email?
     !read_attribute(:email).blank?
+  end
+
+  def user_email_present?
+    user? && !user.email.blank?
   end
 end

@@ -23,12 +23,14 @@ class Dialog
 $(document)
   .on 'click', '[data-dialog]', (e) ->
     e.preventDefault()
-    new Dialog(e.target)
+    new Dialog($(e.target).closest('[data-dialog]'))
   .on 'click', '.dialog [rel=close]', (e) ->
     e.preventDefault()
     $(e.target).closest('.dialog').data('dialog').close()
   .on 'ajax:success', '.dialog form', (e, data, status, xhr) ->
-    $(e.target).closest('.dialog').data('dialog').close()
+    dialog = $(e.target).closest('.dialog')
+    dialog.data('dialog').close()
+    dialog.trigger('dialog:success', data)
   .on 'ajax:error', '.dialog form', (e, xhr, status, error) ->
     dialog = $(e.target).closest('.dialog')
     dialog.empty().append($(xhr.responseText).filter('form'))

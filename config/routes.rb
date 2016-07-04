@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         put "reorder/:position" => "packages#reorder", on: :member
       end
       resources :activities
+      resources :facilitators
       resource :timetable do
         resources :schedules, only: [:create, :edit, :update, :destroy]
       end

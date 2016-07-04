@@ -96,6 +96,10 @@ en:
         register: "Register now"
       empty:
         empty: "No participants to show here"
+    facilitators:
+      new:
+        title: "New facilitator"
+        submit: "Create facilitator"
     registrations:
       show:
         title: "%{festival} registration for %{participant}"

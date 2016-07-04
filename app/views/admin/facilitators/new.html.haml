@@ -1,0 +1,8 @@
+= form_for @facilitator, url: admin_facilitators_path, remote: true, html: { id: :form } do |form|
+  %header
+    %h2= t('.title')
+    %a{href: "#", rel: :close}= icon(:close)
+  %section
+    = render partial: "admin/participants/form", as: "form", object: form
+  %footer
+    = form.submit t('.submit')

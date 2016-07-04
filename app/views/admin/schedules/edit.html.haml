@@ -3,7 +3,7 @@
     %h2
       = schedule.name
       %small= schedule.activity.facilitators.to_a.to_sentence
-    %button{rel: :close}= icon(:close)
+    %a{href: "#", rel: :close}= icon(:close)
   %section
     .field
       = form.label :venue_id

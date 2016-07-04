@@ -6,7 +6,7 @@ class Admin::SchedulesController < ApplicationController
   end
 
   def edit
-    render :edit, layout: false
+    render_schedule
   end
 
   def update
@@ -41,7 +41,7 @@ class Admin::SchedulesController < ApplicationController
 
   def render_schedule(status = :ok)
     respond_to do |format|
-      format.html { render :edit, status: status }
+      format.html { render :edit, layout: false, status: status }
       format.json do
         render json: @schedule,
          url: edit_admin_timetable_schedule_path(id: @schedule),
