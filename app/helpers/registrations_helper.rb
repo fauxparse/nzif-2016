@@ -7,6 +7,18 @@ module RegistrationsHelper
     end
   end
 
+  def registration_checklist_item(name, label, path, &block)
+    content_tag :li, data: { done: @checklist.send(:"#{name}?") || nil } do
+      link_to(path) {
+        concat inline_svg('icons/check-circle-large')
+        concat(content_tag(:div) {
+          concat content_tag(:h4, label)
+          yield if block_given?
+        })
+      }
+    end
+  end
+
   private
 
   def step_state(step, current_step)

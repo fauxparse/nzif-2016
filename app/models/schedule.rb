@@ -13,6 +13,8 @@ class Schedule < ApplicationRecord
     uniqueness: { scope: [:starts_at, :ends_at] },
     if: :venue_id?
 
+  scope :in_order, -> { order(:starts_at, :position) }
+
   def timeslot
     (starts_at...ends_at)
   end
@@ -29,7 +31,19 @@ class Schedule < ApplicationRecord
     limited? && selections_count >= maximum
   end
 
+  def <=>(another)
+    if starts_at == another.starts_at
+      position <=> another.position
+    else
+      starts_at <=> another.starts_at
+    end
+  end
+
   delegate :name, to: :activity
+
+  def self.with_activity_details
+    includes(:activity => { :facilitators => :participant })
+  end
 
   private
 

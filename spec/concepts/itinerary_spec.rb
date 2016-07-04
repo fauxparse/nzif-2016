@@ -43,6 +43,12 @@ describe Itinerary do
     it { is_expected.to be_valid }
   end
 
+  context 'with full complement of selections' do
+    let(:selections) { { Workshop => 3, Show => 3, SocialEvent => 3 } }
+    it { is_expected.to be_valid }
+    it { is_expected.to be_complete }
+  end
+
   context 'with an unreasonable number of selections' do
     let(:selections) do
       { Workshop => 5, Show => 1, SocialEvent => 3, Discussion => 1 }

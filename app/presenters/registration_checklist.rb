@@ -3,13 +3,17 @@ class RegistrationChecklist
     @registration = registration
   end
 
-  STEPS = %i[paid_in_full].freeze
+  STEPS = %i[paid_in_full itinerary_complete].freeze
 
   def to_partial_path
     "checklist"
   end
 
   delegate :paid_in_full?, to: :account
+
+  def itinerary_complete?
+    itinerary.complete?
+  end
 
   def as_json(options = {})
     return {} unless registration.present?
@@ -25,5 +29,9 @@ class RegistrationChecklist
 
   def account
     @account ||= Account.new(registration)
+  end
+
+  def itinerary
+    @itinerary ||= Itinerary.new(registration)
   end
 end

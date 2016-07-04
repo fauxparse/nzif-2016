@@ -1,17 +1,32 @@
 class Itinerary
   include ActiveModel::Validations
+
+  alias :read_attribute_for_serialization :send
+
   validate :check_package_limits
   validate :check_activity_limits
 
   attr_reader :registration
-  delegate :package, to: :registration
+  delegate :id, :package, to: :registration
 
   def initialize(registration)
     @registration = registration
   end
 
+  def schedules
+    Schedule.with_activity_details.find(selections.map(&:schedule_id))
+  end
+
   def selected?(schedule)
-    selections.any? { |selection| selection.schedule_id == schedule.id }
+    schedules.include?(schedule)
+  end
+
+  def complete?
+    selected = selections_by_activity_type
+    package.allocations.all? do |allocation|
+      allocation.unlimited? ||
+      selected[allocation.activity_type].size == allocation.maximum
+    end
   end
 
   def to_model
@@ -24,8 +39,16 @@ class Itinerary
     registration.selections
   end
 
+  def empty_selections
+    package.allocations.each.with_object({}) do |allocation, hash|
+      hash[allocation.activity_type] = []
+    end
+  end
+
   def selections_by_activity_type
-    selections.group_by { |selection| selection.schedule.activity.class }
+    empty_selections.merge(
+      selections.group_by { |selection| selection.schedule.activity.class }
+    )
   end
 
   def package_allocation(type)

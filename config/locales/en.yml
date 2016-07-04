@@ -52,6 +52,7 @@ en:
       payment: "Payment"
     checklist:
       complete_payment: "Complete payment"
+      complete_itinerary: "Select your activities"
 
   accounts:
     show:

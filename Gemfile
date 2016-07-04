@@ -67,6 +67,7 @@ group :development, :test do
   gem 'rspec-expectations', '= 3.5.0.beta4'
   gem 'rspec-mocks', '= 3.5.0.beta4'
   gem 'rspec-support', '= 3.5.0.beta4'
+  gem 'pry-rails'
 end
 
 group :development do
@@ -81,7 +82,6 @@ group :development do
   gem 'guard-cucumber'
   gem 'guard-rails', require: false
   gem 'letter_opener'
-  gem 'pry-rails'
 end
 
 group :test do
