@@ -68,6 +68,10 @@ en:
     balance: "Total outstanding"
     pay_outstanding: "Pay outstanding amount"
 
+  itineraries:
+    edit:
+      title: "Select your activities"
+
   admin:
     festivals:
       show:

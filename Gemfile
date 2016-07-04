@@ -23,6 +23,7 @@ gem 'neat'
 gem 'normalize-scss'
 gem 'autoprefixer-rails'
 gem 'inline_svg'
+gem 'mithril_rails', github: 'fauxparse/mithril-rails'
 
 gem 'stringex'
 gem 'acts_as_list', github: 'swanandp/acts_as_list'

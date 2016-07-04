@@ -5,6 +5,9 @@
 #= require moment-timezone
 #= require tether
 #= require drop
+#= require mithril
+#= require mithril_ujs
 #= require_tree ./lib
 
 #= require user_menu
+#= require itinerary
