@@ -13,6 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 /coverage
+/db/backups
 
 # Ignore application configuration
 /config/application.yml
