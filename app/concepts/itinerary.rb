@@ -33,6 +33,10 @@ class Itinerary
     registration
   end
 
+  def allocations
+    package.allocations.select(&:limited?).sort
+  end
+
   private
 
   def selections

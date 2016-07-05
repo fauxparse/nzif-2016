@@ -1,27 +1,35 @@
+@mixin full-width-section {
+  padding: 0 1rem;
+
+  @include media($medium-screen) {
+    padding: 0 2rem;
+  }
+
+  > .inner {
+    @include outer-container;
+    padding: 1rem 0;
+  }
+}
+
+@mixin full-width-header {
+  @include full-width-section;
+  background-color: $header-background-color;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+}
+
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
 
-  > header,
   > section,
   > form > section {
-    padding: 0 1rem;
-
-    @include media($medium-screen) {
-      padding: 0 2rem;
-    }
-
-    > .inner {
-      @include outer-container;
-      padding: 1rem 0;
-    }
+    @include full-width-section;
   }
 
   > header {
-    background-color: $header-background-color;
-    color: white;
-    -webkit-font-smoothing: antialiased;
+    @include full-width-header;
 
     h1 {
       margin: 0;

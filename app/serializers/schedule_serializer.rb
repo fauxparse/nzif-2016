@@ -1,5 +1,6 @@
 class ScheduleSerializer < ActiveModel::Serializer
-  attributes :id, :type, :name, :starts_at, :ends_at, :full, :facilitators
+  attributes :id, :type, :name, :starts_at, :ends_at, :full, :facilitators,
+    :image
   attribute :url, if: :include_url?
 
   def include_url?
@@ -29,6 +30,14 @@ class ScheduleSerializer < ActiveModel::Serializer
   def facilitators
     object.activity.facilitators.map do |facilitator|
       ActiveModelSerializers::SerializableResource.new(facilitator.participant)
+    end
+  end
+
+  def image
+    if object.activity.image?
+      object.activity.image.url(:medium)
+    else
+      "http://unsplash.it/640/360/?image=#{object.id % 40 + 1040}"
     end
   end
 end

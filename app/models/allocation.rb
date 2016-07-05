@@ -37,4 +37,14 @@ class Allocation < ApplicationRecord
   def activity_type=(type)
     self.activity_type_name = type.try(:to_param)
   end
+
+  protected
+
+  def <=>(another)
+    position <=> another.position
+  end
+
+  def position
+    Activity.types.index(activity_type) || Activity.types.length
+  end
 end
