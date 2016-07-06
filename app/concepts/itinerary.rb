@@ -13,6 +13,15 @@ class Itinerary
     @registration = registration
   end
 
+  def update(params)
+    self.selections = params[:selections] || []
+    save
+  end
+
+  def save
+    valid? && registration.save
+  end
+
   def schedules
     Schedule.with_activity_details.find(selections.map(&:schedule_id))
   end
@@ -41,6 +50,16 @@ class Itinerary
 
   def selections
     registration.selections
+  end
+
+  def selections=(ids)
+    desired = registration.festival.schedules.find(ids)
+    selections.each do |selection|
+      selection.mark_for_destruction unless desired.include?(selection.schedule)
+    end
+    desired.reject(&method(:selected?)).each do |schedule|
+      registration.selections.build(schedule: schedule)
+    end
   end
 
   def empty_selections

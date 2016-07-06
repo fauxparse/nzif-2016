@@ -46,6 +46,9 @@ class Activity
 
   @all: m.prop([])
 
+  @selected: ->
+    (activity for activity in @all() when activity.selected())
+
   @refresh: (data) =>
     @all((new Activity(attrs) for attrs in data))
     @_byType = {}
@@ -100,6 +103,12 @@ class Editor
       )
       m('section', { config: @initScrolling },
         (@renderDay(day) for own _, day of Activity.grouped())
+      )
+      m('footer',
+        m('button', { rel: 'save', onclick: @save },
+          m('i', { class: 'material-icons' }, 'done_all'),
+          m('span', 'Save changes')
+        )
       )
     ]
 
@@ -191,6 +200,14 @@ class Editor
     $headers = $clicked.prevAll('header')
     top = offsetTop($clicked[0]) - $header.height() - $headers.map(-> this.offsetHeight).get().reduce(((a, b) -> a + b), 0)
     $('body').animate(scrollTop: top)
+
+  save: (e) =>
+    m.request
+      url: location.pathname.replace(/\/edit\/?$/, '')
+      method: 'put'
+      data:
+        itinerary:
+          selections: (activity.id() for activity in Activity.selected())
 
 offsetTop = (el) ->
   y = 0

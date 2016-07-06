@@ -10,12 +10,13 @@
     ul {
       display: flex;
       justify-content: flex-start;
+      font-size: $small-font-size;
     }
 
     li {
       display: flex;
       align-items: center;
-      margin-right: 1rem;
+      margin-right: .5rem;
       padding-right: 2rem;
       text-transform: lowercase;
 
@@ -67,7 +68,7 @@
 
     .inner {
       padding-top: 0;
-      padding-bottom: 0;
+      padding-bottom: 4.5rem;
     }
   }
 
@@ -201,6 +202,26 @@
 
       img {
         filter: saturate(100%) opacity(100%);
+      }
+    }
+  }
+
+  footer {
+    @include position(fixed, null 0rem 0rem 0rem);
+    z-index: 50;
+    padding: .5rem 1rem;
+    background: $dark-grey;
+
+    button {
+      display: flex;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 18rem;
+      align-items: center;
+      justify-content: center;
+
+      i {
+        margin-right: .5rem;
       }
     }
   }

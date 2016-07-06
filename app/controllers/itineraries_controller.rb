@@ -1,6 +1,9 @@
 class ItinerariesController < ApplicationController
+  wrap_parameters :itinerary, include: [:selections]
+
+  before_action :load_itinerary
+
   def show
-    @itinerary = Itinerary.new(registration)
     respond_to do |format|
       format.html
       format.json { render json: @itinerary }
@@ -8,10 +11,25 @@ class ItinerariesController < ApplicationController
   end
 
   def edit
-    @itinerary = Itinerary.new(registration)
     respond_to do |format|
       format.html
       format.json { render json: @itinerary, full: true }
     end
+  end
+
+  def update
+    status = @itinerary.update(itinerary_params) ? :ok : :not_acceptable
+    render json: @itinerary, full: true, status: status
+  end
+
+  private
+
+  def load_itinerary
+    redirect_to register_path unless registration.present?
+    @itinerary = Itinerary.new(registration)
+  end
+
+  def itinerary_params
+    params.require(:itinerary).permit(selections: [])
   end
 end
