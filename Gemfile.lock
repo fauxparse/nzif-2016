@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/fauxparse/mithril-rails.git
-  revision: e5791501f09004c67a2246b9fed00e88754d2fc1
+  revision: 137f9c67c7da12d01210c7ba4899e92683be6fc2
   specs:
     mithril_rails (0.0.7)
       execjs (>= 2.2.2)
