@@ -91,40 +91,37 @@ class Editor
 
   view: ->
     [
-      m('header', { config: @initHeader },
+      m('header',
         m('div', { class: 'inner' },
           m('ul', { class: 'counts' },
             (@renderAllocation(allocation) for allocation in Allocation.all())
           )
         )
       )
-      m('section',
-        m('div', { class: 'inner' },
-          (@renderDay(day) for own _, day of Activity.grouped())
-        )
+      m('section', { config: @initScrolling },
+        (@renderDay(day) for own _, day of Activity.grouped())
       )
     ]
 
-  initHeader: (header, isInitialized) ->
-    unless isInitialized
-      $header = $(header)
-      $(window).on 'scroll', (e) ->
-        top = $header.parent().offset().top
-        $header.toggleClass('fixed', $('body').scrollTop() >= top)
-
   renderDay: (day) ->
     m('section', { class: 'day' },
-      m('h2', day.date.format('dddd, D MMMM')),
+      m('header',
+        m('h2', day.date.format('dddd, D MMMM')),
+      )
       (@renderActivities(a, day[a.type()]) for a in Allocation.all())
     )
 
   renderActivities: (allocation, activities) ->
     return [] unless activities
     [
-      m('h3', allocation.plural()),
-      m('section', { role: 'list' }
-        (@renderActivity(activity) for activity in activities)
-        (m('div') for i in [0...4])
+      m('header',
+        m('h3', allocation.plural()),
+      )
+      m('section',
+        m('div', { role: 'list' },
+          (@renderActivity(activity) for activity in activities)
+          (m('div') for i in [0...4])
+        )
       )
     ]
 
@@ -156,6 +153,51 @@ class Editor
       m('span', { rel: 'limit' }, "of #{allocation.limit()}")
       m('span', { rel: 'type' }, allocation.label())
     )
+
+  initScrolling: (body, isInitialized) =>
+    unless isInitialized
+      scrolled = @scrolled.bind(this, body)
+      $(window).on 'scroll resize', -> requestAnimationFrame(scrolled)
+      $(body).on 'click', '.day header', @dayHeaderClicked.bind(this, body)
+
+  scrolled: (body) ->
+    $body = $(body)
+    $header = $body.prevAll('header').first()
+    scrollTop = $(document).scrollTop()
+    top = $header.parent().offset().top
+    fixed = scrollTop >= top
+    $header.toggleClass('fixed', fixed)
+    if fixed
+      headerBottom = $header.height()
+      $body.find('.day').each (i, el) ->
+        $day = $(el)
+        y = headerBottom
+        heights = $day.find('header').map(-> this.offsetHeight).get()
+        allHeaderHeights = heights.reduce(((a, b) -> a + b), 0)
+        bottom = offsetTop(this) + this.offsetHeight
+        $day.find('header').each (j, el) ->
+          top = offsetTop(this)
+          max = bottom - allHeaderHeights - top
+          offset = Math.max(0, Math.min(max, Math.min(max, scrollTop + y - top)))
+          $(el).css(transform: "translateY(#{offset}px)")
+          y += heights[j]
+          allHeaderHeights -= heights[j]
+    else
+      $body.find('.day header').css(transform: 'translateY(0)')
+
+  dayHeaderClicked: (body, e) ->
+    $clicked = $(e.target).closest('header')
+    $header = $(body).prev('header')
+    $headers = $clicked.prevAll('header')
+    top = offsetTop($clicked[0]) - $header.height() - $headers.map(-> this.offsetHeight).get().reduce(((a, b) -> a + b), 0)
+    $('body').animate(scrollTop: top)
+
+offsetTop = (el) ->
+  y = 0
+  while el && !isNaN(el.offsetTop)
+    y += el.offsetTop
+    el = el.offsetParent
+  y
 
 @ItineraryEditor =
   controller: (args...) ->
