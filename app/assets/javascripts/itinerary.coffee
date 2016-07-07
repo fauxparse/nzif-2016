@@ -99,16 +99,17 @@ class Editor
           m('ul', { class: 'counts' },
             (@renderAllocation(allocation) for allocation in Allocation.all())
           )
+          m('button', { rel: 'save', onclick: @save },
+            m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
+              m('circle', { class: 'outline', cx: 20, cy: 20, r: 18 })
+              m('path', { class: 'check', d: 'M 11.7 20.3 L 17 25.6 L 35.3 7.4' })
+            )
+            m('span', 'Save changes')
+          )
         )
       )
       m('section', { config: @initScrolling },
         (@renderDay(day) for own _, day of Activity.grouped())
-      )
-      m('footer',
-        m('button', { rel: 'save', onclick: @save },
-          m('i', { class: 'material-icons' }, 'done_all'),
-          m('span', 'Save changes')
-        )
       )
     ]
 
@@ -202,12 +203,22 @@ class Editor
     $('body').animate(scrollTop: top)
 
   save: (e) =>
+    button = $(e.target).closest('button').attr('aria-busy', true)
+    minimumTimeout = m.deferred()
+    setTimeout ->
+      minimumTimeout.resolve()
+    , 1500
+
     m.request
       url: location.pathname.replace(/\/edit\/?$/, '')
       method: 'put'
       data:
         itinerary:
           selections: (activity.id() for activity in Activity.selected())
+    .then ->
+      minimumTimeout.promise.then ->
+        button.addClass('done').find('.check').transitionEnd ->
+          button.removeClass('done').attr('aria-busy', false)
 
 offsetTop = (el) ->
   y = 0

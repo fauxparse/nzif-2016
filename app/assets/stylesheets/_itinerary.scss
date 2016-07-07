@@ -5,6 +5,67 @@
     .inner {
       padding-top: .5rem;
       padding-bottom: .5rem;
+      display: flex;
+      justify-content: space-between;
+
+      &::after { display: none; }
+    }
+
+    [rel="save"] {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      background: none;
+      outline: none;
+
+      .outline {
+        fill: none;
+        stroke: white;
+        stroke-width: .25rem;
+        stroke-dasharray: 113px;
+        stroke-dashoffset: 113px;
+        transform: rotate(-45deg);
+        transform-origin: 50% 50%;
+      }
+
+      .check {
+        fill: none;
+        stroke: white;
+        stroke-width: .25rem;
+        stroke-dasharray: 26px, 100px;
+        stroke-dashoffset: 0;
+      }
+
+      &[aria-busy="true"] {
+        .outline {
+          stroke-dashoffset: 0;
+          transition: stroke-dashoffset 1500ms $ease-out-cubic;
+        }
+
+        .check {
+          stroke-dashoffset: -35px;
+          transition: stroke-dashoffset 200ms linear;
+        }
+      }
+
+      &.done {
+        .outline {
+          stroke: rgba(white, 0);
+          transition: stroke 500ms $base-timing;
+        }
+
+        .check {
+          stroke-dashoffset: -126px;
+          transition-duration: 500ms;
+        }
+      }
+
+      span {
+        margin-left: .5rem;
+        @include media(max-width ($medium-screen - 1px)) {
+          display: none;
+        }
+      }
     }
 
     ul {
@@ -77,6 +138,7 @@
     margin: 0 auto;
     max-width: $max-width;
     font-weight: $light-font-weight;
+    cursor: pointer;
   }
 
   h3 {
@@ -86,6 +148,7 @@
     padding: .5rem 0;
     margin: 0 auto;
     max-width: $max-width;
+    cursor: pointer;
   }
 
   .day {
@@ -202,26 +265,6 @@
 
       img {
         filter: saturate(100%) opacity(100%);
-      }
-    }
-  }
-
-  footer {
-    @include position(fixed, null 0rem 0rem 0rem);
-    z-index: 50;
-    padding: .5rem 1rem;
-    background: $dark-grey;
-
-    button {
-      display: flex;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 18rem;
-      align-items: center;
-      justify-content: center;
-
-      i {
-        margin-right: .5rem;
       }
     }
   }
