@@ -79,6 +79,7 @@ body > nav {
   z-index: 99;
   opacity: 0;
   transition: opacity $long-duration $base-timing;
+  display: none;
 
   &.user-menu-open-transitionend {
     display: block;
