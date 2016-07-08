@@ -14,11 +14,14 @@ class RegistrationsController < ApplicationController
 
   def new
     registration_form.step = params[:step]
-    render_next_registration_step
+    continue_with_registration
   end
 
   def create
     sign_in registration_form.user if registration_form.apply(params)
+    ParticipantMailer
+      .registration_email(registration_form.registration)
+      .deliver_later if registration_form.complete?
     continue_with_registration
 
   rescue ActiveModel::ValidationError
@@ -51,13 +54,6 @@ class RegistrationsController < ApplicationController
   helper_method :logging_in?
 
   def continue_with_registration
-    ParticipantMailer
-      .registration_email(registration_form.registration)
-      .deliver_later if registration_form.complete?
-    render_next_registration_step
-  end
-
-  def render_next_registration_step
     if registration_form.complete?
       redirect_to registration_path(festival)
     else
