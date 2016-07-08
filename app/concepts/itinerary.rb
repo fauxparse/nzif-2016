@@ -27,7 +27,7 @@ class Itinerary
   end
 
   def selected?(schedule)
-    schedules.include?(schedule)
+    selections.map(&:schedule_id).include?(schedule.id)
   end
 
   def complete?
@@ -49,17 +49,15 @@ class Itinerary
   private
 
   def selections
-    registration.selections
+    registration.selections.reject(&:marked_for_destruction?)
   end
 
   def selections=(ids)
     desired = registration.festival.schedules.find(ids)
-    selections.each do |selection|
-      selection.mark_for_destruction unless desired.include?(selection.schedule)
-    end
-    desired.reject(&method(:selected?)).each do |schedule|
-      registration.selections.build(schedule: schedule)
-    end
+    selections.reject { |s| desired.include?(s.schedule) }
+      .each(&:mark_for_destruction)
+    desired.reject(&method(:selected?))
+      .each { |schedule| registration.selections.build(schedule: schedule) }
   end
 
   def empty_selections
@@ -70,7 +68,9 @@ class Itinerary
 
   def selections_by_activity_type
     empty_selections.merge(
-      selections.group_by { |selection| selection.schedule.activity.class }
+      selections.group_by { |selection|
+        selection.schedule.activity.class
+      }
     )
   end
 
