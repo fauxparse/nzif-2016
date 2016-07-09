@@ -1,0 +1,5 @@
+.article
+  %h3= schedule.activity.name
+  .info= [schedule.activity.model_name.human, schedule.activity.facilitators.to_a.to_sentence].reject(&:blank?).map { |s| content_tag(:span, s) }.join.html_safe
+  .times= [schedule.starts_at, schedule.ends_at].map { |t| l(t, format: :ampm) }.join(' – ')
+  .venue= venue_link(schedule.venue)

@@ -7,6 +7,9 @@ class ItinerariesController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @itinerary }
+      format.pdf do
+        render pdf: 'itinerary.pdf', layout: 'pdf', show_as_html: params[:debug].present?
+      end
     end
   end
 
