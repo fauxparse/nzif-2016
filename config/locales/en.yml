@@ -79,6 +79,9 @@ en:
     edit:
       title: "Select your activities"
 
+  venues:
+    none: "(venue TBD)"
+
   admin:
     festivals:
       show:
@@ -205,6 +208,7 @@ en:
   time:
     formats:
       short: "%I:%M"
+      ampm: "%I:%M %p"
 
   emails:
     registration:

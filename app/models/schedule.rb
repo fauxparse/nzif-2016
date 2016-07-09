@@ -23,6 +23,10 @@ class Schedule < ApplicationRecord
     ends_at - starts_at
   end
 
+  def date
+    starts_at.to_date
+  end
+
   def limited?
     maximum.present?
   end
