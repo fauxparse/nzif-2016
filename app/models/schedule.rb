@@ -42,7 +42,7 @@ class Schedule < ApplicationRecord
   delegate :name, to: :activity
 
   def self.with_activity_details
-    includes(:activity => { :facilitators => :participant })
+    includes(:venue, :activity => { :facilitators => :participant })
   end
 
   private

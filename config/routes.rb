@@ -14,12 +14,16 @@ Rails.application.routes.draw do
     get "/register" => "registrations#new"
     post "/register" => "registrations#create"
     resource :registration, only: %i[show update]
-    resource :itinerary
+    resource :itinerary do
+      post :email
+    end
     resource :account do
       resources :payments
     end
     get "/" => "festivals#show", as: :festival
   end
+
+  resources :calendars, only: [:show]
 
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do

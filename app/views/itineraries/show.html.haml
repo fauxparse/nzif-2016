@@ -1,2 +1,13 @@
-%h1 Itineraries#show
-%p Find me in app/views/itineraries/show.html.haml
+%header
+  .inner
+    %h1= t('.title')
+
+%section.itinerary
+  .inner
+    %section.list
+
+    %aside
+      %ul
+        = menu_link t('.add_to_calendar'), calendar_path(@itinerary.registration, format: :ics), :event
+        = menu_link t('.download'), itinerary_path(format: :pdf), :file_download, disabled: true
+        = menu_link t('.email'), email_itinerary_path, :email, method: :post, remote: true, disabled: true

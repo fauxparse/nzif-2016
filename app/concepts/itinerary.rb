@@ -7,7 +7,7 @@ class Itinerary
   validate :check_activity_limits
 
   attr_reader :registration
-  delegate :id, :package, to: :registration
+  delegate :id, :package, :participant, to: :registration
 
   def initialize(registration)
     @registration = registration

@@ -13,6 +13,7 @@ en:
       festival_admin: "Festival admin"
       registration: "%{festival} registration"
       register: "Register for %{festival}"
+      itinerary: "Your itinerary"
 
   festivals:
     index:
@@ -69,6 +70,12 @@ en:
     pay_outstanding: "Pay outstanding amount"
 
   itineraries:
+    show:
+      title: "Your itinerary"
+      add_to_calendar: "Add to calendar"
+      download: "Download PDF"
+      email: "Email me a copy"
+
     edit:
       title: "Select your activities"
 

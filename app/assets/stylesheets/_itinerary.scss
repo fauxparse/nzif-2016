@@ -1,3 +1,31 @@
+.itinerary {
+  .inner {
+    &::after { display: none; }
+
+    aside {
+      ul {
+        @include action-list;
+      }
+    }
+  }
+
+  @include media($medium-screen) {
+    .inner {
+      display: flex;
+      align-items: flex-start;
+
+      .list {
+        flex: 1 1 75%;
+      }
+
+      aside {
+        flex: 0 1 25%;
+        margin-left: $base-spacing;
+      }
+    }
+  }
+}
+
 .edit-itinerary {
   > header {
     @include full-width-header;
