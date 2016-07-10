@@ -47,6 +47,7 @@ body > nav {
     display: flex;
     padding: 0;
     align-items: center;
+    position: relative;
 
     img, svg {
       @include size(2.5rem);
@@ -63,10 +64,12 @@ body > nav {
     }
 
     &::after {
-      padding: 0 .5rem;
+      padding: .5rem;
+      border-radius: 50%;
       font-family: "Material Icons";
       content: "arrow_drop_down";
       font-size: 1.5rem;
+      transition: transform $medium-duration $ease-in-out-back;
     }
   }
 
@@ -78,7 +81,7 @@ body > nav {
 .user-menu-element {
   z-index: 99;
   opacity: 0;
-  transition: opacity $long-duration $base-timing;
+  transition: opacity $medium-duration $base-timing;
   display: none;
 
   &.user-menu-open-transitionend {
@@ -90,7 +93,7 @@ body > nav {
 
     > .user-menu-content {
       transform: translateY(0%);
-      transition: transform $long-duration $ease-out-back;
+      transition: transform $medium-duration $ease-out-back;
     }
   }
 
@@ -104,7 +107,7 @@ body > nav {
   font-family: inherit;
   min-width: 15rem;
   transform: translateY(-100%);
-  transition: transform $long-duration $ease-in-back;
+  transition: transform $medium-duration $ease-in-back;
   margin-top: -2rem;
   padding-top: 2rem;
 
