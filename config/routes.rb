@@ -50,5 +50,7 @@ Rails.application.routes.draw do
     get "/" => "dashboards#show"
   end
 
+  mount LetterOpenerWeb::Engine, at: "/admin/emails" if Rails.env.development?
+
   root to: "festivals#index"
 end

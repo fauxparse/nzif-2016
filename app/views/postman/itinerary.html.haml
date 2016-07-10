@@ -1,0 +1,20 @@
+%table.main{:cellpadding => '0', :cellspacing => '0', :width => '100%'}
+  %tr
+    %td.alert
+      = t('.updated', festival: @festival)
+  %tr
+    %td.content-wrap
+      %table{:cellpadding => '0', :cellspacing => '0', :width => '100%'}
+        %tr
+          %td.content-block
+            This is a confirmation of how your festival schedule looked at
+            = succeed '.' do
+              = l(Time.now, format: :full)
+        %tr
+          %td.content-block
+            The most up-to-date version of your itinerary is
+            = succeed '.' do
+              = link_to 'always online', itinerary_url(@festival)
+            You can make changes there, or add festival events to your calendar.
+        = render 'thanks'
+        = render partial: 'itinerary', object: @itinerary

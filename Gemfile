@@ -41,6 +41,9 @@ gem 'pleasant-lawyer'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
+gem 'nokogiri'
+gem 'premailer-rails'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -88,7 +91,7 @@ group :development do
   gem 'guard-rspec', '>= 4.7.2'
   gem 'guard-cucumber'
   gem 'guard-rails', require: false
-  gem 'letter_opener'
+  gem 'letter_opener_web'
 end
 
 group :test do

@@ -2,7 +2,18 @@
 %html
   %head
     %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-Type"}/
-    :css
-      /* Email styles need to be inline */
-  %body
-    = yield
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900'
+    %link{rel: "stylesheet", type: "text/css", href: "email.css"}
+  %body{:itemscope => "", :itemtype => "http://schema.org/EmailMessage"}
+    %table.body-wrap
+      %tr
+        %td
+        %td.container{:width => "600"}
+          .content
+            = yield
+            .footer
+              %table{:width => "100%"}
+                %tr
+                  %td.aligncenter.content-block
+                    = link_to @festival, festival_url(@festival)
+        %td

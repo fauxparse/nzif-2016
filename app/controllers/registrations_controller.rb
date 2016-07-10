@@ -19,8 +19,8 @@ class RegistrationsController < ApplicationController
 
   def create
     sign_in registration_form.user if registration_form.apply(params)
-    ParticipantMailer
-      .registration_email(registration_form.registration)
+    Postman
+      .registration_confirmation(registration_form.registration)
       .deliver_later if registration_form.complete?
     continue_with_registration
 
