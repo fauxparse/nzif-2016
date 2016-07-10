@@ -1,0 +1,53 @@
+.payments {
+  [role="listitem"] {
+    display: flex;
+    justify-content: stretch;
+    align-items: flex-start;
+
+    > div {
+      display: ellipsis;
+      padding: .5rem $base-spacing .5rem 0;
+
+    }
+
+    .from, .type {
+      a, b, span {
+        @include ellipsis;
+        display: block;
+      }
+    }
+
+    .date, .type {
+    }
+
+    .date {
+      white-space: nowrap;
+      flex: 0 0 7rem;
+      color: $secondary-color;
+    }
+
+    .from {
+      flex: 1;
+    }
+
+    .amount {
+      flex: 0 0 6rem;
+    }
+
+    .type {
+      flex: 0 0 9rem;
+      color: $secondary-color;
+    }
+
+    > a {
+      align-self: center;
+      padding: .5rem;
+
+      i { display: block; }
+
+      &:disabled {
+        color: $secondary-color;
+      }
+    }
+  }
+}

@@ -42,6 +42,16 @@ Rails.application.routes.draw do
       resources :venues do
         put "reorder/:position" => "venues#reorder", on: :member
       end
+      resources :payments do
+        collection do
+          get "/:filter" => "payments#index", as: :filtered,
+            constraints: { filter: /#{Payment.statuses.keys.join("|")}/ }
+        end
+        member do
+          put :approve
+          put :decline
+        end
+      end
 
       get "/" => "dashboards#show"
     end

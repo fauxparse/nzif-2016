@@ -177,6 +177,16 @@ en:
         submit: "Save changes"
         delete: "Delete venue"
         confirm_delete: "Delete this venue?"
+    payments:
+      index:
+        title: "Payments"
+        pending: "Pending"
+        approved: "Approved"
+        failed: "Failed"
+        cancelled: "Cancelled"
+        search: "Search payments…"
+      empty:
+        empty: "No payments to show here"
 
   devise:
     sessions:

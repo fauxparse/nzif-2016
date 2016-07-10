@@ -3,6 +3,7 @@ class Festival < ApplicationRecord
   has_many :packages, dependent: :destroy
   has_many :activities, dependent: :destroy
   has_many :schedules, through: :activities
+  has_many :payments, through: :registrations
 
   before_validation :fill_in_year, :unless => :year?
 

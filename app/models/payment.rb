@@ -1,5 +1,6 @@
 class Payment < ApplicationRecord
   belongs_to :registration
+  has_one :participant, through: :registration
 
   enum status: {
     pending:   'pending',
@@ -15,7 +16,12 @@ class Payment < ApplicationRecord
   validates :amount_cents, numericality: { greater_than: 0 }
   validate :valid_payment_method, if: :payment_type?
 
-  scope :oldest_first, -> { order(:updated_at) }
+  scope :oldest_first, -> { order(:created_at) }
+  scope :newest_first, -> { order(created_at: :desc) }
+
+  def to_param
+    "%.08d" % id
+  end
 
   def payment_method
     payment_type.camelize.constantize.new
@@ -26,11 +32,23 @@ class Payment < ApplicationRecord
   end
 
   def approve!
-    update(status: :approved)
+    update!(status: :approved)
+  end
+
+  def decline!
+    update!(status: :failed)
+  end
+
+  def cancel!
+    update!(status: :cancelled)
   end
 
   def self.payment_methods
     [InternetBanking]
+  end
+
+  def self.with_registration_information
+    includes(:registration => :participant)
   end
 
   private

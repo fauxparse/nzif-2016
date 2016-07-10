@@ -18,6 +18,8 @@ class ParticipantList
     participants.all.map { |participant| Presenter.new(participant, festival) }
   end
 
+  private
+
   class Presenter < SimpleDelegator
     alias_method :participant, :__getobj__
     attr_reader :festival
@@ -45,8 +47,6 @@ class ParticipantList
       end
     end
   end
-
-  private
 
   def scope
     if show_all?
