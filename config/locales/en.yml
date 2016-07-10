@@ -72,11 +72,11 @@ en:
   itineraries:
     show:
       title: "Your itinerary"
+      edit: "Add or change activities"
       add_to_calendar: "Add to calendar"
       download: "Download PDF"
       email: "Email me a copy"
       pdf_title: "%{participant}’s itinerary for %{festival}"
-
     edit:
       title: "Select your activities"
 
