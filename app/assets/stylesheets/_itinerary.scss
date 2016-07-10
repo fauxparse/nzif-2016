@@ -1,3 +1,74 @@
+.itinerary {
+  .inner {
+    &::after { display: none; }
+
+    aside {
+      ul {
+        @include action-list;
+      }
+    }
+  }
+
+  @include media($medium-screen) {
+    .inner {
+      display: flex;
+      align-items: flex-start;
+
+      .list {
+        flex: 1 1 75%;
+      }
+
+      aside {
+        flex: 0 1 25%;
+        margin-left: $base-spacing;
+      }
+    }
+  }
+}
+
+.itinerary-list {
+  h2 {
+    color: $secondary-color;
+    font-weight: $base-font-weight;
+    font-size: 100%;
+    border-bottom: $base-border;
+    text-transform: uppercase;
+    line-height: 2rem;
+  }
+
+  article {
+    margin: 0 0 $base-spacing;
+
+    h3 {
+      font-size: 100%;
+      margin: 0;
+      line-height: $base-line-height;
+    }
+
+    .info {
+      color: $secondary-color;
+      span + span {
+        &::before {
+          content: " • ";
+        }
+      }
+    }
+
+    @include media($medium-screen) {
+      position: relative;
+      padding-left: 11rem;
+
+      .times {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 10rem;
+        color: $secondary-color;
+      }
+    }
+  }
+}
+
 .edit-itinerary {
   > header {
     @include full-width-header;

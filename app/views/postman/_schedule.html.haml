@@ -1,0 +1,5 @@
+%p.activity-times= [schedule.starts_at, schedule.ends_at].map { |t| l(t, format: :ampm) }.join(' – ')
+%h3.activity-name= schedule.activity.name
+%p.activity-info= [schedule.activity.model_name.human, schedule.activity.facilitators.to_a.to_sentence].reject(&:blank?).join(" with ")
+- if schedule.venue.present?
+  %p.activity-venue= schedule.venue.name

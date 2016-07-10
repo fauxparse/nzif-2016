@@ -14,12 +14,16 @@ Rails.application.routes.draw do
     get "/register" => "registrations#new"
     post "/register" => "registrations#create"
     resource :registration, only: %i[show update]
-    resource :itinerary
+    resource :itinerary do
+      post :email
+    end
     resource :account do
       resources :payments
     end
     get "/" => "festivals#show", as: :festival
   end
+
+  resources :calendars, only: [:show]
 
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do
@@ -38,6 +42,16 @@ Rails.application.routes.draw do
       resources :venues do
         put "reorder/:position" => "venues#reorder", on: :member
       end
+      resources :payments do
+        collection do
+          get "/:filter" => "payments#index", as: :filtered,
+            constraints: { filter: /#{Payment.statuses.keys.join("|")}/ }
+        end
+        member do
+          put :approve
+          put :decline
+        end
+      end
 
       get "/" => "dashboards#show"
     end
@@ -45,6 +59,8 @@ Rails.application.routes.draw do
     resources :participants, as: :users
     get "/" => "dashboards#show"
   end
+
+  mount LetterOpenerWeb::Engine, at: "/admin/emails" if Rails.env.development?
 
   root to: "festivals#index"
 end

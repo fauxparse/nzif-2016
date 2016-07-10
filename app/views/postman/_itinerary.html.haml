@@ -1,0 +1,8 @@
+%tr
+  %td.content-block
+    %hr
+- itinerary.schedules.group_by(&:date).each do |date, schedules|
+  %tr
+    %td.content-block
+      %h2.day= l(date, format: :full)
+      = render partial: 'schedule', collection: schedules

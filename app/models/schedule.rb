@@ -23,6 +23,10 @@ class Schedule < ApplicationRecord
     ends_at - starts_at
   end
 
+  def date
+    starts_at.to_date
+  end
+
   def limited?
     maximum.present?
   end
@@ -42,7 +46,7 @@ class Schedule < ApplicationRecord
   delegate :name, to: :activity
 
   def self.with_activity_details
-    includes(:activity => { :facilitators => :participant })
+    includes(:venue, :activity => { :facilitators => :participant })
   end
 
   private

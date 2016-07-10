@@ -1,0 +1,5 @@
+.itinerary-list
+  - itinerary.schedules.group_by(&:date).each do |date, schedules|
+    %section
+      %h2= l(date, format: :full)
+      = render schedules

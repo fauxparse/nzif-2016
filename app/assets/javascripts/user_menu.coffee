@@ -15,4 +15,4 @@ document.addEventListener 'turbolinks:load', ->
           $.get $(this).attr('href') + '.json', (data) =>
             count = 0
             count += 1 for own key, value of data when !value
-            $(this).append($('<abbr>', text: count))
+            $(this).append($('<abbr>', text: count)) if count

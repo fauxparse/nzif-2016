@@ -1,0 +1,15 @@
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+  %section{role: :tablist}
+    - @payments.tabs.each do |tab|
+      = link_to tab.label, tab.path, role: :tab, "aria-selected" => tab.selected?
+
+%section
+  .payments{role: :list}
+    %header
+      %input{type: :search, placeholder: t('.search')}
+      %label= icon :search
+    = render("empty")
+    = render(@payments)

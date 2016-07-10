@@ -233,3 +233,13 @@ offsetTop = (el) ->
 
   view: (controller) ->
     controller.view()
+
+$(document)
+  .on 'ajax:send', '[rel~=email-itinerary]', (e) ->
+    $(e.target).closest('a').attr(disabled: true)
+  .on 'ajax:success', '[rel~=email-itinerary]', (e) ->
+    $(e.target).closest('a').find('i').text('done')
+  .on 'ajax:error', '[rel~=email-itinerary]', (e) ->
+    $(e.target).closest('a').find('i').text('close')
+  .on 'ajax:complete', '[rel~=email-itinerary]', (e) ->
+    $(e.target).closest('a').attr(disabled: false)

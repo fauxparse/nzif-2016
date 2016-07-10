@@ -1,11 +1,11 @@
 require "rails_helper"
 
-RSpec.describe ParticipantMailer, type: :mailer do
-  describe '#registration_email' do
+RSpec.describe Postman, type: :mailer do
+  describe '#registration_confirmation' do
     let(:participant) { registration.participant }
     let(:festival) { registration.festival }
     let(:registration) { FactoryGirl.create(:registration) }
-    let(:email) { ParticipantMailer.registration_email(registration) }
+    let(:email) { described_class.registration_confirmation(registration) }
 
     before { email.deliver_now }
 

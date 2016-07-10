@@ -7,6 +7,9 @@ class ItinerariesController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @itinerary }
+      format.pdf do
+        render pdf: 'itinerary.pdf', layout: 'pdf', show_as_html: params[:debug].present?
+      end
     end
   end
 
@@ -18,8 +21,14 @@ class ItinerariesController < ApplicationController
   end
 
   def update
-    status = @itinerary.update(itinerary_params) ? :ok : :not_acceptable
-    render json: @itinerary, full: true, status: status
+    success = @itinerary.update(itinerary_params)
+    Postman.itinerary(registration).deliver_later
+    render json: @itinerary, full: true, status: success ? :ok : :not_acceptable
+  end
+
+  def email
+    Postman.itinerary(registration).deliver_later
+    head :ok
   end
 
   private

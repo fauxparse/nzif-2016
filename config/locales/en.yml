@@ -13,6 +13,7 @@ en:
       festival_admin: "Festival admin"
       registration: "%{festival} registration"
       register: "Register for %{festival}"
+      itinerary: "Your itinerary"
 
   festivals:
     index:
@@ -69,8 +70,18 @@ en:
     pay_outstanding: "Pay outstanding amount"
 
   itineraries:
+    show:
+      title: "Your itinerary"
+      edit: "Add or change activities"
+      add_to_calendar: "Add to calendar"
+      download: "Download PDF"
+      email: "Email me a copy"
+      pdf_title: "%{participant}’s itinerary for %{festival}"
     edit:
       title: "Select your activities"
+
+  venues:
+    none: "(venue TBD)"
 
   admin:
     festivals:
@@ -166,6 +177,16 @@ en:
         submit: "Save changes"
         delete: "Delete venue"
         confirm_delete: "Delete this venue?"
+    payments:
+      index:
+        title: "Payments"
+        pending: "Pending"
+        approved: "Approved"
+        failed: "Failed"
+        cancelled: "Cancelled"
+        search: "Search payments…"
+      empty:
+        empty: "No payments to show here"
 
   devise:
     sessions:
@@ -198,11 +219,19 @@ en:
   time:
     formats:
       short: "%I:%M"
+      ampm: "%I:%M %p"
+      full: "%I:%M %p, %A, %e %B"
 
-  emails:
-    registration:
+  postman:
+    registration_confirmation:
       subject: "Registered for %{festival}"
       greeting: "Hi %{name},"
+      registered: "You’re now registered for %{festival}."
+      copy: "You’re all registered. Now you can start selecting your activities."
+      itinerary_link: "Select my activities"
+    itinerary:
+      subject: "Your %{festival} itinerary"
+      updated: "Your %{festival} itinerary has been updated."
 
   activerecord:
     errors:

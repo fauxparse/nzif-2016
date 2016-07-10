@@ -7,7 +7,7 @@ class Itinerary
   validate :check_activity_limits
 
   attr_reader :registration
-  delegate :id, :package, to: :registration
+  delegate :id, :package, :participant, :festival, to: :registration
 
   def initialize(registration)
     @registration = registration
@@ -23,7 +23,7 @@ class Itinerary
   end
 
   def schedules
-    Schedule.with_activity_details.find(selections.map(&:schedule_id))
+    (selected_schedules + general_admission_schedules).sort
   end
 
   def selected?(schedule)
@@ -46,7 +46,29 @@ class Itinerary
     package.allocations.select(&:limited?).sort
   end
 
+  def to_partial_path
+    'itinerary'
+  end
+
   private
+
+  def selected_schedules
+    schedule_scope.find(selections.map(&:schedule_id))
+  end
+
+  def general_admission_schedules
+    schedule_scope
+      .references(:activities)
+      .where('activities.type IN (?)', general_admission_activity_types)
+  end
+
+  def general_admission_activity_types
+    registration.package.allocations.select(&:unlimited?).map(&:activity_type)
+  end
+
+  def schedule_scope
+    registration.festival.schedules.with_activity_details
+  end
 
   def selections
     registration.selections.reject(&:marked_for_destruction?)
