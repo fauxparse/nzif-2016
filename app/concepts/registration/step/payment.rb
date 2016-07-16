@@ -34,4 +34,11 @@ class Registration::Step::Payment < Registration::Step
   def pending_payments_cover_deposit?
     account.total_pending_or_approved > account.deposit
   end
+
+  def continue
+    payment.payment_method
+      .on(:success) { |payment| publish(:success, registration) }
+      .on(:redirect) { |payment, url| publish(:redirect, url) }
+      .created(payment)
+  end
 end

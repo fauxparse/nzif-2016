@@ -1,4 +1,5 @@
 class Registration::Step
+  include Cry
   include ActiveModel::Validations
 
   attr_reader :registration
@@ -11,7 +12,7 @@ class Registration::Step
 
   def apply(params)
     apply_filtered_parameters(filter_parameters(params))
-    registration
+    valid? && continue || publish(:error, registration)
   end
 
   def valid?
@@ -73,5 +74,9 @@ class Registration::Step
     else
       {}
     end
+  end
+
+  def continue
+    publish(:success, registration)
   end
 end

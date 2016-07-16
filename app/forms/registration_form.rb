@@ -1,4 +1,6 @@
 class RegistrationForm
+  include Cry
+
   attr_reader :festival
   attr_writer :step
 
@@ -8,8 +10,18 @@ class RegistrationForm
   end
 
   def apply(params)
-    step.apply(params)
-    step.valid? && advance!
+    step.on(:success) do
+      publish(:sign_in, user)
+      advance!
+    end
+
+    step
+      .on(:redirect) { |url| publish(:redirect, url) }
+      .on(:error) { publish(:error, registration) }
+      .apply(params)
+
+  rescue ActiveModel::ValidationError
+    publish(:error, registration)
   end
 
   def participant
@@ -37,7 +49,7 @@ class RegistrationForm
 
   def advance!
     @step = nil
-    true
+    publish(complete? ? :complete : :continue, registration)
   end
 
   def complete?
