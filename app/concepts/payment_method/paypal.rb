@@ -35,6 +35,7 @@ class PaymentMethod::Paypal < PaymentMethod
     payment.update!(
       amount: Money.from_amount(params[:mc_gross].to_d, params[:mc_currency]),
       transaction_reference: params[:txn_id],
+      transaction_data: params.to_h,
       status: :approved
     )
   end

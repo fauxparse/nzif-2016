@@ -11,6 +11,8 @@ class Payment < ApplicationRecord
 
   monetize :amount_cents
 
+  serialize :transaction_data, HashWithIndifferentAccess
+
   before_validation :generate_random_token
 
   validates :registration_id, :status, :amount, :payment_method, :token,
