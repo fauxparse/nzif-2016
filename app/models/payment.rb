@@ -6,7 +6,8 @@ class Payment < ApplicationRecord
     pending:   'pending',
     approved:  'approved',
     failed:    'failed',
-    cancelled: 'cancelled'
+    cancelled: 'cancelled',
+    refunded:  'refunded'
   }
 
   monetize :amount_cents
