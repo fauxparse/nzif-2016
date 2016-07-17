@@ -26,7 +26,5 @@ module Nzif
     config.active_record.default_timezone = :local
 
     config.active_record.schema_format = :sql
-
-    self.default_url_options = { host: ENV['APP_HOST'] }
   end
 end

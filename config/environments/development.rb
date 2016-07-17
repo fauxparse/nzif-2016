@@ -64,4 +64,6 @@ Rails.application.configure do
 
   # Whitelist ngrok IPs for web_console
   config.web_console.whitelisted_ips = '210.54.0.0/16'
+
+  Rails.application.default_url_options = { host: ENV['APP_HOST'] }
 end
