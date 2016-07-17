@@ -21,6 +21,6 @@ class Admin::PaymentsController < Admin::Controller
   private
 
   def payment
-    @payment ||= festival.payments.find(params[:id])
+    @payment ||= festival.payments.find_by!(token: params[:id])
   end
 end

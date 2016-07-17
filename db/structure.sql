@@ -307,7 +307,9 @@ CREATE TABLE payments (
     reference character varying(32),
     failure_message character varying(128),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    token character varying(64),
+    transaction_reference character varying(32)
 );
 
 
@@ -819,6 +821,13 @@ CREATE INDEX index_payments_on_status ON payments USING btree (status);
 
 
 --
+-- Name: index_payments_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_payments_on_token ON payments USING btree (token);
+
+
+--
 -- Name: index_registrations_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1027,6 +1036,6 @@ ALTER TABLE ONLY registrations
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853');
+INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120');
 
 

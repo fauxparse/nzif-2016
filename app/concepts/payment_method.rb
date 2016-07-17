@@ -7,6 +7,6 @@ class PaymentMethod
   end
 
   def self.key
-    name.underscore
+    name.demodulize.underscore
   end
 end

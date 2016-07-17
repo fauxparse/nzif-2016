@@ -17,13 +17,16 @@ Rails.application.routes.draw do
     resource :itinerary do
       post :email
     end
-    resource :account do
-      resources :payments
+    resource :account, only: [:show] do
+      resources :payments, only: [:show, :new, :create]
     end
     get "/" => "festivals#show", as: :festival
   end
 
   resources :calendars, only: [:show]
+
+  post "/payments/paypal/:id" => "payments#paypal", as: :paypal_callback
+  post "/payments/:id" => "payments#show", as: :paypal_return
 
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do

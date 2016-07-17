@@ -5,4 +5,10 @@
 %section.account
   .inner
     = render account
-    %p= link_to t('account.pay_outstanding'), new_account_payment_path, role: :button, rel: "pay-now" unless account.paid_in_full?
+    - unless account.paid_in_full?
+      = form_for account.outstanding_payment, url: account_payments_path do |form|
+        %h3= t('account.pay_outstanding')
+        = form.hidden_field :amount
+        - Payment.payment_methods.each do |payment_method|
+          %button{type: :submit, name: "payment[payment_type]", value: payment_method.key}
+            = payment_method.model_name.human

@@ -15,7 +15,7 @@ RSpec.describe Payment, type: :model do
 
     describe '#payment_method' do
       subject { payment.payment_method }
-      it { is_expected.to be_an_instance_of InternetBanking }
+      it { is_expected.to be_an_instance_of PaymentMethod::InternetBanking }
     end
   end
 end

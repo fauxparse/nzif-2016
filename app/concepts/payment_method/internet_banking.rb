@@ -1,2 +1,2 @@
-class InternetBanking < PaymentMethod
+class PaymentMethod::InternetBanking < PaymentMethod
 end
