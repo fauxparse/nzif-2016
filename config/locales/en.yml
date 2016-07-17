@@ -45,6 +45,7 @@ en:
       continue: "Continue"
       methods:
         internet_banking: "Pay by Internet banking"
+        paypal: "Pay by PayPal"
     show:
       registered: "Registered for %{year}"
     steps:
@@ -242,6 +243,9 @@ en:
               no_price: "You must define at least one price for this package"
 
   activemodel:
+    models:
+      payment_method/internet_banking: "Internet banking"
+      payment_method/paypal: "PayPal"
     errors:
       models:
         registration/step/details:
