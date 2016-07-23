@@ -2,7 +2,7 @@ class CreatePayment
   include Cry
   attr_accessor :registration, :payment
 
-  def initialize(registration, attributes)
+  def initialize(registration, attributes = {})
     @registration = registration
     @payment ||= registration.payments.build(attributes)
   end

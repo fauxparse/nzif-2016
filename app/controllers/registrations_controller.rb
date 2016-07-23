@@ -21,6 +21,7 @@ class RegistrationsController < ApplicationController
     registration_form
       .on(:continue) { continue_with_registration }
       .on(:complete) { completed_registration }
+      .on(:redirect) { |url| redirect_to(url) }
       .on(:error)    { render :new }
       .apply(params)
   end
