@@ -7,12 +7,12 @@
   .type
     %span= payment.payment_method.model_name.human
     %span= payment.reference
-  - unless payment.approved?
-    = link_to approve_admin_payment_path(payment.festival, payment), method: :put, remote: true do
-      = icon(:check)
-  - unless payment.failed?
-    = link_to decline_admin_payment_path(payment.festival, payment), method: :put, remote: true do
-      = icon(:close)
   - unless payment.cancelled?
+    - unless payment.approved?
+      = link_to approve_admin_payment_path(payment.festival, payment), method: :put, remote: true do
+        = icon(:check)
+    - unless payment.failed?
+      = link_to decline_admin_payment_path(payment.festival, payment), method: :put, remote: true do
+        = icon(:close)
     = link_to admin_payment_path(payment.festival, payment), method: :delete, remote: true do
       = icon(:block)
