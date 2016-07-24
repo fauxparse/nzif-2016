@@ -45,6 +45,12 @@ Rails.application.routes.draw do
       resources :venues do
         put "reorder/:position" => "venues#reorder", on: :member
       end
+
+      get "payments/settings" => "payment_configurations#edit",
+        as: :payment_settings
+      match "payments/settings", to: "payment_configurations#update",
+        via: [:put, :patch]
+
       resources :payments do
         collection do
           get "/:filter" => "payments#index", as: :filtered,

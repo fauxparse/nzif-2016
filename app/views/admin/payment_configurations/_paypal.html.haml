@@ -1,0 +1,8 @@
+= form.fields_for :paypal, paypal do |f|
+  %section
+    .inner
+      %h2= paypal.payment_method.model_name.human
+      .field
+        = f.label :merchant_email
+        = f.email_field :merchant_email
+        = f.error_messages_for :merchant_email

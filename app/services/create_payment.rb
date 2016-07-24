@@ -12,7 +12,7 @@ class CreatePayment
       payment.payment_method
         .on(:success, &method(:payment_created))
         .on(:redirect) { |url| publish(:redirect, payment, url) }
-        .created(payment)
+        .created
     else
       publish(:failure, payment)
     end

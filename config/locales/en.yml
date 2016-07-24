@@ -188,6 +188,10 @@ en:
         search: "Search payments…"
       empty:
         empty: "No payments to show here"
+    payment_configurations:
+      edit:
+        title: "Payment settings"
+        save: "Save settings"
 
   devise:
     sessions:

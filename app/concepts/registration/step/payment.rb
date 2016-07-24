@@ -39,6 +39,6 @@ class Registration::Step::Payment < Registration::Step
     payment.payment_method
       .on(:success) { |payment| publish(:success, registration) }
       .on(:redirect) { |url| publish(:redirect, url) }
-      .created(payment)
+      .created
   end
 end

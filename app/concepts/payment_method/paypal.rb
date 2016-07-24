@@ -1,31 +1,31 @@
-class PaymentMethod::Paypal < PaymentMethod
+class PaymentMethod::Paypal < PaymentMethod::Base
   include Rails.application.routes.url_helpers
 
-  def created(payment)
-    publish(:redirect, paypal_url(payment))
+  def created
+    publish(:redirect, paypal_url)
   end
 
   def process!(payment, params)
     case params[:payment_status]
     when 'Completed', 'Processed'
-      complete_payment(payment, params)
+      complete_payment(params)
     when 'Denied', 'Failed'
-      fail_payment(payment, params)
+      fail_payment(params)
     when 'Expired', 'Reversed', 'Voided'
-      cancel_payment(payment, params)
+      cancel_payment(params)
     when 'Refunded'
-      refund_payment(payment, params)
+      refund_payment(params)
     end
   end
 
   private
 
-  def paypal_url(payment)
+  def paypal_url
     registration = payment.registration
     festival = registration.festival
 
     values = {
-      business: ENV['MERCHANT_EMAIL'],
+      business: configuration.merchant_email,
       cmd: "_xclick",
       upload: 1,
       return: paypal_return_url(payment),
@@ -35,26 +35,26 @@ class PaymentMethod::Paypal < PaymentMethod
       currency_code: payment.amount.currency.iso_code,
       item_name: festival.name
     }
-    "#{ENV['PAYPAL_HOST']}/cgi-bin/webscr?" + values.to_query
+    "#{configuration.paypal_host}/cgi-bin/webscr?" + values.to_query
   end
 
-  def complete_payment(payment, params)
-    update_payment(payment, :approved, params)
+  def complete_payment(params)
+    update_payment(:approved, params)
   end
 
-  def fail_payment(payment, params)
-    update_payment(payment, :failed, params)
+  def fail_payment(params)
+    update_payment(:failed, params)
   end
 
-  def cancel_payment(payment, params)
-    update_payment(payment, :cancelled, params)
+  def cancel_payment(params)
+    update_payment(:cancelled, params)
   end
 
-  def refund_payment(payment, params)
-    update_payment(payment, :refunded, params)
+  def refund_payment(params)
+    update_payment(:refunded, params)
   end
 
-  def update_payment(payment, status, params)
+  def update_payment(status, params)
     payment.update!(
       amount: Money.from_amount(params[:mc_gross].to_d, params[:mc_currency]),
       transaction_reference: params[:txn_id],

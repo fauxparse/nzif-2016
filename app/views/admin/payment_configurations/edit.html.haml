@@ -1,0 +1,11 @@
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+
+= form_for payment_configuration, as: :payment_configuration, url: admin_payment_settings_path do |form|
+  = render form.object.configurations, form: form
+
+  %footer
+    .inner
+      = form.submit t('.save')

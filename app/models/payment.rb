@@ -1,6 +1,7 @@
 class Payment < ApplicationRecord
   belongs_to :registration
   has_one :participant, through: :registration
+  has_one :festival, through: :registration
 
   enum status: {
     pending:   'pending',
@@ -34,11 +35,17 @@ class Payment < ApplicationRecord
   end
 
   def payment_method
-    PaymentMethod.const_get(payment_type.camelize).new
+    @payment_method ||= PaymentMethod.const_get(payment_type.camelize).new(self)
   end
 
   def payment_method=(method)
+    @payment_method = nil
     self.payment_type = method.class.key
+  end
+
+  def payment_type=(value)
+    @payment_method = nil
+    super
   end
 
   def approve!
@@ -65,7 +72,7 @@ class Payment < ApplicationRecord
 
   def valid_payment_method
     errors.add(:payment_method, :invalid) \
-      unless payment_method.class.ancestors[1..-1].include?(PaymentMethod)
+      unless payment_method.class.ancestors[1..-1].include?(PaymentMethod::Base)
   end
 
   def generate_random_token
