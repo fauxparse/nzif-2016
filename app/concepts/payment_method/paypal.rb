@@ -7,7 +7,14 @@ class PaymentMethod::Paypal < PaymentMethod
 
   def process!(payment, params)
     case params[:payment_status]
-    when "Completed" then complete_payment(payment, params)
+    when 'Completed', 'Processed'
+      complete_payment(payment, params)
+    when 'Denied', 'Failed'
+      fail_payment(payment, params)
+    when 'Expired', 'Reversed', 'Voided'
+      cancel_payment(payment, params)
+    when 'Refunded'
+      refund_payment(payment, params)
     end
   end
 
@@ -32,11 +39,27 @@ class PaymentMethod::Paypal < PaymentMethod
   end
 
   def complete_payment(payment, params)
+    update_payment(payment, :approved, params)
+  end
+
+  def fail_payment(payment, params)
+    update_payment(payment, :failed, params)
+  end
+
+  def cancel_payment(payment, params)
+    update_payment(payment, :cancelled, params)
+  end
+
+  def refund_payment(payment, params)
+    update_payment(payment, :refunded, params)
+  end
+
+  def update_payment(payment, status, params)
     payment.update!(
       amount: Money.from_amount(params[:mc_gross].to_d, params[:mc_currency]),
       transaction_reference: params[:txn_id],
       transaction_data: params.to_h,
-      status: :approved
+      status: status
     )
   end
 end
