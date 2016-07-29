@@ -17,11 +17,6 @@ class Schedule
   activity: ->
     Activity.find(@activityId())
 
-  slots: ->
-    start = @start().diff(@start().clone().startOf('day'), 'minutes') / Editor.SLOT_SIZE
-    length = @end().diff(@start(), 'minutes') / Editor.SLOT_SIZE
-    [start...(start + length)]
-
   @fetch: ->
     unless @loading
       @loading = m.deferred()
@@ -124,7 +119,7 @@ class Editor
 
   renderDay: (date) ->
     times = @times(date)
-    range = moment.range(times[0], times[times.length - 1])
+    range = moment.range(times[0], date.clone().add(27, 'hours'))
     m('section',
       {
         role: 'row',
@@ -150,9 +145,8 @@ class Editor
     (@renderSchedule(layout.schedule, layout) for layout in strategy.layout())
 
   renderSchedule: (schedule, layout) ->
-    h = Editor.END_TIME - Editor.START_TIME
     maxWidth = 90
-    morning = schedule.start().clone().startOf('day')
+    morning = schedule.start().clone().subtract(5, 'hours').startOf('day')
       .add(Editor.START_TIME * Editor.SLOT_SIZE, 'minutes')
     start = schedule.start().diff(morning, 'minutes') / Editor.SLOT_SIZE
     length = schedule.end().diff(schedule.start(), 'minutes') / Editor.SLOT_SIZE
@@ -160,8 +154,8 @@ class Editor
     style =
       width: maxWidth * layout.width / layout.columns
       left: maxWidth * layout.column / layout.columns
-      top: start * 100.0 / h
-      height: length * 100 / h
+      top: start * 100.0 / Editor.LENGTH
+      height: length * 100 / Editor.LENGTH
 
     activity = schedule.activity()
 
@@ -178,6 +172,7 @@ class Editor
           onmousedown: @startDrag
         }
       )
+      m('hr', { onmousedown: @startResize })
     )
 
   startDrag: (e) =>
@@ -185,10 +180,6 @@ class Editor
     e.stopPropagation()
     $el = $(e.target).closest('.schedule')
     offset = $el.offset()
-
-    $(window)
-      .on('mousemove.timetable', @drag)
-      .on('mouseup.timetable', @endDrag)
 
     schedule = Schedule.find($el.attr('data-schedule-id'))
 
@@ -199,6 +190,10 @@ class Editor
       offset:
         top: e.pageY - offset.top
         left: e.pageX - offset.left
+
+    $(window)
+      .on('mousemove.timetable', @drag)
+      .on('mouseup.timetable', @endDrag)
 
   drag: (e) =>
     x = e.pageX - @_drag.offset.left
@@ -222,9 +217,51 @@ class Editor
   endDrag: (e) =>
     $(window).off('.timetable')
     @_drag.element.removeClass('dragging')
-    @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
-    @_drag.schedule.start(@_drag.time)
+    if @_drag.time.isSame(@_drag.schedule.start())
+      m.redraw.strategy('all')
+    else
+      @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
+      @_drag.schedule.start(@_drag.time)
     m.redraw()
+
+  startResize: (e) =>
+    e.preventDefault()
+    e.stopPropagation()
+    $el = $(e.target).closest('.schedule')
+    offset = $el.offset()
+
+    schedule = Schedule.find($el.attr('data-schedule-id'))
+
+    @_drag =
+      element: $el
+      schedule: schedule
+      time: schedule.end()
+      length: schedule.length() / Editor.SLOT_SIZE
+      offset: offset.top + $el.height() - e.pageY
+
+    $(window)
+      .on('mousemove.timetable', @resize)
+      .on('mouseup.timetable', @endResize)
+
+  resize: (e) =>
+    parent = @_drag.element.closest('section')
+    parentOffset = parent.offset()
+    y = e.pageY - parentOffset.top + @_drag.offset
+    slot = Math.round(y * Editor.LENGTH / parent.height())
+    time = moment(parent.attr('data-date'))
+      .add((slot + Editor.START_TIME) * Editor.SLOT_SIZE, 'minutes')
+    length = Math.max(1, time.diff(@_drag.schedule.start(), 'minutes') / Editor.SLOT_SIZE)
+    unless length == @_drag.length
+      @_drag.length = length
+      @_drag.time = time
+      @_drag.element.addClass('dragging').appendTo(parent).css
+        height: "#{length * 100.0 / Editor.LENGTH}%"
+
+  endResize: (e) =>
+    $(window).off('.timetable')
+    @_drag.element.removeClass('dragging')
+    @_drag.schedule.end(@_drag.time)
+    m.redraw(true)
 
 class LayoutSchedules
   constructor: (schedules) ->

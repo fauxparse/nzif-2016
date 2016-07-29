@@ -118,6 +118,15 @@ $timetable-background-color: $light-grey;
             border: 1px solid red;
             background: rgba(red, .25);
             border-radius: $base-border-radius;
+            cursor: move;
+          }
+
+          > hr {
+            border: none;
+            @include position(absolute, null 0rem 0rem 0rem);
+            height: .5rem;
+            cursor: ns-resize;
+            margin: 0;
           }
 
           &.dragging {
