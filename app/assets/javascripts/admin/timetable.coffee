@@ -1,3 +1,237 @@
+class Schedule
+  constructor: (attrs) ->
+    @id = m.prop(attrs.id)
+    @start = m.prop(moment(attrs.start))
+    @end = m.prop(moment(attrs.end))
+    @activityId = m.prop(attrs.activity_id)
+
+  range: ->
+    moment.range(@start(), @end())
+
+  length: ->
+    @end().diff(@start())
+
+  activity: ->
+    Activity.find(@activityId())
+
+  slots: ->
+    start = @start().diff(@start().clone().startOf('day'), 'minutes') / Editor.SLOT_SIZE
+    length = @end().diff(@start(), 'minutes') / Editor.SLOT_SIZE
+    [start...(start + length)]
+
+  @fetch: ->
+    unless @loading
+      @loading = m.deferred()
+      m.request
+        url: location.pathname + '?_=' + new Date().getTime()
+        method: 'GET'
+      .then (data) =>
+        Activity.refresh(data.activities)
+        @loading.resolve(@refresh(data.schedules))
+        @loading = undefined
+    @loading.promise
+
+  @all: m.prop([])
+
+  @refresh: (data) =>
+    @all((new Schedule(attrs) for attrs in data))
+    @_byId = {}
+    @_byId[schedule.id()] = schedule for schedule in @all()
+    @all()
+
+  @find: (id) ->
+    @_byId[id]
+
+  @overlapping: (range) ->
+    (schedule for schedule in @all() when schedule.range().overlaps(range))
+
+class Activity
+  constructor: (attrs) ->
+    @id = m.prop(attrs.id)
+    @name = m.prop(attrs.name)
+    @type = m.prop(attrs.type)
+
+  @all: m.prop([])
+
+  @refresh: (data) =>
+    @all((new Activity(attrs) for attrs in data))
+    @_byId = {}
+    @_byId[activity.id()] = activity for activity in @all()
+    @all()
+
+  @find: (id) ->
+    @_byId[id]
+
+class Editor
+  @START_TIME: 18 # 9:00 AM
+  @END_TIME:   50 # 1:00 AM
+  @LENGTH:     @END_TIME - @START_TIME
+  @SLOT_SIZE:  30
+
+  constructor: ->
+    @dates = m.prop(@datesFromConfig())
+    @selected = m.prop(@dates()[0])
+    Schedule.fetch()
+
+  view: ->
+    [
+      m('.inner',
+        m('section', { role: 'grid' },
+          m('header', { role: 'row' }, @timeHeaders()),
+          @days()
+        )
+      )
+    ]
+
+  timeHeaders: ->
+    (m('p', { role: 'columnheader' }, time.format('h:mm')) for time in @times())
+
+  times: (date = @dates()[0]) ->
+    (date.clone().startOf('day').add(i * 30, 'minutes') for i in [Editor.START_TIME...Editor.END_TIME])
+
+  days: ->
+    (@renderDay(date) for date in @dates())
+
+  renderDay: (date) ->
+    times = @times(date)
+    range = moment.range(times[0], times[times.length - 1])
+    m('section',
+      {
+        role: 'row',
+        'aria-selected': @selected().isSame(date, 'day'),
+        'data-date': date.format('YYYY-MM-DD'),
+        'data-title': date.format('dddd, D MMMM')
+      },
+      m('h3', { role: 'rowheader' }, date.format('dddd')),
+      (m('section', {
+        role: 'gridcell',
+        'data-time': time.toISOString()
+      }) for time in times),
+      @renderSchedules(Schedule.overlapping(range))
+    )
+
+  datesFromConfig: ->
+    start = moment(TimetableEditor.properties.start_date)
+    end = moment(TimetableEditor.properties.end_date)
+    moment.range(start, end).toArray('days')
+
+  renderSchedules: (schedules) ->
+    (@renderSchedule(schedule...) for schedule in @layoutSchedules(schedules))
+
+  renderSchedule: (schedule, column, columns) ->
+    h = Editor.END_TIME - Editor.START_TIME
+    maxWidth = 90
+    morning = schedule.start().clone().startOf('day')
+      .add(Editor.START_TIME * Editor.SLOT_SIZE, 'minutes')
+    start = schedule.start().diff(morning, 'minutes') / Editor.SLOT_SIZE
+    length = schedule.end().diff(schedule.start(), 'minutes') / Editor.SLOT_SIZE
+
+    style =
+      width: maxWidth / columns
+      left: maxWidth * column / columns
+      top: start * 100.0 / h
+      height: length * 100 / h
+
+    activity = schedule.activity()
+
+    m('article',
+      {
+        key: schedule.id()
+        class: 'schedule'
+        style: ("#{k}: #{v}%" for own k, v of style).join('; ')
+        'data-schedule-id': schedule.id()
+      }
+      m('div',
+        {
+          class: activity.type()
+          onmousedown: @startDrag
+        }
+      )
+    )
+
+  startDrag: (e) =>
+    e.preventDefault()
+    e.stopPropagation()
+    $el = $(e.target).closest('.schedule')
+    offset = $el.offset()
+
+    $(window)
+      .on('mousemove.timetable', @drag)
+      .on('mouseup.timetable', @endDrag)
+
+    schedule = Schedule.find($el.attr('data-schedule-id'))
+
+    @_drag =
+      element: $el
+      schedule: schedule
+      time: schedule.start()
+      offset:
+        top: e.pageY - offset.top
+        left: e.pageX - offset.left
+
+  drag: (e) =>
+    x = e.pageX - @_drag.offset.left
+    parent = @_drag.element.closest('[role=grid]').find('section[role=row]').filter ->
+      offset = $(this).offset()
+      x >= offset.left && x < offset.left + $(this).width()
+    .first()
+    parent = @_drag.element.closest('section') unless parent.length
+    parentOffset = parent.offset()
+    y = (e.pageY - parentOffset.top - @_drag.offset.top)
+    slot = Math.round(y * Editor.LENGTH / parent.height())
+    time = moment(parent.attr('data-date'))
+      .add((slot + Editor.START_TIME) * Editor.SLOT_SIZE, 'minutes')
+    unless time.isSame(@_drag.time)
+      @_drag.time = time
+      @_drag.element.addClass('dragging').appendTo(parent).css
+        left: 0
+        width: "100%"
+        top: "#{slot * 100.0 / Editor.LENGTH}%"
+
+  endDrag: (e) =>
+    $(window).off('.timetable')
+    @_drag.element.removeClass('dragging')
+    m.computation =>
+      @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
+      @_drag.schedule.start(@_drag.time)
+
+  layoutSchedules: (schedules) ->
+    schedules.sort(@compareSchedules)
+    fitted = {}
+    fitted[i] = new Array(schedules.length) for i in [Editor.START_TIME...(Editor.END_TIME + 24)]
+    layout = ([schedule, @fit(schedule, fitted)] for schedule in schedules)
+    for schedule in layout
+      max = 0
+      for i in schedule[0].slots()
+        max = j for s, j in fitted[i] when j > max && s
+      schedule.push(max + 1)
+    layout
+
+  fit: (schedule, fitted) ->
+    fit = 0
+    slots = schedule.slots()
+    while true
+      clashes = (i for i in slots when fitted[i][fit])
+      if clashes.length == 0
+        fitted[i][fit] = schedule for i in slots
+        return fit
+      fit += 1
+
+  compareSchedules: (a, b) ->
+    rangeA = a.range()
+    rangeB = b.range()
+    if rangeA < rangeB
+      1
+    else if rangeB < rangeA
+      -1
+    else
+      if a.start().isBefore(b.start())
+        -1
+      else if b.start().isBefore(a.start())
+        1
+      else
+        0
+
 class Timetable
   constructor: (el) ->
     @el = $(el)
@@ -128,6 +362,13 @@ class ActivityList
   constructor: (el) ->
     @el = el
 
+@TimetableEditor =
+  controller: (args...) ->
+    new Editor(args...)
+
+  view: (controller) ->
+    controller.view()
+
 document.addEventListener 'turbolinks:load', ->
   $(document).on 'mousedown', 'footer [role=separator]', (e) ->
     height = $('main').height()
@@ -142,8 +383,8 @@ document.addEventListener 'turbolinks:load', ->
     $(document).on 'mouseup.resize-footer', ->
       $(document).off('.resize-footer')
 
-  $('[data-controller=timetables]').each ->
-    new Timetable(this)
+  # $('[data-controller=timetables]').each ->
+  #   new Timetable(this)
 
   $(document).on 'dialog:loaded', '.edit-schedule', (e) ->
     $('select', e.target).chosen(allow_single_deselect: true, search_contains: true)

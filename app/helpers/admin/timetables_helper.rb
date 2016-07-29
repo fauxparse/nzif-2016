@@ -11,4 +11,22 @@ module Admin::TimetablesHelper
       { id: activity.id }
     end.merge(duration: (activity.duration / 30.minutes).ceil)
   end
+
+  def timetable_editor_component(timetable)
+    mithril_component(
+      'TimetableEditor',
+      timetable_component_data(timetable),
+      tag: 'section',
+      class: 'edit-timetable'
+    )
+  end
+
+  private
+
+  def timetable_component_data(timetable)
+    {
+      start_date: timetable.dates.first,
+      end_date: timetable.dates.last
+    }
+  end
 end

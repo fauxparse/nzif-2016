@@ -1,5 +1,9 @@
 class Admin::TimetablesController < Admin::Controller
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: timetable }
+    end
   end
 
   private

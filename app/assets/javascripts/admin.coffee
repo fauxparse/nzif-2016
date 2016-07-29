@@ -3,8 +3,11 @@
 #= require turbolinks
 #= require moment
 #= require moment-timezone
+#= require moment-range
 #= require dragula
 #= require chosen.jquery
+#= require mithril
+#= require mithril_ujs
 #= require_tree ./lib
 #= require_tree ./admin/lib
 #= require_tree ./admin

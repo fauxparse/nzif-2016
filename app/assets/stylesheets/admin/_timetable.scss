@@ -38,7 +38,8 @@ $timetable-background-color: $light-grey;
 
     > .inner {
       padding: 2rem 3.5625rem 0 0;
-      max-height: 34rem;
+      height: 35rem;
+      max-height: 35rem;
       overflow: hidden;
     }
 
@@ -101,6 +102,34 @@ $timetable-background-color: $light-grey;
           width: 100%;
         }
 
+        article.schedule {
+          position: absolute;
+          transition-property: left, width, top;
+          transition-duration: $base-duration;
+          transition-timing-function: $ease-out-back;
+
+          > div {
+            content: "";
+            position: absolute;
+            left: 1px;
+            top: 2px;
+            right: 2px;
+            bottom: 1px;
+            border: 1px solid red;
+            background: rgba(red, .25);
+            border-radius: $base-border-radius;
+          }
+
+          &.dragging {
+            transition-property: none;
+            z-index: 1;
+
+            > div {
+              box-shadow: 0 0 .5rem rgba(black, .25);
+            }
+          }
+        }
+
         [role="gridcell"] {
           height: 1rem;
           max-height: 1rem;
@@ -110,6 +139,12 @@ $timetable-background-color: $light-grey;
 
           &:nth-of-type(even) {
             border-top-color: rgba($timetable-border-color, .35);
+          }
+
+          &:last-of-type::after {
+            content: "";
+            @include position(absolute, null 0px -1px -1px);
+            border-bottom: 1px solid $timetable-border-color;
           }
 
           .timeslot {
