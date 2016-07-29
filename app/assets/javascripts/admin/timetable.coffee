@@ -8,6 +8,9 @@ class Schedule
   range: ->
     moment.range(@start(), @end())
 
+  overlaps: (another) ->
+    @range().overlaps(another.range())
+
   length: ->
     @end().diff(@start())
 
@@ -44,6 +47,33 @@ class Schedule
 
   @overlapping: (range) ->
     (schedule for schedule in @all() when schedule.range().overlaps(range))
+
+  @compare: (a, b) ->
+    if a.start().isBefore(b.start())
+      -1
+    else if b.start().isBefore(a.start())
+      1
+    else
+      rangeA = a.range()
+      rangeB = b.range()
+      if rangeA < rangeB
+        1
+      else if rangeB < rangeA
+        -1
+      else
+        0
+
+  @grouped: (schedules = @all()) ->
+    overlapsGroup = (schedule, group) ->
+      return true for s in group when schedule.overlaps(s)
+      false
+    schedules.sort(@compare).reduce (groups, schedule) ->
+      group = g for g in groups when overlapsGroup(schedule, g)
+      groups.push(group = []) unless group
+      group.push(schedule)
+      groups
+    , []
+
 
 class Activity
   constructor: (attrs) ->
@@ -116,9 +146,10 @@ class Editor
     moment.range(start, end).toArray('days')
 
   renderSchedules: (schedules) ->
-    (@renderSchedule(schedule...) for schedule in @layoutSchedules(schedules))
+    strategy = new LayoutSchedules(schedules)
+    (@renderSchedule(layout.schedule, layout) for layout in strategy.layout())
 
-  renderSchedule: (schedule, column, columns) ->
+  renderSchedule: (schedule, layout) ->
     h = Editor.END_TIME - Editor.START_TIME
     maxWidth = 90
     morning = schedule.start().clone().startOf('day')
@@ -127,8 +158,8 @@ class Editor
     length = schedule.end().diff(schedule.start(), 'minutes') / Editor.SLOT_SIZE
 
     style =
-      width: maxWidth / columns
-      left: maxWidth * column / columns
+      width: maxWidth * layout.width / layout.columns
+      left: maxWidth * layout.column / layout.columns
       top: start * 100.0 / h
       height: length * 100 / h
 
@@ -191,46 +222,44 @@ class Editor
   endDrag: (e) =>
     $(window).off('.timetable')
     @_drag.element.removeClass('dragging')
-    m.computation =>
-      @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
-      @_drag.schedule.start(@_drag.time)
+    @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
+    @_drag.schedule.start(@_drag.time)
+    m.redraw()
+
+class LayoutSchedules
+  constructor: (schedules) ->
+    @_schedules = schedules
+
+  layout: ->
+    @_layout ||= @layoutSchedules(@_schedules)
 
   layoutSchedules: (schedules) ->
-    schedules.sort(@compareSchedules)
-    fitted = {}
-    fitted[i] = new Array(schedules.length) for i in [Editor.START_TIME...(Editor.END_TIME + 24)]
-    layout = ([schedule, @fit(schedule, fitted)] for schedule in schedules)
-    for schedule in layout
-      max = 0
-      for i in schedule[0].slots()
-        max = j for s, j in fitted[i] when j > max && s
-      schedule.push(max + 1)
+    Schedule.grouped(schedules).reduce(@layoutGroup, [])
+
+  layoutGroup: (layout, group) =>
+    fixed = []
+    max = 0
+    for schedule in group
+      column = @findColumn(schedule, fixed)
+      max = Math.max(column, max)
+      fixed.push({ schedule, column })
+    layout.push(@grow(f, fixed, max + 1)) for f in fixed
     layout
 
-  fit: (schedule, fitted) ->
-    fit = 0
-    slots = schedule.slots()
-    while true
-      clashes = (i for i in slots when fitted[i][fit])
-      if clashes.length == 0
-        fitted[i][fit] = schedule for i in slots
-        return fit
-      fit += 1
+  findColumn: (schedule, fixed) ->
+    for i in [0..fixed.length]
+      return i if !@overlapsAtColumn(schedule, fixed, i)
+    fixed.length
 
-  compareSchedules: (a, b) ->
-    rangeA = a.range()
-    rangeB = b.range()
-    if rangeA < rangeB
-      1
-    else if rangeB < rangeA
-      -1
-    else
-      if a.start().isBefore(b.start())
-        -1
-      else if b.start().isBefore(a.start())
-        1
-      else
-        0
+  grow: (blob, layout, columns) ->
+    w = blob.column + 1
+    w += 1 while w < columns && !@overlapsAtColumn(blob.schedule, layout, w)
+    w -= blob.column
+    { schedule: blob.schedule, column: blob.column, columns: columns, width: w }
+
+  overlapsAtColumn: (schedule, layout, column) ->
+    return true for f in layout when f.column == column && schedule.overlaps(f.schedule)
+    false
 
 class Timetable
   constructor: (el) ->
