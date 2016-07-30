@@ -1,4 +1,4 @@
-main > header {
+main header {
   border-bottom: $base-border;
   padding-bottom: $small-spacing;
   position: relative;
@@ -38,6 +38,10 @@ main > header {
 
       &:hover, &:focus {
         color: rgba($action-color, 1);
+        background: none;
+      }
+
+      &:disabled:hover {
         background: none;
       }
     }

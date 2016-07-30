@@ -14,13 +14,16 @@ $timetable-background-color: $light-grey;
 }
 
 [data-controller="timetables"] main {
-  display: flex;
-  flex-direction: column;
   padding: 0;
-  height: 100vh;
-  overflow: hidden;
 
-  > header {
+  .timetable-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  header {
     flex-shrink: 0;
     margin: 0;
     padding: 1rem 1rem $small-spacing 3.5rem;
@@ -28,7 +31,7 @@ $timetable-background-color: $light-grey;
     [rel="range"] { display: none; }
   }
 
-  > section {
+  .edit-timetable {
     min-height: 2rem;
     overflow-y: auto;
     position: relative;
@@ -38,8 +41,8 @@ $timetable-background-color: $light-grey;
 
     > .inner {
       padding: 2rem 3.5625rem 0 0;
-      height: 35rem;
-      max-height: 35rem;
+      height: 39rem;
+      max-height: 39rem;
       overflow: hidden;
     }
 
@@ -56,13 +59,17 @@ $timetable-background-color: $light-grey;
         margin-right: -1px;
 
         &:first-child {
+          padding: 0;
           display: block;
           flex: 0 0 3.5rem;
           border-left: none;
           border-bottom: none;
           transform: translateY(-.5rem);
+          padding-bottom: 0;
+          margin-bottom: 0;
 
           [role="columnheader"] {
+            display: block;
             white-space: nowrap;
             height: 1rem;
             margin: 0;
@@ -131,6 +138,8 @@ $timetable-background-color: $light-grey;
 
           &.dragging {
             transition-property: none;
+            left: 0 !important;
+            width: 90% !important;
             z-index: 1;
 
             > div {
@@ -152,7 +161,7 @@ $timetable-background-color: $light-grey;
 
           &:last-of-type::after {
             content: "";
-            @include position(absolute, null 0px -1px -1px);
+            @include position(absolute, null -1px -1px -1px);
             border-bottom: 1px solid $timetable-border-color;
           }
 
@@ -244,7 +253,7 @@ $timetable-background-color: $light-grey;
   }
 
   @include media($large-screen) {
-    > header {
+    header {
       [rel="next"],
       [rel="prev"] {
         display: none;
@@ -254,7 +263,7 @@ $timetable-background-color: $light-grey;
       [rel="range"] { display: block; }
     }
 
-    > section [role="grid"] [role="row"] {
+    .edit-timetable [role="grid"] [role="row"] {
       display: block;
 
       &:not(:first-of-type) [role="rowheader"]::before {

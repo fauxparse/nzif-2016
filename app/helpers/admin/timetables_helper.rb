@@ -16,8 +16,7 @@ module Admin::TimetablesHelper
     mithril_component(
       'TimetableEditor',
       timetable_component_data(timetable),
-      tag: 'section',
-      class: 'edit-timetable'
+      class: 'timetable-container'
     )
   end
 
@@ -25,6 +24,8 @@ module Admin::TimetablesHelper
 
   def timetable_component_data(timetable)
     {
+      title: t('admin.timetables.show.title'),
+      subtitle: date_range(timetable.dates.first, timetable.dates.last),
       start_date: timetable.dates.first,
       end_date: timetable.dates.last
     }

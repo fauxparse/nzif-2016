@@ -89,24 +89,24 @@ class Activity
 
 class Editor
   @START_TIME: 18 # 9:00 AM
-  @END_TIME:   50 # 1:00 AM
+  @END_TIME:   54 # 3:00 AM
   @LENGTH:     @END_TIME - @START_TIME
   @SLOT_SIZE:  30
 
-  constructor: ->
-    @dates = m.prop(@datesFromConfig())
-    @selected = m.prop(@dates()[0])
+  constructor: (props) ->
+    @dates = m.prop(moment.range(props.start(), props.end()).toArray('days'))
+    @selected = props.selected
     Schedule.fetch()
 
   view: ->
-    [
+    m('section', { class: 'edit-timetable' },
       m('.inner',
         m('section', { role: 'grid' },
           m('header', { role: 'row' }, @timeHeaders()),
           @days()
         )
       )
-    ]
+    )
 
   timeHeaders: ->
     (m('p', { role: 'columnheader' }, time.format('h:mm')) for time in @times())
@@ -210,19 +210,15 @@ class Editor
     unless time.isSame(@_drag.time)
       @_drag.time = time
       @_drag.element.addClass('dragging').appendTo(parent).css
-        left: 0
-        width: "100%"
         top: "#{slot * 100.0 / Editor.LENGTH}%"
 
   endDrag: (e) =>
     $(window).off('.timetable')
     @_drag.element.removeClass('dragging')
-    if @_drag.time.isSame(@_drag.schedule.start())
-      m.redraw.strategy('all')
-    else
-      @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
-      @_drag.schedule.start(@_drag.time)
-    m.redraw()
+    unless @_drag.time.isSame(@_drag.schedule.start())
+      m.computation =>
+        @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
+        @_drag.schedule.start(@_drag.time)
 
   startResize: (e) =>
     e.preventDefault()
@@ -298,142 +294,186 @@ class LayoutSchedules
     return true for f in layout when f.column == column && schedule.overlaps(f.schedule)
     false
 
-class Timetable
-  constructor: (el) ->
-    @el = $(el)
-    @el.find('header [rel=next]').click(@nextDay)
-    @el.find('header [rel=prev]').click(@previousDay)
-    @timetable = @el.find('main > section').on('scroll', @scrolled)
-    @activityList = new ActivityList(@el.find('main > footer'))
-    @drag = dragula @containers(),
-      moves: (el, source, handle, sibling) ->
-        !$(handle).is('hr')
-      copy: (el, source) -> $(source).attr('role') == 'group'
-      accepts: (el, target) ->
-        $target = $(target)
-        return true if $target.is('[rel=trash]') &&
-          $(el).is('[data-schedule-id')
-        $target.attr('role') != 'group' &&
-          !$target.has("[data-id=#{$(el).data('id')}]").length
-    @drag.on 'drop', @drop
-    @drag.on 'over', (el, target, source) -> $(target).addClass('over')
-    @drag.on 'out', (el, target, source) -> $(target).removeClass('over')
-    @el.on('mousedown', '.timetable-activity hr', @resize)
+# class Timetable
+#   constructor: (el) ->
+#     @el = $(el)
+#     @el.find('header [rel=next]').click(@nextDay)
+#     @el.find('header [rel=prev]').click(@previousDay)
+#     @timetable = @el.find('main > section').on('scroll', @scrolled)
+#     @activityList = new ActivityList(@el.find('main > footer'))
+#     @drag = dragula @containers(),
+#       moves: (el, source, handle, sibling) ->
+#         !$(handle).is('hr')
+#       copy: (el, source) -> $(source).attr('role') == 'group'
+#       accepts: (el, target) ->
+#         $target = $(target)
+#         return true if $target.is('[rel=trash]') &&
+#           $(el).is('[data-schedule-id')
+#         $target.attr('role') != 'group' &&
+#           !$target.has("[data-id=#{$(el).data('id')}]").length
+#     @drag.on 'drop', @drop
+#     @drag.on 'over', (el, target, source) -> $(target).addClass('over')
+#     @drag.on 'out', (el, target, source) -> $(target).removeClass('over')
+#     @el.on('mousedown', '.timetable-activity hr', @resize)
 
-  containers: ->
-    [].concat(
-      @el.find('footer [role=group]').get()
-      @el.find('[role=gridcell]').get()
-      @el.find('.timeslot').get()
-      @el.find('[rel=trash]').get()
-    )
+#   containers: ->
+#     [].concat(
+#       @el.find('footer [role=group]').get()
+#       @el.find('[role=gridcell]').get()
+#       @el.find('.timeslot').get()
+#       @el.find('[rel=trash]').get()
+#     )
 
-  url: (path...) ->
-    [location.pathname].concat(path).join('/')
+#   url: (path...) ->
+#     [location.pathname].concat(path).join('/')
 
-  drop: (el, target, source, sibling) =>
-    $target = $(target)
-    role = $target.attr('role')
-    if role == 'gridcell'
-      $target = $('<div></div>')
-        .addClass('timeslot')
-        .attr('data-time', $(target).attr('data-time'))
-        .appendTo(target)
-      $target.append(el)
-      @drag.containers.push $target.get(0)
-    @moved(el, source, target)
-    $(source).filter('.timeslot:empty').remove()
+#   drop: (el, target, source, sibling) =>
+#     $target = $(target)
+#     role = $target.attr('role')
+#     if role == 'gridcell'
+#       $target = $('<div></div>')
+#         .addClass('timeslot')
+#         .attr('data-time', $(target).attr('data-time'))
+#         .appendTo(target)
+#       $target.append(el)
+#       @drag.containers.push $target.get(0)
+#     @moved(el, source, target)
+#     $(source).filter('.timeslot:empty').remove()
 
-  moved: (el, source, target) ->
-    $el = $(el)
-    $target = $(target)
-    $source = $(source)
-    if $target.is('[rel=trash]')
-      $.ajax
-        url: @url('schedules', $el.data('schedule-id'))
-        method: 'delete'
-      $el.remove()
-    else
-      start = moment($target.data('time'))
-      duration = parseInt($el.data('duration'), 10) * 30
-      end = start.clone().add(duration, 'minutes')
-      options =
-        dataType: 'json'
-        contentType: 'application/json'
-        data:
-          schedule:
-            activity_id: $el.data('id')
-            starts_at: start.toISOString()
-            ends_at: end.toISOString()
-            position: $el.prevAll().length
-      if $source.is('.timeslot')
-        options.url = @url('schedules', $el.data('schedule-id'))
-        options.method = 'put'
-      else
-        options.url = @url('schedules')
-        options.method = 'post'
-      options.data = JSON.stringify(options.data)
-      $.ajax(options)
-        .done (data) =>
-          $el
-            .attr("data-schedule-id", data.id)
-            .find("h4")
-            .html("<a href=\"#{data.url}\" rel=\"edit\" data-dialog=\"edit-schedule\">#{data.name}</a>")
+#   moved: (el, source, target) ->
+#     $el = $(el)
+#     $target = $(target)
+#     $source = $(source)
+#     if $target.is('[rel=trash]')
+#       $.ajax
+#         url: @url('schedules', $el.data('schedule-id'))
+#         method: 'delete'
+#       $el.remove()
+#     else
+#       start = moment($target.data('time'))
+#       duration = parseInt($el.data('duration'), 10) * 30
+#       end = start.clone().add(duration, 'minutes')
+#       options =
+#         dataType: 'json'
+#         contentType: 'application/json'
+#         data:
+#           schedule:
+#             activity_id: $el.data('id')
+#             starts_at: start.toISOString()
+#             ends_at: end.toISOString()
+#             position: $el.prevAll().length
+#       if $source.is('.timeslot')
+#         options.url = @url('schedules', $el.data('schedule-id'))
+#         options.method = 'put'
+#       else
+#         options.url = @url('schedules')
+#         options.method = 'post'
+#       options.data = JSON.stringify(options.data)
+#       $.ajax(options)
+#         .done (data) =>
+#           $el
+#             .attr("data-schedule-id", data.id)
+#             .find("h4")
+#             .html("<a href=\"#{data.url}\" rel=\"edit\" data-dialog=\"edit-schedule\">#{data.name}</a>")
 
-  days: ->
-    @_days ||= @el.find('main section[role=row]')
+#   days: ->
+#     @_days ||= @el.find('main section[role=row]')
 
-  nextDay: =>
-    day = $(@days().filter('[aria-selected=true]').next().get()
-      .concat(@days().first().get())).first()
-    day.attr('aria-selected', 'true')
-      .siblings().attr('aria-selected', 'false').end()
-    @el.find('header [rel=single]').text(day.data('title'))
+#   nextDay: =>
+#     day = $(@days().filter('[aria-selected=true]').next().get()
+#       .concat(@days().first().get())).first()
+#     day.attr('aria-selected', 'true')
+#       .siblings().attr('aria-selected', 'false').end()
+#     @el.find('header [rel=single]').text(day.data('title'))
 
-  previousDay: =>
-    day = $(@days().filter('[aria-selected=true]').prev(':not(header)').get()
-      .concat(@days().last().get())).first()
-    day.attr('aria-selected', 'true')
-      .siblings().attr('aria-selected', 'false').end()
-    @el.find('header [rel=single]').text(day.data('title'))
+#   previousDay: =>
+#     day = $(@days().filter('[aria-selected=true]').prev(':not(header)').get()
+#       .concat(@days().last().get())).first()
+#     day.attr('aria-selected', 'true')
+#       .siblings().attr('aria-selected', 'false').end()
+#     @el.find('header [rel=single]').text(day.data('title'))
 
-  scrolled: (e) =>
-    section = $(e.target).closest('section')
-    section.find('[role=rowheader]')
-      .css(transform: "translateY(#{section.scrollTop()}px)")
+#   scrolled: (e) =>
+#     section = $(e.target).closest('section')
+#     section.find('[role=rowheader]')
+#       .css(transform: "translateY(#{section.scrollTop()}px)")
 
-  resize: (e) =>
-    $el = $(e.target).closest('.timetable-activity')
-    duration = parseInt($el.attr('data-duration'), 10)
-    height = $el.height()
-    blockSize = height / duration
-    top = $el.offset().top
-    offset = top - @timetable.scrollTop() + height - e.pageY
-    @timetable.on 'mousemove.resize-activity', (e) =>
-      h = e.pageY + offset - top + @timetable.scrollTop()
-      $el.attr('data-duration', Math.max(Math.round(h / blockSize), 1))
-    $(document).on 'mouseup.resize-activity', (e) =>
-      @timetable.off('.resize-activity')
-      $(document).off('.resize-activity')
-      end = moment($el.closest('.timeslot').attr('data-time'))
-        .add(parseInt($el.attr('data-duration'), 10) * 30, 'minutes')
-      $.ajax
-        url: @url('schedules', $el.attr('data-schedule-id') + '.json')
-        method: 'put'
-        data:
-          schedule:
-            ends_at: end.toISOString()
+#   resize: (e) =>
+#     $el = $(e.target).closest('.timetable-activity')
+#     duration = parseInt($el.attr('data-duration'), 10)
+#     height = $el.height()
+#     blockSize = height / duration
+#     top = $el.offset().top
+#     offset = top - @timetable.scrollTop() + height - e.pageY
+#     @timetable.on 'mousemove.resize-activity', (e) =>
+#       h = e.pageY + offset - top + @timetable.scrollTop()
+#       $el.attr('data-duration', Math.max(Math.round(h / blockSize), 1))
+#     $(document).on 'mouseup.resize-activity', (e) =>
+#       @timetable.off('.resize-activity')
+#       $(document).off('.resize-activity')
+#       end = moment($el.closest('.timeslot').attr('data-time'))
+#         .add(parseInt($el.attr('data-duration'), 10) * 30, 'minutes')
+#       $.ajax
+#         url: @url('schedules', $el.attr('data-schedule-id') + '.json')
+#         method: 'put'
+#         data:
+#           schedule:
+#             ends_at: end.toISOString()
 
-class ActivityList
-  constructor: (el) ->
-    @el = el
+# class ActivityList
+#   constructor: (el) ->
+#     @el = el
 
-@TimetableEditor =
+EditorComponent =
   controller: (args...) ->
     new Editor(args...)
 
   view: (controller) ->
     controller.view()
+
+@TimetableEditor =
+  controller: (args...) ->
+    start = moment(TimetableEditor.properties.start_date)
+    end = moment(TimetableEditor.properties.end_date)
+    {
+      start: m.prop(start)
+      end: m.prop(end)
+      selected: m.prop(start)
+    }
+
+  view: (controller) ->
+    [
+      m('header',
+        m('section',
+          m('h1', TimetableEditor.properties.title)
+          m('h2', { rel: 'range' }, TimetableEditor.properties.subtitle)
+          m('h3', { rel: 'single' }, '')
+        )
+        m('aside',
+          m('button',
+            {
+              rel: 'prev'
+              disabled: controller.start().isSame(controller.selected())
+              onclick: -> controller.selected(controller.selected().clone().subtract(1, 'day'))
+            },
+            m('i', { class: 'material-icons' }, 'keyboard_arrow_left')
+          )
+          m('button',
+            {
+              rel: 'next'
+              disabled: controller.end().isSame(controller.selected())
+              onclick: -> controller.selected(controller.selected().clone().add(1, 'day'))
+            },
+            m('i', { class: 'material-icons' }, 'keyboard_arrow_right')
+          )
+        )
+      )
+      m.component(EditorComponent, {
+        start: controller.start
+        end: controller.end
+        selected: controller.selected
+      })
+    ]
 
 document.addEventListener 'turbolinks:load', ->
   $(document).on 'mousedown', 'footer [role=separator]', (e) ->
