@@ -171,6 +171,7 @@ en:
         submit: "Create"
       edit:
         submit: "Save changes"
+        remove: "Remove"
         select_venue: "Select a venue"
     venues:
       index:

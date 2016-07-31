@@ -47,6 +47,12 @@ class @Schedule
   @find: (id) ->
     @_byId[id]
 
+  @destroy: (id) ->
+    if instance = @_byId[id]
+      all = @all()
+      all.splice(all.indexOf(instance), 1)
+      m.computation => @all(all)
+
   @overlapping: (range) ->
     (schedule for schedule in @all() when schedule.range().overlaps(range))
 
@@ -227,11 +233,14 @@ class Editor
 
   endDrag: (e) =>
     $(window).off('.timetable')
-    @_drag.element.removeClass('dragging')
-    unless @_drag.time.isSame(@_drag.schedule.start())
-      m.computation =>
-        @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
-        @_drag.schedule.start(@_drag.time)
+    if @_drag.element.hasClass('dragging')
+      @_drag.element.removeClass('dragging')
+      unless @_drag.time.isSame(@_drag.schedule.start())
+        m.computation =>
+          @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
+          @_drag.schedule.start(@_drag.time)
+    else
+      @_drag.element.find('a').click()
 
   startResize: (e) =>
     e.preventDefault()
@@ -559,3 +568,7 @@ document.addEventListener 'turbolinks:load', ->
 
   $(document).on 'dialog:loaded', '.new-schedule, .edit-schedule', (e) ->
     $('select', e.target).chosen(allow_single_deselect: true, search_contains: true)
+    $('[data-method=delete]', e.target).on 'click', (e) ->
+      url = $(e.target).closest('[href]').attr('href')
+      id = url.split('/').pop()
+      Schedule.destroy(id)

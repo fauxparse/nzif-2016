@@ -10,4 +10,5 @@
       = form.select :venue_id, [[]] + Venue.in_order.map { |venue| [venue.name, venue.id] }, data: { placeholder: t('.select_venue') }
       = form.error_messages_for :venue_id
   %footer
+    = link_to t('.remove'), admin_timetable_schedule_path(festival, schedule), rel: :delete, role: :button, remote: true, method: :delete
     = form.submit t('.submit')
