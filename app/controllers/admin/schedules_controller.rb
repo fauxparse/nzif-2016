@@ -1,8 +1,12 @@
 class Admin::SchedulesController < ApplicationController
-  def create
-    @schedule = Schedule.create!(schedule_params.except(:position))
-    @schedule.insert_at(schedule_params[:position].to_i)
+  def new
+    @schedule = Schedule.new(schedule_params)
     render_schedule
+  end
+
+  def create
+    @schedule = Schedule.create!(schedule_params)
+    render json: schedule, serializer: TimetableScheduleSerializer
   end
 
   def edit
@@ -41,11 +45,14 @@ class Admin::SchedulesController < ApplicationController
 
   def render_schedule(status = :ok)
     respond_to do |format|
-      format.html { render :edit, layout: false, status: status }
+      format.html do
+        template = schedule.id.blank? ? :new : :edit
+        render template, layout: false, status: status
+      end
       format.json do
         render json: @schedule,
-         url: edit_admin_timetable_schedule_path(id: @schedule),
-         status: status
+          serializer: TimetableScheduleSerializer,
+          status: status
       end
     end
   end

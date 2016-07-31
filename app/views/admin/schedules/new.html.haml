@@ -1,0 +1,17 @@
+= form_for schedule, url: admin_timetable_schedules_path, remote: true, html: { id: :form } do |form|
+  = form.hidden_field :starts_at
+  = form.hidden_field :ends_at
+  %header
+    %h2= t('.title')
+    %a{href: "#", rel: :close}= icon(:close)
+  %section
+    .field
+      = form.label :activity_id
+      = form.select :activity_id, grouped_activities_for_select(festival.activities), data: { placeholder: t('.select_activity') }
+      = form.error_messages_for :activity_id
+    .field
+      = form.label :venue_id
+      = form.select :venue_id, [[]] + Venue.in_order.map { |venue| [venue.name, venue.id] }, data: { placeholder: t('.select_venue') }
+      = form.error_messages_for :venue_id
+  %footer
+    = form.submit t('.submit')

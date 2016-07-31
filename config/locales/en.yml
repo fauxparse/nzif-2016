@@ -156,6 +156,7 @@ en:
         submit: "Create %{type}"
       edit:
         submit: "Save changes"
+        cancel: "Cancel"
       form:
         select_facilitators: "Select facilitators…"
         best_image_size: "1280×720"
@@ -165,6 +166,9 @@ en:
       show:
         title: "Timetable"
     schedules:
+      new:
+        title: "New scheduled activity"
+        submit: "Create"
       edit:
         submit: "Save changes"
         select_venue: "Select a venue"

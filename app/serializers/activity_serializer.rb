@@ -6,6 +6,6 @@ class ActivitySerializer < ActiveModel::Serializer
   end
 
   def type
-    object.class.name.demodulize.underscore
+    object.class.name.demodulize.underscore.dasherize
   end
 end

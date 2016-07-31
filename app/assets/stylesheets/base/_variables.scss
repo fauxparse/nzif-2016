@@ -31,13 +31,18 @@ $base-z-index: 0;
 // Colors
 $tomato: #ff6447;
 $teal: #2b6c8b;
-$red: #ed1c24;
-$amber: #ffa547;
-$pink: #d83c80;
-$purple: #ae51be;
+$red: #f1433f;
+$amber: #ffa847;
+$pink: #db3d7d;
+$purple: #9332a8;
 $dark-grey: #263238;
 $medium-grey: #607D8B;
 $light-grey: #ECEFF1;
+
+$workshop-color: $amber;
+$show-color: $tomato;
+$social-event-color: $pink;
+$discussion-color: $purple;
 
 // Font Colors
 $base-font-color: $dark-grey;

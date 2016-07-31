@@ -1,7 +1,6 @@
-class Dialog
-  constructor: (link) ->
-    link = $(link)
-    @load(link.attr('href'), link.attr('data-dialog'))
+class @Dialog
+  constructor: (url, className) ->
+    @load(url, className)
 
   load: (url, className) ->
     @_className = className
@@ -12,6 +11,7 @@ class Dialog
           @contents()
             .trigger('dialog:shown')
             .find(':input:visible').first().focus().select()
+      @contents().trigger('dialog:show')
 
   contents: ->
     @_el ||= $('<div>', class: "dialog #{@_className}")
@@ -20,6 +20,7 @@ class Dialog
       .wrap("<div class=\"dialog-container #{@_className}-container\">")
 
   close: =>
+    @contents().trigger('dialog:hide')
     @_el.parent()
       .transitionEnd =>
         @contents().trigger('dialog:hidden')
@@ -29,7 +30,8 @@ class Dialog
 $(document)
   .on 'click', '[data-dialog]', (e) ->
     e.preventDefault()
-    new Dialog($(e.target).closest('[data-dialog]'))
+    link = $(e.target).closest('[data-dialog]')
+    new Dialog(link.attr('href'), link.attr('data-dialog'))
   .on 'click', '.dialog [rel=close]', (e) ->
     e.preventDefault()
     $(e.target).closest('.dialog').data('dialog').close()

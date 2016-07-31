@@ -20,6 +20,19 @@ module Admin::TimetablesHelper
     )
   end
 
+  def grouped_activities_for_select(activities)
+    activities
+      .group_by { |activity| activity.class.model_name.human.pluralize }
+      .map { |group, activities|
+        [
+          group,
+          activities.sort_by(&:name).map { |activity|
+            [activity.name, activity.id]
+          }
+        ]
+      }
+  end
+
   private
 
   def timetable_component_data(timetable)

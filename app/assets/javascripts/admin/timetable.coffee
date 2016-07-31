@@ -1,4 +1,4 @@
-class Schedule
+class @Schedule
   constructor: (attrs) ->
     @id = m.prop(attrs.id)
     @start = m.prop(moment(attrs.start))
@@ -17,25 +17,32 @@ class Schedule
   activity: ->
     Activity.find(@activityId())
 
-  @fetch: ->
-    unless @loading
+  url: (path = '') ->
+    location.pathname + '/schedules/' + @id() + path
+
+  @fetch: (force = false) ->
+    if force || !@loading
       @loading = m.deferred()
       m.request
         url: location.pathname + '?_=' + new Date().getTime()
         method: 'GET'
       .then (data) =>
         Activity.refresh(data.activities)
-        @loading.resolve(@refresh(data.schedules))
-        @loading = undefined
+        @loading.resolve(@refresh(data.schedules, true))
     @loading.promise
 
   @all: m.prop([])
 
-  @refresh: (data) =>
-    @all((new Schedule(attrs) for attrs in data))
+  @refresh: (data, clear = false) =>
+    all = if clear then [] else @all().slice(0)
+    all.push(new Schedule(attrs)) for attrs in data
+    @all(all)
     @_byId = {}
     @_byId[schedule.id()] = schedule for schedule in @all()
     @all()
+
+  @create: (attrs) ->
+    m.computation => @refresh([attrs])
 
   @find: (id) ->
     @_byId[id]
@@ -56,7 +63,7 @@ class Schedule
       else if rangeB < rangeA
         -1
       else
-        0
+        a.id() - b.id()
 
   @grouped: (schedules = @all()) ->
     overlapsGroup = (schedule, group) ->
@@ -99,7 +106,7 @@ class Editor
     Schedule.fetch()
 
   view: ->
-    m('section', { class: 'edit-timetable' },
+    m('section', { class: 'edit-timetable', onscroll: @scrolled },
       m('.inner',
         m('section', { role: 'grid' },
           m('header', { role: 'row' }, @timeHeaders()),
@@ -122,10 +129,11 @@ class Editor
     range = moment.range(times[0], date.clone().add(27, 'hours'))
     m('section',
       {
-        role: 'row',
-        'aria-selected': @selected().isSame(date, 'day'),
-        'data-date': date.format('YYYY-MM-DD'),
+        role: 'row'
+        'aria-selected': @selected().isSame(date, 'day')
+        'data-date': date.format('YYYY-MM-DD')
         'data-title': date.format('dddd, D MMMM')
+        onmousedown: @startDraw
       },
       m('h3', { role: 'rowheader' }, date.format('dddd')),
       (m('section', {
@@ -171,6 +179,11 @@ class Editor
           class: activity.type()
           onmousedown: @startDrag
         }
+        m('h4',
+          m('a', { href: schedule.url('/edit'), rel: 'edit', 'data-dialog': 'edit-schedule' },
+            schedule.activity().name()
+          )
+        )
       )
       m('hr', { onmousedown: @startResize })
     )
@@ -243,21 +256,73 @@ class Editor
     parent = @_drag.element.closest('section')
     parentOffset = parent.offset()
     y = e.pageY - parentOffset.top + @_drag.offset
-    slot = Math.round(y * Editor.LENGTH / parent.height())
+    slot = Math.ceil(y * Editor.LENGTH / parent.height())
     time = moment(parent.attr('data-date'))
       .add((slot + Editor.START_TIME) * Editor.SLOT_SIZE, 'minutes')
     length = Math.max(1, time.diff(@_drag.schedule.start(), 'minutes') / Editor.SLOT_SIZE)
     unless length == @_drag.length
       @_drag.length = length
       @_drag.time = time
-      @_drag.element.addClass('dragging').appendTo(parent).css
+      @_drag.element.addClass('resizing').css
         height: "#{length * 100.0 / Editor.LENGTH}%"
 
   endResize: (e) =>
     $(window).off('.timetable')
-    @_drag.element.removeClass('dragging')
+    @_drag.element.removeClass('resizing')
     @_drag.schedule.end(@_drag.time)
     m.redraw(true)
+
+  startDraw: (e) =>
+    e.preventDefault()
+    e.stopPropagation()
+    parent = $(e.target).closest('[role=row]')
+    parentOffset = parent.offset()
+    y = e.pageY - parentOffset.top
+    slot = Math.floor(y * Editor.LENGTH / parent.height())
+    time = moment(parent.attr('data-date'))
+      .add((slot + Editor.START_TIME) * Editor.SLOT_SIZE, 'minutes')
+    schedule = new Schedule(start: time, end: time.clone().add(1, 'hour'))
+
+    morning = schedule.start().clone().subtract(5, 'hours').startOf('day')
+      .add(Editor.START_TIME * Editor.SLOT_SIZE, 'minutes')
+    start = schedule.start().diff(morning, 'minutes') / Editor.SLOT_SIZE
+    length = schedule.end().diff(schedule.start(), 'minutes') / Editor.SLOT_SIZE
+
+    top = start * 100.0 / Editor.LENGTH
+    height = length * 100 / Editor.LENGTH
+
+    $el = $('<article>').addClass('drawing schedule').append($('<div>'))
+      .appendTo(parent)
+      .css(left: 0, width: '90%', top: "#{top}%", height: "#{height}%")
+
+    @_drag =
+      element: $el
+      schedule: schedule
+      time: schedule.end()
+      length: schedule.length() / Editor.SLOT_SIZE
+      offset: 0
+
+    $(window)
+      .on('mousemove.timetable', @resize)
+      .on('mouseup.timetable', @endDraw)
+
+  endDraw: (e) =>
+    $(window).off('.timetable')
+    url = location.pathname + '/schedules/new'
+    url += "?schedule[starts_at]=#{@_drag.schedule.start().toISOString()}"
+    url += "&schedule[ends_at]=#{@_drag.time.toISOString()}"
+    dialog = new Dialog(url, 'new-schedule')
+    dialog.contents()
+      .on 'dialog:hide', =>
+        @_drag.element.remove()
+      .on 'dialog:success', (e, data) =>
+        Schedule.create(data)
+
+  scrolled: (e) =>
+    requestAnimationFrame ->
+      section = $(e.target).closest('section')
+      section.find('[role=rowheader]')
+        .css(transform: "translateY(#{section.scrollTop()}px)")
 
 class LayoutSchedules
   constructor: (schedules) ->
@@ -492,5 +557,5 @@ document.addEventListener 'turbolinks:load', ->
   # $('[data-controller=timetables]').each ->
   #   new Timetable(this)
 
-  $(document).on 'dialog:loaded', '.edit-schedule', (e) ->
+  $(document).on 'dialog:loaded', '.new-schedule, .edit-schedule', (e) ->
     $('select', e.target).chosen(allow_single_deselect: true, search_contains: true)

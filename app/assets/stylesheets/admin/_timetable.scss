@@ -109,51 +109,13 @@ $timetable-background-color: $light-grey;
           width: 100%;
         }
 
-        article.schedule {
-          position: absolute;
-          transition-property: left, width, top;
-          transition-duration: $base-duration;
-          transition-timing-function: $ease-out-back;
-
-          > div {
-            content: "";
-            position: absolute;
-            left: 1px;
-            top: 2px;
-            right: 2px;
-            bottom: 1px;
-            border: 1px solid red;
-            background: rgba(red, .25);
-            border-radius: $base-border-radius;
-            cursor: move;
-          }
-
-          > hr {
-            border: none;
-            @include position(absolute, null 0rem 0rem 0rem);
-            height: .5rem;
-            cursor: ns-resize;
-            margin: 0;
-          }
-
-          &.dragging {
-            transition-property: none;
-            left: 0 !important;
-            width: 90% !important;
-            z-index: 1;
-
-            > div {
-              box-shadow: 0 0 .5rem rgba(black, .25);
-            }
-          }
-        }
-
         [role="gridcell"] {
           height: 1rem;
           max-height: 1rem;
           overflow: visible;
           border-top: 1px solid $timetable-border-color;
           position: relative;
+          cursor: cell;
 
           &:nth-of-type(even) {
             border-top-color: rgba($timetable-border-color, .35);
@@ -164,90 +126,7 @@ $timetable-background-color: $light-grey;
             @include position(absolute, null -1px -1px -1px);
             border-bottom: 1px solid $timetable-border-color;
           }
-
-          .timeslot {
-            @include position(absolute, 0rem 0rem null 0rem);
-            z-index: 1;
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-
-            .timetable-activity {
-              flex: 1 1 0%;
-            }
-
-            &:empty { display: none; }
-          }
         }
-      }
-    }
-  }
-
-  [rel="trash"] {
-    position: fixed;
-    z-index: 20;
-    right: 1rem;
-    bottom: 1rem;
-    background: $dark-grey;
-    color: white;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    padding: .5em;
-    width: 2.5em;
-    height: 2.5em;
-    opacity: .5;
-    transition: all $base-duration $base-timing;
-    transition-delay: .25s;
-
-    i {
-      display: block;
-      font-size: 1.5em;
-    }
-
-    .timetable-activity {
-      display: none;
-    }
-
-    &.over {
-      transform: scale(2.0);
-      opacity: 1;
-      transition-delay: 0s;
-    }
-  }
-
-  > footer {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    position: relative;
-    height: 40%;
-    min-height: 2.5rem;
-    border-top: $base-border;
-    padding-top: .25rem;
-    border-bottom: none;
-
-    [role="separator"] {
-      @include position(absolute, 0rem 0rem null 0rem);
-      margin: 0;
-      height: .5rem;
-      border: 0;
-      cursor: ns-resize;
-    }
-
-    > section {
-      position: relative;
-      flex: 1 1 0%;
-      min-height: 0;
-    }
-
-    [role="tabpanel"] {
-      display: none;
-      padding: 1rem 3.5rem;
-      overflow-y: auto;
-      @include position(absolute, 0rem 0rem 0rem 0rem);
-
-      &[aria-expanded="true"] {
-        display: block;
       }
     }
   }
@@ -274,20 +153,97 @@ $timetable-background-color: $light-grey;
         @include selected-day;
       }
     }
+  }
+}
 
-    > footer {
-      [role="group"] {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-start;
+article.schedule {
+  position: absolute;
+  transition-property: left, width, top;
+  transition-duration: $base-duration;
+  transition-timing-function: $ease-out-back;
 
-        @for $i from 1 through 10 {
-          &[data-columns="#{$i}"] [role="listitem"] {
-            flex: 0 1 percentage(1/$i);
-          }
-        }
+  > div {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 2px;
+    right: 0px;
+    bottom: 1px;
+    border: 1px dashed $base-border-color;
+    border-radius: $base-border-radius;
+    cursor: grab;
+    padding: .1875rem;
+    overflow: hidden;
+  }
+
+  h4 {
+    font-size: .75rem;
+    font-weight: $base-font-weight;
+
+    a {
+      color: $base-font-color;
+      opacity: .5;
+
+      &:hover {
+        opacity: 1;
       }
+    }
+  }
+
+  @mixin activity-type($type, $color) {
+    .#{$type} {
+      border: 1px solid rgba($color, .75);
+      background-color: rgba($color, .25);
+    }
+
+    &.dragging .#{$type} {
+      border-color: $color;
+      background-color: rgba($color, .5);
+    }
+  }
+
+  @include activity-type('workshop', $workshop-color);
+  @include activity-type('show', $show-color);
+  @include activity-type('social-event', $social-event-color);
+  @include activity-type('discussion', $discussion-color);
+
+  > hr {
+    border: none;
+    @include position(absolute, null 0rem 0rem 0rem);
+    height: .5rem;
+    cursor: ns-resize;
+    margin: 0;
+  }
+
+  &.dragging,
+  &.resizing {
+    transition-property: none;
+    z-index: 1;
+
+    > div,
+    > hr {
+      cursor: grabbing;
+    }
+
+    > div {
+      box-shadow: 0 0 .5rem rgba(black, .25);
+    }
+  }
+
+  &.dragging {
+    left: 0 !important;
+    width: 90% !important;
+  }
+
+  &.drawing {
+    > div,
+    > hr {
+      cursor: cell;
+    }
+
+    > div {
+      box-shadow: none;
+      background: rgba(black, .01);
     }
   }
 }
@@ -343,10 +299,10 @@ $timetable-background-color: $light-grey;
   &[data-schedule-id] hr { display: block; }
 }
 
+.dialog.new-schedule,
 .dialog.edit-schedule {
   section {
     @include media($medium-screen) {
-      // max-height: 6.5rem;
       overflow-y: visible;
     }
   }

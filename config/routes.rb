@@ -37,7 +37,7 @@ Rails.application.routes.draw do
       resources :activities
       resources :facilitators
       resource :timetable do
-        resources :schedules, only: [:create, :edit, :update, :destroy]
+        resources :schedules, only: [:new, :create, :edit, :update, :destroy]
       end
       resources :venues do
         put "reorder/:position" => "venues#reorder", on: :member

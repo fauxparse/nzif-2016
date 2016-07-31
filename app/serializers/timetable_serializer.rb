@@ -16,11 +16,6 @@ class TimetableSerializer < ActiveModel::Serializer
   end
 
   def serialize_schedule(schedule)
-    {
-      id: schedule.id,
-      start: schedule.starts_at,
-      end: schedule.ends_at,
-      activity_id: schedule.activity_id
-    }
+    TimetableScheduleSerializer.new(schedule).as_json
   end
 end
