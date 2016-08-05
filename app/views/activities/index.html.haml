@@ -1,0 +1,13 @@
+%header
+  .inner
+    %h1= @activity_list.type_name.pluralize
+    - @activity_list.other_types.each do |type|
+      = link_to type.model_name.human.pluralize, activities_path(festival, type)
+
+%section.featured.activities
+  .inner
+    = render partial: 'activity', collection: @activity_list.random(3)
+
+%section.activities
+  .inner
+    = render partial: 'activity', collection: @activity_list

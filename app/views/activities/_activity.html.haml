@@ -1,0 +1,5 @@
+%article
+  = image_tag activity_image_url(activity, :medium)
+  = link_to activity_path(festival, activity.class, activity) do
+    %h4= activity.name
+    %h5= activity.facilitators.to_a.to_sentence

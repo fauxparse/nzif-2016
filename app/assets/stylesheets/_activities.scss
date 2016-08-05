@@ -1,0 +1,112 @@
+.activities {
+  article {
+    position: relative;
+    border-radius: $base-border-radius;
+    overflow: hidden;
+    margin-bottom: $small-spacing;
+
+    a {
+      @include position(absolute, 0rem 0rem 0rem 0rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: .5rem;
+      color: white;
+      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
+      text-shadow: 0 0 .25em black;
+    }
+
+    h4 {
+      margin: 0;
+      font-size: $base-font-size;
+    }
+
+    h5 {
+      font-size: $small-font-size;
+      font-weight: $base-font-weight;
+      margin: 0;
+    }
+
+    img {
+      display: block;
+    }
+  }
+}
+
+.featured.activities {
+  background: $secondary-background-color;
+
+  article {
+    margin-bottom: 0;
+
+    &:not(:first-child) {
+      display: none;
+    }
+
+    @include media(min-width $medium-screen max-width ($large-screen - 1px)) {
+      display: block;
+
+      &:nth-child(3) {
+        display: none;
+      }
+    }
+
+    @include media($large-screen) {
+      @include span-columns(4);
+      @include omega(3n);
+    }
+  }
+}
+
+@include media(max-width ($medium-screen - 1px)) {
+  .activities:not(.featured) {
+    article {
+      @include span-columns(6);
+      @include omega(2n);
+    }
+  }
+}
+
+@include media(min-width $medium-screen max-width ($large-screen - 1px)) {
+  .activities {
+    &:not(.featured) {
+      article {
+        @include span-columns(4);
+        @include omega(3n);
+      }
+    }
+
+    &.featured {
+      article {
+        @include span-columns(6);
+        @include omega(2n);
+
+        &:nth-child(2) {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+@include media($large-screen) {
+  .activities {
+    &:not(.featured) {
+      article {
+        @include span-columns(3);
+        @include omega(4n);
+      }
+    }
+
+    &.featured {
+      article {
+        @include span-columns(4);
+        @include omega(3n);
+
+        &:not(:first-child) {
+          display: block;
+        }
+      }
+    }
+  }
+}

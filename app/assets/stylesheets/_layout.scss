@@ -31,10 +31,29 @@ body {
   > header {
     @include full-width-header;
 
+    .inner {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+
+      &::after {
+        display: none;
+      }
+    }
+
     h1 {
       margin: 0;
       font-weight: $light-font-weight;
       font-size: 200%;
+    }
+
+    a {
+      color: rgba(white, .75);
+
+      &:hover {
+        color: white;
+      }
     }
   }
 }
