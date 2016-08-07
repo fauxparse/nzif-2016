@@ -65,7 +65,7 @@ gem 'figaro'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
-  gem 'cucumber-rails', :require => false, github: 'olleolleolle/cucumber-rails', branch: 'feature/rails-5-railtie'
+  gem 'cucumber-rails', :require => false
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'
   gem 'factory_girl_rails', '~> 4.0'
