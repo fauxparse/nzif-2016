@@ -35,6 +35,9 @@ en:
       continue: "Continue"
       existing: "Been here before?"
       log_in: "Log in"
+    activities:
+      instructions: "Select up to %{maximum} to determine the right amount to pay. You’ll be able to change your selections later, including adding or removing activities."
+      continue: "Continue"
     package:
       continue: "Continue"
     payment:
@@ -50,6 +53,7 @@ en:
     steps:
       details: "Your details"
       package: "Select a package"
+      activities: "Select activities"
       payment: "Payment"
     checklist:
       complete_payment: "Complete payment"

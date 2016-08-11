@@ -36,6 +36,7 @@ body {
       flex-direction: row;
       align-items: baseline;
       justify-content: space-between;
+      flex-wrap: wrap;
 
       &::after {
         display: none;

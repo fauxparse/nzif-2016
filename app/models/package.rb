@@ -23,6 +23,10 @@ class Package < ApplicationRecord
     position <=> another.position
   end
 
+  def total_count
+    allocations.select(&:limited?).sum(&:maximum)
+  end
+
   private
 
   def at_least_one_price

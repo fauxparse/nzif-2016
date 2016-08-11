@@ -14,6 +14,7 @@ class Itinerary
   end
 
   def update(params)
+    registration.package = festival.packages.find(params[:package_id])
     self.selections = params[:selections] || []
     save
   end

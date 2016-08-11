@@ -57,7 +57,10 @@ class RegistrationsController < ApplicationController
     if registration_form.complete?
       redirect_to registration_path(festival)
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.json { render json: registration_form.step }
+      end
     end
   end
 

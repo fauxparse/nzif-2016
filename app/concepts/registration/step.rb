@@ -49,7 +49,7 @@ class Registration::Step
   end
 
   def self.ids
-    %i[details package payment]
+    %i[details activities payment]
   end
 
   def self.list(registration)
