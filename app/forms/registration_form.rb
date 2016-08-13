@@ -8,6 +8,7 @@ class RegistrationForm
   end
 
   def apply(params)
+    self.step = params[:step]
     step.apply(params)
     step.valid? && advance!
   end

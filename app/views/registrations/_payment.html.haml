@@ -1,6 +1,6 @@
 %section.payment
   .inner
-    = form_for registration_form.step, as: :registration, url: register_path(festival), method: :post do |form|
+    = registration_step_form do |form|
       %p
         %b= t('.amount_owing', amount: m(registration_form.account.total_to_pay)).html_safe
         = t('.how')

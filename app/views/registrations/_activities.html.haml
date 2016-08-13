@@ -1,2 +1,2 @@
-= form_for registration_form.step, as: :registration, url: register_path(festival), method: :post do |form|
+= registration_step_form do |form|
   = mithril_component('RegistrationActivitySelector', { year: festival.year, instructions: t('.instructions', maximum: form.object.maximum_allocation) }, class: 'select-initial-activities')
