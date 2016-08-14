@@ -38,7 +38,7 @@ gem 'aws-sdk'
 gem 'icalendar'
 gem 'pleasant-lawyer'
 
-gem 'wicked_pdf'
+gem 'wicked_pdf', github: 'mileszs/wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
 gem 'nokogiri'
