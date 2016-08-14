@@ -15,5 +15,18 @@ FactoryGirl.define do
         end
       end
     end
+
+    trait :with_activities do
+      after(:create) do |festival, _|
+        10.times do |i|
+          workshop = FactoryGirl.create(:workshop, festival: festival)
+          FactoryGirl.create(
+            :schedule,
+            activity: workshop,
+            starts_at: festival.start_date.midnight + i * workshop.duration
+          )
+        end
+      end
+    end
   end
 end

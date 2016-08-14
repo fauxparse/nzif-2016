@@ -221,21 +221,28 @@ class ActivitySelector
     $header.toggleClass('fixed', fixed)
     if fixed
       headerBottom = $header.height()
+      $body.css(paddingTop: headerBottom)
       $body.find('.day').each (i, el) ->
-        $day = $(el)
-        y = headerBottom
-        heights = $day.find('header').map(-> this.offsetHeight).get()
-        allHeaderHeights = heights.reduce(((a, b) -> a + b), 0)
-        bottom = offsetTop(this) + this.offsetHeight
-        $day.find('header').each (j, el) ->
-          top = offsetTop(this)
-          max = bottom - allHeaderHeights - top
-          offset = Math.max(0, Math.min(max, Math.min(max, scrollTop + y - top)))
-          $(el).css(transform: "translateY(#{offset}px)")
-          y += heights[j]
-          allHeaderHeights -= heights[j]
+        dayTop = offsetTop(this)
+        dayBottom = dayTop + this.offsetHeight
+        if dayTop < (headerBottom + scrollTop) < dayBottom
+          $day = $(el)
+          y = headerBottom
+          heights = $day.find('header').map(-> this.offsetHeight).get()
+          allHeaderHeights = heights.reduce(((a, b) -> a + b), 0)
+          $day.find('header').each (j, el) ->
+            top = offsetTop(this)
+            max = dayBottom - allHeaderHeights - top
+            offset = Math.max(0, Math.min(max, Math.min(max, scrollTop + y - top)))
+            $(el).css(transform: "translateY(#{offset}px)")
+            y += heights[j]
+            allHeaderHeights -= heights[j]
+        else
+          $(el).find('header').css(transform: 'translateY(0)')
     else
-      $body.find('.day header').css(transform: 'translateY(0)')
+      $body
+        .css(paddingTop: 0)
+        .find('.day header').css(transform: 'translateY(0)')
 
   dayHeaderClicked: (body, e) ->
     $clicked = $(e.target).closest('header')

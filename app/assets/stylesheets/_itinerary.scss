@@ -216,6 +216,10 @@
     }
   }
 
+  .activity-selector {
+    padding-bottom: 6rem;
+  }
+
   > footer {
     @include full-width-section;
     @include position(fixed, null 0rem 0rem 0rem);
@@ -314,6 +318,10 @@
       filter: saturate(15%) opacity(50%);
       transition: all $base-duration $base-timing;
       border-radius: $base-border-radius;
+    }
+
+    :checked ~ img {
+      @include border-bottom-radius(0);
     }
 
     label {

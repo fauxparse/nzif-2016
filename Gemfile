@@ -78,6 +78,7 @@ group :development, :test do
   gem 'rspec-mocks', '= 3.5.0.beta4'
   gem 'rspec-support', '= 3.5.0.beta4'
   gem 'pry-rails'
+  gem 'poltergeist'
 end
 
 group :development do

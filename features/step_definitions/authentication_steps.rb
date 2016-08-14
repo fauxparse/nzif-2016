@@ -14,6 +14,6 @@ end
 
 Then(/^I should be logged in$/) do
   within(:css, "body > nav") do
-    expect(page).to have_content(/Log out/i)
+    expect(page).not_to have_content(/Log in/i)
   end
 end
