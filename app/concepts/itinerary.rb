@@ -48,6 +48,10 @@ class Itinerary
     package.allocations.select(&:limited?).sort
   end
 
+  def packages
+    registration.festival.packages.ordered.with_allocations
+  end
+
   def to_partial_path
     'itinerary'
   end
