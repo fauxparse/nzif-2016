@@ -2,7 +2,7 @@ class AllocationSerializer < ActiveModel::Serializer
   attributes :type, :singular, :plural, :limit
 
   def type
-    activity_type.name.underscore
+    activity_type.name.demodulize.underscore.dasherize
   end
 
   def singular

@@ -24,10 +24,6 @@ When(/^I enter my existing registration details$/) do
   end
 end
 
-When(/^I select the "([^"]*)" package$/) do |package|
-  choose(package)
-end
-
 Then(/^I should receive an email confirming my registration$/) do
   expect(unread_emails_for(participant_email).size).to eq 1
 end

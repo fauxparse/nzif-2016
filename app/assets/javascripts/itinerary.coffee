@@ -1,4 +1,4 @@
-class Activity
+class @Activity
   constructor: (attrs) ->
     for own key, value of attrs
       (@[key] ||= m.prop())(value)
@@ -34,13 +34,14 @@ class Activity
     another.ends_at().isAfter(@starts_at()) &&
     another.starts_at().isBefore(@ends_at())
 
-  @fetch: ->
+  @fetch: (url = null) ->
     deferred = m.deferred()
     m.request
-      url: location.pathname + '?_=' + new Date().getTime()
+      url: (url || location.pathname) + '?_=' + new Date().getTime()
       method: 'GET'
     .then (data) =>
-      Allocation.refresh(data.allocations)
+      Allocation.refresh(data.allocations) if data.allocations?
+      Package.refresh(data.packages) if data.packages?
       deferred.resolve(@refresh(data.activities))
     deferred.promise
 
@@ -62,13 +63,13 @@ class Activity
   @grouped: ->
     grouped = {}
     for activity in @all()
-      day = activity.starts_at().startOf('day')
+      day = activity.starts_at().clone().startOf('day')
       key = day.format('YYYY-MM-DD')
       grouped[key] ||= { date: day }
       (grouped[key][activity.type()] ||= []).push(activity)
-    grouped
+    (grouped[key] for key in Object.keys(grouped).sort())
 
-class Allocation
+class @Allocation
   constructor: (attrs) ->
     for own key, value of attrs
       (@[key] ||= m.prop())(value)
@@ -80,15 +81,62 @@ class Allocation
     @selected().length
 
   label: ->
-    if @limit() == 1 then @singular() else @plural()
+    if @count() == 1 then @singular() else @plural()
 
   @all: m.prop([])
 
   @refresh: (data) =>
-    @all((new Allocation(attrs) for attrs in data))
+    @all((new Allocation(attrs) for attrs in data when attrs.limit))
     @all()
 
-class Editor
+class @Package
+  constructor: (attrs) ->
+    for own key, value of attrs
+      (@[key] ||= m.prop())(value)
+
+  allocations: (values) =>
+    if values?
+      @_allocations = (new Allocation(attrs) for attrs in values when attrs.limit)
+    @_allocations || []
+
+  allocation: (type) ->
+    return allocation for allocation in @allocations() when allocation.type() == type
+    undefined
+
+  totalCount: ->
+    @allocations().reduce (total, allocation) ->
+      total + allocation.count()
+    , 0
+
+  fits: (selection) =>
+    for allocation in @allocations()
+      return false if allocation.count() > allocation.limit()
+    true
+
+  @all: m.prop([])
+
+  @sorted: ->
+    @all().sort (a, b) -> a.totalCount() - b.totalCount()
+
+  @maximum: ->
+    sorted = @sorted()
+    sorted.length && sorted[sorted.length - 1] || undefined
+
+  @refresh: (data) =>
+    @all(new Package(attrs) for attrs in data)
+    @all()
+
+  @bestFit: (selected = Activity.selected()) ->
+    return pkg for pkg in @all() when pkg.fits(selected)
+    undefined
+
+class @ItineraryEditor
+  @controller: (args...) =>
+    new this(args...)
+
+  @view: (controller) =>
+    controller.view()
+
   constructor: ->
     Activity.fetch()
 
@@ -96,9 +144,7 @@ class Editor
     [
       m('header',
         m('div', { class: 'inner' },
-          m('ul', { class: 'counts' },
-            (@renderAllocation(allocation) for allocation in Allocation.all())
-          )
+          m.component(ActivityCounts)
           m('button', { rel: 'save', onclick: @save },
             m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
               m('circle', { class: 'outline', cx: 20, cy: 20, r: 18 })
@@ -108,10 +154,19 @@ class Editor
           )
         )
       )
-      m('section', { config: @initScrolling },
-        (@renderDay(day) for own _, day of Activity.grouped())
-      )
+      m.component(ActivitySelector)
     ]
+
+class ActivitySelector
+  @controller: (args) =>
+    new this(args...)
+
+  @view: (controller) ->
+    m('section', { class: 'activity-selector', config: controller.initScrolling },
+      (controller.renderDay(day) for day in Activity.grouped())
+    )
+
+  constructor: (args...) ->
 
   renderDay: (day) ->
     m('section', { class: 'day' },
@@ -151,19 +206,6 @@ class Editor
       )
     )
 
-  renderAllocation: (allocation) ->
-    pathLength = Math.PI * 36
-    fraction = Math.min(1.0, allocation.count() * 1.0 / allocation.limit())
-    m('li',
-      m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
-        m('circle', { cx: 20, cy: 20, r: 18 })
-        m('path', { d: 'M 20 2 A 18 18 0 1 1 20 38 A 18 18 0 1 1 20 2', style: "stroke-dasharray: #{pathLength}; stroke-dashoffset: #{pathLength * (1.0 - fraction)}" })
-      )
-      m('b', allocation.count())
-      m('span', { rel: 'limit' }, "of #{allocation.limit()}")
-      m('span', { rel: 'type' }, allocation.label())
-    )
-
   initScrolling: (body, isInitialized) =>
     unless isInitialized
       scrolled = @scrolled.bind(this, body)
@@ -179,21 +221,28 @@ class Editor
     $header.toggleClass('fixed', fixed)
     if fixed
       headerBottom = $header.height()
+      $body.css(paddingTop: headerBottom)
       $body.find('.day').each (i, el) ->
-        $day = $(el)
-        y = headerBottom
-        heights = $day.find('header').map(-> this.offsetHeight).get()
-        allHeaderHeights = heights.reduce(((a, b) -> a + b), 0)
-        bottom = offsetTop(this) + this.offsetHeight
-        $day.find('header').each (j, el) ->
-          top = offsetTop(this)
-          max = bottom - allHeaderHeights - top
-          offset = Math.max(0, Math.min(max, Math.min(max, scrollTop + y - top)))
-          $(el).css(transform: "translateY(#{offset}px)")
-          y += heights[j]
-          allHeaderHeights -= heights[j]
+        dayTop = offsetTop(this)
+        dayBottom = dayTop + this.offsetHeight
+        if dayTop < (headerBottom + scrollTop) < dayBottom
+          $day = $(el)
+          y = headerBottom
+          heights = $day.find('header').map(-> this.offsetHeight).get()
+          allHeaderHeights = heights.reduce(((a, b) -> a + b), 0)
+          $day.find('header').each (j, el) ->
+            top = offsetTop(this)
+            max = dayBottom - allHeaderHeights - top
+            offset = Math.max(0, Math.min(max, Math.min(max, scrollTop + y - top)))
+            $(el).css(transform: "translateY(#{offset}px)")
+            y += heights[j]
+            allHeaderHeights -= heights[j]
+        else
+          $(el).find('header').css(transform: 'translateY(0)')
     else
-      $body.find('.day header').css(transform: 'translateY(0)')
+      $body
+        .css(paddingTop: 0)
+        .find('.day header').css(transform: 'translateY(0)')
 
   dayHeaderClicked: (body, e) ->
     $clicked = $(e.target).closest('header')
@@ -227,12 +276,82 @@ offsetTop = (el) ->
     el = el.offsetParent
   y
 
-@ItineraryEditor =
-  controller: (args...) ->
-    new Editor(args...)
+class @RegistrationActivitySelector
+  @controller: (args...) =>
+    new this(args...)
 
-  view: (controller) ->
+  @view: (controller) ->
     controller.view()
+
+  constructor: (args...) ->
+    Activity.fetch(@url())
+
+  url: ->
+    "/#{RegistrationActivitySelector.properties.year}/register/activities"
+
+  view: ->
+    [
+      m('header',
+        m('div', { class: 'inner' },
+          m('p', RegistrationActivitySelector.properties.instructions)
+        )
+      )
+      m.component(ActivitySelector)
+      m('footer',
+        m('div', { class: 'inner' },
+          @footerContent(Package.bestFit())
+        )
+      )
+    ]
+
+  footerContent: (pkg) ->
+    [
+      m.component(ActivityCounts)
+      (@packagePrice(pkg) if pkg)
+      (@packageFormFields(pkg) if pkg)
+      m('button', { type: 'submit', disabled: !pkg }, 'Continue')
+    ]
+
+  packagePrice: (pkg) ->
+    price = pkg.current_price()
+    m('span', { class: 'money' },
+      m('span', price.amount)
+      m('abbr', price.currency)
+    )
+
+  packageFormFields: (pkg) ->
+    [
+      @hidden('registration[package_id]', pkg.id())
+      (@hidden('registration[selections][]', a.id()) for a in Activity.selected())...
+    ]
+
+  hidden: (name, value) ->
+    m('input', { type: 'hidden', name: name, value: value })
+
+class ActivityCounts
+  @controller: (args...) =>
+    new this(args...)
+
+  @view: (controller) =>
+    controller.view()
+
+  view: =>
+    max = Package.maximum()
+    m('ul', { class: 'activity-counts' },
+      (@renderAllocation(allocation, max.allocation(allocation.type())) for allocation in Allocation.all())
+    )
+
+  renderAllocation: (allocation, max) ->
+    pathLength = Math.PI * 36
+    fraction = Math.min(1.0, allocation.count() * 1.0 / max.limit())
+    m('li',
+      m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
+        m('circle', { cx: 20, cy: 20, r: 18 })
+        m('path', { d: 'M 20 2 A 18 18 0 1 1 20 38 A 18 18 0 1 1 20 2', style: "stroke-dasharray: #{pathLength}; stroke-dashoffset: #{pathLength * (1.0 - fraction)}" })
+      )
+      m('b', allocation.count())
+      m('span', { rel: 'type' }, allocation.label())
+    )
 
 $(document)
   .on 'ajax:send', '[rel~=email-itinerary]', (e) ->

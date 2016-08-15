@@ -19,6 +19,13 @@ module RegistrationsHelper
     end
   end
 
+  def registration_step_form(&block)
+    form_for(registration_form.step, as: :registration, url: register_path(festival), method: :post) do |form|
+      concat hidden_field_tag(:step, form.object.id)
+      block.call(form)
+    end
+  end
+
   private
 
   def step_state(step, current_step)

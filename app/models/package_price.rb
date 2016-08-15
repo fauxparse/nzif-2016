@@ -34,6 +34,10 @@ class PackagePrice < ApplicationRecord
     expires_at > time
   end
 
+  def self.current
+    available_at(Time.now).first
+  end
+
   private
 
   def set_default_expiry

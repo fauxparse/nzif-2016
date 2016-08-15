@@ -1,5 +1,5 @@
 %section.package-selection
   .inner
-    = form_for registration_form.step, as: :registration, url: register_path(festival), method: :post do |form|
+    = registration_step_form do |form|
       %ul.packages= render partial: "package_selection", collection: registration_form.step.packages, as: :package, locals: { form: form }
       = form.submit t('.continue')

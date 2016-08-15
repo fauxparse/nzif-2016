@@ -1,3 +1,4 @@
+@javascript
 Feature: Register for an event
   In order to take part in NZIF
   As an improvisor
@@ -9,7 +10,6 @@ Feature: Register for an event
      When I click the registration link
       And I enter my registration details
       And I click the "Continue" button
-      And I select the "Medium" package
       And I click the "Continue" button
       And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
@@ -33,7 +33,6 @@ Feature: Register for an event
      When I click the registration link
       And I enter my registration details
       And I click the "Continue" button
-      And I select the "Medium" package
       And I click the "Continue" button
       And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
@@ -50,7 +49,6 @@ Feature: Register for an event
       And I enter my existing registration details
       And I click the "Log in" button
       And I click the "Continue" button
-      And I select the "Medium" package
       And I click the "Continue" button
       And I click the "Pay by Internet banking" button
      Then I should be on my registration details page
@@ -67,7 +65,6 @@ Feature: Register for an event
      When I click the registration link
       And I enter my name
       And I click the "Continue" button
-      And I select the "Medium" package
       And I click the "Continue" button
       And I click the "Pay by Internet banking" button
      Then I should be on my registration details page

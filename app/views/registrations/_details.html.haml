@@ -5,7 +5,7 @@
         %header.intro
           %p= I18n.t("registrations.details.intro.#{registration_form.step.participant_state}")
 
-        = form_for registration_form.step, as: :registration, url: register_path(festival) do |form|
+        = registration_step_form do |form|
           .field
             = form.label :name
             = form.text_field :name

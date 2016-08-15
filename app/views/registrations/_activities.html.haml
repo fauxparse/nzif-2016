@@ -1,0 +1,2 @@
+= registration_step_form do |form|
+  = mithril_component('RegistrationActivitySelector', { year: festival.year, instructions: t('.instructions', maximum: form.object.maximum_allocation) }, class: 'select-initial-activities')

@@ -23,7 +23,7 @@ describe RegistrationForm do
         expect { apply }
           .to change { form.step.id }
           .from(:details)
-          .to(:package)
+          .to(:activities)
       end
 
       it 'saves the participant' do
@@ -54,7 +54,7 @@ describe RegistrationForm do
 
       describe '#step' do
         subject { form.step }
-        it { is_expected.to be_an_instance_of(Registration::Step::Package) }
+        it { is_expected.to be_an_instance_of(Registration::Step::Activities) }
       end
 
       describe '#apply' do
@@ -63,7 +63,7 @@ describe RegistrationForm do
         it 'advances the step' do
           expect { apply }
             .to change { form.step.id }
-            .from(:package)
+            .from(:activities)
             .to(:payment)
         end
       end
@@ -109,7 +109,7 @@ describe RegistrationForm do
         package_id
         payment_type
         amount
-      ]
+      ] + [{ :selections => [] }]
     end
 
     it { is_expected.to match_array(all_attributes) }
@@ -118,7 +118,7 @@ describe RegistrationForm do
   describe '#step=' do
     context 'when details have not been completed' do
       it 'cannot move to package selection' do
-        expect { form.step = :package }
+        expect { form.step = :activities }
           .not_to change { form.step.id }
       end
     end
@@ -131,13 +131,13 @@ describe RegistrationForm do
       end
 
       it 'is in the package step by default' do
-        expect(form.step.id).to eq :package
+        expect(form.step.id).to eq :activities
       end
 
       it 'cannot move to package selection' do
         expect { form.step = :details }
           .to change { form.step.id }
-          .from(:package)
+          .from(:activities)
           .to(:details)
       end
     end

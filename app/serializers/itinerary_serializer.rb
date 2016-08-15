@@ -1,5 +1,5 @@
 class ItinerarySerializer < ActiveModel::Serializer
-  attributes :id, :activities, :allocations
+  attributes :id, :activities, :allocations, :packages
 
   def activities
     schedules_to_serialize.sort.map do |schedule|
@@ -9,6 +9,10 @@ class ItinerarySerializer < ActiveModel::Serializer
 
   def allocations
     object.allocations.map(&method(:serialize_allocation))
+  end
+
+  def packages
+    ActiveModelSerializers::SerializableResource.new(object.packages)
   end
 
   private

@@ -14,6 +14,7 @@ class Package < ApplicationRecord
   validate :at_least_one_price
 
   scope :ordered, -> { order(position: :asc) }
+  scope :with_allocations, -> { includes(:allocations) }
 
   def to_param
     slug
@@ -21,6 +22,10 @@ class Package < ApplicationRecord
 
   def <=>(another)
     position <=> another.position
+  end
+
+  def total_count
+    allocations.select(&:limited?).sum(&:maximum)
   end
 
   private
