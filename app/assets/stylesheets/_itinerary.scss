@@ -82,6 +82,16 @@
       &::after { display: none; }
     }
 
+    .activity-counts {
+      circle {
+        stroke: rgba(white, .15);
+      }
+
+      path {
+        stroke: white;
+      }
+    }
+
     [rel="save"] {
       display: flex;
       align-items: center;
@@ -258,6 +268,10 @@
     padding-bottom: 4.5rem;
   }
 
+  header {
+    position: static;
+  }
+
   h2 {
     padding: .5rem 0 0;
     margin: 0 auto;
@@ -271,19 +285,29 @@
     font-weight: $bold-font-weight;
     color: $secondary-color;
     padding: .5rem 0;
+    line-height: 1em;
     margin: 0 auto;
     max-width: $max-width;
     cursor: pointer;
   }
 
+  .fixed {
+    @include position(fixed, null 0rem null 0rem);
+  }
+
   .day {
     header {
-      padding: 0 1rem;
-      background: rgba($base-background-color, .95);
-      position: relative;
-      z-index: 40;
+      padding: 0;
+      height: 2rem;
 
-      ~ header {
+      .inner {
+        padding: 0 1rem;
+        background: rgba($base-background-color, .95);
+        z-index: 40;
+        height: 2rem;
+      }
+
+      ~ header .inner {
         border-bottom: $base-border;
       }
     }
@@ -402,7 +426,7 @@
     padding: 0;
 
     .day {
-      header { padding: 0 2rem; }
+      header .inner { padding: 0 2rem; }
       section { padding: 0 1.5rem; }
     }
 

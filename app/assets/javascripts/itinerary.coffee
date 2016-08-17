@@ -171,7 +171,9 @@ class ActivitySelector
   renderDay: (day) ->
     m('section', { class: 'day' },
       m('header',
-        m('h2', day.date.format('dddd, D MMMM')),
+        m('div', { class: 'inner' },
+          m('h2', day.date.format('dddd, D MMMM'))
+        )
       )
       (@renderActivities(a, day[a.type()]) for a in Allocation.all())
     )
@@ -180,7 +182,9 @@ class ActivitySelector
     return [] unless activities
     [
       m('header',
-        m('h3', allocation.plural()),
+        m('div', { class: 'inner' },
+          m('h3', allocation.plural())
+        )
       )
       m('section',
         m('div', { role: 'list' },
@@ -234,15 +238,15 @@ class ActivitySelector
             top = offsetTop(this)
             max = dayBottom - allHeaderHeights - top
             offset = Math.max(0, Math.min(max, Math.min(max, scrollTop + y - top)))
-            $(el).css(transform: "translateY(#{offset}px)")
+            $(el).find('.inner').addClass('fixed').css(top: top - scrollTop + offset)
             y += heights[j]
             allHeaderHeights -= heights[j]
         else
-          $(el).find('header').css(transform: 'translateY(0)')
+          $(el).find('.fixed').removeClass('fixed').css(top: 0)
     else
       $body
         .css(paddingTop: 0)
-        .find('.day header').css(transform: 'translateY(0)')
+        .find('.fixed').removeClass('fixed').css(top: 0)
 
   dayHeaderClicked: (body, e) ->
     $clicked = $(e.target).closest('header')
