@@ -32,6 +32,6 @@ class Registration::Step::Payment < Registration::Step
   end
 
   def pending_payments_cover_deposit?
-    account.total_pending_or_approved > account.deposit
+    account.total_pending_or_approved >= account.deposit
   end
 end
