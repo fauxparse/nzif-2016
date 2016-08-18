@@ -227,7 +227,6 @@
   }
 
   .activity-selector {
-    padding-bottom: 6rem;
   }
 
   > footer {
@@ -260,13 +259,8 @@
 
 .activity-selector {
   @include full-width-section;
-  padding: 0;
+  padding: 0 0 6rem;
   position: relative;
-
-  .inner {
-    padding-top: 0;
-    padding-bottom: 4.5rem;
-  }
 
   header {
     position: static;
@@ -423,7 +417,7 @@
   }
 
   @include media($medium-screen) {
-    padding: 0;
+    padding: 0 0 6rem;
 
     .day {
       header .inner { padding: 0 2rem; }

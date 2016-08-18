@@ -1,14 +1,8 @@
 class ItinerarySerializer < ActiveModel::Serializer
-  attributes :id, :activities, :allocations, :packages
+  attributes :id, :package_id, :activities, :packages
 
   def activities
-    schedules_to_serialize.sort.map do |schedule|
-      serialize_schedule(schedule)
-    end
-  end
-
-  def allocations
-    object.allocations.map(&method(:serialize_allocation))
+    schedules_to_serialize.sort.map(&method(:serialize_schedule))
   end
 
   def packages
@@ -28,16 +22,12 @@ class ItinerarySerializer < ActiveModel::Serializer
   end
 
   def activity_types
-    object.allocations.map(&:activity_type)
+    [Workshop, Show]
   end
 
   def serialize_schedule(schedule)
     ActiveModelSerializers::SerializableResource.new(schedule)
       .as_json
       .merge(selected: object.selected?(schedule))
-  end
-
-  def serialize_allocation(allocation)
-    ActiveModelSerializers::SerializableResource.new(allocation)
   end
 end

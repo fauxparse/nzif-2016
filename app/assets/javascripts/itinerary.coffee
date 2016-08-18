@@ -40,8 +40,8 @@ class @Activity
       url: (url || location.pathname) + '?_=' + new Date().getTime()
       method: 'GET'
     .then (data) =>
-      Allocation.refresh(data.allocations) if data.allocations?
       Package.refresh(data.packages) if data.packages?
+      Package.current(data.package_id)
       deferred.resolve(@refresh(data.activities))
     deferred.promise
 
@@ -83,12 +83,6 @@ class @Allocation
   label: ->
     if @count() == 1 then @singular() else @plural()
 
-  @all: m.prop([])
-
-  @refresh: (data) =>
-    @all((new Allocation(attrs) for attrs in data when attrs.limit))
-    @all()
-
 class @Package
   constructor: (attrs) ->
     for own key, value of attrs
@@ -113,6 +107,10 @@ class @Package
       return false if allocation.count() > allocation.limit()
     true
 
+  @current: (id) ->
+    @_current = id if id?
+    @_current && @find(@_current) || @maximum()
+
   @all: m.prop([])
 
   @sorted: ->
@@ -121,6 +119,10 @@ class @Package
   @maximum: ->
     sorted = @sorted()
     sorted.length && sorted[sorted.length - 1] || undefined
+
+  @find: (id) ->
+    return pkg for pkg in @all() when pkg.id().toString() == id.toString()
+    undefined
 
   @refresh: (data) =>
     @all(new Package(attrs) for attrs in data)
@@ -162,20 +164,21 @@ class ActivitySelector
     new this(args...)
 
   @view: (controller) ->
+    pkg = Package.current()
     m('section', { class: 'activity-selector', config: controller.initScrolling },
-      (controller.renderDay(day) for day in Activity.grouped())
+      (controller.renderDay(day, pkg) for day in Activity.grouped())
     )
 
   constructor: (args...) ->
 
-  renderDay: (day) ->
+  renderDay: (day, pkg) ->
     m('section', { class: 'day' },
       m('header',
         m('div', { class: 'inner' },
           m('h2', day.date.format('dddd, D MMMM'))
         )
       )
-      (@renderActivities(a, day[a.type()]) for a in Allocation.all())
+      (@renderActivities(a, day[a.type()]) for a in pkg.allocations())
     )
 
   renderActivities: (allocation, activities) ->
@@ -220,7 +223,7 @@ class ActivitySelector
     $body = $(body)
     $header = $body.prevAll('header').first()
     scrollTop = $(document).scrollTop()
-    top = $header.parent().offset().top
+    top = $header.parent().offset()?.top ? 0
     fixed = scrollTop >= top
     $header.toggleClass('fixed', fixed)
     if fixed
@@ -342,7 +345,7 @@ class ActivityCounts
   view: =>
     max = Package.maximum()
     m('ul', { class: 'activity-counts' },
-      (@renderAllocation(allocation, max.allocation(allocation.type())) for allocation in Allocation.all())
+      (@renderAllocation(allocation, max.allocation(allocation.type())) for allocation in max.allocations() when allocation.limit())
     )
 
   renderAllocation: (allocation, max) ->
