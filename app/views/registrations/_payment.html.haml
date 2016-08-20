@@ -5,9 +5,12 @@
         %b= t('.amount_owing', amount: m(registration_form.account.total_to_pay)).html_safe
         = t('.how')
 
-      %ul.payment-amounts
-        - %i[total_to_pay deposit].each do |option|
-          = render "payment_amount_option", form: form, option: option
+      - if form.object.deposit_available?
+        %ul.payment-amounts
+          - %i[total_to_pay deposit].each do |option|
+            = render "payment_amount_option", form: form, option: option
+      - else
+        = form.hidden_field :amount
 
       %ul.payment-methods
         - Payment.payment_methods.each do |method|

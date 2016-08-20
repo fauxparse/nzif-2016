@@ -12,6 +12,10 @@ class Registration::Step::Payment < Registration::Step
     payment.amount
   end
 
+  def deposit_available?
+    account.deposit < account.total_to_pay
+  end
+
   def self.parameters
     %i[payment_type amount]
   end
