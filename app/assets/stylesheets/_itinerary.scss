@@ -164,6 +164,28 @@
       display: block;
     }
   }
+
+  > footer {
+    @include full-width-section;
+    @include position(fixed, null 0rem -1rem 0rem);
+    z-index: 60;
+    padding-bottom: 1rem;
+    background: $dark-grey;
+    color: white;
+    transition: transform $medium-duration $ease-out-back;
+
+    &[aria-hidden="true"] {
+      transition-timing-function: $ease-in-back;
+      transform: translateY(10rem);
+    }
+
+    .inner {
+      display: flex;
+      align-items: flex-start;
+
+      &::after { display: none; }
+    }
+  }
 }
 
 .activity-counts {

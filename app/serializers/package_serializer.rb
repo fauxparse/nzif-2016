@@ -1,11 +1,12 @@
 class PackageSerializer < ActiveModel::Serializer
-  attributes :id, :name, :current_price
+  attributes :id, :name, :price
   has_many :allocations
 
-  def current_price
+  def price
     price = object.prices.current.amount
     {
-      amount: price.format,
+      amount: price.format(symbol: false),
+      symbol: price.currency.symbol,
       currency: price.currency.to_s
     }
   end

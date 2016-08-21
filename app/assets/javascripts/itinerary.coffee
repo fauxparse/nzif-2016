@@ -1,3 +1,36 @@
+class Price
+  constructor: (attrs) ->
+    attrs = attrs.attrs() if attrs instanceof Price
+    for own key, value of attrs
+      (@[key] ||= m.prop())(if typeof value == 'function' then value() else value)
+
+  attrs: ->
+    {
+      amount: @amount()
+      currency: @currency()
+      symbol: @symbol()
+    }
+
+  amount: (value) =>
+    @_amount = parseFloat(value) if value?
+    @_amount
+
+  format: (options = {}) ->
+    m('span', { class: 'money' },
+      m('span', "#{options.prefix || ''}#{@symbol()}#{@amount()}"),
+      m('abbr', @currency())
+    )
+
+  diff: (another) ->
+    new Price(
+      amount: @amount() - another.amount(),
+      currency: @currency(),
+      symbol: @symbol()
+    )
+
+  zero: ->
+    Math.abs(@amount()) < 0.005
+
 class @Activity
   constructor: (attrs) ->
     for own key, value of attrs
@@ -71,8 +104,17 @@ class @Activity
 
 class @Allocation
   constructor: (attrs) ->
+    attrs = attrs.attrs() if attrs instanceof Allocation
     for own key, value of attrs
       (@[key] ||= m.prop())(value)
+
+  attrs: ->
+    {
+      singular: @singular(),
+      plural: @plural(),
+      limit: @limit(),
+      type: @type()
+    }
 
   selected: ->
     (activity for activity in Activity.byType(@type()) when activity.selected())
@@ -80,8 +122,23 @@ class @Allocation
   count: ->
     @selected().length
 
-  label: ->
-    if @count() == 1 then @singular() else @plural()
+  label: (count) ->
+    word = if (count ? @count()) == 1 then @singular() else @plural()
+    if count?
+      count + ' ' + word
+    else
+      word
+
+  diff: ->
+    new Allocation(
+      singular: @singular(),
+      plural: @plural(),
+      limit: @limit(),
+      type: @type()
+    )
+
+  different: ->
+    @count() != @limit()
 
 class @Package
   constructor: (attrs) ->
@@ -107,6 +164,19 @@ class @Package
       return false if allocation.count() > allocation.limit()
     true
 
+  price: (price) =>
+    @_price = new Price(price) if price?
+    @_price || new Price(amount: 0, currency: 'NZD', symbol: '$')
+
+  description: ->
+    sentence(allocation.label(allocation.limit()).toLowerCase() for allocation in @allocations())
+
+  diff: (another) ->
+    new Package(
+      allocations: (a.diff() for a in @allocations() when a.different())
+      price: @price().diff(another.price())
+    )
+
   @current: (id) ->
     @_current = id if id?
     @_current && @find(@_current) || @maximum()
@@ -131,33 +201,6 @@ class @Package
   @bestFit: (selected = Activity.selected()) ->
     return pkg for pkg in @all() when pkg.fits(selected)
     undefined
-
-class @ItineraryEditor
-  @controller: (args...) =>
-    new this(args...)
-
-  @view: (controller) =>
-    controller.view()
-
-  constructor: ->
-    Activity.fetch()
-
-  view: ->
-    [
-      m('header',
-        m('div', { class: 'inner' },
-          m.component(ActivityCounts)
-          m('button', { rel: 'save', onclick: @save },
-            m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
-              m('circle', { class: 'outline', cx: 20, cy: 20, r: 18 })
-              m('path', { class: 'check', d: 'M 11.7 20.3 L 17 25.6 L 35.3 7.4' })
-            )
-            m('span', 'Save changes')
-          )
-        )
-      )
-      m.component(ActivitySelector)
-    ]
 
 class ActivitySelector
   @controller: (args) =>
@@ -314,17 +357,10 @@ class @RegistrationActivitySelector
   footerContent: (pkg) ->
     [
       m.component(ActivityCounts)
-      (@packagePrice(pkg) if pkg)
+      (pkg.price().format() if pkg)
       (@packageFormFields(pkg) if pkg)
       m('button', { type: 'submit', disabled: !pkg }, 'Continue')
     ]
-
-  packagePrice: (pkg) ->
-    price = pkg.current_price()
-    m('span', { class: 'money' },
-      m('span', price.amount)
-      m('abbr', price.currency)
-    )
 
   packageFormFields: (pkg) ->
     [
@@ -334,6 +370,64 @@ class @RegistrationActivitySelector
 
   hidden: (name, value) ->
     m('input', { type: 'hidden', name: name, value: value })
+
+class @ItineraryEditor
+  @controller: (args...) =>
+    new this(args...)
+
+  @view: (controller) =>
+    controller.view()
+
+  constructor: ->
+    Activity.fetch()
+
+  view: ->
+    [
+      @header()
+      m.component(ActivitySelector)
+      @footer()
+    ]
+
+  header: ->
+    m('header',
+      m('div', { class: 'inner' },
+        m.component(ActivityCounts)
+        m('button', { rel: 'save', onclick: @save },
+          m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
+            m('circle', { class: 'outline', cx: 20, cy: 20, r: 18 })
+            m('path', { class: 'check', d: 'M 11.7 20.3 L 17 25.6 L 35.3 7.4' })
+          )
+          m('span', 'Save changes')
+        )
+      )
+    )
+
+  footer: ->
+    fit = Package.bestFit() || Package.maximum()
+    current = Package.current()
+    diff = fit.diff(current)
+    visible = diff.allocations().length
+    m('footer', { 'aria-hidden': !visible },
+      m('div', { class: 'inner' },
+        diff.price().format(prefix: '+')
+        @footerText(current, diff)
+      )
+    )
+
+  footerText: (current, diff) ->
+    console.log (a.label(a.count()) for a in diff.allocations())
+    [
+      m('p', "Your package: #{current.description()}")
+      m('p', "You have selected #{sentence(a.label(a.count()) for a in diff.allocations()).toLowerCase()}") if diff.allocations().length
+    ]
+
+
+sentence = (array) ->
+  return array[0] if array.length < 2
+  array = array.slice()
+  last = array.pop()
+  join = if array.length > 1 then ', and ' else ' and '
+  [array.join(', '), last].join(join)
 
 class ActivityCounts
   @controller: (args...) =>
