@@ -17,16 +17,28 @@ class Price
 
   format: (options = {}) ->
     m('span', { class: 'money' },
-      m('span', "#{options.prefix || ''}#{@symbol()}#{@amount()}"),
+      m('span', "#{options.prefix || ''}#{@symbol()}#{options.amount ? @amount()}"),
       m('abbr', @currency())
     )
 
   diff: (another) ->
-    new Price(
-      amount: @amount() - another.amount(),
-      currency: @currency(),
-      symbol: @symbol()
-    )
+    new PriceDifference(this, another)
+
+class PriceDifference
+  constructor: (base, another) ->
+    @base = m.prop(base)
+    @amount = m.prop(base.amount() - another.amount())
+
+  format: ->
+    @base().format(amount: @amount(), prefix: @prefix())
+
+  prefix: ->
+    if @amount() < 0
+      '-'
+    else if @amount() > 0
+      '+'
+    else
+      ''
 
   zero: ->
     Math.abs(@amount()) < 0.005
@@ -122,6 +134,9 @@ class @Allocation
   count: ->
     @selected().length
 
+  leftover: ->
+    @limit() - @count()
+
   label: (count) ->
     word = if (count ? @count()) == 1 then @singular() else @plural()
     if count?
@@ -201,6 +216,36 @@ class @Package
   @bestFit: (selected = Activity.selected()) ->
     return pkg for pkg in @all() when pkg.fits(selected)
     undefined
+
+class PackageComparison
+  constructor: (current) ->
+    @current = m.prop(current)
+    @priceDifference = m.prop(@bestFit().price().diff(current.price()))
+
+  bestFit: ->
+    @_best ||= Package.bestFit() || Package.maximum()
+
+  maximum: ->
+    @_maximum ||= Package.maximum()
+
+  leftovers: ->
+    @_leftovers ||= (a for a in @current().allocations() when a.leftover() > 0)
+
+  extras: ->
+    @_extras ||= (a for a in @current().allocations() when a.count() > a.limit())
+
+  selections: ->
+    @_selections ||= (a for a in @current().allocations() when a.count() > 0)
+
+  overMax: ->
+    max = @maximum()
+    @_overMax ||= (a for a in @current().allocations() when a.count() > max.allocation(a.type()).limit())
+
+  isSame: ->
+    false
+
+  isSamePackage: ->
+    @current().id() == @bestFit().id()
 
 class ActivitySelector
   @controller: (args) =>
@@ -403,27 +448,44 @@ class @ItineraryEditor
     )
 
   footer: ->
-    fit = Package.bestFit() || Package.maximum()
-    current = Package.current()
-    diff = fit.diff(current)
-    visible = diff.allocations().length
-    m('footer', { 'aria-hidden': !visible },
+    comparison = new PackageComparison(Package.current())
+    hidden = comparison.isSame()
+    m('footer', { 'aria-hidden': hidden },
       m('div', { class: 'inner' },
-        diff.price().format(prefix: '+')
-        @footerText(current, diff)
+        @footerText(comparison)
+        comparison.priceDifference().format() unless comparison.priceDifference().zero()
       )
     )
 
-  footerText: (current, diff) ->
-    console.log (a.label(a.count()) for a in diff.allocations())
-    [
-      m('p', "Your package: #{current.description()}")
-      m('p', "You have selected #{sentence(a.label(a.count()) for a in diff.allocations()).toLowerCase()}") if diff.allocations().length
-    ]
+  selection: (allocations, options = {}) ->
+    options.count ?= 'count'
+    console.log(allocations)
+    sentence(a.label(a[options.count]()) for a in allocations).toLowerCase()
 
+  footerText: (comparison) ->
+    only = if comparison.selections().length && !comparison.extras().length then ' only' else ''
+    m('div',
+      m('p',
+        "You’ve paid for #{comparison.current().description()}"
+        (", but you’ve#{only} picked #{@selection(comparison.selections())}" if comparison.selections().length && (comparison.extras().length || comparison.leftovers().length))
+        '.'
+      )
+      m('p',
+        "You’ll need to make some hard choices, or just pay the difference."
+      ) if comparison.extras().length
+      m('p',
+        "You can pick an additional #{@selection(comparison.leftovers(), count: 'leftover')}, or we’ll refund you the difference after the festival."
+      ) if comparison.leftovers().length && !comparison.priceDifference().amount() < 0
+      m('p',
+        "You can still pick #{@selection(comparison.leftovers(), count: 'leftover')} without paying any extra."
+      ) if comparison.leftovers().length && comparison.isSamePackage()
+      m('p',
+        "(Please note: the maximum you can pick is #{Package.maximum().description()}.)"
+      ) if comparison.overMax().length
+    )
 
 sentence = (array) ->
-  return array[0] if array.length < 2
+  return array[0] || '' if array.length < 2
   array = array.slice()
   last = array.pop()
   join = if array.length > 1 then ', and ' else ' and '

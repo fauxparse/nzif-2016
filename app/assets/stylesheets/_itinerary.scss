@@ -172,6 +172,7 @@
     padding-bottom: 1rem;
     background: $dark-grey;
     color: white;
+    -webkit-font-smoothing: antialiased;
     transition: transform $medium-duration $ease-out-back;
 
     &[aria-hidden="true"] {
@@ -184,6 +185,26 @@
       align-items: flex-start;
 
       &::after { display: none; }
+
+      .money {
+        flex-shrink: 0;
+        margin-left: 1rem;
+        font-size: 1.5rem;
+        line-height: 1em;
+      }
+
+      div {
+        flex: 1;
+      }
+
+      p {
+        font-size: $small-font-size;
+        margin: 0 0 .25em;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }
