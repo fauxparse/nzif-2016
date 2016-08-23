@@ -17,7 +17,7 @@ class Price
 
   format: (options = {}) ->
     m('span', { class: 'money' },
-      m('span', "#{options.prefix || ''}#{@symbol()}#{options.amount ? @amount()}"),
+      m('span', "#{options.prefix || ''}#{@symbol()}#{Math.abs(options.amount ? @amount())}"),
       m('abbr', @currency())
     )
 
@@ -247,9 +247,26 @@ class PackageComparison
   isSamePackage: ->
     @current().id() == @bestFit().id()
 
+  messages: ->
+    messages = []
+    msg = "You’ve paid for #{@current().description()}"
+    only = if @selections().length && !@extras().length then ' only' else ''
+    msg += ", but you’ve#{only} picked #{@selection(@selections())}" if @selections().length && (@extras().length || @leftovers().length)
+    msg += "."
+    messages.push(msg)
+    messages.push("You’ll need to make some hard choices, or just pay the difference.") if @extras().length
+    messages.push("You can pick an additional #{@selection(@leftovers(), count: 'leftover')}, or we’ll refund you the difference after the festival.") if @leftovers().length && @priceDifference().amount() < 0
+    messages.push("You can still pick #{@selection(@leftovers(), count: 'leftover')} without paying any extra.") if @leftovers().length && @isSamePackage()
+    messages.push("(Please note: the maximum you can pick is #{Package.maximum().description()}.)") if @overMax().length
+    messages
+
+  selection: (allocations, options = {}) ->
+    options.count ?= 'count'
+    sentence(a.label(a[options.count]()) for a in allocations).toLowerCase()
+
 class ActivitySelector
-  @controller: (args) =>
-    new this(args...)
+  @controller: (options = {}) =>
+    new this(options)
 
   @view: (controller) ->
     pkg = Package.current()
@@ -257,7 +274,8 @@ class ActivitySelector
       (controller.renderDay(day, pkg) for day in Activity.grouped())
     )
 
-  constructor: (args...) ->
+  constructor: (options = {}) ->
+    @options = $.extend({ model: 'itinerary' }, options)
 
   renderDay: (day, pkg) ->
     m('section', { class: 'day' },
@@ -288,7 +306,7 @@ class ActivitySelector
   renderActivity: (activity) ->
     m('article', { role: 'listitem', 'aria-selected': activity.selected() },
       m('label',
-        m('input', { type: 'checkbox', checked: activity.selected(), onclick: m.withAttr('checked', activity.selected) })
+        m('input', { type: 'checkbox', name: "#{@options.model}[selections][]", value: activity.id(), checked: activity.selected(), onclick: m.withAttr('checked', activity.selected) })
         m('img', { src: activity.image() })
         m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
           m('circle', { cx: 20, cy: 20, r: 18 })
@@ -391,7 +409,7 @@ class @RegistrationActivitySelector
           m('p', RegistrationActivitySelector.properties.instructions)
         )
       )
-      m.component(ActivitySelector)
+      m.component(ActivitySelector, model: 'registration')
       m('footer',
         m('div', { class: 'inner' },
           @footerContent(Package.bestFit())
@@ -410,7 +428,6 @@ class @RegistrationActivitySelector
   packageFormFields: (pkg) ->
     [
       @hidden('registration[package_id]', pkg.id())
-      (@hidden('registration[selections][]', a.id()) for a in Activity.selected())...
     ]
 
   hidden: (name, value) ->
@@ -427,28 +444,22 @@ class @ItineraryEditor
     Activity.fetch()
 
   view: ->
+    comparison = new PackageComparison(Package.current())
     [
-      @header()
-      m.component(ActivitySelector)
-      @footer()
+      @header(comparison)
+      m.component(ActivitySelector, model: 'itinerary')
+      @footer(comparison)
     ]
 
-  header: ->
+  header: (comparison) ->
     m('header',
       m('div', { class: 'inner' },
         m.component(ActivityCounts)
-        m('button', { rel: 'save', onclick: @save },
-          m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
-            m('circle', { class: 'outline', cx: 20, cy: 20, r: 18 })
-            m('path', { class: 'check', d: 'M 11.7 20.3 L 17 25.6 L 35.3 7.4' })
-          )
-          m('span', 'Save changes')
-        )
+        m('button', { type: 'submit', disabled: !!comparison.overMax().length }, m('span', 'Save changes'))
       )
     )
 
-  footer: ->
-    comparison = new PackageComparison(Package.current())
+  footer: (comparison) ->
     hidden = comparison.isSame()
     m('footer', { 'aria-hidden': hidden },
       m('div', { class: 'inner' },
@@ -457,31 +468,9 @@ class @ItineraryEditor
       )
     )
 
-  selection: (allocations, options = {}) ->
-    options.count ?= 'count'
-    console.log(allocations)
-    sentence(a.label(a[options.count]()) for a in allocations).toLowerCase()
-
   footerText: (comparison) ->
-    only = if comparison.selections().length && !comparison.extras().length then ' only' else ''
     m('div',
-      m('p',
-        "You’ve paid for #{comparison.current().description()}"
-        (", but you’ve#{only} picked #{@selection(comparison.selections())}" if comparison.selections().length && (comparison.extras().length || comparison.leftovers().length))
-        '.'
-      )
-      m('p',
-        "You’ll need to make some hard choices, or just pay the difference."
-      ) if comparison.extras().length
-      m('p',
-        "You can pick an additional #{@selection(comparison.leftovers(), count: 'leftover')}, or we’ll refund you the difference after the festival."
-      ) if comparison.leftovers().length && !comparison.priceDifference().amount() < 0
-      m('p',
-        "You can still pick #{@selection(comparison.leftovers(), count: 'leftover')} without paying any extra."
-      ) if comparison.leftovers().length && comparison.isSamePackage()
-      m('p',
-        "(Please note: the maximum you can pick is #{Package.maximum().description()}.)"
-      ) if comparison.overMax().length
+      (m('p', message) for message in comparison.messages())
     )
 
 sentence = (array) ->

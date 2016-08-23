@@ -2,4 +2,5 @@
   .inner
     %h1= t('.title')
 
-= mithril_component('ItineraryEditor', {}, class: 'edit-itinerary')
+= form_for @itinerary, url: itinerary_path(festival) do |form|
+  = mithril_component('ItineraryEditor', {}, class: 'edit-itinerary')

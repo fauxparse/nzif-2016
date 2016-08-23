@@ -22,8 +22,20 @@ class ItinerariesController < ApplicationController
 
   def update
     success = @itinerary.update(itinerary_params)
-    Postman.itinerary(registration).deliver_later
-    render json: @itinerary, full: true, status: success ? :ok : :not_acceptable
+
+    respond_to do |format|
+      format.html do
+        if @itinerary.requires_additional_payment?
+          redirect_to account_path
+        else
+          redirect_to itinerary_path
+        end
+      end
+      format.json do
+        render json: @itinerary, full: true, \
+          status: success ? :ok : :not_acceptable
+      end
+    end
   end
 
   def email

@@ -34,6 +34,10 @@ class PackagePrice < ApplicationRecord
     expires_at > time
   end
 
+  def <=>(another)
+    amount <=> another.amount
+  end
+
   def self.current
     available_at(Time.now).first
   end

@@ -7,18 +7,17 @@ class Itinerary
   validate :check_activity_limits
 
   attr_reader :registration
-  delegate :id, :package_id, :package, :participant, :festival,
-    to: :registration
+  delegate :id, :participant, :festival, to: :registration
 
   def initialize(registration)
     @registration = registration
   end
 
   def update(params)
-    registration.package = festival.packages.find(params[:package_id]) \
-      if params[:package_id]
     self.selections = params[:selections] || []
-    save
+    registration.package = best_available_or_current_package
+
+    save && send_confirmation && true
   end
 
   def save
@@ -41,6 +40,10 @@ class Itinerary
     end
   end
 
+  def requires_additional_payment?
+    Account.new(registration).requires_additional_payment?
+  end
+
   def to_model
     registration
   end
@@ -51,6 +54,14 @@ class Itinerary
 
   def packages
     registration.festival.packages.ordered.with_allocations
+  end
+
+  def package
+    registration.package || packages.last
+  end
+
+  def package_id
+    package.id
   end
 
   def to_partial_path
@@ -132,5 +143,25 @@ class Itinerary
 
   def activity_full(schedule)
     [:activity_full, { activity: schedule.name }]
+  end
+
+  def send_confirmation
+    Postman.itinerary(registration).deliver_later
+  end
+
+  def best_available_package
+    selected = selections_by_activity_type
+    best = packages.detect do |package|
+      package.allocations.select(&:limited?).all? do |allocation|
+        allocation.accepts?(selected[allocation.activity_type].count)
+      end
+    end
+  end
+
+  def best_available_or_current_package
+    [best_available_package, registration.package]
+      .compact
+      .sort_by(&:position)
+      .last || packages.last
   end
 end

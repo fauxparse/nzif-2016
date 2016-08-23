@@ -31,6 +31,10 @@ class Account
     total_to_pay <= 0
   end
 
+  def requires_additional_payment?
+    total_pending_or_approved < total_to_pay
+  end
+
   def total_pending_or_approved
     total_paid + total_pending
   end

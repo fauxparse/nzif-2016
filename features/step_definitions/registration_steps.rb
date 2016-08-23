@@ -25,7 +25,7 @@ When(/^I enter my existing registration details$/) do
 end
 
 Then(/^I should receive an email confirming my registration$/) do
-  expect(unread_emails_for(participant_email).size).to eq 1
+  expect(unread_emails_for(participant_email).select { |m| m.subject =~ /registered/i }.size).to eql 1
 end
 
 Then(/^I should be on my registration details page$/) do

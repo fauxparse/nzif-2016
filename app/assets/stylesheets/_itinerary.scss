@@ -92,6 +92,31 @@
       }
     }
 
+    button[type="submit"] {
+      background: white;
+      color: $header-background-color;
+      transition: all $base-duration $base-timing;
+      padding-left: .75rem;
+      padding-right: .75rem;
+
+      span {
+        display: none;
+      }
+
+      &::after {
+        content: "Save";
+
+        @include media($medium-screen) {
+          content: "Save changes";
+        }
+      }
+
+      &:disabled {
+        background: white;
+        opacity: .25;
+      }
+    }
+
     [rel="save"] {
       display: flex;
       align-items: center;
@@ -173,7 +198,7 @@
     background: $dark-grey;
     color: white;
     -webkit-font-smoothing: antialiased;
-    transition: transform $medium-duration $ease-out-back;
+    transition: transform $base-duration $ease-out-back;
 
     &[aria-hidden="true"] {
       transition-timing-function: $ease-in-back;
@@ -191,6 +216,17 @@
         margin-left: 1rem;
         font-size: 1.5rem;
         line-height: 1em;
+        border: 1px solid white;
+        border-radius: $base-border-radius;
+        padding: .4375rem;
+
+        abbr {
+          color: white;
+
+          @include media(max-width ($medium-screen - 1px)) {
+            display: none;
+          }
+        }
       }
 
       div {
@@ -199,6 +235,7 @@
 
       p {
         font-size: $small-font-size;
+        line-height: 1.25;
         margin: 0 0 .25em;
 
         &:last-child {
@@ -220,6 +257,10 @@
     margin-right: .5rem;
     padding-right: 2rem;
     text-transform: lowercase;
+
+    &:first-child span {
+      min-width: 4.5rem;
+    }
 
     b {
       flex: 0 0 2.5rem;
@@ -302,7 +343,7 @@
 
 .activity-selector {
   @include full-width-section;
-  padding: 0 0 6rem;
+  padding: 0 0 10rem;
   position: relative;
 
   header {
