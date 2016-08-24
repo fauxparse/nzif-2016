@@ -539,8 +539,30 @@
     }
 
     .description {
-      padding: .5rem;
+      padding: .5rem 3.5rem .5rem .5rem;
       font-size: $small-font-size;
+      position: relative;
+      min-height: 3.5rem;
+    }
+
+    [rel="more"] {
+      @include position(absolute, .5rem 0rem null null);
+      @include size(2.5rem);
+      padding: .5rem;
+      opacity: .5;
+      border-radius: 50%;
+
+      i {
+        display: block;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &:active {
+        background: $secondary-background-color;
+      }
     }
 
     h4 {
@@ -581,6 +603,89 @@
     [role="listitem"] {
       label {
         max-height: none;
+      }
+    }
+  }
+}
+
+.zoomed-activity-window {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all $long-duration $ease-out-cubic;
+
+  &::before {
+    content: "";
+    @include position(fixed, 0rem 0rem 0rem 0rem);
+    z-index: -1;
+    background: rgba($dark-grey, .5);
+    opacity: 0;
+    transition: opacity $medium-duration $base-timing;
+  }
+
+  &.zoomed {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+
+    &::before { opacity: 1 }
+  }
+
+  article {
+    background: $base-background-color;
+    width: 100%;
+    height: 100%;
+    max-width: 30rem;
+    max-height: 40rem;
+    border-radius: $base-border-radius;
+    box-shadow: 0 0 1rem $dark-grey;
+    overflow-y: scroll;
+
+    &.fade {
+      transition: opacity $long-duration $ease-out-cubic;
+      opacity: 0;
+    }
+
+    header {
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+
+      img {
+        display: block;
+      }
+
+      h4 {
+        @include position(absolute, null 3.5rem 1rem 1rem);
+        z-index: 1;
+        color: white;
+        margin: 0;
+        font-size: 2rem;
+        text-shadow: 0 0 .5rem black;
+      }
+
+      &::after {
+        content: "";
+        @include position(absolute, 0rem 0rem 0rem 0rem);
+        background: linear-gradient(to bottom, rgba(black, 0), rgba(black, .5));
+      }
+
+      [rel="close"] {
+        @include position(absolute, .5rem .5rem null null);
+        @include size(2.5rem);
+        z-index: 1;
+        padding: .5rem;
+        border-radius: 50%;
+        background: rgba(black, .25);
+        color: white;
+        opacity: .5;
+        transition: all $base-duration $base-timing;
+
+        i { display: block; }
+
+        &:hover { opacity: 1; }
       }
     }
   }

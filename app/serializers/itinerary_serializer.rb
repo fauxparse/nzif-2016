@@ -26,8 +26,14 @@ class ItinerarySerializer < ActiveModel::Serializer
   end
 
   def serialize_schedule(schedule)
-    ActiveModelSerializers::SerializableResource.new(schedule)
+    url = activity_url(schedule.activity)
+    ActiveModelSerializers::SerializableResource.new(schedule, url: url)
       .as_json
       .merge(selected: object.selected?(schedule))
+  end
+
+  def activity_url(activity)
+    Rails.application.routes.url_helpers
+      .activity_path(activity.festival, activity.class, activity)
   end
 end

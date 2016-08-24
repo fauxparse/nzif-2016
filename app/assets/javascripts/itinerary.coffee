@@ -324,6 +324,7 @@ class ActivitySelector
         )
       )
       m('div', { class: 'description' },
+        m('a[rel="more"]', { href: activity.url(), onclick: ((e) => @zoomActivity(e, activity)) }, m('i.material-icons', 'more_vert'))
         m('p', { class: 'dates' }, activity.starts_at().format('h:mm A – ') + activity.ends_at().format('h:mm A'))
         m('h4', activity.name())
       )
@@ -373,6 +374,35 @@ class ActivitySelector
     $headers = $clicked.prevAll('header')
     top = offsetTop($clicked[0]) - $header.height() - $headers.map(-> this.offsetHeight).get().reduce(((a, b) -> a + b), 0)
     $('body').animate(scrollTop: top)
+
+  zoomActivity: (e, activity) ->
+    e.preventDefault()
+    article = $(e.target).closest('article')
+    offset = article.offset()
+    zoom = $('<div>')
+      .addClass('zoomed-activity-window')
+      .appendTo('body')
+      .css
+        left: offset.left
+        top: offset.top - $('body').scrollTop()
+        width: article.width()
+        height: article.height()
+
+    activity = $('<article>').appendTo(zoom)
+    header = $('<header>').appendTo(activity)
+    article.find('img, h4').clone().appendTo(header)
+    $('<button>', { rel: 'close' })
+      .append($('<i>', { class: 'material-icons' }).text('close'))
+      .appendTo(header)
+      .on 'click', (e) ->
+        e.preventDefault()
+        activity.addClass('fade')
+        zoom
+          .transitionEnd ->
+            zoom.remove()
+          .removeClass('zoomed')
+
+    requestAnimationFrame -> zoom.addClass('zoomed')
 
   save: (e) =>
     button = $(e.target).closest('button').attr('aria-busy', true)
