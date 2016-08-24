@@ -45,9 +45,9 @@ class PriceDifference
 
 class @Activity
   constructor: (attrs) ->
+    @was = $.extend({}, attrs)
     for own key, value of attrs
       (@[key] ||= m.prop())(value)
-    @was = $.extend({}, attrs)
 
   starts_at: (value) =>
     @_starts_at ||= m.prop()
@@ -60,11 +60,16 @@ class @Activity
     @_ends_at().clone()
 
   selected: (value) =>
-    @_selected ||= m.prop()
+    @_selected ||= m.prop(false)
     if arguments.length && (!value || !@full())
-      @deselectOverlapping() if value
-      @_selected(value)
+      value = !!value
+      if value == @was.selected || @canChange()
+        @deselectOverlapping() if value
+        @_selected(value)
     @_selected()
+
+  canChange: ->
+    @starts_at().isAfter(moment())
 
   full: (value) =>
     @_full ||= m.prop()
@@ -304,9 +309,14 @@ class ActivitySelector
     ]
 
   renderActivity: (activity) ->
+    inputOptions =
+      name: "#{@options.model}[selections][]"
+      value: activity.id()
+
     m('article', { role: 'listitem', 'aria-selected': activity.selected() },
       m('label',
-        m('input', { type: 'checkbox', name: "#{@options.model}[selections][]", value: activity.id(), checked: activity.selected(), onclick: m.withAttr('checked', activity.selected) })
+        (m('input[type="hidden"]', inputOptions) unless activity.canChange())
+        m('input[type="checkbox"]', $.extend({}, inputOptions, checked: activity.selected(), disabled: !activity.canChange(), onchange: m.withAttr('checked', activity.selected)))
         m('img', { src: activity.image() })
         m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
           m('circle', { cx: 20, cy: 20, r: 18 })
@@ -405,13 +415,13 @@ class @RegistrationActivitySelector
   view: ->
     [
       m('header',
-        m('div', { class: 'inner' },
+        m('div.inner',
           m('p', RegistrationActivitySelector.properties.instructions)
         )
       )
       m.component(ActivitySelector, model: 'registration')
       m('footer',
-        m('div', { class: 'inner' },
+        m('div.inner',
           @footerContent(Package.bestFit())
         )
       )
@@ -422,7 +432,7 @@ class @RegistrationActivitySelector
       m.component(ActivityCounts)
       (pkg.price().format() if pkg)
       (@packageFormFields(pkg) if pkg)
-      m('button', { type: 'submit', disabled: !pkg }, 'Continue')
+      m('button[type="submit"]', { disabled: !pkg }, 'Continue')
     ]
 
   packageFormFields: (pkg) ->
@@ -431,7 +441,7 @@ class @RegistrationActivitySelector
     ]
 
   hidden: (name, value) ->
-    m('input', { type: 'hidden', name: name, value: value })
+    m('input[type="hidden"]', { name: name, value: value })
 
 class @ItineraryEditor
   @controller: (args...) =>
@@ -453,25 +463,30 @@ class @ItineraryEditor
 
   header: (comparison) ->
     m('header',
-      m('div', { class: 'inner' },
+      m('div.inner',
         m.component(ActivityCounts)
-        m('button', { type: 'submit', disabled: !!comparison.overMax().length }, m('span', 'Save changes'))
+        m('button[type="submit"]', { disabled: !!comparison.overMax().length }, m('span', 'Save changes'))
       )
     )
 
   footer: (comparison) ->
-    hidden = comparison.isSame()
+    messages = comparison.messages()
+    hidden = !messages.length
     m('footer', { 'aria-hidden': hidden },
-      m('div', { class: 'inner' },
-        @footerText(comparison)
+      m('div.inner',
+        m('label[for="show-messages"]', { 'aria-hidden': hidden })
+        m('input[type="checkbox"]#show-messages', { disabled: hidden }),
+        m('div.messages',
+          (m('p', message) for message in comparison.messages())
+          m('label[for="show-messages"]',
+            m('i.material-icons', 'close')
+          )
+        )
         comparison.priceDifference().format() unless comparison.priceDifference().zero()
       )
     )
 
-  footerText: (comparison) ->
-    m('div',
-      (m('p', message) for message in comparison.messages())
-    )
+  messages: (comparison) ->
 
 sentence = (array) ->
   return array[0] || '' if array.length < 2

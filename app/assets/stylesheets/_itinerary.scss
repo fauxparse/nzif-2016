@@ -206,6 +206,7 @@
     }
 
     .inner {
+      position: relative;
       display: flex;
       align-items: flex-start;
 
@@ -229,8 +230,77 @@
         }
       }
 
-      div {
-        flex: 1;
+      #show-messages {
+        display: none;
+      }
+
+      > label[for="show-messages"] {
+        flex: 1 1 1em;
+        font: normal 1.5rem "Material Icons";
+        text-align: left;
+        line-height: 1em;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+
+        &[aria-hidden="true"] {
+          opacity: .5;
+        }
+
+        &:not([aria-hidden="true"]) {
+          animation: pulsate 1s infinite alternate;
+          cursor: help;
+        }
+
+        &::before {
+          content: "info_outline";
+        }
+
+        @keyframes pulsate {
+          from {
+            text-shadow: 0 0 0 rgba($accent-color, 0);
+          }
+          to {
+            text-shadow: 0 0 .5rem rgba($accent-color, 1);
+          }
+        }
+      }
+
+      @include media(max-width ($medium-screen - 1px)) {
+        .messages {
+          @include position(absolute, null -.5rem 100% -.5rem);
+          margin-bottom: .5rem;
+          background: rgba(#ffc, .95);
+          color: $base-font-color;
+          padding: .5rem 2rem .5rem .5rem;
+          box-shadow: 0 0 .5rem rgba($dark-grey, .5);
+          border-radius: $base-border-radius;
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(100%);
+          transition: all $medium-duration $base-timing;
+
+          label {
+            @include position(absolute, .5rem .5rem null null);
+            font-size: 1rem;
+            cursor: pointer;
+          }
+        }
+
+        #show-messages:checked ~ .messages {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+        }
+      }
+
+      @include media($medium-screen) {
+        label[for="show-messages"] {
+          display: none;
+        }
+
+        .messages {
+          flex: 1;
+        }
       }
 
       p {
