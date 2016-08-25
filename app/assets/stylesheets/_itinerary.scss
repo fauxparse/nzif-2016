@@ -631,7 +631,7 @@
     width: 100% !important;
     height: 100% !important;
 
-    &::before { opacity: 1 }
+    article, &::before { opacity: 1 }
   }
 
   article {
@@ -640,14 +640,10 @@
     height: 100%;
     max-width: 30rem;
     max-height: 40rem;
-    border-radius: $base-border-radius;
     box-shadow: 0 0 1rem $dark-grey;
     overflow-y: scroll;
-
-    &.fade {
-      transition: opacity $long-duration $ease-out-cubic;
-      opacity: 0;
-    }
+    transition: opacity $long-duration $ease-out-cubic;
+    opacity: 0;
 
     header {
       position: relative;
@@ -682,11 +678,16 @@
         color: white;
         opacity: .5;
         transition: all $base-duration $base-timing;
+        outline: none;
 
         i { display: block; }
 
         &:hover { opacity: 1; }
       }
     }
+  }
+
+  @include media($medium-screen) {
+    border-radius: $base-border-radius;
   }
 }

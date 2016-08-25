@@ -313,7 +313,7 @@ class ActivitySelector
       name: "#{@options.model}[selections][]"
       value: activity.id()
 
-    m('article', { role: 'listitem', 'aria-selected': activity.selected() },
+    m('article', { role: 'listitem', 'aria-selected': activity.selected(), 'data-id': activity.id() },
       m('label',
         (m('input[type="hidden"]', inputOptions) unless activity.canChange())
         m('input[type="checkbox"]', $.extend({}, inputOptions, checked: activity.selected(), disabled: !activity.canChange(), onchange: m.withAttr('checked', activity.selected)))
@@ -377,32 +377,9 @@ class ActivitySelector
 
   zoomActivity: (e, activity) ->
     e.preventDefault()
-    article = $(e.target).closest('article')
-    offset = article.offset()
-    zoom = $('<div>')
-      .addClass('zoomed-activity-window')
-      .appendTo('body')
-      .css
-        left: offset.left
-        top: offset.top - $('body').scrollTop()
-        width: article.width()
-        height: article.height()
-
-    activity = $('<article>').appendTo(zoom)
-    header = $('<header>').appendTo(activity)
-    article.find('img, h4').clone().appendTo(header)
-    $('<button>', { rel: 'close' })
-      .append($('<i>', { class: 'material-icons' }).text('close'))
-      .appendTo(header)
-      .on 'click', (e) ->
-        e.preventDefault()
-        activity.addClass('fade')
-        zoom
-          .transitionEnd ->
-            zoom.remove()
-          .removeClass('zoomed')
-
-    requestAnimationFrame -> zoom.addClass('zoomed')
+    zoomWindow = document.createElement('div')
+    document.body.appendChild(zoomWindow)
+    m.mount(zoomWindow, new ActivityViewer(activity))
 
   save: (e) =>
     button = $(e.target).closest('button').attr('aria-busy', true)
@@ -421,6 +398,49 @@ class ActivitySelector
       minimumTimeout.promise.then ->
         button.addClass('done').find('.check').transitionEnd ->
           button.removeClass('done').attr('aria-busy', false)
+
+class @ActivityViewer
+  constructor: (activity) ->
+    @activity = m.prop(activity)
+
+  controller: =>
+    this
+
+  view: (controller) =>
+    m('article', { config: @show },
+      m('header',
+        m('img', src: @activity().image())
+        m('h4', @activity().name())
+        m('button[rel="close"]', { onclick: @hide }, m('i.material-icons', 'close'))
+      )
+    )
+
+  show: (el, isInitialized) =>
+    unless isInitialized
+      zoom = $(el).parent()
+      zoom
+        .addClass('zoomed-activity-window')
+        .css(@originalPosition())
+      $('body').trigger('scroll')
+
+      requestAnimationFrame ->
+        zoom.addClass('zoomed')
+
+  hide: (e) =>
+    e.preventDefault()
+    activity = $(e.target).closest('article').addClass('fade')
+    activity.parent()
+      .transitionEnd (e) ->
+        m.mount(e.target, null)
+        $(e.target).remove()
+        $('body').trigger('scroll')
+      .css(@originalPosition())
+      .removeClass('zoomed')
+
+  originalPosition: =>
+    article = $("article[data-id=#{@activity().id()}]")
+    offset = article.offset()
+    $.extend(offset, top: offset.top - $('body').scrollTop(), width: article.width(), height: article.height())
 
 offsetTop = (el) ->
   y = 0
