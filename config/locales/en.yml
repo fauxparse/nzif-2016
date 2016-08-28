@@ -197,6 +197,19 @@ en:
       empty:
         empty: "No payments to show here"
 
+  scheduled_activities:
+    timing:
+      morning: "Morning"
+      afternoon: "Afternoon"
+      half_day: "Half-day"
+      full_day: "Full-day"
+    summaries:
+      workshop: "%{timing} workshop"
+      show: "Performance showcase"
+      social_event: "Social event"
+      discussion: "Forum/discussion"
+    more: " (+ %{count} more)"
+
   devise:
     sessions:
       new:
@@ -227,9 +240,9 @@ en:
       account: "%e %b %Y"
   time:
     formats:
-      short: "%I:%M"
-      ampm: "%I:%M %p"
-      full: "%I:%M %p, %A, %e %B"
+      short: "%l:%M"
+      ampm: "%l:%M %p"
+      full: "%l:%M %p, %A, %e %B"
 
   postman:
     registration_confirmation:

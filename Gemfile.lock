@@ -322,6 +322,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redcarpet (3.2.3)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
     rspec (3.5.0.beta4)
@@ -456,6 +457,7 @@ DEPENDENCIES
   puma (~> 3.0)
   pundit
   rails (>= 5.0.0, < 5.1)
+  redcarpet
   rspec (= 3.5.0.beta4)
   rspec-collection_matchers
   rspec-core (= 3.5.0.beta4)

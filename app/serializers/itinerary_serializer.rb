@@ -13,7 +13,7 @@ class ItinerarySerializer < ActiveModel::Serializer
 
   def schedules_to_serialize
     if instance_options[:full]
-      object.registration.festival.schedules.with_activity_details
+      festival.schedules.with_activity_details
         .references(:activities)
         .where('activities.type IN (?)', activity_types)
     else
@@ -26,14 +26,18 @@ class ItinerarySerializer < ActiveModel::Serializer
   end
 
   def serialize_schedule(schedule)
-    url = activity_url(schedule.activity)
+    url = schedule_url(schedule)
     ActiveModelSerializers::SerializableResource.new(schedule, url: url)
       .as_json
       .merge(selected: object.selected?(schedule))
   end
 
-  def activity_url(activity)
+  def schedule_url(schedule)
     Rails.application.routes.url_helpers
-      .activity_path(activity.festival, activity.class, activity)
+      .scheduled_activity_path(festival, schedule)
+  end
+
+  def festival
+    object.registration.festival
   end
 end

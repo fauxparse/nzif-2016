@@ -14,6 +14,9 @@ class Schedule < ApplicationRecord
     if: :venue_id?
 
   scope :in_order, -> { order(:starts_at, :position) }
+  scope :with_activity_information, -> {
+    includes(:activity => { :facilitators => :participant })
+  }
 
   def timeslot
     (starts_at...ends_at)

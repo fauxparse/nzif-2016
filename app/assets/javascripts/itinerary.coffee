@@ -77,12 +77,14 @@ class @Activity
     @_full() && !@was.selected && !@selected()
 
   deselectOverlapping: ->
-    for activity in Activity.all() when activity.id() != @id()
-      activity.selected(false) if activity.overlaps(this)
+    activity.selected(false) for activity in @clashes()
 
   overlaps: (another) ->
     another.ends_at().isAfter(@starts_at()) &&
     another.starts_at().isBefore(@ends_at())
+
+  clashes: ->
+    (a for a in Activity.all() when a.id() != @id() && a.selected() && a.overlaps(this))
 
   @fetch: (url = null) ->
     deferred = m.deferred()
@@ -408,12 +410,46 @@ class @ActivityViewer
 
   view: (controller) =>
     m('article', { config: @show },
-      m('header',
-        m('img', src: @activity().image())
-        m('h4', @activity().name())
-        m('button[rel="close"]', { onclick: @hide }, m('i.material-icons', 'close'))
+      m('button[rel="close"]', { onclick: @hide }, m('i.material-icons', 'close'))
+      m('div.body', { onscroll: @scrolled },
+        m('header',
+          m('img', src: @activity().image())
+          m('div.shim')
+          m('h4', @activity().name())
+        )
+        (@clash(activity) for activity in @activity().clashes())
+        m('div.text', { class: 'loading', config: @load })
+      )
+      m('footer',
+        @stateButton()
       )
     )
+
+  clash: (activity) ->
+    m('div.clash',
+      m('i.material-icons', 'warning')
+      m('p', "Clashes with #{activity.name()}")
+    )
+
+  stateButton: ->
+    if @activity().selected()
+      m('button', { 'aria-selected': true, onclick: @toggle },
+        m('i.material-icons', 'done')
+        m('span', 'Selected')
+      )
+    else if @activity().full()
+      m('button', { disabled: true },
+        m('i.material-icons', 'block')
+        m('span', "Sorry, this #{@activity().type()} is full!")
+      )
+    else
+      m('button', { onclick: @toggle },
+        m('i.material-icons', 'add')
+        m('span', "Select this #{@activity().type()}")
+      )
+
+  load: (el, isInitialized) =>
+    $(el).load @activity().url(), -> $(el).removeClass('loading')
 
   show: (el, isInitialized) =>
     unless isInitialized
@@ -441,6 +477,27 @@ class @ActivityViewer
     article = $("article[data-id=#{@activity().id()}]")
     offset = article.offset()
     $.extend(offset, top: offset.top - $('body').scrollTop(), width: article.width(), height: article.height())
+
+  toggle: =>
+    m.computation =>
+      @activity().selected(!@activity().selected())
+
+  scrolled: (e) =>
+    requestAnimationFrame ->
+      body = $(e.target).closest('.body')
+      header = body.find('header')
+      heading = header.find('h4')
+      space = header.height() - heading.height() - 32
+      scrollTop = body.scrollTop()
+      opacity = Math.min(1, scrollTop * 1.0 / space)
+      header.find('.shim').css({ opacity })
+
+      if scrollTop > space
+        body.css(paddingTop: header.height())
+        header.css(position: 'absolute', top: -space)
+      else
+        body.css(paddingTop: 0)
+        header.css(position: 'relative', top: 0)
 
 offsetTop = (el) ->
   y = 0

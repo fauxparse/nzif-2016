@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "/register" => "registrations#new"
     post "/register" => "registrations#create"
     resource :registration, only: %i[show update]
+    resources :scheduled_activities
     resource :itinerary do
       post :email
     end
