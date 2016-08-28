@@ -1,5 +1,5 @@
 class ScheduledActivity
-  include Pretty
+  include PrettyPresenters
 
   NOON = 14
 

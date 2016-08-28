@@ -1,4 +1,4 @@
-module Pretty
+module PrettyPresenters
   extend ActiveSupport::Concern
 
   def pretty(raw)
