@@ -6,7 +6,7 @@ class Timetable
   end
 
   def dates
-    ((festival.start_date - 1)..festival.end_date)
+    (festival.start_date..festival.end_date)
   end
 
   def times(date = dates.first)
@@ -14,7 +14,7 @@ class Timetable
   end
 
   def length
-    (festival.end_date - festival.start_date).to_i + 2
+    (festival.end_date - festival.start_date).to_i + 1
   end
 
   def activities
