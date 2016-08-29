@@ -4,6 +4,7 @@
     - content_for :head do
       = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
       = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = analytics_init if GoogleAnalytics.valid_tracker?
     = render "shared/head"
   %body
     = render "shared/flash"

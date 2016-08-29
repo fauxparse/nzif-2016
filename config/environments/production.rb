@@ -96,4 +96,6 @@ Rails.application.configure do
     :enable_starttls_auto => true
   }
   config.action_mailer.default_url_options = { host: 'nzif.info' }
+
+  GA.tracker = ENV['GOOGLE_ANALYTICS_ID']
 end

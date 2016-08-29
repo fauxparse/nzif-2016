@@ -11,3 +11,5 @@
 
 #= require user_menu
 #= require itinerary
+
+#= require google-analytics-turbolinks
