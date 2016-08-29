@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     get "/" => "festivals#show", as: :festival
   end
 
+  resource :profile, only: %i[show update]
+
   resources :calendars, only: [:show]
 
   namespace :admin do

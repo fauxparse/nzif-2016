@@ -3,7 +3,7 @@
     = homepage_link
     - if signed_in?
       .user-menu
-        = link_to registration_path, class: "user-menu-target" do
+        = link_to registration_path(festival), class: "user-menu-target" do
           = avatar(participant)
         %ul
           - if registration.present?
@@ -13,6 +13,7 @@
             = menu_link(t('header.links.register', festival: festival.year), register_path(festival), :assignment_ind)
           - if current_user.admin?
             = menu_link(t('header.links.festival_admin'), admin_festival_path(festival), :settings)
+          = menu_link(t('header.links.profile'), profile_path, :face)
           = menu_link(t('header.authentication.log_out'), logout_path, :exit_to_app, method: :delete)
     - else
       = link_to t('header.authentication.log_in'), login_path

@@ -14,6 +14,7 @@ en:
       registration: "%{festival} registration"
       register: "Register for %{festival}"
       itinerary: "Your itinerary"
+      profile: "Edit profile"
 
   festivals:
     index:
@@ -83,6 +84,12 @@ en:
       pdf_title: "%{participant}’s itinerary for %{festival}"
     edit:
       title: "Select your activities"
+
+  profiles:
+    show:
+      title: "Edit your profile"
+      bio: "Tell us a bit about yourself"
+      submit: "Save changes"
 
   venues:
     none: "(venue TBD)"

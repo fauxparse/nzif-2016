@@ -1,0 +1,38 @@
+@mixin icon-before($icon) {
+  &::before {
+    content: $icon;
+    font: normal 1.5rem 'Material Icons';
+    line-height: 1em;
+    @include size(1em);
+    margin-right: 1rem;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.flash {
+  @include full-width-section;
+  background: $teal;
+
+  p {
+    @include outer-container;
+    padding: $small-spacing 0;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+
+    @include icon-before('done');
+
+    span {
+      flex: 1;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  &.alert {
+    background-color: $amber;
+    p::before { content: 'warning'; }
+  }
+}

@@ -1,0 +1,30 @@
+%header
+  .inner
+    %h1= t('.title')
+
+= form_for @profile, as: :profile, url: profile_path do |form|
+  %section
+    .inner
+      .details
+        .form-field
+          = form.label :name
+          = form.text_field :name
+          = form.error_messages_for :name
+
+        .form-field
+          = form.label :email
+          = form.text_field :email
+          = form.error_messages_for :email
+
+        .form-field
+          = form.label :bio, t('.bio')
+          = form.text_area :bio, rows: 5
+          = form.error_messages_for :bio
+
+      %aside
+        = avatar(@profile, size: :large)
+        = form.file_field :avatar
+
+  %section
+    .inner
+      = form.submit t('.submit')
