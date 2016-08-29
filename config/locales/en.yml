@@ -175,6 +175,7 @@ en:
         cancel: "Cancel"
       form:
         select_facilitators: "Select facilitators…"
+        select_related_activities: "Select related activities…"
         best_image_size: "1280×720"
     timetables:
       index:
@@ -217,6 +218,7 @@ en:
       full_day: "Full-day"
     summaries:
       workshop: "%{timing} workshop"
+      workshop_with_show: "%{timing} show workshop"
       show: "Performance showcase"
       social_event: "Social event"
       discussion: "Forum/discussion"
@@ -302,3 +304,4 @@ en:
     label:
       activity:
         facilitator_ids: "Facilitators"
+        related_activity_ids: "Related activities"

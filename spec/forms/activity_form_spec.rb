@@ -5,11 +5,13 @@ describe ActivityForm do
   let(:festival) { FactoryGirl.create(:festival) }
   let(:participant) { FactoryGirl.create(:participant) }
   let(:params) { ActionController::Parameters.new(activity: raw_params) }
+  let!(:another_activity) { FactoryGirl.create(:workshop, festival: festival) }
   let(:valid_params) do
     {
       name: "A workshop",
       description: "Lorem ipsum dolor sit amet",
-      facilitator_ids: [participant.id]
+      facilitator_ids: [participant.id],
+      related_activity_ids: [another_activity.id]
     }
   end
   let(:invalid_params) { { name: "" } }
@@ -32,6 +34,12 @@ describe ActivityForm do
         it 'creates a facilitator' do
           expect { form.save }
             .to change { Facilitator.count }
+            .by 1
+        end
+
+        it 'creates a related activity' do
+          expect { form.save }
+            .to change { RelatedActivity.count }
             .by 1
         end
 
@@ -79,7 +87,7 @@ describe ActivityForm do
 
         it 'changes the workshop name' do
           expect { form.save }
-            .to change { Workshop.first.name }
+            .to change { activity.reload.name }
             .to "A workshop"
         end
 
@@ -103,7 +111,7 @@ describe ActivityForm do
         it { is_expected.to be_falsy }
 
         it 'does not change existing activities' do
-          expect { save }.not_to change { Workshop.first.name }
+          expect { save }.not_to change { activity.reload.name }
         end
       end
     end

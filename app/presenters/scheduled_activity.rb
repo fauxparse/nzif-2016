@@ -1,7 +1,7 @@
 class ScheduledActivity
   include PrettyPresenters
 
-  NOON = 14
+  NOON = 13
 
   def initialize(schedule)
     @schedule = schedule
@@ -10,7 +10,7 @@ class ScheduledActivity
   def summary
     [
       I18n.t(
-        activity.class.name.demodulize.underscore,
+        activity_type,
         timing: timing,
         scope: 'scheduled_activities.summaries'
       ),
@@ -48,6 +48,10 @@ class ScheduledActivity
     I18n.t(grade, scope: 'activities.grades')
   end
 
+  def related_activities
+    activity.related_activities.includes(:child).all.map(&:child)
+  end
+
   private
 
   attr_reader :schedule
@@ -78,5 +82,18 @@ class ScheduledActivity
       I18n.l(schedule.starts_at, format: :short),
       I18n.l(schedule.ends_at, format: :full)
     ].join(' – ')
+  end
+
+  def activity_type
+    if workshop_with_has_attached_show?
+      :workshop_with_show
+    else
+      activity.class.name.demodulize.underscore.to_sym
+    end
+  end
+
+  def workshop_with_has_attached_show?
+    activity.is_a?(Workshop) &&
+      related_activities.any? { |r| r.is_a?(Show) }
   end
 end

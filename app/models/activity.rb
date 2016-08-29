@@ -2,6 +2,8 @@ class Activity < ApplicationRecord
   belongs_to :festival
   has_many :facilitators, dependent: :destroy, autosave: true
   has_many :schedules, dependent: :destroy, autosave: true
+  has_many :related_activities, foreign_key: :parent_id, dependent: :destroy,
+    autosave: true, inverse_of: :parent
 
   acts_as_url :name, url_attribute: :slug, sync_url: true, scope: :festival_id
 
@@ -22,7 +24,8 @@ class Activity < ApplicationRecord
   validates :name,
     presence: true,
     uniqueness: { scope: [:festival_id, :type], case_sensitive: false }
-  validates_attachment_content_type :image, :content_type => %w(image/jpeg image/jpg image/png)
+  validates_attachment_content_type :image,
+    :content_type => %w(image/jpeg image/jpg image/png)
 
   scope :alphabetically, -> { order(name: :asc) }
 

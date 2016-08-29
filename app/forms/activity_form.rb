@@ -23,7 +23,7 @@ class ActivityForm
   end
 
   def facilitator_ids=(ids)
-    ids = Array(ids).reject(&:blank?).map(&:to_i)
+    ids = sanitize_ids(ids)
     ids.each.with_index do |id, i|
       facilitator = activity.facilitators
         .detect { |facilitator| facilitator.participant_id == id } ||
@@ -36,8 +36,34 @@ class ActivityForm
     end
   end
 
+  def related_activity_ids
+    activity.related_activities.map(&:child_id)
+  end
+
+  def related_activity_ids=(ids)
+    ids = sanitize_ids(ids)
+    ids.each.with_index do |id, i|
+      related = activity.related_activities
+        .detect { |related| related.child_id == id } ||
+        activity.related_activities.build(child_id: id)
+    end
+
+    activity.related_activities.each do |related|
+      related.mark_for_destruction unless ids.include?(related.child_id)
+    end
+  end
+
   def self.parameters
-    [:name, :description, :image, :grade, { facilitator_ids: [] }]
+    [
+      :name,
+      :description,
+      :image,
+      :grade,
+      {
+        facilitator_ids: [],
+        related_activity_ids: []
+      }
+    ]
   end
 
   private
@@ -45,5 +71,9 @@ class ActivityForm
   def sanitize(params)
     return {} if params[:activity].blank?
     params.require(:activity).permit(*self.class.parameters)
+  end
+
+  def sanitize_ids(ids)
+    Array(ids).reject(&:blank?).map(&:to_i)
   end
 end
