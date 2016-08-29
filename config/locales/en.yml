@@ -50,7 +50,8 @@ en:
       methods:
         internet_banking: "Pay by Internet banking"
     show:
-      registered: "Registered for %{year}"
+      title: "Registration checklist"
+      registered: "Registration checklist for %{year}"
     steps:
       details: "Your details"
       package: "Select a package"
