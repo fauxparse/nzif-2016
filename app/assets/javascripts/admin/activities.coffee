@@ -14,6 +14,9 @@ document.addEventListener 'turbolinks:load', ->
           )
         )
 
+  $('#activity_related_activity_ids')
+    .chosen(search_contains: true, enable_split_word_search: true)
+
   $('.activities').each -> new SearchableList(this)
 
   $(document)

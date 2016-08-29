@@ -400,6 +400,36 @@ ALTER SEQUENCE registrations_id_seq OWNED BY registrations.id;
 
 
 --
+-- Name: related_activities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE related_activities (
+    id integer NOT NULL,
+    parent_id integer,
+    child_id integer
+);
+
+
+--
+-- Name: related_activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE related_activities_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: related_activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE related_activities_id_seq OWNED BY related_activities.id;
+
+
+--
 -- Name: schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -619,6 +649,13 @@ ALTER TABLE ONLY registrations ALTER COLUMN id SET DEFAULT nextval('registration
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY related_activities ALTER COLUMN id SET DEFAULT nextval('related_activities_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY schedules ALTER COLUMN id SET DEFAULT nextval('schedules_id_seq'::regclass);
 
 
@@ -729,6 +766,14 @@ ALTER TABLE ONLY payments
 
 ALTER TABLE ONLY registrations
     ADD CONSTRAINT registrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: related_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY related_activities
+    ADD CONSTRAINT related_activities_pkey PRIMARY KEY (id);
 
 
 --
@@ -926,6 +971,20 @@ CREATE INDEX index_registrations_on_participant_id_and_festival_id ON registrati
 
 
 --
+-- Name: index_related_activities_on_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_related_activities_on_child_id ON related_activities USING btree (child_id);
+
+
+--
+-- Name: index_related_activities_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_related_activities_on_parent_id ON related_activities USING btree (parent_id);
+
+
+--
 -- Name: index_schedules_on_activity_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1014,6 +1073,14 @@ ALTER TABLE ONLY facilitators
 
 
 --
+-- Name: fk_rails_34ab5298cf; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY related_activities
+    ADD CONSTRAINT fk_rails_34ab5298cf FOREIGN KEY (parent_id) REFERENCES activities(id) ON DELETE CASCADE;
+
+
+--
 -- Name: fk_rails_41dbad5a49; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1051,6 +1118,14 @@ ALTER TABLE ONLY packages
 
 ALTER TABLE ONLY facilitators
     ADD CONSTRAINT fk_rails_90a7a16517 FOREIGN KEY (participant_id) REFERENCES participants(id);
+
+
+--
+-- Name: fk_rails_9b577e3d90; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY related_activities
+    ADD CONSTRAINT fk_rails_9b577e3d90 FOREIGN KEY (child_id) REFERENCES activities(id) ON DELETE CASCADE;
 
 
 --
@@ -1107,6 +1182,6 @@ ALTER TABLE ONLY registrations
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120'), ('20160717105154'), ('20160717223316'), ('20160723221958'), ('20160829091713');
+INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120'), ('20160717105154'), ('20160717223316'), ('20160723221958'), ('20160829091713'), ('20160829203009');
 
 

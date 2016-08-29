@@ -20,10 +20,13 @@
   = form.text_area :description, rows: 10
   = form.error_messages_for :description
 .field
+  = form.label :related_activity_ids
+  = form.select :related_activity_ids, festival.activities.alphabetically.all.map { |a| ["#{a.name} (#{a.class.model_name.human})", a.id] }, {}, multiple: true, data: { placeholder: t('.select_related_activities') }
+  = form.error_messages_for :related_activity_ids
+.field
   = form.label :image do
     = form.label_text :image
     %small= t('.best_image_size')
   = image_tag form.object.image.url(:small) if form.object.image.present?
   = form.file_field :image
   = form.error_messages_for :image
-
