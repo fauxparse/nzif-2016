@@ -1,0 +1,10 @@
+@mixin icon($icon, $where: 'before') {
+  &::#{$where} {
+    content: $icon;
+    font: normal 1.5rem 'Material Icons';
+    line-height: 1em;
+    @include size(1em);
+    margin-right: 1rem;
+    -webkit-font-smoothing: antialiased;
+  }
+}
