@@ -55,7 +55,8 @@ class RegistrationsController < ApplicationController
 
   def continue_with_registration
     if registration_form.complete?
-      redirect_to registration_path(festival)
+      redirect_to registration_path(festival),
+        notice: t('registrations.create.completed', festival: festival)
     else
       respond_to do |format|
         format.html { render :new }
