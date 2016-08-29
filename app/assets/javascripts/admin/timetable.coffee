@@ -240,7 +240,7 @@ class Editor
           @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
           @_drag.schedule.start(@_drag.time)
     else
-      @_drag.element.find('a').click()
+      @_drag.element.find('a').click() unless $(e.target).closest('a').length
 
   startResize: (e) =>
     e.preventDefault()
