@@ -223,6 +223,14 @@ en:
     more: " (+ %{count} more)"
     limit: "Limited to %{limit}"
 
+  activities:
+    grades:
+      advanced: "Advanced improvisers"
+      experienced: "Experienced to advanced"
+      intermediate: "Intermediate and above"
+      open: "Open to all experience levels"
+      unknown: "Unknown"
+
   devise:
     sessions:
       new:

@@ -2,7 +2,7 @@ class ActivityForm
   attr_reader :activity
 
   delegate :name, :name=, :description, :description=, :image, :image=,
-    :valid?, :save, :errors, :model_name,
+    :grade, :grade=, :valid?, :save, :errors, :model_name,
     to: :activity
 
   def initialize(activity, params = {})
@@ -37,7 +37,7 @@ class ActivityForm
   end
 
   def self.parameters
-    [:name, :description, :image, { facilitator_ids: [] }]
+    [:name, :description, :image, :grade, { facilitator_ids: [] }]
   end
 
   private

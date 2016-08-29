@@ -40,6 +40,14 @@ class ScheduledActivity
     end
   end
 
+  def grade
+    activity.grade
+  end
+
+  def recommendation
+    I18n.t(grade, scope: 'activities.grades')
+  end
+
   private
 
   attr_reader :schedule

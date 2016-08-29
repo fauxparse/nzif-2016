@@ -10,6 +10,10 @@
       = icon(:person_add)
   = form.error_messages_for :facilitator_ids
 .field
+  = form.label :grade
+  = form.select :grade, Activity.grades.keys.map { |grade| [t(grade, scope: 'activities.grades'), grade] }
+  = form.error_messages_for :grade
+.field
   = form.label :description do
     = form.label_text :description
     %small= link_to "Formatting help", "https://daringfireball.net/projects/markdown/syntax", target: :_blank

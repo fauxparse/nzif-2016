@@ -2,4 +2,5 @@
   %p= @schedule.summary
   %p= @schedule.dates_and_times
   %p= @schedule.limit
+  %p{data: { grade: @schedule.grade } }= @schedule.recommendation
 = @schedule.description

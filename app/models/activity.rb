@@ -11,6 +11,14 @@ class Activity < ApplicationRecord
     large:  ['1280x720#', :jpg]
   }
 
+  enum :grade => {
+    advanced:     'advanced',
+    experienced:  'experienced',
+    intermediate: 'intermediate',
+    open:         'open',
+    unknown:      'unknown'
+  }
+
   validates :name,
     presence: true,
     uniqueness: { scope: [:festival_id, :type], case_sensitive: false }

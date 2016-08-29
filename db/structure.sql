@@ -33,7 +33,8 @@ CREATE TYPE payment_status AS ENUM (
     'pending',
     'approved',
     'failed',
-    'cancelled'
+    'cancelled',
+    'refunded'
 );
 
 
@@ -57,7 +58,8 @@ CREATE TABLE activities (
     image_file_name character varying,
     image_content_type character varying,
     image_file_size integer,
-    image_updated_at timestamp without time zone
+    image_updated_at timestamp without time zone,
+    grade character varying(16) DEFAULT 'unknown'::character varying
 );
 
 
@@ -294,6 +296,37 @@ ALTER SEQUENCE participants_id_seq OWNED BY participants.id;
 
 
 --
+-- Name: payment_method_configurations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE payment_method_configurations (
+    id integer NOT NULL,
+    festival_id integer,
+    type character varying(64),
+    configuration text DEFAULT '{}'::text
+);
+
+
+--
+-- Name: payment_method_configurations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE payment_method_configurations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payment_method_configurations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE payment_method_configurations_id_seq OWNED BY payment_method_configurations.id;
+
+
+--
 -- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -307,7 +340,10 @@ CREATE TABLE payments (
     reference character varying(32),
     failure_message character varying(128),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    token character varying(64),
+    transaction_reference character varying(32),
+    transaction_data text DEFAULT '{}'::text
 );
 
 
@@ -562,6 +598,13 @@ ALTER TABLE ONLY participants ALTER COLUMN id SET DEFAULT nextval('participants_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY payment_method_configurations ALTER COLUMN id SET DEFAULT nextval('payment_method_configurations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq'::regclass);
 
 
@@ -662,6 +705,14 @@ ALTER TABLE ONLY packages
 
 ALTER TABLE ONLY participants
     ADD CONSTRAINT participants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: payment_method_configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY payment_method_configurations
+    ADD CONSTRAINT payment_method_configurations_pkey PRIMARY KEY (id);
 
 
 --
@@ -791,6 +842,20 @@ CREATE INDEX index_participants_on_user_id ON participants USING btree (user_id)
 
 
 --
+-- Name: index_payment_method_configurations_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_payment_method_configurations_on_festival_id ON payment_method_configurations USING btree (festival_id);
+
+
+--
+-- Name: index_payment_method_configurations_on_festival_id_and_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_payment_method_configurations_on_festival_id_and_type ON payment_method_configurations USING btree (festival_id, type);
+
+
+--
 -- Name: index_payments_on_payment_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -816,6 +881,13 @@ CREATE INDEX index_payments_on_registration_id_and_status ON payments USING btre
 --
 
 CREATE INDEX index_payments_on_status ON payments USING btree (status);
+
+
+--
+-- Name: index_payments_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_payments_on_token ON payments USING btree (token);
 
 
 --
@@ -907,6 +979,14 @@ CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: fk_rails_1378d77cf6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY payment_method_configurations
+    ADD CONSTRAINT fk_rails_1378d77cf6 FOREIGN KEY (festival_id) REFERENCES festivals(id) ON DELETE CASCADE;
 
 
 --
@@ -1027,6 +1107,6 @@ ALTER TABLE ONLY registrations
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853');
+INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120'), ('20160717105154'), ('20160717223316'), ('20160723221958'), ('20160829091713');
 
 
