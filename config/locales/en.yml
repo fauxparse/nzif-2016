@@ -98,6 +98,8 @@ en:
     none: "(venue TBD)"
 
   admin:
+    menu:
+      back: "Back to public site"
     festivals:
       show:
         submit: "Save changes"

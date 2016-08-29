@@ -16,6 +16,8 @@
         = admin_menu :timetable, icon: :today
         = admin_menu :venues, icon: :place
         = admin_menu :packages, icon: :pages
+        = admin_menu :home, icon: :arrow_back, path: festival_path(festival), label: t('admin.menu.back')
+          
     %main
       .menu-navigation
         = content_for(:navigation_button) || content_tag(:label, icon(:menu), for: "show-navigation")
