@@ -219,6 +219,7 @@ en:
       social_event: "Social event"
       discussion: "Forum/discussion"
     more: " (+ %{count} more)"
+    limit: "Limited to %{limit}"
 
   devise:
     sessions:

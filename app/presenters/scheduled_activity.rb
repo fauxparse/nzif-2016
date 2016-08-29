@@ -33,6 +33,13 @@ class ScheduledActivity
     activity.facilitators.to_a.to_sentence
   end
 
+  def limit
+    if schedule.limited?
+      limit = pluralize(schedule.maximum, Participant.model_name.human.downcase)
+      I18n.t('scheduled_activities.limit', limit: limit)
+    end
+  end
+
   private
 
   attr_reader :schedule

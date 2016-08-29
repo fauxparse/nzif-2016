@@ -725,6 +725,10 @@
           &:first-child {
             font-weight: $bold-font-weight;
           }
+
+          &:empty {
+            display: none;
+          }
         }
       }
 

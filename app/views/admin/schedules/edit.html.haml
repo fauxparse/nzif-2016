@@ -9,6 +9,10 @@
       = form.label :venue_id
       = form.select :venue_id, [[]] + Venue.in_order.map { |venue| [venue.name, venue.id] }, data: { placeholder: t('.select_venue') }
       = form.error_messages_for :venue_id
+    .field
+      = form.label :maximum
+      = form.number_field :maximum, min: 0, value: schedule.maximum || 0
+      = form.error_messages_for :maximum
   %footer
     = link_to t('.remove'), admin_timetable_schedule_path(festival, schedule), rel: :delete, role: :button, remote: true, method: :delete
     = form.submit t('.submit')

@@ -40,7 +40,14 @@ class Admin::SchedulesController < ApplicationController
   def schedule_params
     @schedule_params ||= params
       .require(:schedule)
-      .permit(:starts_at, :ends_at, :activity_id, :position, :venue_id)
+      .permit(
+        :starts_at,
+        :ends_at,
+        :activity_id,
+        :position,
+        :venue_id,
+        :maximum
+      )
   end
 
   def render_schedule(status = :ok)

@@ -1,5 +1,6 @@
 module PrettyPresenters
   extend ActiveSupport::Concern
+  include ActionView::Helpers::TextHelper
 
   def pretty(raw)
     markdown.render(raw || "").html_safe

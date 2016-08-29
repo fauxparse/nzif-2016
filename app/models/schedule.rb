@@ -31,7 +31,7 @@ class Schedule < ApplicationRecord
   end
 
   def limited?
-    maximum.present?
+    !maximum.blank?
   end
 
   def full?
