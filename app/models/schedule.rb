@@ -8,7 +8,7 @@ class Schedule < ApplicationRecord
   before_validation :set_end_time
 
   validates :starts_at, :ends_at, presence: true
-  validates :maximum, numericality: { greater_than: 0, allow_blank: true }
+  validates :maximum, numericality: { greater_than_or_equal_to: 0, allow_blank: true }
   validates :venue_id,
     uniqueness: { scope: [:starts_at, :ends_at] },
     if: :venue_id?
