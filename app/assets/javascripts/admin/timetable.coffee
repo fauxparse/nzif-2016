@@ -20,6 +20,14 @@ class @Schedule
   url: (path = '') ->
     location.pathname + '/schedules/' + @id() + path
 
+  save: ->
+    m.request
+      url: @url()
+      method: 'PUT'
+      data:
+        starts_at: @start().toISOString()
+        ends_at: @end().toISOString()
+
   @fetch: (force = false) ->
     if force || !@loading
       @loading = m.deferred()
@@ -239,6 +247,7 @@ class Editor
         m.computation =>
           @_drag.schedule.end(@_drag.time.clone().add(@_drag.schedule.length()))
           @_drag.schedule.start(@_drag.time)
+          @_drag.schedule.save()
     else
       @_drag.element.find('a').click() unless $(e.target).closest('a').length
 
@@ -279,6 +288,7 @@ class Editor
     $(window).off('.timetable')
     @_drag.element.removeClass('resizing')
     @_drag.schedule.end(@_drag.time)
+    @_drag.schedule.save()
     m.redraw(true)
 
   startDraw: (e) =>
