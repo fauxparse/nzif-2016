@@ -305,3 +305,5 @@ en:
       activity:
         facilitator_ids: "Facilitators"
         related_activity_ids: "Related activities"
+      participant:
+        origin: "City or country"
