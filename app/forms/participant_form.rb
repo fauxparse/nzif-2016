@@ -3,6 +3,7 @@ class ParticipantForm
 
   attr_reader :participant
   delegate :name, :id, :email, :name=, :bio, :bio=, :avatar, :avatar=,
+    :origin, :origin=, :company, :company=,
     :to_param, to: :participant
   delegate :admin, :admin=, to: :user
 
@@ -44,7 +45,7 @@ class ParticipantForm
   end
 
   def self.parameters
-    %i[name email admin bio avatar]
+    %i[name email admin bio origin company avatar]
   end
 
   private
