@@ -5,7 +5,7 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    @activity = @activity_list.find(params[:id])
+    @activity = ActivityDetails.new(@activity_list.find(params[:id]), registration)
   end
 
   private

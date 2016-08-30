@@ -58,6 +58,69 @@
   }
 }
 
+.activity-header {
+  .inner {
+    display: block;
+  }
+
+  h2 {
+    font-weight: $light-font-weight;
+    margin: 0;
+  }
+}
+
+.activity-details {
+  .description {
+    ul {
+      @include bulleted-list;
+    }
+  }
+
+  .facilitators {
+    margin: $base-spacing 0;
+    padding: $base-spacing 0;
+    border-top: $base-border;
+
+    article {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      margin: 0 0 $small-spacing;
+
+      img {
+        @include size(4rem);
+        margin-right: $base-spacing;
+        border-radius: 50%;
+      }
+
+      .bio {
+        flex: 1;
+      }
+
+      h3 {
+        font-size: 1em;
+        font-weight: $bold-font-weight;
+        margin: 0 0 .5rem;
+      }
+    }
+  }
+
+  aside {
+
+  }
+
+  @include media($medium-screen) {
+    .inner > section {
+      @include span-columns(2 of 3);
+    }
+
+    aside {
+      @include span-columns(1 of 3);
+      @include omega(2n);
+    }
+  }
+}
+
 @include media(max-width ($medium-screen - 1px)) {
   .activities:not(.featured) {
     article {
