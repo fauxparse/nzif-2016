@@ -102,6 +102,7 @@ group :development do
   gem 'guard-cucumber'
   gem 'guard-rails', require: false
   gem 'letter_opener_web'
+  gem 'rails_real_favicon'
 end
 
 group :test do
