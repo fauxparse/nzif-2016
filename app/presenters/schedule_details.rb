@@ -7,7 +7,7 @@ class ScheduleDetails
   end
 
   def full?
-    schedule.full? || true
+    schedule.full?
   end
 
   def selected?

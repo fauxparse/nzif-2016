@@ -4,15 +4,16 @@
   %p.venue= venue_link(schedule.venue)
   %p.limit= schedule.limit
 
-  - if schedule.selected?
-    = link_to itinerary_path, role: :button do
-      = icon(:done)
-      %span= t('.selected')
-  - elsif schedule.full?
-    %button{disabled: true}
-      = icon(:block)
-      %span= t('.full')
-  - elsif schedule.can_select?
-    = link_to itinerary_path, role: :button do
-      = icon(:local_activity)
-      %span= t('.select_this')
+  - unless facilitating?(@activity)
+    - if schedule.selected?
+      = link_to itinerary_path, role: :button do
+        = icon(:done)
+        %span= t('.selected')
+    - elsif schedule.full?
+      %button{disabled: true}
+        = icon(:block)
+        %span= t('.full')
+    - elsif schedule.can_select?
+      = link_to itinerary_path, role: :button do
+        = icon(:local_activity)
+        %span= t('.select_this')

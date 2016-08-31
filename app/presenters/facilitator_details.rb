@@ -17,6 +17,10 @@ class FacilitatorDetails
     pretty(participant.bio)
   end
 
+  def participant_id
+    participant.id
+  end
+
   def self.from_activity(activity)
     activity.facilitators.includes(:participant).all.map do |facilitator|
       FacilitatorDetails.new(facilitator)

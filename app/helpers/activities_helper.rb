@@ -6,4 +6,9 @@ module ActivitiesHelper
       "http://unsplash.it/640/360/?image=#{activity.id % 40 + 1040}"
     end
   end
+
+  def facilitating?(activity)
+    participant.present? &&
+      activity.facilitators.any? { |f| f.participant_id == participant.id }
+  end
 end
