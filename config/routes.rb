@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resource :account do
       resources :payments
     end
-    scope "/:activity_type", constraints: { activity_type: /workshops|shows/ } do
+    scope "/:activity_type", constraints: { activity_type: /#{Activity.types.map(&:to_param).join('|')}/ } do
       get "/" => "activities#index", as: :activities
       get "/:id" => "activities#show", as: :activity
     end

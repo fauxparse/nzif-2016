@@ -69,7 +69,7 @@ describe PackageForm do
         it 'updates the allocations' do
           form.save
           allocation = package.allocations
-            .find_by(activity_type_name: "social_events")
+            .find_by(activity_type_name: "social-events")
           expect(allocation).to be_unlimited
         end
       end

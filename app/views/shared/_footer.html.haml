@@ -1,0 +1,32 @@
+- unless hide_footer?
+  %footer
+    .inner
+      %section.site-map
+        %h3= homepage_link
+        %ul
+          - if festival.present?
+            - Activity.types.each do |type|
+              %li= link_to type.model_name.human.pluralize, activities_path(festival, type)
+
+      %section.sponsors
+        %h3 Our sponsors
+        %ul
+          %li
+            %a{href: "http://www.nzimprovfestival.co.nz/trust", target: :_blank} New Zealand Improvisation Trust
+          %li
+            %a{href: "http://wellington.govt.nz/services/community-and-culture/funding/council-funds/creative-communities", target: :_blank} Creative Communities Scheme (WCC)
+          %li
+            %a{href: "http://www.bats.co.nz/", target: :_blank} BATS Theatre
+          %li
+            %a{href: "http://inkdigital.co.nz/", target: :_blank} Ink Digital
+          %li
+            %a{href: "http://www.yha.co.nz/hostels/north-island-hostels/yha-wellington/", target: :_blank} YHA Wellington
+
+      %section
+        %ul.social-media
+          %li
+            %a{href: "https://twitter.com/NZImprovFest", target: :_blank, rel: :twitter, title: "Twitter"}
+          %li
+            %a{href: "https://instagram.com/nzimprovfest", target: :_blank, rel: :instagram, title: "Instagram"}
+          %li
+            %a{href: "https://facebook.com/NZImprovFest", target: :_blank, rel: :facebook, title: "Facebook"}

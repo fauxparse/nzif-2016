@@ -68,4 +68,68 @@ body {
       }
     }
   }
+
+  > footer {
+    @include full-width-section;
+    background: $medium-grey;
+    color: rgba(white, .5);
+    -webkit-font-smoothing: antialiased;
+    font-size: $small-font-size;
+    padding-bottom: 6rem;
+
+    h3 {
+      font-size: $small-font-size;
+      text-transform: uppercase;
+      color: white;
+      letter-spacing: .2em;
+    }
+
+    a {
+      color: inherit;
+      &:hover { color: white; }
+    }
+
+    .social-media {
+      display: flex;
+      flex-justify: center;
+      align-items: center;
+
+      li:not(:last-child) {
+        margin-right: $base-spacing;
+      }
+
+      a {
+        display: block;
+        @include size(2rem);
+        background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+
+        &[rel="twitter"] { background-image: url(image-path('icons/twitter.svg')); }
+        &[rel="instagram"] { background-image: url(image-path('icons/instagram.svg')); }
+        &[rel="facebook"] { background-image: url(image-path('icons/facebook.svg')); }
+      }
+
+      &:hover {
+        a {
+          opacity: .5;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    section {
+      @include media($medium-screen) {
+        @include span-columns(1 of 4);
+        @include omega(3n);
+      }
+
+      &.sponsors {
+        @include span-columns(2 of 4);
+      }
+    }
+  }
 }

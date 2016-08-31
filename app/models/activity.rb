@@ -42,7 +42,7 @@ class Activity < ApplicationRecord
   end
 
   def self.to_param
-    name.underscore.pluralize
+    name.underscore.pluralize.to_url
   end
 
   def self.by_type(type)
