@@ -34,6 +34,14 @@ class ActivityDetails
     ScheduleDetails.from_activity_and_registration(activity, registration)
   end
 
+  def graded?
+    grade.present?
+  end
+
+  def grade
+    activity.grade unless activity.unknown?
+  end
+
   private
 
   attr_reader :activity, :registration

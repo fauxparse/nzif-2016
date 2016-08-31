@@ -726,40 +726,9 @@
             font-weight: $bold-font-weight;
           }
 
-          &:empty, &[data-grade="unknown"] {
+          &:empty {
             display: none;
           }
-        }
-
-        [data-grade]::before {
-          display: inline-block;
-          background-color: $tomato;
-          color: white;
-          @include size(1.5rem);
-          line-height: 1.5rem;
-          text-align: center;
-          border-radius: 50%;
-          margin-right: .5rem;
-        }
-
-        [data-grade="advanced"]::before {
-          content: "A";
-          background-color: #c0392b;
-        }
-
-        [data-grade="experienced"]::before {
-          content: "E";
-          background-color: #8e44ad;
-        }
-
-        [data-grade="intermediate"]::before {
-          content: "I";
-          background-color: #2980b9;
-        }
-
-        [data-grade="open"]::before {
-          content: "O";
-          background-color: #27ae60;
         }
       }
 

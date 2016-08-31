@@ -7,12 +7,16 @@ class ScheduleDetails
   end
 
   def full?
-    schedule.full?
+    schedule.full? || true
   end
 
   def selected?
     registration.present? &&
-      registration.selections.where(activity_id: activity_id).exists?
+      registration.selections.where(schedule_id: schedule.id).exists?
+  end
+
+  def can_select?
+    registration.present?
   end
 
   def date
@@ -24,6 +28,17 @@ class ScheduleDetails
       I18n.l(schedule.starts_at, format: :short),
       I18n.l(schedule.ends_at, format: :ampm)
     ].join(' – ')
+  end
+
+  def venue
+    schedule.venue
+  end
+
+  def limit
+    if schedule.limited?
+      limit = pluralize(schedule.maximum, Participant.model_name.human.downcase)
+      I18n.t('scheduled_activities.limit', limit: limit)
+    end
   end
 
   def self.from_activity_and_registration(activity, registration)

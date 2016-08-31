@@ -12,6 +12,10 @@
       %section.facilitators
         = render partial: "facilitator", collection: @activity.facilitators
     %aside
+      - if @activity.graded?
+        %section.grade
+          %p{data: { grade: @activity.grade} }= t(@activity.grade, scope: 'activities.grades')
+
       %section.schedules
         %ul
           = render partial: "schedule", collection: @activity.schedules
