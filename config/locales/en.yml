@@ -232,6 +232,10 @@ en:
       intermediate: "Intermediate and above"
       open: "Open to all experience levels"
       unknown: "Unknown"
+    schedule:
+      selected: "Selected"
+      select_this: "Add to itinerary"
+      full: "Sorry, full!"
 
   devise:
     sessions:

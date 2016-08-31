@@ -1,0 +1,21 @@
+- content_for :title, @activity.title
+
+%header.activity-header
+  .inner
+    %h1= @activity.name
+    %h2= @activity.summary
+
+%section.activity-details
+  .inner
+    %section
+      %section.description= @activity.description
+      %section.facilitators
+        = render partial: "facilitator", collection: @activity.facilitators
+    %aside
+      - if @activity.graded?
+        %section.grade
+          %p{data: { grade: @activity.grade} }= t(@activity.grade, scope: 'activities.grades')
+
+      %section.schedules
+        %ul
+          = render partial: "schedule", collection: @activity.schedules

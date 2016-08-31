@@ -17,7 +17,7 @@
   = form.label :description do
     = form.label_text :description
     %small= link_to "Formatting help", "https://daringfireball.net/projects/markdown/syntax", target: :_blank
-  = form.text_area :description, rows: 10
+  ~ form.text_area :description, rows: 10
   = form.error_messages_for :description
 .field
   = form.label :related_activity_ids
