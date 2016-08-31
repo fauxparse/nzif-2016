@@ -10,6 +10,10 @@ class ActivityDetails
     activity.name
   end
 
+  def type
+    activity.class
+  end
+
   def image
     activity.image.url(:large)
   end
