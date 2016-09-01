@@ -9,6 +9,11 @@ When(/^I enter my registration details$/) do
     fill_in("Password", with: password)
     fill_in("Password confirmation", with: password)
   end
+  click_button("Continue")
+end
+
+When(/^I select some initial activities$/) do
+  click_button("Continue")
 end
 
 When(/^I enter my name$/) do
@@ -22,6 +27,20 @@ When(/^I enter my existing registration details$/) do
     fill_in("Email", with: participant_email)
     fill_in("Password", with: password)
   end
+end
+
+When(/^I accept the Code of Conduct$/) do
+  execute_script <<~JAVASCRIPT
+    document
+      .querySelector('.code-of-conduct article > :last-child')
+      .scrollIntoView()
+  JAVASCRIPT
+  find("label", text: "I agree").click
+  click_button("Continue")
+end
+
+When(/^I choose to pay by Internet banking$/) do
+  click_button("Pay by Internet banking")
 end
 
 Then(/^I should receive an email confirming my registration$/) do

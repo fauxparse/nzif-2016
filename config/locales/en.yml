@@ -49,6 +49,10 @@ en:
       continue: "Continue"
       methods:
         internet_banking: "Pay by Internet banking"
+    code_of_conduct:
+      intro: "NZIF asks all participants and facilitators to adhere to a Code of Conduct in all matters pertaining to the Festival. Please make sure you are familiar with the Code before continuing."
+      agree: "I agree to abide by the NZIF Code of Conduct"
+      continue: "Continue"
     show:
       title: "Registration checklist"
       registered: "Registration checklist for %{year}"
@@ -57,6 +61,7 @@ en:
       package: "Select a package"
       activities: "Select activities"
       payment: "Payment"
+      code_of_conduct: "Code of Conduct"
     checklist:
       complete_payment: "Complete payment"
       complete_itinerary: "Select your activities"

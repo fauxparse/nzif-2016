@@ -204,6 +204,85 @@
   }
 }
 
+.code-of-conduct {
+  border-top: $base-border;
+  border-bottom: $base-border;
+  background: $secondary-background-color;
+
+  blockquote {
+    font-style: italic;
+    margin-left: 2em;
+    margin-right: 1em;
+
+    blockquote { margin-right: 0; }
+
+    p {
+      padding-left: 2em;
+
+      :first-child {
+        display: inline-block;
+        margin-left: -2em;
+        width: 2em;
+      }
+    }
+  }
+
+  @include media($medium-screen) {
+    max-height: 40vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: $small-font-size;
+  }
+
+  + .agree-to-the-above {
+    label {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      margin-bottom: $small-spacing;
+    }
+
+    svg {
+      @include svg-checkbox;
+      flex: 0 0 2.5rem;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+
+    :checked ~ label svg {
+      @include svg-checkbox-checked;
+    }
+
+    [type="checkbox"] {
+      display: none;
+    }
+
+    [type="submit"] {
+      display: block;
+      width: 100%;
+      transition: all $base-duration $base-timing;
+    }
+
+    @include media($medium-screen) {
+      .inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &::after { display: none; }
+
+        label {
+          margin-bottom: 0;
+        }
+      }
+
+      [type="submit"] {
+        width: auto;
+      }
+    }
+  }
+}
+
 .registration-checklist {
   li {
     margin-bottom: $small-spacing;
