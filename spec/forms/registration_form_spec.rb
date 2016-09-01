@@ -64,7 +64,7 @@ describe RegistrationForm do
           expect { apply }
             .to change { form.step.id }
             .from(:activities)
-            .to(:payment)
+            .to(:code_of_conduct)
         end
       end
     end
@@ -74,7 +74,8 @@ describe RegistrationForm do
       let(:registration) do
         festival.registrations.create(
           participant: participant,
-          package: package
+          package: package,
+          code_of_conduct_accepted_at: 5.minutes.ago
         )
       end
 
@@ -109,6 +110,7 @@ describe RegistrationForm do
         package_id
         payment_type
         amount
+        code_of_conduct_accepted
       ] + [{ :selections => [] }]
     end
 

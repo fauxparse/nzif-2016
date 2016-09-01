@@ -13,6 +13,10 @@ class Registration < ApplicationRecord
     PleasantLawyer.convert(id).join('-')
   end
 
+  def code_of_conduct_accepted?
+    code_of_conduct_accepted_at.present?
+  end
+
   def self.find_by_pleasant_lawyer(id)
     find(PleasantLawyer.convert(id.tr('-', ' ')))
   end
