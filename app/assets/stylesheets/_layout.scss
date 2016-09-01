@@ -23,6 +23,11 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  background: $footer-background-color;
+
+  > * {
+    background: $base-background-color;
+  }
 
   > section,
   > form > section {
@@ -71,7 +76,7 @@ body {
 
   > footer {
     @include full-width-section;
-    background: $medium-grey;
+    background: $footer-background-color;
     color: rgba(white, .5);
     -webkit-font-smoothing: antialiased;
     font-size: $small-font-size;
@@ -122,13 +127,15 @@ body {
     }
 
     section {
+      margin-bottom: $base-spacing;
+
       @include media($medium-screen) {
         @include span-columns(1 of 4);
         @include omega(3n);
-      }
 
-      &.sponsors {
-        @include span-columns(2 of 4);
+        &.sponsors {
+          @include span-columns(2 of 4);
+        }
       }
     }
   }
