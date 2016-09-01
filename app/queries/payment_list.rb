@@ -62,9 +62,5 @@ class PaymentList
     def date
       created_at.to_date
     end
-
-    def reference
-      to_param
-    end
   end
 end

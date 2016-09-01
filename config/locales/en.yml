@@ -49,6 +49,7 @@ en:
       continue: "Continue"
       methods:
         internet_banking: "Pay by Internet banking"
+        paypal: "Pay by PayPal"
     code_of_conduct:
       intro: "NZIF asks all participants and facilitators to adhere to a Code of Conduct in all matters pertaining to the Festival. Please make sure you are familiar with the Code before continuing."
       agree: "I agree to abide by the NZIF Code of Conduct"
@@ -214,6 +215,10 @@ en:
         search: "Search payments…"
       empty:
         empty: "No payments to show here"
+    payment_configurations:
+      edit:
+        title: "Payment settings"
+        save: "Save settings"
 
   scheduled_activities:
     timing:
@@ -296,6 +301,9 @@ en:
               no_price: "You must define at least one price for this package"
 
   activemodel:
+    models:
+      payment_method/internet_banking: "Internet banking"
+      payment_method/paypal: "PayPal"
     errors:
       models:
         registration/step/details:

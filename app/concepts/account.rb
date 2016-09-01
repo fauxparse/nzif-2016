@@ -24,7 +24,7 @@ class Account
   end
 
   def total_to_pay
-    total - total_paid
+    [total - total_paid, Money.new(0)].max
   end
 
   def paid_in_full?
@@ -73,6 +73,10 @@ class Account
 
   def to_partial_path
     "account"
+  end
+
+  def outstanding_payment
+    registration.payments.build(amount: total_to_pay)
   end
 
   private

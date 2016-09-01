@@ -18,20 +18,22 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    sign_in registration_form.user if registration_form.apply(params)
-    Postman
-      .registration_confirmation(registration_form.registration)
-      .deliver_later if registration_form.complete?
-    continue_with_registration
-
-  rescue ActiveModel::ValidationError
-    render :new
+    registration_form
+      .on(:continue) { continue_with_registration }
+      .on(:complete) { completed_registration }
+      .on(:redirect) { |url| redirect_to(url) }
+      .on(:error)    { render :new }
+      .apply(params)
   end
 
   def login
     if user = FindValidUser.new(login_parameters).user
       sign_in(user)
-      continue_with_registration
+      if registration_form.complete?
+        completed_registration
+      else
+        continue_with_registration
+      end
     else
       registration_form.step.errors.add(:email, :bad_credentials)
       render :new
@@ -41,7 +43,9 @@ class RegistrationsController < ApplicationController
   private
 
   def registration_form
-    @registration_form ||= RegistrationForm.new(festival, participant)
+    @registration_form ||=
+      RegistrationForm.new(festival, participant)
+        .on(:sign_in) { |user| sign_in(user) }
   end
 
   def login_parameters
@@ -63,6 +67,14 @@ class RegistrationsController < ApplicationController
         format.json { render json: registration_form.step }
       end
     end
+  end
+
+  def completed_registration
+    Postman
+      .registration_confirmation(registration_form.registration)
+      .deliver_later
+    redirect_to registration_path(festival),
+      notice: I18n.t('registrations.create.completed')
   end
 
   def registered?

@@ -1,0 +1,14 @@
+= form.fields_for :internet_banking, internet_banking do |f|
+  %section
+    .inner
+      %h2= internet_banking.payment_method.model_name.human
+      .field
+        = f.label :account_name
+        = f.text_field :account_name
+        = f.error_messages_for :account_name
+      .field
+        = f.label :account_number do
+          = f.label_text :account_number
+          %small= account_number_format
+        = f.text_field :account_number, pattern: PaymentMethod::Configuration::InternetBankingConfiguration::ACCOUNT_NUMBER_FORMAT, placeholder: account_number_format
+        = f.error_messages_for :account_number

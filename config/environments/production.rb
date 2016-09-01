@@ -108,4 +108,6 @@ Rails.application.configure do
   }
 
   GA.tracker = ENV['GOOGLE_ANALYTICS_ID']
+
+  Rails.application.default_url_options = { host: ENV['APP_HOST'] }
 end
