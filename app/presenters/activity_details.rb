@@ -43,7 +43,7 @@ class ActivityDetails
   end
 
   def grade
-    activity.grade unless activity.unknown?
+    activity.grade unless activity.unknown_grade?
   end
 
   private

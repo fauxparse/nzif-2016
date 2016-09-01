@@ -19,7 +19,7 @@ class Activity < ApplicationRecord
     intermediate: 'intermediate',
     open:         'open',
     unknown:      'unknown'
-  }
+  }, _suffix: :grade
 
   validates :name,
     presence: true,
