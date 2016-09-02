@@ -329,21 +329,27 @@
     background: $secondary-background-color;
     border-radius: $base-border-radius;
     padding: $small-spacing;
-    margin: 0 $base-spacing $small-spacing;
+    margin: 0 0 $small-spacing;
     overflow: hidden;
-    display: flex;
-    flex-wrap: wrap;
 
     dt {
-      flex: 1 1 25%;
-      margin-right: 1rem;
-      text-align: right;
       font-weight: $base-font-weight;
       color: $secondary-color;
     }
 
-    dd {
-      flex: 1 1 65%;
+    @include media($medium-screen) {
+      display: flex;
+      flex-wrap: wrap;
+
+      dt {
+        flex: 1 1 25%;
+        text-align: right;
+        margin-right: 1rem;
+      }
+
+      dd {
+        flex: 1 1 65%;
+      }
     }
   }
 }
