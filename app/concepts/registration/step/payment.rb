@@ -27,6 +27,7 @@ class Registration::Step::Payment < Registration::Step
   end
 
   def apply_filtered_parameters(params)
+    registration.payments.pending.update_all(status: :cancelled)
     payment.attributes = params
     payment.save
   end
