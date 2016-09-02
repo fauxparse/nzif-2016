@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to register_path(festival) unless registered?  }
-      format.json { render json: @checklist }
+      format.json { render json: @checklist.as_json }
     end
   end
 
