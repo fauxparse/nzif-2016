@@ -5,7 +5,7 @@ class CreatePayment
   def initialize(registration, attributes = {})
     @registration = registration
     @payment ||= registration.payments.build(attributes)
-    @payment.fee = payment.payment_method.fee
+    payment.fee = payment.payment_method.fee
   end
 
   def call

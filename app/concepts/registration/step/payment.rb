@@ -1,15 +1,17 @@
 class Registration::Step::Payment < Registration::Step
+  attr_writer :amount, :payment_type
+
   def complete?
     registration.package.present? &&
     pending_payments_cover_deposit?
   end
 
   def payment_type
-    payment.payment_type || ::Payment.payment_methods.first.key
+    @payment_type || ::Payment.payment_methods.first.key
   end
 
   def amount
-    payment.amount
+    @amount || account.total_to_pay
   end
 
   def deposit_available?
@@ -22,15 +24,21 @@ class Registration::Step::Payment < Registration::Step
 
   private
 
+  def payment_service
+    CreatePayment.new(
+      registration,
+      amount: amount,
+      payment_type: payment_type
+    )
+  end
+
   def payment
-    @payment ||= registration.payments.build(amount: account.total_to_pay)
+    payment_service.payment
   end
 
   def apply_filtered_parameters(params)
-    registration.payments.pending.update_all(status: :cancelled)
-    payment.attributes = params
-    payment.fee = payment.payment_method.configuration.transaction_fee
-    payment.save
+    params.each { |key, value| send(:"#{key}=", value) }
+    payment.valid?
   end
 
   def account
@@ -42,9 +50,9 @@ class Registration::Step::Payment < Registration::Step
   end
 
   def continue
-    payment.payment_method
+    payment_service
       .on(:success) { |payment| publish(:success, registration) }
       .on(:redirect) { |url| publish(:redirect, url) }
-      .created
+      .call
   end
 end

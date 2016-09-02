@@ -1,6 +1,6 @@
 Given(/^there is a \$(\d+) fee on Internet banking transactions$/) do |fee|
   PaymentMethod::Configuration::InternetBankingConfiguration
-    .first.update!(transaction_fee: fee)
+    .first.update!(transaction_fee: fee.to_i)
 end
 
 When(/^I go to my account page$/) do
