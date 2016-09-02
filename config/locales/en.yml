@@ -214,6 +214,7 @@ en:
         approved: "Approved"
         failed: "Failed"
         cancelled: "Cancelled"
+        refunded: "Refunded"
         search: "Search payments…"
       empty:
         empty: "No payments to show here"

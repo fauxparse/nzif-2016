@@ -18,6 +18,10 @@ class PaymentMethod::Base
       .find_or_initialize_by(festival: festival)
   end
 
+  def key
+    self.class.key
+  end
+
   def self.key
     name.demodulize.underscore
   end

@@ -15,6 +15,7 @@ Feature: Register for an event
      Then I should be on my registration details page
       And I should be logged in
       And I should see "registered"
+      And I should see instructions for paying by Internet banking
       And I should receive an email confirming my registration
 
   Scenario: Unsuccessful registration

@@ -1,0 +1,19 @@
+%article
+  %p
+    You have a pending Internet banking payment.
+    Payment details are as follows:
+
+  %dl
+    %dt  Amount
+    %dd= m(payment.amount)
+    %dt  Account name
+    %dd= payment.payment_method.configuration.account_name
+    %dt  Account number
+    %dd= payment.payment_method.configuration.account_number
+    %dt  Reference
+    %dd= payment.reference
+
+  %p
+    If you have already paid this, you don’t need to do anything else.
+    For more payment options, check out
+    = link_to("your account", account_path) + "."

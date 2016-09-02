@@ -47,6 +47,10 @@ class RegistrationChecklist
     def account
       @account ||= Account.new(registration)
     end
+
+    def pending
+      account.pending_payments.sort_by(&:created_at)
+    end
   end
 
   class Itinerary < Step

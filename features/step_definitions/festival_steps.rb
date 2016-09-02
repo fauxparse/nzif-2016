@@ -3,11 +3,11 @@ Given(/^there are no existing festivals$/) do
 end
 
 Given(/^there is a (\d{4}) festival$/) do |year|
-  @festival ||= FactoryGirl.create(:festival, :with_packages, :with_activities, year: year.to_i)
+  expect(festival(year.to_i)).not_to be_nil
 end
 
 Given(/^I am on the festival homepage$/) do
-  visit festival_path(@festival)
+  visit festival_path(festival)
 end
 
 When(/^I visit the homepage$/) do
@@ -19,5 +19,5 @@ Then(/^I should be redirected to the (\d{4}) festival page$/) do |year|
 end
 
 Then(/^I should be on the festival homepage$/) do
-  expect(page.current_path).to eq festival_path(@festival)
+  expect(page.current_path).to eq festival_path(festival)
 end
