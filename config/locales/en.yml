@@ -64,8 +64,10 @@ en:
       payment: "Payment"
       code_of_conduct: "Code of Conduct"
     checklist:
-      complete_payment: "Complete payment"
-      complete_itinerary: "Select your activities"
+      payment:
+        complete_payment: "Complete payment"
+      itinerary:
+        complete_itinerary: "Select your activities"
     create:
       completed: "Congratulations! You’ve registered for %{festival}"
 

@@ -1,0 +1,5 @@
+%li{data: { done: itinerary.complete? || nil } }
+  = link_to edit_itinerary_path do
+    = inline_svg('icons/check-circle-large')
+    %div
+      %h4= t('.complete_itinerary')

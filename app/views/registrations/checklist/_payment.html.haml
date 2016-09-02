@@ -1,0 +1,5 @@
+%li{data: { done: payment.complete? || nil } }
+  = link_to account_path do
+    = inline_svg('icons/check-circle-large')
+    %div
+      %h4= t('.complete_payment')
