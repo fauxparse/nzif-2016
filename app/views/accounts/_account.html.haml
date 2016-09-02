@@ -11,16 +11,16 @@
         %td= t('account.earlybird_discount')
         %td
         %td= m account.earlybird_discount
-    %tr.subtotal
+    %tr.subtotal.total-due
       %td
       %td= t('account.total')
       %td
       %td= m account.total
     = render partial: 'payment', collection: account.approved_payments
-    %tr.subtotal
+    %tr.subtotal.total-paid
       %td
       %td= t('account.total_paid')
-      %td= m account.total_paid
+      %td= m account.total_paid_including_fees
       %td
     - if account.pending_payments.any?
       = render partial: 'payment', collection: account.pending_payments

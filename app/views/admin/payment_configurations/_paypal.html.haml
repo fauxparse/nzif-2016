@@ -6,3 +6,7 @@
         = f.label :merchant_email
         = f.email_field :merchant_email
         = f.error_messages_for :merchant_email
+      .field
+        = f.label :transaction_fee
+        = f.number_field :transaction_fee, min: 0, value: "%.02f" % f.object.transaction_fee
+        = f.error_messages_for :transaction_fee

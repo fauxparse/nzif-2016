@@ -5,9 +5,11 @@ class CreatePayment
   def initialize(registration, attributes = {})
     @registration = registration
     @payment ||= registration.payments.build(attributes)
+    @payment.fee = payment.payment_method.fee
   end
 
   def call
+    registration.payments.pending.update_all(status: :cancelled)
     if payment.save
       payment.payment_method
         .on(:success, &method(:payment_created))
@@ -21,7 +23,6 @@ class CreatePayment
   private
 
   def payment_created(payment)
-    # TODO: creation of the first payment completes registration
     publish(:success, payment)
   end
 end

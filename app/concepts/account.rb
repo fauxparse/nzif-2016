@@ -19,6 +19,10 @@ class Account
     Money.new(approved_payments.sum(&:amount))
   end
 
+  def total_paid_including_fees
+    Money.new(approved_payments.sum(&:total))
+  end
+
   def total_pending
     Money.new(pending_payments.sum(&:amount))
   end

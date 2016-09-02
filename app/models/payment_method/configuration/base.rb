@@ -7,7 +7,7 @@ class PaymentMethod::Configuration::Base < ApplicationRecord
 
   validates :type, uniqueness: { scope: :festival_id }
 
-  class_attribute :configuration_attributes
+  class_attribute :configuration_options
 
   def payment_method
     PaymentMethod.const_get(self.class.payment_method_class_name)
@@ -31,7 +31,11 @@ class PaymentMethod::Configuration::Base < ApplicationRecord
 
   def self.inherited(subclass)
     super
-    subclass.configuration_attributes = []
+    subclass.configuration_options = configuration_options.deep_dup
+  end
+
+  def self.configuration_attributes
+    configuration_options.keys
   end
 
   private
@@ -40,14 +44,16 @@ class PaymentMethod::Configuration::Base < ApplicationRecord
     name.demodulize.sub(/Configuration$/, '')
   end
 
-  def self.configure_with(name)
-    (self.configuration_attributes ||= []) << name.to_sym
+  def self.configure_with(name, options = {})
+    self.configuration_options ||= {}
+    configuration_options[name.to_sym] = options
 
     eval <<~RUBY
       public
 
       def #{name}
-        configuration[:#{name}]
+        configuration[:#{name}] ||
+          self.class.configuration_options[:#{name}][:default]
       end
 
       def #{name}=(value)
@@ -59,4 +65,6 @@ class PaymentMethod::Configuration::Base < ApplicationRecord
       end
     RUBY
   end
+
+  configure_with :transaction_fee, default: 0
 end

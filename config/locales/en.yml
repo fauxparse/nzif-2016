@@ -80,6 +80,7 @@ en:
     earlybird_discount: "Earlybird discount"
     total: "Total due"
     payment: "%{payment_method} payment"
+    includes_fee: "Includes %{payment_method} fee of %{fee}"
     payment_pending: "(awaiting processing)"
     total_pending: "Payments awaiting processing"
     balance: "Total outstanding"

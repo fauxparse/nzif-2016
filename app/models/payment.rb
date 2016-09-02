@@ -12,6 +12,7 @@ class Payment < ApplicationRecord
   }
 
   monetize :amount_cents
+  monetize :fee_cents
 
   serialize :transaction_data, HashWithIndifferentAccess
 
@@ -25,6 +26,10 @@ class Payment < ApplicationRecord
 
   scope :oldest_first, -> { order(:created_at) }
   scope :newest_first, -> { order(created_at: :desc) }
+
+  def total
+    amount + fee
+  end
 
   def to_param
     token

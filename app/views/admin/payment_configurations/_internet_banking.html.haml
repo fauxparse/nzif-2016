@@ -12,3 +12,7 @@
           %small= account_number_format
         = f.text_field :account_number, pattern: PaymentMethod::Configuration::InternetBankingConfiguration::ACCOUNT_NUMBER_FORMAT, placeholder: account_number_format
         = f.error_messages_for :account_number
+      .field
+        = f.label :transaction_fee
+        = f.number_field :transaction_fee, min: 0, value: "%.02f" % f.object.transaction_fee
+        = f.error_messages_for :transaction_fee

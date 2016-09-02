@@ -74,7 +74,7 @@ class RegistrationsController < ApplicationController
       .registration_confirmation(registration_form.registration)
       .deliver_later
     redirect_to registration_path(festival),
-      notice: I18n.t('registrations.create.completed')
+      notice: I18n.t('registrations.create.completed', festival: festival.name)
   end
 
   def registered?

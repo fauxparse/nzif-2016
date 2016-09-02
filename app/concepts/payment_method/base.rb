@@ -18,6 +18,10 @@ class PaymentMethod::Base
       .find_or_initialize_by(festival: festival)
   end
 
+  def fee
+    Money.new(configuration.transaction_fee * 100, payment.amount.currency)
+  end
+
   def key
     self.class.key
   end

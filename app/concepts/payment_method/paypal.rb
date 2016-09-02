@@ -31,8 +31,8 @@ class PaymentMethod::Paypal < PaymentMethod::Base
       return: paypal_return_url(payment),
       notify_url: paypal_callback_url(payment),
       invoice: payment.to_param,
-      amount: payment.amount,
-      currency_code: payment.amount.currency.iso_code,
+      amount: payment.total,
+      currency_code: payment.total.currency.iso_code,
       item_name: festival.name
     }
     "#{configuration.paypal_host}/cgi-bin/webscr?" + values.to_query

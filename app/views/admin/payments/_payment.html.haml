@@ -3,7 +3,7 @@
   .from
     %b= payment.participant
     = mail_to payment.participant.email
-  .amount= m(payment.amount)
+  .amount= m(payment.total)
   .type
     %span= payment.payment_method.model_name.human
     %span= payment.reference
