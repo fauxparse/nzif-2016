@@ -47,6 +47,7 @@ en:
       total_to_pay: "Pay the full amount now."
       deposit: "Just pay the deposit; I’ll pay the rest before the Festival starts."
       continue: "Continue"
+      fee: "+ %{fee} transaction fee"
       methods:
         internet_banking: "Pay by Internet banking"
         paypal: "Pay by PayPal"

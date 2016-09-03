@@ -18,6 +18,12 @@ class Registration::Step::Payment < Registration::Step
     account.deposit < account.total_to_pay
   end
 
+  def payment_methods
+    ::Payment.payment_methods.map do |method|
+      method.new(payment)
+    end
+  end
+
   def self.parameters
     %i[payment_type amount]
   end
