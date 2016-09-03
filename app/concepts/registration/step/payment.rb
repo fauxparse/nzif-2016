@@ -52,7 +52,7 @@ class Registration::Step::Payment < Registration::Step
   def continue
     payment_service
       .on(:success) { |payment| publish(:success, registration) }
-      .on(:redirect) { |url| publish(:redirect, url) }
+      .on(:redirect) { |payment, url| publish(:redirect, url) }
       .call
   end
 end

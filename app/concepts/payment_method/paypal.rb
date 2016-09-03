@@ -55,8 +55,9 @@ class PaymentMethod::Paypal < PaymentMethod::Base
   end
 
   def update_payment(status, params)
+    paid = Money.from_amount(params[:mc_gross].to_d, params[:mc_currency])
     payment.update!(
-      amount: Money.from_amount(params[:mc_gross].to_d, params[:mc_currency]),
+      amount: paid - payment.fee,
       transaction_reference: params[:txn_id],
       transaction_data: params.to_h,
       status: status

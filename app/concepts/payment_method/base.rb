@@ -19,7 +19,10 @@ class PaymentMethod::Base
   end
 
   def fee
-    Money.new(configuration.transaction_fee.to_i * 100, payment.amount.currency)
+    Money.from_amount(
+      configuration.transaction_fee.to_d,
+      payment.amount.currency
+    )
   end
 
   def key
