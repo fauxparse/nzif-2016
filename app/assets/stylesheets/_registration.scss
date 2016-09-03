@@ -201,43 +201,43 @@
       }
     }
   }
+}
 
-  .payment-methods {
-    padding-top: $small-spacing;
+.payment-methods {
+  padding-top: $small-spacing;
+
+  button {
+    display: block;
+    width: 100%;
+    min-height: 4rem;
+    margin: 0 auto $small-spacing;
+  }
+
+  span {
+    display: block;
+  }
+
+  small {
+    display: block;
+    font-size: $small-font-size;
+    opacity: .75;
+    margin-top: .25rem;
+  }
+
+  @include media($medium-screen) {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
 
     button {
-      display: block;
-      width: 100%;
-      min-height: 4rem;
-      margin: 0 auto $small-spacing;
-    }
-
-    span {
-      display: block;
-    }
-
-    small {
-      display: block;
-      font-size: $small-font-size;
-      opacity: .75;
-      margin-top: .25rem;
-    }
-
-    @include media($medium-screen) {
+      flex: 1 1 50%;
       display: flex;
-      flex-direction: row;
-      align-items: stretch;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
-      button {
-        flex: 1 1 50%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        &:not(:last-child) {
-          margin-right: $base-spacing;
-        }
+      &:not(:last-child) {
+        margin-right: $base-spacing;
       }
     }
   }

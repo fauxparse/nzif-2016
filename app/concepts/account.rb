@@ -83,6 +83,10 @@ class Account
     registration.payments.build(amount: total_to_pay)
   end
 
+  def payment_methods
+    Payment.payment_methods.map { |method| method.new(outstanding_payment) }
+  end
+
   private
 
   def prices
