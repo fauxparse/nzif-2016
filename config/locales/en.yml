@@ -296,6 +296,14 @@ en:
     itinerary:
       subject: "Your %{festival} itinerary"
       updated: "Your %{festival} itinerary has been updated."
+    receipt:
+      subject: "Thanks for your payment"
+      payment_received: "Thanks for your payment"
+      greeting: "Hi %{name},"
+      copy: "Thanks for your payment of %{amount} for %{festival}."
+      remaining: "You have %{outstanding} left to pay. You can do that by visiting your account page here:"
+      account_link: "My %{festival} account"
+      paid_in_full: "That’s all you have to pay for now. If you add more activities later, you can pay for them separately."
 
   activerecord:
     errors:

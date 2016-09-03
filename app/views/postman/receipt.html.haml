@@ -1,0 +1,25 @@
+%table.main{:cellpadding => '0', :cellspacing => '0', :width => '100%'}
+  %tr
+    %td.alert
+      = t('.payment_received', amount: @payment.total.format)
+  %tr
+    %td.content-wrap
+      %table{:cellpadding => '0', :cellspacing => '0', :width => '100%'}
+        %tr
+          %td.content-block
+            = t('.greeting', name: @participant.name)
+        %tr
+          %td.content-block
+            = t('.copy', amount: @payment.total.format, festival: @festival.name)
+        - if @account.paid_in_full?
+          %tr
+            %td.content-block
+              = t('.paid_in_full')
+        - else
+          %tr
+            %td.content-block
+              = t('.remaining', outstanding: @account.total_to_pay.format)
+          %tr
+            %td.content-block
+              = link_to t('.account_link', festival: @festival.name), account_url(@festival), class: 'btn-primary'
+        = render 'thanks'

@@ -40,7 +40,6 @@ class PaymentMethod::Paypal < PaymentMethod::Base
 
   def complete_payment(params)
     update_payment(:approved, params)
-    CompleteRegistration.new(payment.registration).call if payment.approved?
   end
 
   def fail_payment(params)
@@ -57,11 +56,12 @@ class PaymentMethod::Paypal < PaymentMethod::Base
 
   def update_payment(status, params)
     paid = Money.from_amount(params[:mc_gross].to_d, params[:mc_currency])
-    payment.update!(
+    UpdatePayment.new(
+      payment,
+      status,
       amount: paid - payment.fee,
       transaction_reference: params[:txn_id],
       transaction_data: params.to_h,
-      status: status
-    )
+    ).call
   end
 end
