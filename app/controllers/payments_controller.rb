@@ -5,8 +5,12 @@ class PaymentsController < ApplicationController
 
   def show
     if request.post?
-      payment = Payment.find_by!(token: params[:id])
-      redirect_to account_path(payment.registration.festival)
+      begin
+        registration = payment.registration
+        redirect_to account_path(registration.festival)
+      rescue ActiveRecord::RecordNotFound => e
+        redirect_to root_path
+      end
     else
       @payment = registration.payments.find_by!(token: params[:id])
     end
@@ -20,8 +24,8 @@ class PaymentsController < ApplicationController
   end
 
   def paypal
-    payment = Payment.find_by!(token: params[:id])
     payment.payment_method.process!(payment, params.permit!)
+
     head :ok
   end
 
@@ -33,5 +37,9 @@ class PaymentsController < ApplicationController
 
   def processing_external_payment?
     request.post? && %w(show paypal).include?(action_name)
+  end
+
+  def payment
+    @payment ||= Payment.includes(:registration).find_by!(token: params[:id])
   end
 end

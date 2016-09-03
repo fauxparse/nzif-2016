@@ -59,8 +59,7 @@ class RegistrationsController < ApplicationController
 
   def continue_with_registration
     if registration_form.complete?
-      redirect_to registration_path(festival),
-        notice: t('registrations.create.completed', festival: festival)
+      completed_registration
     else
       respond_to do |format|
         format.html { render :new }
@@ -70,9 +69,7 @@ class RegistrationsController < ApplicationController
   end
 
   def completed_registration
-    Postman
-      .registration_confirmation(registration_form.registration)
-      .deliver_later
+    CompleteRegistration.new(registration).call
     redirect_to registration_path(festival),
       notice: I18n.t('registrations.create.completed', festival: festival.name)
   end

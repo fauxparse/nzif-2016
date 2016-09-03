@@ -40,6 +40,7 @@ class PaymentMethod::Paypal < PaymentMethod::Base
 
   def complete_payment(params)
     update_payment(:approved, params)
+    CompleteRegistration.new(payment.registration).call if payment.approved?
   end
 
   def fail_payment(params)
