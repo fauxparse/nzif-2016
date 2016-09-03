@@ -290,9 +290,11 @@ en:
     registration_confirmation:
       subject: "Registered for %{festival}"
       greeting: "Hi %{name},"
-      registered: "You’re now registered for %{festival}."
-      copy: "You’re all registered. Now you can start selecting your activities."
-      itinerary_link: "Select my activities"
+      registered: "You’re registered for %{festival}."
+      intro: "Thanks for being part of what we hope will be our best festival yet."
+      next_steps: "To view or change your itinerary, get updates, and connect with other NZIF participants, keep this link handy:"
+      registration_link: "My %{festival} registration"
+      see_you: "Looking forward to seeing you at NZIF!"
     itinerary:
       subject: "Your %{festival} itinerary"
       updated: "Your %{festival} itinerary has been updated."

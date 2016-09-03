@@ -1,8 +1,11 @@
 class Postman < ApplicationMailer
+  add_template_helper(MoneyHelper)
+
   def registration_confirmation(registration)
     @registration = registration
     @participant = registration.participant
     @festival = registration.festival
+    @pending_payments = registration.payments.pending.all
 
     mail(
       to: @participant.email,

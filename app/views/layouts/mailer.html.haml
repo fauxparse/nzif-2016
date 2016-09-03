@@ -15,5 +15,12 @@
               %table{:width => "100%"}
                 %tr
                   %td.aligncenter.content-block
+                    This email was sent to you as an
                     = link_to @festival, festival_url(@festival)
+                    attendee.
+                    %br
+                    If you have any questions or feedback,
+                    please contact
+                    = succeed "." do
+                      = mail_to "registrations@nzimprovfestival.co.nz"
         %td

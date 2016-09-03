@@ -309,3 +309,27 @@ h2.day {
 .activity-venue {
   margin: 0;
 }
+
+article {
+  background: $secondary-background-color;
+  border: $base-border;
+  border-radius: $base-border-radius;
+  padding: $small-spacing $base-spacing;
+}
+
+dl {
+  margin: 0 0 $small-spacing $base-spacing;
+
+  dt {
+    color: $secondary-color;
+    font-size: $small-font-size;
+  }
+}
+
+.money {
+  abbr {
+    color: $secondary-color;
+    font-size: $small-font-size;
+    margin-left: .5em;
+  }
+}
