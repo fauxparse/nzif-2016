@@ -32,4 +32,8 @@ class ApplicationController < ActionController::Base
   def registration
     @registration ||= festival.registrations.find_by(participant: participant)
   end
+
+  def ensure_registered
+    redirect_to register_path(festival) unless registration.present?
+  end
 end

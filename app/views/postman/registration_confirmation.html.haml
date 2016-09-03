@@ -10,8 +10,19 @@
             = t('.greeting', name: @participant.name)
         %tr
           %td.content-block
-            = t('.copy')
+            = t('.intro')
+
+        - @pending_payments.each do |payment|
+          %tr
+            %td.content-block
+              = render partial: "/payments/instructions/#{payment.payment_method.key}", locals: { payment: payment }
         %tr
           %td.content-block
-            = link_to t('.itinerary_link'), edit_itinerary_url(@festival), class: 'btn-primary'
+            = t('.next_steps')
+        %tr
+          %td.content-block
+            = link_to t('.registration_link', festival: @festival.name), registration_url(@festival), class: 'btn-primary'
+        %tr
+          %td.content-block
+            = t('.see_you')
         = render 'thanks'

@@ -47,8 +47,10 @@ en:
       total_to_pay: "Pay the full amount now."
       deposit: "Just pay the deposit; I’ll pay the rest before the Festival starts."
       continue: "Continue"
+      fee: "+ %{fee} transaction fee"
       methods:
         internet_banking: "Pay by Internet banking"
+        paypal: "Pay by PayPal"
     code_of_conduct:
       intro: "NZIF asks all participants and facilitators to adhere to a Code of Conduct in all matters pertaining to the Festival. Please make sure you are familiar with the Code before continuing."
       agree: "I agree to abide by the NZIF Code of Conduct"
@@ -63,8 +65,10 @@ en:
       payment: "Payment"
       code_of_conduct: "Code of Conduct"
     checklist:
-      complete_payment: "Complete payment"
-      complete_itinerary: "Select your activities"
+      payment:
+        complete_payment: "Complete payment"
+      itinerary:
+        complete_itinerary: "Select your activities"
     create:
       completed: "Congratulations! You’ve registered for %{festival}"
 
@@ -77,6 +81,7 @@ en:
     earlybird_discount: "Earlybird discount"
     total: "Total due"
     payment: "%{payment_method} payment"
+    includes_fee: "Includes %{payment_method} fee of %{fee}"
     payment_pending: "(awaiting processing)"
     total_pending: "Payments awaiting processing"
     balance: "Total outstanding"
@@ -211,9 +216,14 @@ en:
         approved: "Approved"
         failed: "Failed"
         cancelled: "Cancelled"
+        refunded: "Refunded"
         search: "Search payments…"
       empty:
         empty: "No payments to show here"
+    payment_configurations:
+      edit:
+        title: "Payment settings"
+        save: "Save settings"
 
   scheduled_activities:
     timing:
@@ -280,12 +290,22 @@ en:
     registration_confirmation:
       subject: "Registered for %{festival}"
       greeting: "Hi %{name},"
-      registered: "You’re now registered for %{festival}."
-      copy: "You’re all registered. Now you can start selecting your activities."
-      itinerary_link: "Select my activities"
+      registered: "You’re registered for %{festival}."
+      intro: "Thanks for being part of what we hope will be our best festival yet."
+      next_steps: "To view or change your itinerary, get updates, and connect with other NZIF participants, keep this link handy:"
+      registration_link: "My %{festival} registration"
+      see_you: "Looking forward to seeing you at NZIF!"
     itinerary:
       subject: "Your %{festival} itinerary"
       updated: "Your %{festival} itinerary has been updated."
+    receipt:
+      subject: "Thanks for your payment"
+      payment_received: "Thanks for your payment"
+      greeting: "Hi %{name},"
+      copy: "Thanks for your payment of %{amount} for %{festival}."
+      remaining: "You have %{outstanding} left to pay. You can do that by visiting your account page here:"
+      account_link: "My %{festival} account"
+      paid_in_full: "That’s all you have to pay for now. If you add more activities later, you can pay for them separately."
 
   activerecord:
     errors:
@@ -296,6 +316,9 @@ en:
               no_price: "You must define at least one price for this package"
 
   activemodel:
+    models:
+      payment_method/internet_banking: "Internet banking"
+      payment_method/paypal: "PayPal"
     errors:
       models:
         registration/step/details:

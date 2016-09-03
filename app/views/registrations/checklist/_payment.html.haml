@@ -1,0 +1,7 @@
+%li{data: { done: payment.complete? || nil } }
+  %h3
+    = inline_svg('icons/check-circle-large')
+    %span= t('.complete_payment')
+  %section
+    - payment.pending.each do |p|
+      = render partial: "payments/instructions/#{p.payment_method.key}", locals: { payment: p }

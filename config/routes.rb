@@ -18,8 +18,8 @@ Rails.application.routes.draw do
     resource :itinerary do
       post :email
     end
-    resource :account do
-      resources :payments
+    resource :account, only: [:show] do
+      resources :payments, only: [:show, :new, :create]
     end
     scope "/:activity_type", constraints: { activity_type: /#{Activity.types.map(&:to_param).join('|')}/ } do
       get "/" => "activities#index", as: :activities
@@ -31,6 +31,9 @@ Rails.application.routes.draw do
   resource :profile, only: %i[show update]
 
   resources :calendars, only: [:show]
+
+  post "/payments/paypal/:id" => "payments#paypal", as: :paypal_callback
+  post "/payments/:id" => "payments#show", as: :paypal_return
 
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do
@@ -49,6 +52,12 @@ Rails.application.routes.draw do
       resources :venues do
         put "reorder/:position" => "venues#reorder", on: :member
       end
+
+      get "payments/settings" => "payment_configurations#edit",
+        as: :payment_settings
+      match "payments/settings", to: "payment_configurations#update",
+        via: [:put, :patch]
+
       resources :payments do
         collection do
           get "/:filter" => "payments#index", as: :filtered,

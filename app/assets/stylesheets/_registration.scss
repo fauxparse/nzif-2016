@@ -157,7 +157,6 @@
 }
 
 .payment {
-  .payment-methods,
   .payment-amounts {
     @include checkbox-list;
   }
@@ -199,6 +198,46 @@
           margin: 0 1rem;
           border-bottom: 1px dotted $secondary-color;
         }
+      }
+    }
+  }
+}
+
+.payment-methods {
+  padding-top: $small-spacing;
+
+  button {
+    display: block;
+    width: 100%;
+    min-height: 4rem;
+    margin: 0 auto $small-spacing;
+  }
+
+  span {
+    display: block;
+  }
+
+  small {
+    display: block;
+    font-size: $small-font-size;
+    opacity: .75;
+    margin-top: .25rem;
+  }
+
+  @include media($medium-screen) {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    button {
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-right: $base-spacing;
       }
     }
   }
@@ -288,11 +327,18 @@
     margin-bottom: $small-spacing;
   }
 
-  a {
+  h3 {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     color: $base-font-color;
+
+    span {
+      font-size: 1.25rem;
+      line-height: 1.5rem;
+      font-weight: $base-font-weight;
+      margin: .5rem 0;
+    }
   }
 
   svg {
@@ -303,7 +349,7 @@
   }
 
   [data-done] {
-    a {
+    h3 {
       color: $secondary-color;
     }
 
@@ -313,10 +359,36 @@
     }
   }
 
-  h4 {
-    font-size: 1.25rem;
-    line-height: 1.5rem;
-    font-weight: $base-font-weight;
-    margin: .5rem 0;
+  section {
+    margin: 0 0 $small-spacing 3.5rem;
+  }
+
+  dl {
+    border: $base-border;
+    background: $secondary-background-color;
+    border-radius: $base-border-radius;
+    padding: $small-spacing;
+    margin: 0 0 $small-spacing;
+    overflow: hidden;
+
+    dt {
+      font-weight: $base-font-weight;
+      color: $secondary-color;
+    }
+
+    @include media($medium-screen) {
+      display: flex;
+      flex-wrap: wrap;
+
+      dt {
+        flex: 1 1 25%;
+        text-align: right;
+        margin-right: 1rem;
+      }
+
+      dd {
+        flex: 1 1 65%;
+      }
+    }
   }
 }

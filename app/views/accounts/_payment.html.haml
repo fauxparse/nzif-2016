@@ -3,5 +3,6 @@
   %td
     = t('account.payment', payment_method: payment.payment_method.model_name.human)
     = content_tag(:b, t('account.payment_pending')) if payment.pending?
-  %td= m payment.amount 
+    = content_tag(:small, t('account.includes_fee', payment_method: payment.payment_method.model_name.human, fee: payment.fee.format)) unless payment.fee.zero?
+  %td= m payment.total 
   %td

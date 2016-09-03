@@ -1,3 +1,12 @@
+section.account .inner {
+  display: flex;
+  flex-direction: column;
+
+  &::after {
+    display: none;
+  }
+}
+
 .account-summary {
   font-size: $small-font-size;
 
@@ -42,6 +51,15 @@
     }
   }
 
+  ~ form {
+    padding-top: $base-spacing;
+    order: -1;
+
+    h3 {
+      margin: 0;
+    }
+  }
+
   @include media($medium-screen) {
     font-size: $base-font-size;
 
@@ -57,6 +75,12 @@
       > :not(:nth-child(2)) {
         width: 8rem;
       }
+    }
+
+    ~ form {
+      order: 1;
+      display: block;
+      margin-left: 8rem;
     }
   }
 }

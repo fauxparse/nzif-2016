@@ -3,35 +3,63 @@ class RegistrationChecklist
     @registration = registration
   end
 
-  STEPS = %i[paid_in_full itinerary_complete].freeze
-
-  def to_partial_path
-    "checklist"
-  end
-
-  delegate :paid_in_full?, to: :account
-
-  def itinerary_complete?
-    itinerary.complete?
-  end
-
   def as_json(options = {})
     return {} unless registration.present?
 
-    STEPS.each.with_object({}) do |step, json|
-      json[step] = send(:"#{step}?")
+    steps.each.with_object({}) do |step, json|
+      json[step.to_partial_path] = step.complete?
     end
+  end
+
+  def steps
+    @steps ||= [Payment, Itinerary].map { |step| step.new(registration) }
+  end
+
+  def to_ary
+    steps
   end
 
   private
 
   attr_accessor :registration
 
-  def account
-    @account ||= Account.new(registration)
+  class Step
+    attr_reader :registration
+
+    def initialize(registration)
+      @registration = registration
+    end
+
+    def complete?
+      false
+    end
+
+    def to_partial_path
+      "registrations/checklist/#{self.class.name.demodulize.underscore}"
+    end
   end
 
-  def itinerary
-    @itinerary ||= Itinerary.new(registration)
+  class Payment < Step
+    def complete?
+      account.paid_in_full?
+    end
+
+    def account
+      @account ||= Account.new(registration)
+    end
+
+    def pending
+      account.pending_payments.sort_by(&:created_at)
+    end
+  end
+
+  class Itinerary < Step
+    def complete?
+      itinerary.complete?
+    end
+
+    def itinerary
+      @itinerary ||= ::Itinerary.new(registration)
+    end
   end
 end

@@ -1,3 +1,7 @@
+Given(/^it is the week before the festival$/) do
+  Timecop.travel(festival.start_date.midnight - 1.week)
+end
+
 When(/^I click the registration link$/) do
   click_link "Register now"
 end

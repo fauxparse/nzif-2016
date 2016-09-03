@@ -4,23 +4,27 @@ class Admin::PaymentsController < Admin::Controller
   end
 
   def approve
-    payment.approve!
+    update_payment(:approved)
     head :ok
   end
 
   def decline
-    payment.decline!
+    update_payment(:declined)
     head :ok
   end
 
   def destroy
-    payment.cancel!
+    update_payment(:cancelled)
     head :ok
   end
 
   private
 
   def payment
-    @payment ||= festival.payments.find(params[:id])
+    @payment ||= festival.payments.find_by!(token: params[:id])
+  end
+
+  def update_payment(status)
+    UpdatePayment.new(payment, status).call
   end
 end

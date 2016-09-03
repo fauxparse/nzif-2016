@@ -1,8 +1,11 @@
 class Postman < ApplicationMailer
+  add_template_helper(MoneyHelper)
+
   def registration_confirmation(registration)
     @registration = registration
     @participant = registration.participant
     @festival = registration.festival
+    @pending_payments = registration.payments.pending.all
 
     mail(
       to: @participant.email,
@@ -19,6 +22,19 @@ class Postman < ApplicationMailer
     mail(
       to: @participant.email,
       subject: I18n.t('postman.itinerary.subject', festival: @festival.name)
+    )
+  end
+
+  def receipt(payment)
+    @payment = payment
+    @registration = payment.registration
+    @participant = @registration.participant
+    @festival = @registration.festival
+    @account = Account.new(@registration)
+
+    mail(
+      to: @participant.email,
+      subject: I18n.t('postman.receipt.subject')
     )
   end
 end

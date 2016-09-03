@@ -7,4 +7,8 @@ class PostmanPreview < ActionMailer::Preview
   def itinerary_email
     Postman.itinerary(Registration.last)
   end
+
+  def receipt_email
+    Postman.receipt(Payment.last)
+  end
 end

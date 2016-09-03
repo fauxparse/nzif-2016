@@ -28,5 +28,11 @@ FactoryGirl.define do
         end
       end
     end
+
+    trait :with_internet_banking do
+      after(:create) do |festival, _|
+        FactoryGirl.create(:internet_banking_configuration, festival: festival)
+      end
+    end
   end
 end

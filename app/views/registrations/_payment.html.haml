@@ -12,6 +12,6 @@
       - else
         = form.hidden_field :amount
 
-      %ul.payment-methods
-        - Payment.payment_methods.each do |method|
+      .payment-methods
+        - form.object.payment_methods.each do |method|
           = render "payment_method_option", form: form, method: method

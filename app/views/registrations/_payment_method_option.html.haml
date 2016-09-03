@@ -1,3 +1,4 @@
-%li
-  %button{type: :submit, name: "registration[payment_type]", value: method.key}
-    = t("registrations.payment.methods.#{method.key}")
+%button{type: :submit, name: "registration[payment_type]", value: method.key}
+  %span= t("registrations.payment.methods.#{method.key}")
+  - unless method.fee.zero?
+    %small.fee= t('registrations.payment.fee', fee: method.fee.format)
