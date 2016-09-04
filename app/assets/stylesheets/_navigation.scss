@@ -48,6 +48,7 @@ body > nav {
     padding: 0;
     align-items: center;
     position: relative;
+    overflow: hidden;
 
     img, svg {
       @include size(2.5rem);

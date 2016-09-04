@@ -5,6 +5,7 @@ header[role="banner"] {
 
   .inner {
     @include outer-container;
+    display: block;
     padding-top: 6rem;
   }
 
@@ -24,5 +25,114 @@ header[role="banner"] {
   @include media($medium-screen) {
     h1 { font-size: 6vw; }
     h2 { font-size: 3vw; }
+
+    .title {
+      @include span-columns(3 of 4);
+      @include omega(1n);
+      @include shift(1 of 4);
+    }
+  }
+}
+
+.homepage-2016 {
+  blockquote {
+    margin: 0 0 $base-spacing;
+
+    p {
+      font: 1.5rem "Slabo 27px";
+      color: $secondary-color;
+      position: relative;
+    }
+
+    b {
+      font-weight: normal;
+      color: $accent-color;
+      white-space: nowrap;
+
+      &::before { content: "‘"; }
+      &::after { content: "’"; }
+    }
+
+    cite {
+      display: none;
+      font-style: normal;
+      font-weight: $light-font-weight;
+      font-size: $small-font-size;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+    }
+  }
+
+  .summary {
+    li {
+      margin: 0 0 $small-spacing;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    b {
+      @include size(4rem);
+      flex: 0 0 4rem;
+      margin-right: 1rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 2rem;
+      padding: 1rem 0;
+      background: $accent-color;
+      color: white;
+      font-size: 2rem;
+      vertical-align: middle;
+    }
+
+    span {
+      flex: 1;
+      font-size: $small-font-size;
+    }
+
+    li[data-summary="participants"] {
+      b {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  aside {
+    [role="button"] {
+      display: block;
+      margin: 0 0 $small-spacing;
+      text-align: center;
+    }
+  }
+
+  @include media($medium-screen) {
+    blockquote {
+      @include span-columns(1 of 4);
+      text-align: right;
+
+      b {
+        position: relative;
+        white-space: nowrap;
+
+        &::after { position: absolute; left: 100%; }
+      }
+
+      cite {
+        display: block;
+      }
+    }
+
+    section {
+      @include span-columns(2 of 4);
+
+      .summary li span {
+        font-size: $base-font-size;
+      }
+    }
+
+    aside {
+      @include span-columns(1 of 4);
+      @include omega(3n);
+    }
   }
 }

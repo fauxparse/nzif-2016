@@ -1,0 +1,37 @@
+- content_for :title, "NZIF 2016: The Festival of Moments"
+
+- content_for :head do
+  = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Slabo+27px"
+ 
+%header{role: "banner"}
+  .inner
+    .title
+      %h1= festival.name
+      %h2= date_range(festival.start_date, festival.end_date)
+
+%section.homepage-2016
+  .inner
+    %blockquote
+      %p
+        It’s only when you think back over what was created
+        %b in the moments
+        that you realise what small miracles have occurred.
+      %cite Theatreview
+
+    %section
+      %p The New Zealand Improv Festival gathers improvisational theatre companies from around the nation (and around the globe) to present new work, learn new skills and make connections across the industry.
+
+      %ul.summary
+        - @summary.activities.each do |type, activities|
+          %li{data: { summary: type.to_param }}
+            %b= activities.count
+            %span= t(".summary.#{type.name.demodulize.underscore.pluralize}")
+        %li{data: { summary: 'participants' }}
+          %b= @summary.participants
+          %span= t('.summary.participants')
+
+    %aside
+      - if registration.present?
+        = link_to t('.registration'), registration_path(festival.year), role: :button
+      - else
+        = link_to t('.register'), register_path(festival.year), role: :button

@@ -135,6 +135,10 @@ body {
         @include span-columns(1 of 4);
         @include omega(3n);
 
+        &:first-child {
+          text-align: right;
+        }
+
         &.sponsors {
           @include span-columns(2 of 4);
         }

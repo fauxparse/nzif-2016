@@ -21,9 +21,14 @@ en:
       title: "NZIF"
       no_festivals: "Sorry, registrations aren’t open right now. Check back later!"
 
-    show:
+    "2016":
       title: "NZIF %{year}"
       register: "Register now!"
+      registration: "Your registration"
+      summary:
+        workshops: "masterclass workshops with teachers from New Zealand, Australia, and around the world"
+        shows: "performances created on-site during the Festival and cast from attendees like you"
+        participants: "people already registered. Why not join them?"
 
   registrations:
     new:

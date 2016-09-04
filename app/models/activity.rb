@@ -50,4 +50,8 @@ class Activity < ApplicationRecord
     type = type.name if type.respond_to?(:name)
     where(type: type.singularize.camelize)
   end
+
+  def self.<=>(another)
+    types.index(self) <=> types.index(another)
+  end
 end

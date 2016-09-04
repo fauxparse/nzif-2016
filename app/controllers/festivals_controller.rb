@@ -4,5 +4,6 @@ class FestivalsController < ApplicationController
   end
 
   def show
+    @summary = FestivalSummary.new(festival)
   end
 end
