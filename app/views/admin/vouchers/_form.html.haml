@@ -1,0 +1,12 @@
+.field
+  = form.label :participant_id
+  = form.select :participant_id, [[]] + Participant.by_name.all.map { |p| [p.name, p.id] }, {}, data: { placeholder: t('.select_participant') }
+  = form.error_messages_for :participant_id
+.field
+  = form.label :amount
+  = form.number_field :amount, min: 0
+  = form.error_messages_for :amount
+.field
+  = form.label :reason
+  = form.text_field :reason
+  = form.error_messages_for :reason

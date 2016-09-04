@@ -2,6 +2,10 @@ Given(/^it is the week before the festival$/) do
   Timecop.travel(festival.start_date.midnight - 1.week)
 end
 
+Given(/^I am an existing participant$/) do
+  participant
+end
+
 When(/^I click the registration link$/) do
   click_link "Register now"
 end
@@ -45,6 +49,18 @@ end
 
 When(/^I choose to pay by Internet banking$/) do
   click_button("Pay by Internet banking")
+end
+
+When(/^I register for the festival$/) do
+  steps %Q{
+    Given I am on the festival homepage
+      And it is the week before the festival
+     When I click the registration link
+      And I enter my registration details
+      And I select some initial activities
+      And I accept the Code of Conduct
+      And I choose to pay by Internet banking
+  }
 end
 
 Then(/^I should receive an email confirming my registration$/) do

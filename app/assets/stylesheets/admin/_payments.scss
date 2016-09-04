@@ -1,4 +1,4 @@
-.payments {
+.payments, .vouchers {
   [role="listitem"] {
     display: flex;
     justify-content: stretch;
@@ -48,6 +48,31 @@
       &:disabled {
         color: $secondary-color;
       }
+    }
+  }
+}
+
+.vouchers {
+  .to {
+    flex: 0 0 25%;
+
+    a, b {
+      @include ellipsis;
+      display: block;
+    }
+
+    a {
+      font-size: $small-font-size;
+    }
+  }
+
+  .reason {
+    flex: 1;
+
+    small {
+      display: block;
+      font-size: $small-font-size;
+      color: $secondary-color;
     }
   }
 }

@@ -7,13 +7,8 @@ Feature: Transaction fees
   Scenario: Internet banking fees
     Given there is a 2016 festival
       And there is a $2 fee on Internet banking transactions
-      And I am on the festival homepage
       And it is the week before the festival
-     When I click the registration link
-      And I enter my registration details
-      And I select some initial activities
-      And I accept the Code of Conduct
-      And I choose to pay by Internet banking
+     When I register for the festival
       And I go to my account page
      Then I should see that my total due is $500
       And I should see a pending Internet banking payment of $502

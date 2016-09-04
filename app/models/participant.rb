@@ -2,6 +2,7 @@ class Participant < ApplicationRecord
   belongs_to :user, optional: true
   has_many :registrations, dependent: :destroy
   has_many :facilitators, dependent: :destroy
+  has_many :vouchers, dependent: :destroy
 
   has_attached_file :avatar, styles: {
     small:  ['64x64#',   :jpg],

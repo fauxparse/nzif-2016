@@ -23,6 +23,14 @@ module ParticipantHelpers
   def password
     "p4$$w0rd!"
   end
+
+  def participant
+    @participant ||= create_participant
+  end
+
+  def admin
+    @admin ||= FactoryGirl.create(:admin)
+  end
 end
 
 World(ParticipantHelpers)

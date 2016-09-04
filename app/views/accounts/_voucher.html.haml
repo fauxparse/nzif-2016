@@ -1,0 +1,7 @@
+%tr.voucher
+  %td= l(voucher.created_at.to_date, format: :account)
+  %td
+    = t('account.voucher', from: voucher.granted_by.name)
+    = content_tag(:small, voucher.reason)
+  %td= m voucher.total 
+  %td

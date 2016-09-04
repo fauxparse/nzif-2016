@@ -1,0 +1,15 @@
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+  %aside
+    = link_to new_admin_voucher_path, role: :button do
+      = icon :add
+
+%section
+  .vouchers{role: :list}
+    %header
+      %input{type: :search, placeholder: t('.search')}
+      %label= icon :search
+    = render('empty')
+    = render(@vouchers)
