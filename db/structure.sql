@@ -582,6 +582,42 @@ ALTER SEQUENCE venues_id_seq OWNED BY venues.id;
 
 
 --
+-- Name: vouchers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vouchers (
+    id integer NOT NULL,
+    admin_id integer,
+    participant_id integer,
+    festival_id integer,
+    amount_cents integer DEFAULT 0 NOT NULL,
+    amount_currency character varying DEFAULT 'NZD'::character varying NOT NULL,
+    reason character varying(128),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vouchers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vouchers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vouchers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vouchers_id_seq OWNED BY vouchers.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -684,6 +720,13 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vouchers ALTER COLUMN id SET DEFAULT nextval('vouchers_id_seq'::regclass);
 
 
 --
@@ -820,6 +863,14 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY venues
     ADD CONSTRAINT venues_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vouchers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vouchers
+    ADD CONSTRAINT vouchers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1047,6 +1098,42 @@ CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (re
 
 
 --
+-- Name: index_vouchers_on_admin_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vouchers_on_admin_id ON vouchers USING btree (admin_id);
+
+
+--
+-- Name: index_vouchers_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vouchers_on_festival_id ON vouchers USING btree (festival_id);
+
+
+--
+-- Name: index_vouchers_on_festival_id_and_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vouchers_on_festival_id_and_participant_id ON vouchers USING btree (festival_id, participant_id);
+
+
+--
+-- Name: index_vouchers_on_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vouchers_on_participant_id ON vouchers USING btree (participant_id);
+
+
+--
+-- Name: fk_rails_1003b0bc5a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vouchers
+    ADD CONSTRAINT fk_rails_1003b0bc5a FOREIGN KEY (festival_id) REFERENCES festivals(id) ON DELETE CASCADE;
+
+
+--
 -- Name: fk_rails_1378d77cf6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1127,6 +1214,14 @@ ALTER TABLE ONLY facilitators
 
 
 --
+-- Name: fk_rails_988f169076; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vouchers
+    ADD CONSTRAINT fk_rails_988f169076 FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
+
+
+--
 -- Name: fk_rails_9b577e3d90; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1167,6 +1262,14 @@ ALTER TABLE ONLY schedules
 
 
 --
+-- Name: fk_rails_d199bf6a26; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vouchers
+    ADD CONSTRAINT fk_rails_d199bf6a26 FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: fk_rails_d55f2d8599; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1188,6 +1291,6 @@ ALTER TABLE ONLY registrations
 
 SET search_path TO "$user",public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120'), ('20160717105154'), ('20160717223316'), ('20160723221958'), ('20160829091713'), ('20160829203009'), ('20160830092051'), ('20160901012943'), ('20160902061243'), ('20160903211632');
+INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120'), ('20160717105154'), ('20160717223316'), ('20160723221958'), ('20160829091713'), ('20160829203009'), ('20160830092051'), ('20160901012943'), ('20160902061243'), ('20160903211632'), ('20160904004604');
 
 

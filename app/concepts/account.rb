@@ -16,11 +16,11 @@ class Account
   end
 
   def total_paid
-    Money.new(approved_payments.sum(&:amount))
+    Money.new((approved_payments + vouchers).sum(&:amount))
   end
 
   def total_paid_including_fees
-    Money.new(approved_payments.sum(&:total))
+    Money.new((approved_payments + vouchers).sum(&:total))
   end
 
   def total_pending
@@ -85,6 +85,13 @@ class Account
 
   def payment_methods
     Payment.payment_methods.map { |method| method.new(outstanding_payment) }
+  end
+
+  def vouchers
+    @vouchers ||= Voucher.oldest_first.where(
+      participant: registration.participant,
+      festival: registration.festival
+    ).all
   end
 
   private

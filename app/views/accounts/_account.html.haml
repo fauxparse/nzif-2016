@@ -16,6 +16,7 @@
       %td= t('account.total')
       %td
       %td= m account.total
+    = render partial: 'voucher', collection: account.vouchers
     = render partial: 'payment', collection: account.approved_payments
     %tr.subtotal.total-paid
       %td
