@@ -68,8 +68,17 @@ class @Activity
         @_selected(value)
     @_selected()
 
+  facilitating: ->
+    unless @_facilitating?
+      @_facilitating = true for f in @facilitators() when f.id == Activity.current_participant_id()
+      @_facilitating ?= false
+    @_facilitating
+
   canChange: ->
-    @starts_at().isAfter(moment())
+    !@facilitating() &&
+    @starts_at().isAfter(moment()) &&
+    (!@full() || @was.selected) &&
+    (@selected() || @overlappingAndFacilitating().length == 0)
 
   full: (value) =>
     @_full ||= m.prop()
@@ -83,8 +92,16 @@ class @Activity
     another.ends_at().isAfter(@starts_at()) &&
     another.starts_at().isBefore(@ends_at())
 
+  overlapping: =>
+    (a for a in Activity.all() when a.id() != @id() && a.overlaps(this))
+
+  overlappingAndFacilitating: ->
+    @_overlappingAndFacilitating ||= (a for a in @overlapping() when a.facilitating())
+
   clashes: ->
-    (a for a in Activity.all() when a.id() != @id() && a.selected() && a.overlaps(this))
+    (a for a in @overlapping() when a.selected() || a.facilitating())
+
+  @current_participant_id: m.prop()
 
   @fetch: (url = null) ->
     deferred = m.deferred()
@@ -92,6 +109,7 @@ class @Activity
       url: (url || location.pathname) + '?_=' + new Date().getTime()
       method: 'GET'
     .then (data) =>
+      Activity.current_participant_id(data.participant.id)
       Package.refresh(data.packages) if data.packages?
       Package.current(data.package_id)
       deferred.resolve(@refresh(data.activities))
@@ -104,6 +122,8 @@ class @Activity
 
   @refresh: (data) =>
     @all((new Activity(attrs) for attrs in data))
+    @_byId = {}
+    @_byId[activity.id()] = activity for activity in @all()
     @_byType = {}
     (@_byType[activity.type()] ||= []).push(activity) for activity in @all()
     @all()
@@ -121,7 +141,7 @@ class @Activity
       (grouped[key][activity.type()] ||= []).push(activity)
     (grouped[key] for key in Object.keys(grouped).sort())
 
-class @Allocation
+class Allocation
   constructor: (attrs) ->
     attrs = attrs.attrs() if attrs instanceof Allocation
     for own key, value of attrs
@@ -162,7 +182,7 @@ class @Allocation
   different: ->
     @count() != @limit()
 
-class @Package
+class Package
   constructor: (attrs) ->
     for own key, value of attrs
       (@[key] ||= m.prop())(value)
@@ -315,20 +335,22 @@ class ActivitySelector
       name: "#{@options.model}[selections][]"
       value: activity.id()
 
-    m('article', { role: 'listitem', 'aria-selected': activity.selected(), 'data-id': activity.id() },
+    m('article', { role: 'listitem', 'aria-selected': activity.selected() || activity.facilitating(), 'data-id': activity.id(), 'data-full': activity.full(), 'data-mine': activity.facilitating() },
       m('label',
         (m('input[type="hidden"]', inputOptions) unless activity.canChange())
         m('input[type="checkbox"]', $.extend({}, inputOptions, checked: activity.selected(), disabled: !activity.canChange(), onchange: m.withAttr('checked', activity.selected)))
         m('img', { src: activity.image() })
-        m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
+        (m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
           m('circle', { cx: 20, cy: 20, r: 18 })
           m('path', { d: 'M 11.7 20.3 L 17 25.6 L 28.3 14.4' })
-        )
+        ) if activity.selected() || activity.canChange())
+        (m('span.full', 'Full!') if activity.full())
       )
       m('div', { class: 'description' },
-        m('a[rel="more"]', { href: activity.url(), onclick: ((e) => @zoomActivity(e, activity)) }, m('i.material-icons', 'more_vert'))
+        m('a[rel="more"]', { href: activity.url(), onclick: ((e) => @zoomActivity(e, activity)) }, m('i.material-icons', 'info_outline'))
         m('p', { class: 'dates' }, activity.starts_at().format('h:mm A – ') + activity.ends_at().format('h:mm A'))
         m('h4', activity.name())
+        (m('p', { class: 'facilitating' }, "Your #{activity.type()}") if activity.facilitating())
       )
     )
 
@@ -401,7 +423,7 @@ class ActivitySelector
         button.addClass('done').find('.check').transitionEnd ->
           button.removeClass('done').attr('aria-busy', false)
 
-class @ActivityViewer
+class ActivityViewer
   constructor: (activity) ->
     @activity = m.prop(activity)
 
@@ -433,7 +455,7 @@ class @ActivityViewer
 
   stateButton: ->
     if @activity().selected()
-      m('button', { 'aria-selected': true, onclick: @toggle },
+      m('button', { 'aria-selected': true, disabled: !@activity().canChange() || undefined, onclick: @toggle },
         m('i.material-icons', 'done')
         m('span', 'Selected')
       )
@@ -443,7 +465,7 @@ class @ActivityViewer
         m('span', "Sorry, this #{@activity().type()} is full!")
       )
     else
-      m('button', { onclick: @toggle },
+      m('button', { onclick: @toggle, disabled: !@activity().canChange() || undefined },
         m('i.material-icons', 'add')
         m('span', "Select this #{@activity().type()}")
       )
