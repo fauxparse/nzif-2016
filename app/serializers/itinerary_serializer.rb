@@ -1,5 +1,5 @@
 class ItinerarySerializer < ActiveModel::Serializer
-  attributes :id, :package_id, :activities, :packages
+  attributes :id, :package_id, :activities, :packages, :participant
 
   def activities
     schedules_to_serialize.sort.map(&method(:serialize_schedule))

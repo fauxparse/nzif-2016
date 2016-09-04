@@ -25,7 +25,9 @@ body {
   min-height: 100vh;
   background: $footer-background-color;
 
-  > * {
+  > section,
+  > form,
+  > header {
     background: $base-background-color;
   }
 
