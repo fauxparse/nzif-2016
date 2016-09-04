@@ -80,6 +80,9 @@ class @Activity
     (!@full() || @was.selected) &&
     (@selected() || @overlappingAndFacilitating().length == 0)
 
+  hasChanged: ->
+    @selected() != @was.selected
+
   full: (value) =>
     @_full ||= m.prop()
     @_full(value) if arguments.length
@@ -140,6 +143,10 @@ class @Activity
       grouped[key] ||= { date: day }
       (grouped[key][activity.type()] ||= []).push(activity)
     (grouped[key] for key in Object.keys(grouped).sort())
+
+  @unsavedChanges: ->
+    return true for a in @all() when a.hasChanged()
+    false
 
 class Allocation
   constructor: (attrs) ->
@@ -581,6 +588,7 @@ class @ItineraryEditor
 
   constructor: ->
     Activity.fetch()
+    $(window).on('beforeunload.unsaved-changes, turbolinks:before-visit.unsaved-changes', @promptToSaveChanges)
 
   view: ->
     comparison = new PackageComparison(Package.current())
@@ -591,7 +599,7 @@ class @ItineraryEditor
     ]
 
   header: (comparison) ->
-    m('header',
+    m('header', { config: @setupForm },
       m('div.inner',
         m.component(ActivityCounts)
         m('button[type="submit"]', { disabled: !!comparison.overMax().length }, m('span', 'Save changes'))
@@ -615,7 +623,28 @@ class @ItineraryEditor
       )
     )
 
-  messages: (comparison) ->
+  promptToSaveChanges: (e) =>
+    if @unsavedChanges()
+      message = 'You have unsaved changes. Do you really want to leave this page?'
+      if e.type.match(/^turbolinks:/)
+        if window.confirm(message)
+          $(window).off('.unsaved-changes')
+        else
+          e.preventDefault()
+      else
+        e.returnValue = message
+        return message
+    else
+      $(window).off('.unsaved-changes')
+      undefined
+
+  setupForm: (el) =>
+    $(el).closest('form').on 'submit', =>
+      @_saving = true
+      $(window).off('.unsaved-changes')
+
+  unsavedChanges: ->
+    !@_saving && Activity.unsavedChanges()
 
 sentence = (array) ->
   return array[0] || '' if array.length < 2
