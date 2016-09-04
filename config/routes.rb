@@ -69,6 +69,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :vouchers
+
       get "/" => "dashboards#show"
     end
 

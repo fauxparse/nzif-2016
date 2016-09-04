@@ -1,0 +1,9 @@
+.voucher{role: :listitem}
+  .date= l(voucher.created_at.to_date, format: :account)
+  .to
+    %b= voucher.participant
+    = mail_to voucher.participant.email
+  .reason
+    = link_to voucher.reason || t('.no_reason'), edit_admin_voucher_path(voucher.festival, voucher)
+    %small= voucher.granted_by.name
+  .amount= m(voucher.total)

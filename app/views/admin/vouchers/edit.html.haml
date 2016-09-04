@@ -1,0 +1,10 @@
+%header
+  %section
+    %h1= t('.title')
+    %h2= festival.name
+
+%section
+  = form_for @voucher, url: admin_voucher_path(festival, @voucher) do |form|
+    = render partial: "form", object: form
+    = form.submit t('.submit')
+    = link_to t('.destroy'), admin_voucher_path(festival, @voucher), method: :delete, rel: :delete, role: :button

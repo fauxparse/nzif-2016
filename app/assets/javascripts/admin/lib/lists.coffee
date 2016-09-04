@@ -9,7 +9,7 @@ class @SearchableList
       regex = new RegExp(escapedSearchText, 'i')
       @listItems().removeClass('first').hide()
         .filter ->
-          regex.test($(this).find('[rel=edit]').text())
+          regex.test($(this).text())
         .show()
         .first().addClass('first').end()
         .length

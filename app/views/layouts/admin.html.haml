@@ -11,11 +11,12 @@
       %ul
         = admin_menu :festival, icon: :home, label: festival.name
         = admin_menu :participants, icon: :people
-        = admin_menu :payments, icon: :payment
         = admin_menu :activities, icon: :local_activity
         = admin_menu :timetable, icon: :today
         = admin_menu :venues, icon: :place
-        = admin_menu :packages, icon: :pages
+        = admin_menu :packages, icon: :store
+        = admin_menu :payments, icon: :payment
+        = admin_menu :vouchers, icon: :card_giftcard
         = admin_menu :home, icon: :web, path: festival_path(festival), label: t('admin.menu.back')
 
     %main

@@ -224,6 +224,28 @@ en:
       edit:
         title: "Payment settings"
         save: "Save settings"
+    vouchers:
+      index:
+        title: "Vouchers"
+        search: "Search vouchers…"
+      show:
+        title: "Voucher details"
+      new:
+        title: "New voucher"
+        submit: "Create voucher"
+      edit:
+        title: "Edit voucher details"
+        submit: "Save changes"
+        destroy: "Delete this voucher"
+      form:
+        select_participant: "Select a participant"
+      empty:
+        empty: "No vouchers to show here"
+      voucher:
+        no_reason: "(no reason given)"
+      created: "Voucher created"
+      updated: "Voucher updated"
+      deleted: "Voucher deleted"
 
   scheduled_activities:
     timing:
