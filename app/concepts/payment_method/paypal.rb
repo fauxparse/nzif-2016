@@ -59,7 +59,6 @@ class PaymentMethod::Paypal < PaymentMethod::Base
     UpdatePayment.new(
       payment,
       status,
-      amount: paid - payment.fee,
       transaction_reference: params[:txn_id],
       transaction_data: params.to_h,
     ).call
