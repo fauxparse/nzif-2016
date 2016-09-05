@@ -27,7 +27,7 @@
       border-radius: $base-border-radius;
       background: $base-background-color;
       color: $base-font-color;
-      box-shadow: 0 0 .5rem $light-grey;
+      box-shadow: 0 0 .25rem $base-border-color;
     }
 
     img {
@@ -41,12 +41,13 @@
 
     h4 {
       font-size: 100%;
-      margin: 0;
+      margin: 0 0 .25rem;
     }
 
     p {
       margin: 0;
       color: $secondary-color;
+      font-size: .75rem;
     }
   }
 

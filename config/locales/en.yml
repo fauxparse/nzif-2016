@@ -25,6 +25,7 @@ en:
       title: "NZIF %{year}"
       register: "Register now!"
       registration: "Your registration"
+      activities: "2016 programme"
       summary:
         workshops: "masterclass <a href=\"%{url}\">workshops</a> with teachers from New Zealand, Australia, and around the world"
         shows: "<a href=\"%{url}\">performances</a> created on-site during the Festival and cast from attendees like you"

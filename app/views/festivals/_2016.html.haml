@@ -32,6 +32,11 @@
 
     %aside
       - if registration.present?
-        = link_to t('.registration'), registration_path(festival.year), role: :button
+        = link_to t('.registration'), registration_path(festival), role: :button
       - else
-        = link_to t('.register'), register_path(festival.year), role: :button
+        = link_to t('.register'), register_path(festival), role: :button
+      %ul
+        %li
+          = link_to activities_path(festival) do
+            = icon :local_activity
+            %span= t('.activities')
