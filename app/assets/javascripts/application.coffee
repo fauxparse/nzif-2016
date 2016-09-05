@@ -12,6 +12,7 @@
 #= require_tree ./lib
 
 #= require user_menu
+#= require admin/dialogs
 #= require itinerary
 
 #= require google-analytics-turbolinks

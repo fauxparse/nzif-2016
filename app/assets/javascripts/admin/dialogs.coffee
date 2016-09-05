@@ -4,14 +4,16 @@ class @Dialog
 
   load: (url, className) ->
     @_className = className
-    @contents().load url, =>
-      @contents().trigger('dialog:loaded').parent()
-        .addClass('in')
-        .transitionEnd =>
-          @contents()
-            .trigger('dialog:shown')
-            .find(':input:visible').first().focus().select()
-      @contents().trigger('dialog:show')
+    @contents().load url, @loaded
+
+  loaded: =>
+    @contents().trigger('dialog:loaded').parent()
+      .addClass('in')
+      .transitionEnd =>
+        @contents()
+          .trigger('dialog:shown')
+          .find(':input:visible').first().focus().select()
+    @contents().trigger('dialog:show')
 
   contents: ->
     @_el ||= $('<div>', class: "dialog #{@_className}")
