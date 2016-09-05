@@ -72,18 +72,27 @@ describe Itinerary do
   end
 
   context 'trying to book for a full workshop' do
-    let(:workshop) { FactoryGirl.create(:workshop, festival: festival) }
-    let(:schedule) { FactoryGirl.create(:schedule, activity: workshop, maximum: 1) }
-    let(:other_registration) { FactoryGirl.create(:registration, festival: festival, package: package) }
+    let(:selections) { { Workshop => 2 } }
+    let(:other_registration) do
+      FactoryGirl.create(:registration, festival: festival, package: package)
+    end
+    let(:schedule) { registration.selections.first.schedule }
+    let(:workshop) { schedule.activity }
+
     before do
-      Selection.create(registration: other_registration, schedule: schedule)
-      registration.selections.build(schedule: schedule)
+      schedule.update(maximum: 1)
+      Selection.create!(registration: other_registration, schedule: schedule)
     end
 
-    it { is_expected.not_to be_valid }
+    it { is_expected.to be_valid }
+
     it 'notifies the user of a full session' do
-      expect(itinerary.errors_on(:base))
-        .to include("That session of #{workshop.name} is full")
+      itinerary.save
+      expect(itinerary.full_schedules).to eq [schedule]
+    end
+
+    it 'saves the other selections anyway' do
+      expect { itinerary.save }.to change { Selection.count }.by 1
     end
   end
 
