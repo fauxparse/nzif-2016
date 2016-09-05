@@ -1,4 +1,4 @@
 - hide_footer!
 
 = registration_step_form do |form|
-  = mithril_component('RegistrationActivitySelector', { year: festival.year, instructions: t('.instructions', maximum: form.object.maximum_allocation) }, class: 'select-initial-activities')
+  = mithril_component('RegistrationActivitySelector', { year: festival.year, instructions: t('.instructions', maximum: form.object.maximum_allocation), unavailable: form.object.full_schedules.map(&:id) }, class: 'select-initial-activities')

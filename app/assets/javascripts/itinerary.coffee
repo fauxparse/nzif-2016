@@ -546,7 +546,11 @@ class @RegistrationActivitySelector
     controller.view()
 
   constructor: (args...) ->
-    Activity.fetch(@url())
+    Activity.fetch(@url()).then(@showMessages)
+
+  showMessages: =>
+    ids = RegistrationActivitySelector.properties?.unavailable || []
+    new FullActivities(ids) if ids.length
 
   url: ->
     "/#{RegistrationActivitySelector.properties.year}/register/activities"
