@@ -26,9 +26,9 @@ en:
       register: "Register now!"
       registration: "Your registration"
       summary:
-        workshops: "masterclass workshops with teachers from New Zealand, Australia, and around the world"
-        shows: "performances created on-site during the Festival and cast from attendees like you"
-        participants: "people already registered. Why not join them?"
+        workshops: "masterclass <a href=\"%{url}\">workshops</a> with teachers from New Zealand, Australia, and around the world"
+        shows: "<a href=\"%{url}\">performances</a> created on-site during the Festival and cast from attendees like you"
+        participants: "people already registered. <a href=\"%{url}\">Why not join them?</a>"
 
   registrations:
     new:
