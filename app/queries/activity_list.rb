@@ -41,8 +41,10 @@ class ActivityList
   end
 
   def scope
-    scope = festival.activities.alphabetically
+    scope = festival.activities
     scope = scope.by_type(type) if type.present?
     scope.includes(:facilitators, :schedules)
+      .references(:schedules)
+      .order('schedules.starts_at')
   end
 end

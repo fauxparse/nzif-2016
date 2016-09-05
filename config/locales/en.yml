@@ -321,6 +321,7 @@ en:
       short: "%l:%M"
       ampm: "%l:%M %p"
       full: "%l:%M %p, %A, %e %B"
+      compact: "%A, %l:%M %p"
 
   postman:
     registration_confirmation:
