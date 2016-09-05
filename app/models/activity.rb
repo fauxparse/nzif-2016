@@ -5,7 +5,7 @@ class Activity < ApplicationRecord
   has_many :related_activities, foreign_key: :parent_id, dependent: :destroy,
     autosave: true, inverse_of: :parent
 
-  acts_as_url :name, url_attribute: :slug, sync_url: true, scope: :festival_id
+  acts_as_url :name_and_type, url_attribute: :slug, sync_url: true, scope: :festival_id
 
   has_attached_file :image, styles: {
     small:  ['320x180#',  :jpg],
@@ -53,5 +53,12 @@ class Activity < ApplicationRecord
 
   def self.<=>(another)
     types.index(self) <=> types.index(another)
+  end
+
+  private
+
+  def name_and_type
+    [name, self.class.name.demodulize.underscore.dasherize]
+      .reject(&:blank?).join(" ")
   end
 end
