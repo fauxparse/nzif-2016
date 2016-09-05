@@ -6,7 +6,7 @@
         %ul
           - if festival.present?
             %li= link_to t('activities.index.title', year: festival.year), activities_path(festival)
-          %li= link_to t('registrations.new.title'), register_path(festival.year)
+            %li= link_to t('registrations.new.title'), register_path(festival.year)
 
       %section.sponsors
         %h3 Our sponsors
