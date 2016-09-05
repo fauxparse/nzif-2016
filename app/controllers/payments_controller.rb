@@ -4,15 +4,15 @@ class PaymentsController < ApplicationController
     if: :processing_external_payment?
 
   def show
-    if request.post?
+    if params[:year]
+      @payment = registration.payments.find_by!(token: params[:id])
+    else
       begin
         registration = payment.registration
         redirect_to account_path(registration.festival)
       rescue ActiveRecord::RecordNotFound => e
         redirect_to root_path
       end
-    else
-      @payment = registration.payments.find_by!(token: params[:id])
     end
   end
 
