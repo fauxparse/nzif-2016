@@ -75,6 +75,8 @@ en:
         complete_payment: "Complete payment"
       itinerary:
         complete_itinerary: "Select your activities"
+        paid_for: "You have paid for %{package}, but you’ve only picked %{selected}."
+        next_steps: "To select some more activities, <a href=\"%{url}\">edit your itinerary</a>."
     create:
       completed: "Congratulations! You’ve registered for %{festival}"
 

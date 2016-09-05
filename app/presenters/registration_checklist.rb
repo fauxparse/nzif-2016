@@ -61,5 +61,46 @@ class RegistrationChecklist
     def itinerary
       @itinerary ||= ::Itinerary.new(registration)
     end
+
+    def description
+      I18n.t(
+        'registrations.checklist.itinerary.paid_for',
+        package: package_description,
+        selected: selected_description
+      )
+    end
+
+    def next_steps(url)
+      I18n.t('registrations.checklist.itinerary.next_steps', url: url)
+        .html_safe
+    end
+
+    private
+
+    def package_description
+      allocations.map do |allocation|
+        pluralize(allocation, allocation.maximum)
+      end.to_sentence
+    end
+
+    def selected_description
+      allocations.each.with_object([]) do |allocation, result|
+        count = selections[allocation.activity_type].try(:size) || 0
+        result << pluralize(allocation, count) if count < allocation.maximum
+      end.to_sentence
+    end
+
+    def allocations
+      @allocations ||= registration.package.allocations.all.select(&:limited?)
+    end
+
+    def selections
+      @selections ||= registration.selections.includes(:schedule => :activity)
+        .group_by { |selection| selection.schedule.activity.class }
+    end
+
+    def pluralize(allocation, count)
+      "#{count} #{allocation.name.pluralize(count)}"
+    end
   end
 end
