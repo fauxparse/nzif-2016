@@ -64,7 +64,7 @@ body {
     a {
       color: rgba(white, .75);
 
-      &:hover {
+      &:hover, &:active {
         color: white;
       }
 
