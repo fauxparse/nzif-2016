@@ -56,10 +56,10 @@ class @Schedule
     @_byId[id]
 
   @destroy: (id) ->
-    if instance = @_byId[id]
-      all = @all()
-      all.splice(all.indexOf(instance), 1)
-      m.computation => @all(all)
+    m.computation =>
+      @all((s for s in @all() when s.id().toString() != id.toString()))
+      @_byId = {}
+      @_byId[schedule.id()] = schedule for schedule in @all()
 
   @overlapping: (range) ->
     (schedule for schedule in @all() when schedule.range().overlaps(range))
