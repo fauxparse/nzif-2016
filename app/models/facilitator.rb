@@ -5,6 +5,8 @@ class Facilitator < ApplicationRecord
   acts_as_list scope: :activity_id, top_of_list: 0
 
   def to_s
-    participant.name
+    participant.name.dup.tap do |name|
+      name << " (#{participant.origin})" if participant.origin?
+    end
   end
 end

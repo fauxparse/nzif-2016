@@ -1,15 +1,29 @@
-- content_for :title, @activity_list.type_name.pluralize
+- content_for :title, @activity_list.title
 
 %header
   .inner
-    %h1= @activity_list.type_name.pluralize
-    - @activity_list.other_types.each do |type|
-      = link_to type.model_name.human.pluralize, activities_path(festival, type)
+    %h1
+      = link_to t('.title', year: festival.year), activities_path
+    %ul{role: 'tablist'}
+      - Activity.types.each do |type|
+        %li{role: 'tab', aria: { selected: @activity_list.type == type }}
+          = link_to type.model_name.human.pluralize, activity_type_path(festival, type)
 
-%section.featured.activities
+%section.activities-intro
   .inner
-    = render partial: 'activity', collection: @activity_list.random(3)
+    = @activity_list.intro
 
 %section.activities
   .inner
-    = render partial: 'activity', collection: @activity_list
+    %section{role: 'list'}
+      = render partial: "activity", collection: @activity_list
+
+:coffee
+  $(document).on 'turbolinks:load', ->
+    grid = $('.activities [role=list]')
+    items = grid.find('article')
+    grid.masonry
+      itemSelector: 'article'
+      columnWidth: items.get(0)
+    items.imagesLoaded().progress (imgLoad, image) ->
+      grid.masonry('layout')

@@ -92,6 +92,27 @@ en:
     balance: "Total outstanding"
     pay_outstanding: "Pay outstanding amount"
 
+  activities:
+    index:
+      title: "%{year} Festival programme"
+      intro:
+        all: "Craft beer bitters quinoa, narwhal normcore asymmetrical leggings mumblecore mixtape try-hard semiotics you probably haven't heard of them meggings poutine shoreditch. Chillwave direct trade artisan biodiesel four loko beard, umami gastropub. Sartorial mixtape portland pork belly kickstarter distillery, bushwick fanny pack brunch tote bag man bun dreamcatcher deep v. 90's godard bicycle rights williamsburg tattooed semiotics, plaid roof party heirloom literally chicharrones etsy salvia blue bottle. XOXO trust fund flannel ramps stumptown, offal thundercats 90's. Kogi hoodie gastropub pork belly synth. Selfies artisan kinfolk, salvia asymmetrical semiotics retro vegan banh mi occupy kale chips sustainable."
+        workshops: "Green juice polaroid photo booth, chartreuse deep v chillwave salvia typewriter banh mi four loko. 8-bit cronut fanny pack, microdosing heirloom tacos keytar mlkshk bespoke. Dreamcatcher health goth sriracha, flannel disrupt franzen literally authentic single-origin coffee whatever hammock kogi umami kinfolk cronut. Kitsch tofu bushwick, tousled irony gochujang butcher. Pop-up paleo authentic quinoa cliche meh. Farm-to-table asymmetrical waistcoat man braid. Humblebrag put a bird on it chia, hashtag cred mumblecore cornhole mixtape taxidermy man bun."
+        shows: "Letterpress food truck aesthetic lumbersexual, godard meh mumblecore put a bird on it truffaut twee pinterest tilde knausgaard asymmetrical. Bushwick salvia paleo, poutine man braid gentrify distillery try-hard. Cliche chia pug, kale chips microdosing everyday carry shoreditch retro. Slow-carb retro cliche, forage aesthetic swag artisan bitters roof party neutra drinking vinegar banh mi. Try-hard man braid polaroid, cornhole ethical pickled schlitz. Shoreditch kombucha tote bag lomo etsy, direct trade sartorial chillwave cray blog aesthetic. Squid try-hard organic helvetica, four loko semiotics gastropub four dollar toast bicycle rights chillwave."
+        "social-events": "Flexitarian biodiesel bespoke craft beer, post-ironic cliche ugh organic keytar gochujang swag. Fashion axe master cleanse deep v sustainable disrupt, listicle chillwave aesthetic. Authentic food truck cliche scenester vice fashion axe. Seitan whatever marfa chambray plaid man braid cray. Affogato four loko kinfolk, mlkshk aesthetic fap cray kogi semiotics franzen art party chambray brooklyn VHS beard. Meggings shoreditch cold-pressed, microdosing food truck meh offal chicharrones. Truffaut chambray cold-pressed polaroid YOLO."
+        discussions: "Pop-up pitchfork actually wolf godard. Gluten-free kinfolk echo park gochujang fashion axe sriracha. Yr PBR&B actually everyday carry fap. Ugh lomo drinking vinegar, cronut viral semiotics 90's vice readymade celiac hammock fanny pack chillwave. Distillery cornhole jean shorts, food truck asymmetrical tacos farm-to-table chambray intelligentsia chia post-ironic cray meh PBR&B flannel. Banh mi chambray mixtape, leggings chicharrones mlkshk try-hard YOLO vice green juice retro kombucha before they sold out microdosing listicle. Gastropub gluten-free plaid organic, meggings offal helvetica."
+
+    grades:
+      advanced: "Advanced improvisers"
+      experienced: "Experienced to advanced"
+      intermediate: "Intermediate and above"
+      open: "Open to all experience levels"
+      unknown: "Unknown"
+    schedule:
+      selected: "Selected"
+      select_this: "Add to itinerary"
+      full: "Sorry, full!"
+
   itineraries:
     show:
       title: "Your itinerary"
@@ -266,18 +287,6 @@ en:
       discussion: "Forum/discussion"
     more: " (+ %{count} more)"
     limit: "Limited to %{limit}"
-
-  activities:
-    grades:
-      advanced: "Advanced improvisers"
-      experienced: "Experienced to advanced"
-      intermediate: "Intermediate and above"
-      open: "Open to all experience levels"
-      unknown: "Unknown"
-    schedule:
-      selected: "Selected"
-      select_this: "Add to itinerary"
-      full: "Sorry, full!"
 
   devise:
     sessions:

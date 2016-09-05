@@ -5,8 +5,7 @@
         %h3= homepage_link
         %ul
           - if festival.present?
-            - Activity.types.each do |type|
-              %li= link_to type.model_name.human.pluralize, activities_path(festival, type)
+            %li= link_to t('activities.index.title', year: festival.year), activities_path(festival)
 
       %section.sponsors
         %h3 Our sponsors

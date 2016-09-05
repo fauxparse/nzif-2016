@@ -1,0 +1,24 @@
+header [role="tablist"] {
+  display: flex;
+  width: 100%;
+  margin: 0 (-$small-spacing) -1rem;
+
+  [role="tab"] {
+    border-bottom: .25rem solid transparent;
+
+    &[aria-selected] {
+      border-bottom-color: $base-background-color;
+
+      a {
+        color: white;
+      }
+    }
+
+    a {
+      display: block;
+      padding: $small-spacing;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+  }
+}

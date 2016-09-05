@@ -10,10 +10,6 @@ class ActivityList
     Activity.types
   end
 
-  def other_types
-    [Workshop, Show] - [type]
-  end
-
   def type_name
     type.model_name.human
   end
@@ -26,18 +22,27 @@ class ActivityList
     scope.find_by!(slug: id)
   end
 
-  def random(n = 3)
-    scope.reorder('RANDOM()').limit(n)
+  def title
+    if type.present?
+      type.model_name.human.pluralize
+    else
+      I18n.t('activities.index.title', year: festival.year)
+    end
+  end
+
+  def intro
+    I18n.t("intro.#{(type || :all).to_param}", scope: 'activities.index')
   end
 
   private
 
   def activity_subclass(type)
-    types.detect { |t| t.to_param == type } || types.first
+    types.detect { |t| t.to_param == type }
   end
 
   def scope
-    festival.activities.by_type(type).alphabetically
-      .includes(:facilitators, :schedules)
+    scope = festival.activities.alphabetically
+    scope = scope.by_type(type) if type.present?
+    scope.includes(:facilitators, :schedules)
   end
 end

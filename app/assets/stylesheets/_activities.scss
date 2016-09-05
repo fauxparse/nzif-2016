@@ -1,59 +1,90 @@
+.activities-intro {
+  border-bottom: $base-border;
+}
+
 .activities {
+  background: lighten($light-grey, .75);
+
+  [role="list"] {
+    margin: -.25rem;
+  }
+
+  hr {
+    width: 100%;
+    height: 0;
+    margin: 0;
+    border: none;
+  }
+
   article {
-    position: relative;
-    border-radius: $base-border-radius;
-    overflow: hidden;
-    margin-bottom: $small-spacing;
+    width: 100%;
+    padding: .25rem;
+    font-size: $small-font-size;
 
-    a {
-      @include position(absolute, 0rem 0rem 0rem 0rem);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: .5rem;
-      color: white;
-      background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
-      text-shadow: 0 0 .25em black;
-    }
-
-    h4 {
-      margin: 0;
-      font-size: $base-font-size;
-    }
-
-    h5 {
-      font-size: $small-font-size;
-      font-weight: $base-font-weight;
-      margin: 0;
+    .inner {
+      display: block;
+      position: relative;
+      border-radius: $base-border-radius;
+      background: $base-background-color;
+      color: $base-font-color;
+      box-shadow: 0 0 .5rem $light-grey;
     }
 
     img {
       display: block;
+      @include border-top-radius($base-border-radius);
+    }
+
+    .description {
+      padding: .5rem;
+    }
+
+    h4 {
+      font-size: 100%;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      color: $secondary-color;
+    }
+
+    // a {
+    //   @include position(absolute, 0rem 0rem 0rem 0rem);
+    //   display: flex;
+    //   flex-direction: column;
+    //   justify-content: flex-end;
+    //   padding: .5rem;
+    //   color: white;
+    //   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
+    //   text-shadow: 0 0 .25em black;
+    // }
+
+    // h4 {
+    //   margin: 0;
+    //   font-size: $base-font-size;
+    // }
+
+    // h5 {
+    //   font-size: $small-font-size;
+    //   font-weight: $base-font-weight;
+    //   margin: 0;
+    // }
+
+    // img {
+    //   display: block;
+    // }
+  }
+
+  @include media($medium-screen) {
+    article, hr {
+      width: 25%;
     }
   }
-}
 
-.featured.activities {
-  background: $secondary-background-color;
-
-  article {
-    margin-bottom: 0;
-
-    &:not(:first-child) {
-      display: none;
-    }
-
-    @include media(min-width $medium-screen max-width ($large-screen - 1px)) {
-      display: block;
-
-      &:nth-child(3) {
-        display: none;
-      }
-    }
-
-    @include media($large-screen) {
-      @include span-columns(4);
-      @include omega(3n);
+  @include media($large-screen) {
+    article, hr {
+      width: 20%;
     }
   }
 }
@@ -69,6 +100,60 @@
   }
 }
 
+/*
+@include media(max-width ($medium-screen - 1px)) {
+  .activities:not(.featured) {
+    article {
+      @include span-columns(6);
+      @include omega(2n);
+    }
+  }
+}
+
+@include media(min-width $medium-screen max-width ($large-screen - 1px)) {
+  .activities {
+    &:not(.featured) {
+      article {
+        @include span-columns(4);
+        @include omega(3n);
+      }
+    }
+
+    &.featured {
+      article {
+        @include span-columns(6);
+        @include omega(2n);
+
+        &:nth-child(2) {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+@include media($large-screen) {
+  .activities {
+    &:not(.featured) {
+      article {
+        @include span-columns(3);
+        @include omega(4n);
+      }
+    }
+
+    &.featured {
+      article {
+        @include span-columns(4);
+        @include omega(3n);
+
+        &:not(:first-child) {
+          display: block;
+        }
+      }
+    }
+  }
+}
+*/
 .activity-details {
   .description {
     ul {
@@ -146,59 +231,6 @@
       @include omega(2n);
       font-size: $small-font-size;
       line-height: (1.5 / .875);
-    }
-  }
-}
-
-@include media(max-width ($medium-screen - 1px)) {
-  .activities:not(.featured) {
-    article {
-      @include span-columns(6);
-      @include omega(2n);
-    }
-  }
-}
-
-@include media(min-width $medium-screen max-width ($large-screen - 1px)) {
-  .activities {
-    &:not(.featured) {
-      article {
-        @include span-columns(4);
-        @include omega(3n);
-      }
-    }
-
-    &.featured {
-      article {
-        @include span-columns(6);
-        @include omega(2n);
-
-        &:nth-child(2) {
-          display: block;
-        }
-      }
-    }
-  }
-}
-
-@include media($large-screen) {
-  .activities {
-    &:not(.featured) {
-      article {
-        @include span-columns(3);
-        @include omega(4n);
-      }
-    }
-
-    &.featured {
-      article {
-        @include span-columns(4);
-        @include omega(3n);
-
-        &:not(:first-child) {
-          display: block;
-        }
-      }
     }
   }
 }

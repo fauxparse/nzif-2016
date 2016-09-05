@@ -22,9 +22,10 @@ Rails.application.routes.draw do
       resources :payments, only: [:show, :new, :create]
     end
     scope "/:activity_type", constraints: { activity_type: /#{Activity.types.map(&:to_param).join('|')}/ } do
-      get "/" => "activities#index", as: :activities
+      get "/" => "activities#index", as: :activity_type
       get "/:id" => "activities#show", as: :activity
     end
+    get "/activities" => "activities#index", as: :activities
     get "/" => "festivals#show", as: :festival
   end
 
