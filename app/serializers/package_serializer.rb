@@ -3,11 +3,17 @@ class PackageSerializer < ActiveModel::Serializer
   has_many :allocations
 
   def price
-    price = object.prices.current.amount
+    price = current_price.amount
     {
       amount: price.format(symbol: false),
       symbol: price.currency.symbol,
       currency: price.currency.to_s
     }
+  end
+
+  private
+
+  def current_price
+    object.prices.sort.detect(&:available?) || object.prices.last
   end
 end

@@ -15,6 +15,7 @@ class Package < ApplicationRecord
 
   scope :ordered, -> { order(position: :asc) }
   scope :with_allocations, -> { includes(:allocations) }
+  scope :with_prices, -> { includes(:prices) }
 
   def to_param
     slug

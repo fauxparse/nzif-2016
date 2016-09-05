@@ -25,7 +25,7 @@ class Itinerary
   end
 
   def schedules
-    (selected_schedules + general_admission_schedules).sort
+    (selected_schedules + general_admission_schedules).sort.uniq
   end
 
   def selected?(schedule)
@@ -53,7 +53,7 @@ class Itinerary
   end
 
   def packages
-    registration.festival.packages.ordered.with_allocations
+    registration.festival.packages.ordered.with_allocations.with_prices
   end
 
   def package
