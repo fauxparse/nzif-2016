@@ -794,3 +794,11 @@
     }
   }
 }
+
+.full-activities {
+  section {
+    ul {
+      @include bulleted-list;
+    }
+  }
+}

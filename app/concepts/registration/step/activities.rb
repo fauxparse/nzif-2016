@@ -2,6 +2,7 @@ class Registration::Step::Activities < Registration::Step
   include ActionView::Helpers::TextHelper
 
   delegate :package_id, to: :registration
+  delegate :full_schedules, to: :itinerary
 
   def complete?
     !package_selection_required? || package.present?
@@ -30,6 +31,16 @@ class Registration::Step::Activities < Registration::Step
 
   def apply_filtered_parameters(params)
     itinerary.update(params)
+    itinerary.full_schedules.each do |schedule|
+      errors.add(
+        :base,
+        I18n.t(
+          :activity_full,
+          activity: schedule.name,
+          scope: 'activemodel.errors.models.itinerary.attributes.base'
+        )
+      )
+    end
   end
 
   def describe_allocation(allocation)

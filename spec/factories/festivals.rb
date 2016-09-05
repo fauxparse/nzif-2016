@@ -11,7 +11,7 @@ FactoryGirl.define do
     trait :with_packages do
       after(:create) do |festival, _|
         %w(Small Medium Large).each do |name|
-          FactoryGirl.create(:package, name: name, festival: festival)
+          FactoryGirl.create(:package, :with_limits, name: name, festival: festival)
         end
       end
     end

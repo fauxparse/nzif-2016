@@ -25,7 +25,9 @@ class ItinerariesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @itinerary.requires_additional_payment?
+        if !success
+          render :edit
+        elsif @itinerary.requires_additional_payment?
           redirect_to account_path
         else
           redirect_to itinerary_path
