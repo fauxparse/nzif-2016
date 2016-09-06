@@ -53,6 +53,10 @@ class ItinerariesController < ApplicationController
   end
 
   def itinerary_params
-    params.require(:itinerary).permit(selections: [])
+    if params[:itinerary].present?
+      params.require(:itinerary).permit(selections: [])
+    else
+      {}
+    end
   end
 end

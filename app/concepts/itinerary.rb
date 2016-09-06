@@ -30,7 +30,8 @@ class Itinerary
   end
 
   def schedules
-    (selected_schedules + general_admission_schedules).sort.uniq
+    (selected_schedules + facilitating_schedules + general_admission_schedules)
+      .sort.uniq
   end
 
   def full_schedules
@@ -85,6 +86,12 @@ class Itinerary
 
   def selected_schedules
     schedule_scope.find(selections.map(&:schedule_id))
+  end
+
+  def facilitating_schedules
+    schedule_scope
+      .references(:faciliatators)
+      .where('facilitators.participant_id = ?', registration.participant_id)
   end
 
   def general_admission_schedules

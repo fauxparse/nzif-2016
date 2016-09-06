@@ -347,7 +347,7 @@ class ActivitySelector
 
     m('article', { role: 'listitem', 'aria-selected': activity.selected() || activity.facilitating(), 'data-id': activity.id(), 'data-full': activity.full(), 'data-mine': activity.facilitating() },
       m('label',
-        (m('input[type="hidden"]', inputOptions) unless activity.canChange())
+        (m('input[type="hidden"]', inputOptions) if activity.selected() && !activity.canChange())
         m('input[type="checkbox"]', $.extend({}, inputOptions, checked: activity.selected(), disabled: !activity.canChange(), onchange: m.withAttr('checked', activity.selected)))
         m('img', { src: activity.image() })
         (m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
