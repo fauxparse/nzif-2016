@@ -25,7 +25,7 @@
         - @summary.activities.each do |type, activities|
           %li{data: { summary: type.to_param }}
             %b= activities.count
-            %span= t(".summary.#{type.name.demodulize.underscore.pluralize}", url: activities_path(festival, type)).html_safe
+            %span= t(".summary.#{type.name.demodulize.underscore.pluralize}", url: activity_type_path(festival, type)).html_safe
         %li{data: { summary: 'participants' }}
           %b= @summary.participants
           %span= t('.summary.participants', url: register_path(festival)).html_safe
