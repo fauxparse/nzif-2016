@@ -4,7 +4,7 @@ class RegistrationChecklist
   end
 
   def as_json(options = {})
-    return {} unless registration.present?
+    return {} unless registration.present? && registration.complete?
 
     steps.each.with_object({}) do |step, json|
       json[step.to_partial_path] = step.complete?
