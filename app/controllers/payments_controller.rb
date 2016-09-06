@@ -18,7 +18,7 @@ class PaymentsController < ApplicationController
 
   def create
     CreatePayment.new(registration, payment_params)
-      .on(:success) { |payment| redirect_to(account_payment_path(payment)) }
+      .on(:success) { |payment| redirect_to(account_payment_path(festival, payment)) }
       .on(:redirect) { |payment, url| redirect_to(url) }
       .call
   end
