@@ -14,6 +14,7 @@ en:
       registration: "%{festival} registration"
       register: "Register for %{festival}"
       itinerary: "Your itinerary"
+      account: "Your account balance"
       profile: "Edit profile"
 
   festivals:

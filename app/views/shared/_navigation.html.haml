@@ -9,6 +9,7 @@
           - if registration.present?
             = menu_link(t('header.links.registration', festival: festival.year), registration_path(festival), :assignment_ind, rel: 'registered')
             = menu_link(t('header.links.itinerary'), itinerary_path(festival), :local_activity)
+            = menu_link(t('header.links.account'), account_path(festival), :account_balance)
           - else
             = menu_link(t('header.links.register', festival: festival.year), register_path(festival), :assignment_ind)
           - if current_user.admin?
