@@ -65,6 +65,8 @@ class RegistrationChecklist
     def description
       picked = if selections.empty?
         I18n.t('registrations.checklist.itinerary.nothing')
+      elsif selected_description.blank?
+        I18n.t('registrations.checklist.itinerary.everything')
       else
         I18n.t(
           'registrations.checklist.itinerary.picked',
