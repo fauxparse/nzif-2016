@@ -136,6 +136,11 @@ en:
   venues:
     none: "(venue TBD)"
 
+  code_of_conduct:
+    show:
+      title: "Code of Conduct"
+      accepted: "You accepted the code of conduct on %{date} as part of your registration."
+
   admin:
     menu:
       back: "Back to public site"

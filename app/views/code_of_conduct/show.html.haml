@@ -1,0 +1,15 @@
+- content_for :title, t('.title')
+
+%header
+  .inner
+    %h1= t('.title')
+
+- if registration.present? && registration.code_of_conduct_accepted?
+  %section.code-of-conduct-accepted
+    .inner
+      %p= t('.accepted', date: l(registration.code_of_conduct_accepted_at.to_date, format: :full))
+
+%section.code-of-conduct
+  .inner
+    :markdown
+      #{render file: "/shared/_code_of_conduct.md"}
