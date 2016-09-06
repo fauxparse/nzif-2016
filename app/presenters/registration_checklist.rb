@@ -63,11 +63,19 @@ class RegistrationChecklist
     end
 
     def description
+      picked = if selections.empty?
+        I18n.t('registrations.checklist.itinerary.nothing')
+      else
+        I18n.t(
+          'registrations.checklist.itinerary.picked',
+          selected: selected_description
+        )
+      end
+
       I18n.t(
         'registrations.checklist.itinerary.paid_for',
-        package: package_description,
-        selected: selected_description
-      )
+        package: package_description
+      ) + picked
     end
 
     def next_steps(url)
