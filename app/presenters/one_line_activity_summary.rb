@@ -29,7 +29,7 @@ class OneLineActivitySummary
   end
 
   def timing
-    key = if schedule.blank? || start_time.hour > NOON || end_time.hour < NOON
+    key = if schedule.blank? || start_time.hour >= NOON || end_time.hour < NOON
       :half_day
     else
       :full_day
