@@ -1,0 +1,16 @@
+%article
+  %p
+    You have a pending PayPal payment.
+    Payment details are as follows:
+
+  %dl
+    %dt  Amount
+    %dd= m(payment.total)
+    %dt  Reference
+    %dd= payment.reference
+
+  %p
+    You shouldn’t need to do anything else to process this payment.
+    For more payment options, check out
+    = link_to("your account", account_url(payment.registration.festival)) + "."
+
