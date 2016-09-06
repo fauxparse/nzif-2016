@@ -13,27 +13,4 @@
       = form.label :code_of_conduct_accepted do
         = inline_svg "icons/check-circle-large"
         %span= t('.agree')
-      = form.submit t('.continue'), disabled: true
-
-:coffee
-  lastParagraphVisible = ->
-    container = $('.code-of-conduct')
-    offset = container.offset()
-    height = container.height()
-    return false unless offset.top - $('body').scrollTop() + height < $(window).height()
-    last = container.find('article > :last-child')
-    last.offset().top < offset.top + height
-
-  document.addEventListener 'turbolinks:load', ->
-    readAll = $.Deferred()
-
-    $(window, '.code-of-conduct').on 'scroll.read-everything', ->
-      if lastParagraphVisible()
-        readAll.resolve()
-        $(window, '.code-of-conduct').off 'scroll.read-everything'
-
-    readAll.done ->
-      $('.agree-to-the-above [type=checkbox]')
-        .on 'change', (e) ->
-          $(e.target).nextAll('[type=submit]').prop('disabled', !e.target.checked)
-        .trigger('change')
+      = form.submit t('.continue')
