@@ -1,0 +1,23 @@
+- content_for :title, t('.title')
+
+%header
+  .inner
+    %h1= t('.title')
+
+%section
+  .inner
+    %p
+      Package pricing is based on the number of workshops you plan to attend.
+      The more workshops you buy, the less each one costs.
+    %p
+      In addition, each workshop comes with a free show ticket (up to a
+      maximum of five shows). If you want to see more shows, you can book
+      tickets through
+      = succeed "." do
+        = link_to "BATS box office", "https://bats.co.nz/about-bats/festivals/nz-improv-festival/", target: :_blank
+      Registered participants also have access to standby tickets, but you
+      should book if you want to guarantee a seat!
+
+%section.package-pricing
+  .inner
+    = render partial: "packages", object: @packages

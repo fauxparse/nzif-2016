@@ -1,0 +1,37 @@
+.package-pricing {
+  border-top: $base-border;
+}
+
+.package-prices {
+  li {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 32rem;
+    margin: 0 0 $small-spacing;
+
+    .name {
+    }
+
+    del {
+      order: 1;
+      margin-right: .5em;
+      color: $secondary-color;
+    }
+
+    > .money {
+      flex: 0 0 4.5em;
+      order: 2;
+      font-size: 1.5rem;
+      text-align: right;
+    }
+
+    &::after {
+      order: 0;
+      content: "";
+      flex: 1;
+      border-bottom: 1px dotted $base-border-color;
+      margin: 0 .5rem;
+    }
+  }
+}

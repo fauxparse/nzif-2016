@@ -1,0 +1,5 @@
+%li
+  .name= package.name
+  - if package.discounted?
+    %del= m(package.discounted_price)
+  = m(package.price)

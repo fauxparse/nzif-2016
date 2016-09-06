@@ -145,6 +145,11 @@ en:
       title: "Code of Conduct"
       accepted: "You accepted the code of conduct on %{date} as part of your registration."
 
+  prices:
+    index:
+      title: "Pricing"
+      header: "%{year} pricing"
+
   admin:
     menu:
       back: "Back to public site"
