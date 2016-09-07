@@ -1,0 +1,91 @@
+.activity-roll {
+  .graph {
+    width: 100%;
+    height: auto;
+
+    circle {
+      stroke: $light-grey;
+      fill: transparent;
+      stroke-width: 2px;
+    }
+
+    path {
+      stroke: $accent-color;
+      fill: transparent;
+      stroke-width: 10px;
+      stroke-linecap: round;
+    }
+
+    .count {
+      font-size: 40px;
+      text-anchor: middle;
+    }
+
+    .limit {
+      font-size: 16px;
+      text-anchor: middle;
+      fill: $secondary-color;
+    }
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin: 0 0 .5rem;
+    font-weight: $light-font-weight;
+  }
+
+  h3 {
+    font-size: $base-font-size;
+    color: $secondary-color;
+    font-weight: $base-font-weight;
+    margin: 0 0 .5rem;
+  }
+
+  .participants {
+    display: flex;
+    flex-wrap: wrap;
+    border-top: $base-border;
+    padding-top: .5rem;
+
+    li {
+      padding-right: 1rem;
+      flex: 0 1 100%;
+
+      .avatar {
+        display: flex;
+        align-items: center;
+      }
+
+      svg, img {
+        @include size(2.5rem);
+        margin-right: 1rem;
+      }
+
+      .name {
+        @include ellipsis;
+        flex: 1;
+      }
+    }
+  }
+
+  @include media($medium-screen) {
+    .inner {
+      display: flex;
+
+      &::after { display: none; }
+
+      .summary {
+        flex: 1;
+        margin-right: $base-spacing;
+      }
+
+      .details {
+        flex: 6;
+
+        li {
+          flex-basis: 33.333%;
+        }
+      }
+    }
+  }
+}
