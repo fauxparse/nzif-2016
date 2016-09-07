@@ -103,11 +103,18 @@ en:
     index:
       title: "%{year} Festival programme"
       intro:
-        all: "New Zealand Improv Festival is a place for communication, collaboration and creativity. By registering as a festival participant, you opened the door to a world of top quality workshops, shows, parties and conversations where you can experience all three Cs in a supportive environment. Click on any activity for more information, and get registered now!"
-        workshops: "We’ve a whole wonderful week of workshops starting Sunday 2nd October.  With at least three workshops to choose from each day, tutors from NZ, Australia, Canada and Sweden will fill at least three hours of your day with skills across the improv spectrum. Packages start from $50 per workshop and include tickets to up to 5 performances."
-        shows: "We have 17 shows across five days, featuring performances from YOU! Every single show will be cast from participants and improvisors. You can select up to 5 tickets with your packages. Beyond that, you'll receive a participant pass that gets you standby complimentary tickets to all shows, or you can book extra tickets in advance at concession rates."
-        "social-events": "Every participant at the festival is welcome at all social events! Join us pre and post shows for a whole lot of banter and fun. Kick back and enjoy the company of like minded individuals who love improv as much as you do."
-        discussions: "This week is not just an opportunity to play and to learn; we also have opportunity to share our experiences in a more conversational, yet organised way. These sessions are open to any improvisors and crew in Wellington and may include panel sessions, open discussions, lectures, and meetings."
+        all: |
+          New Zealand Improv Festival is a place for communication, collaboration and creativity. By registering as a festival participant, you opened the door to a world of top quality workshops, shows, parties and conversations where you can experience all three Cs in a supportive environment. Click on any activity for more information, and get registered now!
+        workshops: |
+          We have a whole wonderful week of workshops starting Sunday 2nd October.  With at least three workshops to choose from each day, tutors from NZ, Australia, Canada and Sweden will fill at least three hours of your day with skills across the improv spectrum. Packages start from $50 per workshop and include tickets to up to 5 performances.
+        shows: |
+          We have 17 shows across five days, featuring performances from YOU! Every single show will be cast from participants and improvisors. You can select up to 5 tickets with your packages. Beyond that, you'll receive a participant pass that gets you standby complimentary tickets to all shows, or you can book extra tickets in advance at concession rates.
+
+          **Note:** Selecting a show as part of your package entitles you to a ticket to **watch** the show. Casting is at the discretion of the show and festival directors, even if you attend a casting workshop. If you select a ticket for a show you are later cast in, you may transfer this ticket to another show at no cost.
+        "social-events": |
+          Every participant at the festival is welcome at all social events! Join us pre and post shows for a whole lot of banter and fun. Kick back and enjoy the company of like minded individuals who love improv as much as you do.
+        discussions: |
+          This week is not just an opportunity to play and to learn: we also have opportunity to share our experiences in a more conversational, yet organised way. These sessions are open to any improvisors and crew in Wellington and may include panel sessions, open discussions, lectures, and meetings.
 
     grades:
       advanced: "Advanced improvisers"
