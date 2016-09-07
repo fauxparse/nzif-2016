@@ -6,6 +6,7 @@ class PaymentsController < ApplicationController
   def show
     if params[:year]
       @payment = registration.payments.find_by!(token: params[:id])
+      redirect_to account_path(registration.festival)
     else
       begin
         registration = payment.registration
