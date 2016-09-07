@@ -49,6 +49,7 @@
 
     li {
       padding-right: 1rem;
+      margin-bottom: .5rem;
       flex: 0 1 100%;
 
       .avatar {
@@ -59,6 +60,10 @@
       svg, img {
         @include size(2.5rem);
         margin-right: 1rem;
+      }
+
+      img {
+        border-radius: 50%;
       }
 
       .name {
