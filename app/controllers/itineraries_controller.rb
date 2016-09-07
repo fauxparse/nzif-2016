@@ -5,7 +5,9 @@ class ItinerariesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
+      format.html do
+        redirect_to register_path unless registration.complete?
+      end
       format.json { render json: @itinerary }
       format.pdf do
         render pdf: 'itinerary.pdf', layout: 'pdf', show_as_html: params[:debug].present?

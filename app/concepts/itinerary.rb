@@ -11,6 +11,7 @@ class Itinerary
 
   def initialize(registration)
     @registration = registration
+    registration.package = best_available_or_current_package
   end
 
   def update(params)
