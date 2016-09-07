@@ -2,6 +2,8 @@ class Schedule < ApplicationRecord
   belongs_to :activity
   belongs_to :venue, optional: true
   has_many :selections, dependent: :destroy
+  has_many :registrations, through: :selections
+  has_many :participants, through: :registrations
 
   acts_as_list scope: [:starts_at, :ends_at], top_of_list: 0
 
@@ -16,6 +18,9 @@ class Schedule < ApplicationRecord
   scope :in_order, -> { order(:starts_at, :position) }
   scope :with_activity_information, -> {
     includes(:activity => { :facilitators => :participant })
+  }
+  scope :with_participants, -> {
+    includes(:selections => { :registration => :participant })
   }
 
   def timeslot

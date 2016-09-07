@@ -6,6 +6,7 @@ class Admin::ActivitiesController < Admin::Controller
   end
 
   def show
+    @rolls = Roll.for_activity(activity)
   end
 
   def new
