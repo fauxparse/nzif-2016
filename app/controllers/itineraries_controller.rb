@@ -50,7 +50,8 @@ class ItinerariesController < ApplicationController
   private
 
   def load_itinerary
-    redirect_to register_path unless registration.present?
+    redirect_to register_path \
+      unless registration.present? && registration.complete?
     @itinerary = Itinerary.new(registration)
   end
 
