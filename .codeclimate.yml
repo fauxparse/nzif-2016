@@ -22,7 +22,6 @@ engines:
     enabled: true
 ratings:
   paths:
-  - Gemfile.lock
   - "**.erb"
   - "**.haml"
   - "**.rb"
@@ -36,6 +35,7 @@ ratings:
   - "**.php"
   - "**.py"
 exclude_paths:
+- Gemfile.lock
 - config/
 - db/
 - vendor/
