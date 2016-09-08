@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     get "/activities" => "activities#index", as: :activities
     get "/code-of-conduct" => "code_of_conduct#show", as: :code_of_conduct
     get "/pricing" => "prices#index", as: :pricing
+    get "/faq" => "faq#index", as: :faq
     get "/" => "festivals#show", as: :festival
   end
 

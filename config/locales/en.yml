@@ -157,6 +157,10 @@ en:
       title: "Pricing"
       header: "%{year} pricing"
 
+  faq:
+    index:
+      title: "Frequently-Asked Questions"
+
   admin:
     menu:
       back: "Back to public site"
