@@ -9,7 +9,7 @@
           %td.content-block
             This is a confirmation of how your festival schedule looked at
             = succeed '.' do
-              = l(Time.now, format: :full)
+              = l(Time.zone.now, format: :full)
         %tr
           %td.content-block
             The most up-to-date version of your itinerary is

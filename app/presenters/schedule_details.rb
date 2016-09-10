@@ -1,7 +1,7 @@
 class ScheduleDetails
   include PrettyPresenters
 
-  def initialize(schedule, registration)
+  def initialize(schedule, registration = nil)
     @schedule = schedule
     @registration = registration
   end

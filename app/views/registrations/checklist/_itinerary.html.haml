@@ -2,3 +2,6 @@
   %h3
     = inline_svg('icons/check-circle-large')
     %span= t('.complete_itinerary')
+  %section
+    %p= itinerary.description
+    %p= itinerary.next_steps(edit_itinerary_path)

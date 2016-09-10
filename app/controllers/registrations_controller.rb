@@ -7,7 +7,8 @@ class RegistrationsController < ApplicationController
     @checklist = RegistrationChecklist.new(registration)
 
     respond_to do |format|
-      format.html { redirect_to register_path(festival) unless registered?  }
+      format.html do
+        redirect_to register_path(festival) unless registered?  end
       format.json { render json: @checklist.as_json }
     end
   end
@@ -75,6 +76,8 @@ class RegistrationsController < ApplicationController
   end
 
   def registered?
-    registration.present? && registration_form.complete?
+    registration.present? &&
+      registration.complete? &&
+      registration_form.complete?
   end
 end

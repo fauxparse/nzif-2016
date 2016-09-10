@@ -26,6 +26,9 @@ Rails.application.routes.draw do
       get "/:id" => "activities#show", as: :activity
     end
     get "/activities" => "activities#index", as: :activities
+    get "/code-of-conduct" => "code_of_conduct#show", as: :code_of_conduct
+    get "/pricing" => "prices#index", as: :pricing
+    get "/faq" => "faq#index", as: :faq
     get "/" => "festivals#show", as: :festival
   end
 
@@ -35,6 +38,7 @@ Rails.application.routes.draw do
 
   post "/payments/paypal/:id" => "payments#paypal", as: :paypal_callback
   post "/payments/:id" => "payments#show", as: :paypal_return
+  get "/payments/:id" => "payments#show"
 
   namespace :admin do
     scope "/:year", constraints: { year: /\d{4}/ } do

@@ -1,0 +1,11 @@
+%section.activity-roll
+  .inner
+    .summary
+      = fullness_graph(roll.count, roll.limited? && roll.limit)
+    .details
+      %h2= roll.activity_name
+      %h3= roll.summary
+      %h3= roll.times
+      %ul.participants
+        - roll.participants.each do |participant|
+          %li.participant= avatar(participant)

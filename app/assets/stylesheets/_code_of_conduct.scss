@@ -1,0 +1,37 @@
+.code-of-conduct {
+  blockquote {
+    font-style: italic;
+    margin-left: 2em;
+    margin-right: 1em;
+
+    blockquote { margin-right: 0; }
+
+    p {
+      padding-left: 2em;
+
+      :first-child {
+        display: inline-block;
+        margin-left: -2em;
+        width: 2em;
+      }
+    }
+  }
+}
+
+.code-of-conduct-accepted {
+  border-bottom: $base-border;
+  background-color: lighten($light-grey, .75);
+
+  .inner {
+    display: flex;
+    align-items: flex-start;
+    &::after { display: none; }
+
+    @include icon('done');
+
+    p {
+      flex: 1;
+      margin: 0;
+    }
+  }
+}

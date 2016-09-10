@@ -1,0 +1,47 @@
+section.faq {
+  border-top: $base-border;
+
+  header + & {
+    border-top: none;
+  }
+
+  .question, .answer {
+    @include outer-container;
+    padding: 0 0 1rem;
+  }
+
+  .question {
+    font-weight: $bold-font-weight;
+    padding: 1rem 0 0;
+  }
+
+  ul {
+    @include bulleted-list;
+  }
+
+  h3 {
+    text-transform: uppercase;
+    color: $secondary-color;
+    letter-spacing: .1em;
+    font-weight: $light-font-weight;
+    font-size: $base-font-size;
+  }
+
+  dl {
+    margin: 0 0 $small-spacing;
+    padding-left: 3.5rem;
+  }
+
+  dt {
+    position: relative;
+    padding-top: $small-spacing;
+
+    img {
+      position: absolute;
+      left: -3.5rem;
+      top: .25rem;
+      @include size(2.5rem);
+      border-radius: 50%;
+    }
+  }
+}

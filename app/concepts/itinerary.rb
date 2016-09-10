@@ -11,6 +11,7 @@ class Itinerary
 
   def initialize(registration)
     @registration = registration
+    registration.package = best_available_or_current_package
   end
 
   def update(params)
@@ -21,11 +22,21 @@ class Itinerary
   end
 
   def save
-    valid? && registration.save
+    valid? && registration.save && @full_schedules.empty?
+  end
+
+  def valid?
+    @full_schedules = []
+    super
   end
 
   def schedules
-    (selected_schedules + general_admission_schedules).sort.uniq
+    (selected_schedules + facilitating_schedules + general_admission_schedules)
+      .sort.uniq
+  end
+
+  def full_schedules
+    @full_schedules || []
   end
 
   def selected?(schedule)
@@ -68,10 +79,20 @@ class Itinerary
     'itinerary'
   end
 
+  def selections
+    registration.selections.reject(&:marked_for_destruction?)
+  end
+
   private
 
   def selected_schedules
     schedule_scope.find(selections.map(&:schedule_id))
+  end
+
+  def facilitating_schedules
+    schedule_scope
+      .references(:faciliatators)
+      .where('facilitators.participant_id = ?', registration.participant_id)
   end
 
   def general_admission_schedules
@@ -86,10 +107,6 @@ class Itinerary
 
   def schedule_scope
     registration.festival.schedules.with_activity_details
-  end
-
-  def selections
-    registration.selections.reject(&:marked_for_destruction?)
   end
 
   def selections=(ids)
@@ -136,8 +153,10 @@ class Itinerary
 
   def check_activity_limits
     selections.select(&:new_record?).each do |selection|
-      errors.add(:base, *activity_full(selection.schedule)) \
-        if selection.schedule.full?
+      if selection.schedule.full?
+        @full_schedules << selection.schedule
+        registration.selections.delete(selection)
+      end
     end
   end
 

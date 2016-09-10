@@ -2,7 +2,7 @@
 
 %header.activity-header
   .inner
-    = link_to activities_path(festival, @activity.type), rel: :back do
+    = link_to activity_type_path(festival, @activity.type), rel: :back do
       = icon(:arrow_back)
       %span= @activity.type.model_name.human.pluralize
     %h1= @activity.name

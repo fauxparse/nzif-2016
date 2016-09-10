@@ -46,7 +46,7 @@ class PaymentList
     end
 
     def scope
-      @festival.payments.send(@status)
+      @festival.payments.newest_first.send(@status)
     end
   end
 

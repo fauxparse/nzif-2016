@@ -6,4 +6,4 @@
     %h1= t('.title')
 
 = form_for @itinerary, url: itinerary_path(festival) do |form|
-  = mithril_component('ItineraryEditor', {}, class: 'edit-itinerary')
+  = mithril_component('ItineraryEditor', { url: edit_itinerary_path(festival), unavailable: @itinerary.full_schedules.map(&:id) }, class: 'edit-itinerary')

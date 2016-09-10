@@ -243,28 +243,10 @@
   }
 }
 
-.code-of-conduct {
+form .code-of-conduct {
+  background: $secondary-background-color;
   border-top: $base-border;
   border-bottom: $base-border;
-  background: $secondary-background-color;
-
-  blockquote {
-    font-style: italic;
-    margin-left: 2em;
-    margin-right: 1em;
-
-    blockquote { margin-right: 0; }
-
-    p {
-      padding-left: 2em;
-
-      :first-child {
-        display: inline-block;
-        margin-left: -2em;
-        width: 2em;
-      }
-    }
-  }
 
   @include media($medium-screen) {
     max-height: 40vh;

@@ -1,0 +1,389 @@
+- content_for :title, t('.title')
+
+%header
+  .inner
+    %h1= t('.title')
+
+%section.faq
+  .question
+    %p When should I be in Wellington?
+
+  .answer
+    %p
+      Workshops start on the morning of Sunday 2 October at 10am. If you want to
+      do some sightseeing, why not arrive in time for Saturday 1 October and
+      enlist the company of some locals? We wrap things up late on Saturday 8
+      October, so leaving on the 9th is probably best. Give yourself time for a
+      sleep in, though.
+
+%section.faq
+  .question
+    %p
+      Where do I sleep?
+
+  .answer
+    %p
+      Anywhere you like! There’s a thread in the NZIF Green Room where locals
+      have offered spare rooms, there are hostels in Wellington, and there’s
+      always AirBNBs and such. Note: It’s World of Wearable Arts time which
+      means things may be booked up. We’re sorry about this. We’re gonna try to
+      avoid them next time.
+
+%section.faq
+  .question
+    %p
+      I selected a show when I registered. What’s the call time?
+
+  .answer
+    %p
+      Whoa, hold on! Choosing a show in your package means you want to
+      %em watch
+      the show. Casting for shows is up to the show’s director (even if you
+      attend a casting workshop: casting policies for these are available in the
+      workshop descriptions).
+
+%section.faq
+  .question
+    %p
+      $50 for one show ticket? That’s outrageous!
+
+  .answer
+    %p
+      If the first thing you select is a show, it looks like you’re being
+      charged FIFTY BUCKS. Our shows are great, but we agree, that’s a bit much.
+
+    %p
+      What’s actually happening is this: package prices are based on the number
+      of workshops you select, and with each workshop you get a free show ticket
+      (up to a maximum of five tickets). So really it’s $50 for a workshop
+      (which is a steal), and the show costs ZERO BUCKS. Now all you have to do
+      is pick which workshop you want to do! Remember, the more you choose the
+      cheaper they get!
+
+    %ul
+      %li= link_to "Pricing information", pricing_path(festival)
+
+%section.faq
+  .question
+    %p
+      I booked a ticket for a show. Now I’m in the show. What happens to my
+      ticket?
+
+  .answer
+    %p
+      You already paid for it, so we’ll happily transfer it to another show for
+      you at no cost.
+
+%section.faq
+  .question
+    %p
+      I tried to select a show as part of my itinerary, but it says “FULL”. Can
+      I still get tickets?
+
+  .answer
+    %p
+      Maybe! That just means that we’ve allocated as many tickets as we can to
+      NZIF participant registrations (we spread the love around so that all the
+      shows get their share). There are definitely other ways to get in to see
+      shows:
+
+    %ul
+      %li
+        The easiest way is to
+        = succeed "," do
+          = link_to "book a ticket through BATS", "https://bats.co.nz/about-bats/festivals/nz-improv-festival/"
+        which you can do any time from now until the doors open. You can do so
+        at
+        %em concession
+        rates.
+      %li
+        If you’re feeling lucky, any paid-up Festival participant will have
+        access to standby comps on the door. You’ll need your participant pass
+        and to put your name down with the BATS Box Office on the night.
+
+    %p
+      Note that standby tickets will only be available if the show hasn't sold
+      out, so your best bet is always to get a ticket in advance, whether as
+      part of your registration package or at box office. Our advice is to get
+      in early with your registration and book for the shows you can’t bear to
+      miss.
+
+%section.faq
+  .question
+    %p
+      Can I use all of my registration tickets on the same show and bring a
+      posse?
+
+  .answer
+    %p
+      Sorry, tickets purchased as part of your registration are your personal
+      property and can’t be transferred. This means that we can’t let you book
+      multiple tickets to the same show with your Festival registration. Still
+      bring your friends, though! I bet they’ll love it.
+    %p
+      Having said that, if you get cast in a show you got a ticket to, and want
+      to invite your significant other/BFF/mum along to use that ticket, we’re
+      cool with that :)
+
+%section.faq
+  .question
+    %p
+      I got carried away at karaoke and slept through a workshop. Can I go to a
+      different one instead?
+
+  .answer
+    %p
+      Yikes! Once your place in a workshop is booked and the workshop’s started,
+      that’s it. It wouldn’t be fair to other participants who missed out on
+      that slot if we gave it away to you for nothing.
+    %p
+      If you miss a workshop due to something less self-inflicted (illness,
+      festival emergency etc) talk to Clare and she’ll see what she can do.
+
+%section.faq
+  .question
+    %p
+      Are there T-Shirts?
+
+  .answer
+    %p
+      Oh yes. And HOODIES. Coming soon!
+
+%section.faq
+  .question
+    %p
+      %b Teachers:
+      How do I get paid?
+
+  .answer
+    %p
+      Please invoice the New Zealand Improvisation Trust
+      (producer@nzimprovfestival.co.nz) by the end of the week of the festival.
+      We will pay you as soon as we can (most likely the following week) via
+      internet banking or Paypal.
+
+%section.faq
+  .question
+    %p
+      %b Marketing:
+      How can I help?
+
+  .answer
+    %p
+      Here’s what we already have in place for promoting this festival and your performances:
+    %h3 Online promotion
+    %ul
+      %li
+        = link_to "BATS Theatre website", "http://bats.co.nz"
+        — This is where everyone can BOOK THEIR TICKETS! Everything we put out
+        is pointing people to BATS so that it’s nice and easy to book tickets.
+      %li
+        = link_to "NZIF website", "http://nzimprovfestival.co.nz"
+        — Our main website and repository of info about everything. We’ve got
+        the full programme, the workshops list, and a bunch of media releases
+        that get published as they go out. On the media releases, you can hit
+        ‘share’ to post about them on Facebook, Twitter, and a bunch of other
+        places. Go on! Do it! Tell people what you’re doing and what you’re
+        looking forward to!
+      %li
+        = link_to "Eventfinda", "http://eventfinda.co.nz"
+        — Syndicates to heaps of other sites too :)
+
+    %h3 Social media
+    %p
+      Our main presences are
+      = link_to "Facebook", "https://www.facebook.com/NZImprovFest"
+      and
+      = succeed "." do
+        = link_to "Twitter", "http://twitter.com/NZImprovFest"
+      Please like photos, retweet things, share cool posts, and use the hashtag
+      = succeed "." do
+        %b #nzif2016
+      Tag yourself in photos if we haven’t!
+
+    %h3 Printed materials
+    %ul
+      %li
+        Poster campaign will be going out a few weeks before the festival opens.
+        We’ll have some spare posters - if you have a great place for some of
+        these, let us know! There is no need for individual show posters.
+      %li
+        Printed programmes will be available very soon too. Some will be
+        distributed via Phantom and go out into Wellington’s cafes - the rest
+        are for us to distribute. If you know a place in Wellington that would
+        be useful to have programmes, let Jen know (if you can get them there
+        yourself, even better!)
+
+    %h3 Publicity
+    %ul
+      %li
+        If you’re out of town, feel free to get media coverage for your visit in
+        your own city; if you’re in Wellington, please run anything you want to
+        do past Jen (out of towners — if you want to check anything with us,
+        that’d be rad). There should be plenty already coming from us and we’d
+        rather get huge reach with our existing materials than put out mixed
+        messages!
+
+%section.faq
+  .question
+    %p
+      Why don't I get more stage time at NZIF?
+
+  .answer
+    %p
+      This is a really common question asked both in person and raised on the
+      feedback form.
+
+    %p
+      The way the festival is set up this year, we’re aiming to have a good
+      spread of opportunities. Here’s how it’s laid out:
+
+    %h3 Improdome
+    %p
+      EVERYONE can be in this show. You just need to be a festival participant
+      and you can throw your name in! We’ll be opening sign ups for this soon,
+      and you’ll be put into a team on one of the nights. We’ll also be
+      shoulder-tapping people to MC and direct. The show is 75 minutes long and
+      we’re hoping to give everyone a good play with a fun bunch of new people.
+
+    %h3 Spontaneous Showcase
+    %p
+      These are the shows where directors lead a workshop and then cast from
+      that workshop. Directors are welcome to consult with the festival director
+      for suggestions, who will encourage diversity of casting, but the final
+      cast is entirely up to them. We’ll also ask directors to talk to each
+      other about their casting decisions to further encourage diversity.
+      Remember that their priority is putting together the best cast for their
+      show, with an eye on representation across the festival.
+
+    %h3 Grab Bag
+    %p
+      Another all-in opportunity. If you’re at the show, you can put your name
+      in the bag, and everyone will be pulled out to do a scene. It’s an
+      experiment!
+
+    %h3 This One Time
+    %p
+      This show is by invitation only. Jen will be casting this based on her
+      knowledge of participant’s experience and relevant skills as the nights
+      have different themes. Note that the last show is titled ‘The Best of the
+      Fest’: the casting for this show will be influenced heavily by YOUR
+      FEEDBACK. Jen will be asking for input during the week about people that
+      just delight you: they’re fun to play with, they’re generous, they’re
+      great performers, and you want to see more of them. We want the last show
+      to be a real celebration of the ethos of improvisation - making each other
+      look good and putting on a good show for our audience.
+
+    %p
+      It's possible that you will be disappointed by missing out on a particular
+      casting opportunity. Know that there are many elements that go into the
+      casting of a show, and directors must balance the needs of the show format
+      with the desire to create opportunities for participants, while often
+      having limited or negligible rehearsal time.
+
+    %p
+      The best we can offer: come along to the opening night jam on Monday 3
+      October and get up and play, so that you can interact with lots of
+      players; be available for call times; and just bring your happy, healthy
+      self to workshops and social times. If you have concerns during the week
+      you’re more than welcome to raise them with Jen.
+
+    %h3 Further notes on workshops with casting opportunities
+    %p
+      As teacher of a casting workshop, we ask that you ensure you are teaching
+      more than just training for the show. We hope that those not cast in the
+      performance will take away just as much as those who are.
+
+    %p
+      As a participant of said workshop, we hope that your engagement is on the
+      level of skills development, not ‘how do I get noticed?’ Please don’t sign
+      up for workshops purely because of the performance opportunity, nor use
+      the time during the workshop to showboat or distract from the lessons
+      offered by the teacher.
+
+    %h3 Notes on workshop quality
+    %p
+      This will always be somewhat subjective - we've all taken workshops that
+      have changed our lives while leaving others completely cold. But we do ask
+      that all tutors pitch their workshops accurately, that they balance class
+      size with opportunity to play, and that they have clear learning
+      objectives for participants.
+
+%section.faq
+  .question
+    %p
+      Who’s running this thing? Who should I ask about the stuff?
+
+  .answer
+    %p
+      Full contact details will be provided on arrival at the fest. In the
+      meantime use FB or talk to any of the people below and they’ll direct you.
+
+    %dl
+      %dt
+        = organizer_image "Jennifer O'Sullivan"
+        Festival Director: Jennifer O'Sullivan
+      %dd
+        Ask Jen about pretty much anything but check below for particular first
+        ports of call.
+      %dt
+        Production Managers: Maddy Gibbons and Ophelia Wass
+      %dd
+        Ask these babes about tech time scheduling, set/lighting requirements,
+        call times, safety briefings, and how they stay so cool and calm and
+        awesome.
+      %dt
+        Technical Design/Operation: TBC
+      %dt
+        = organizer_image "Clare Kerrison"
+        Participant Liaison &amp; Workshop Coordinator: Clare Kerrison
+      %dd
+        Ask Clare about workshop locations, registrations, tshirts, and her 7
+        years in the UK.
+      %dt
+        = organizer_image "Matt Powell"
+        Magic Web Pixie: Matt Powell
+      %dd
+        Ask Matt about any issues with nzif.info (i.e. your workshop booking
+        system), Improdome, and his cat Trip.
+      %dt
+        = organizer_image "Liam Kelly"
+        Musical Director: Liam Kelly
+      %dd
+        Ask Liam about musician scheduling and programming and his excellent
+        beard.
+
+%section.faq
+  .question
+    %p
+      Something is broken on this flippin’ website!
+
+  .answer
+    %p
+      Oh man, we’re sorry! Please email
+      = succeed "," do
+        = mail_to "Matt Powell", "fauxparse@gmail.com"
+      our official Magic Web Pixie, and let him know:
+
+    %ul
+      %li What you were trying to do
+      %li What you expected to happen
+      %li What actually happened instead.
+
+    %p
+      Screenshots and web addresses (copy and paste what’s in the address bar at
+      the top of your browser) are definitely helpful! There’s chocolate in it
+      for you if your bug report helps us find and fix something for the next
+      person.
+
+%section.faq
+  .question
+    %p
+      I have more questions! They’re not here! HELP!
+
+  .answer
+    %p
+      Email
+      = succeed "." do
+        = mail_to "producer@nzimprovfestival.co.nz", "Jen"
+      I got your back.

@@ -27,7 +27,7 @@
       border-radius: $base-border-radius;
       background: $base-background-color;
       color: $base-font-color;
-      box-shadow: 0 0 .5rem $light-grey;
+      box-shadow: 0 0 .25rem $base-border-color;
     }
 
     img {
@@ -41,39 +41,14 @@
 
     h4 {
       font-size: 100%;
-      margin: 0;
+      margin: 0 0 .25rem;
     }
 
     p {
       margin: 0;
       color: $secondary-color;
+      font-size: .75rem;
     }
-
-    // a {
-    //   @include position(absolute, 0rem 0rem 0rem 0rem);
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: flex-end;
-    //   padding: .5rem;
-    //   color: white;
-    //   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
-    //   text-shadow: 0 0 .25em black;
-    // }
-
-    // h4 {
-    //   margin: 0;
-    //   font-size: $base-font-size;
-    // }
-
-    // h5 {
-    //   font-size: $small-font-size;
-    //   font-weight: $base-font-weight;
-    //   margin: 0;
-    // }
-
-    // img {
-    //   display: block;
-    // }
   }
 
   @include media($medium-screen) {

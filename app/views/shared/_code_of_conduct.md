@@ -1,8 +1,8 @@
-NZIF 2015 Code of Conduct
+NZIF 2016 Code of Conduct
 =========================
 
-The New Zealand Improv Festival is governed by the newly established New Zealand
-Improvisation Trust. Our principles, as laid out in our trust deed:
+The New Zealand Improv Festival is governed by the New Zealand Improvisation
+Trust. Our principles, as laid out in our trust deed:
 
 > **3.** The Trust is committed, in attaining its purposes, to
 >
@@ -11,7 +11,7 @@ Improvisation Trust. Our principles, as laid out in our trust deed:
 > >
 > > **3.2.** maintaining the highest standards of professionalism and integrity.
 
-The NZIF therefore asks all participating in our workshops, performances,
+NZIF therefore asks all participating in our workshops, performances,
 networking and social events to commit to these principles, to respect each
 other and our audience, and to maintain professionalism and integrity. We are
 all ambassadors of our community and should behave accordingly.
@@ -36,22 +36,32 @@ professionally. Remember that harassment and sexist, racist, or exclusionary
 jokes are not appropriate for the New Zealand Improv Festival, both onstage and
 off.
 
-If you would like to report or discuss any situations such as above, you have
-several ports of call: Festival Director Jennifer O’Sullivan, Participant
-Liaison Catherine Hart, or your own director or teacher. Any of the festival
-team will assist in the short term. Contact information will be provided upon
-arrival at the festival.
-
 When onsite at any festival venue (BATS Theatre and Lumen, social events at
-bars, workshops offsite) please adhere to all safety guidelines, and to any and
-all instructions given by venue management and festival staff. Be on time and
-prepared for shows, call times, and workshops. Respect the facilities. Report
-any hazards or accidents promptly and honestly. Be a good neighbour. Make the
-festival look good.
+bars, workshops/events at any other venue) please attend safety briefings where
+relevant, adhere to all safety guidelines, and follow any and all instructions
+given by venue management and festival staff. Respect the alcohol license at
+BATS and other venues. Be on time and prepared for shows, call times, and
+workshops. Respect the facilities. Report any hazards or accidents promptly and
+honestly. Be a good neighbour. Make the festival look good.
 
-Attendees violating these rules may be asked to leave the festival without a
-refund at the sole discretion of the festival organizers.
+If you would like to report or discuss any situations such as above, you have
+several ports of call: Jennifer O’Sullivan, Clare Kerrison, Matt Powell, or your
+own director or teacher. Any of the festival team will assist in the short term.
+All discussions will be kept confidential unless otherwise agreed. You are
+welcome to include a support person at any stage (and they do not have to be
+involved in the festival). Contact information for the festival team will be
+provided in your participant pack.
+
+Consequences for breaching the Code of Conduct will be commensurate with the
+severity of the situation, and may include: apologies to affected parties, fines
+where financial loss has been incurred, exclusion from events, removal from the
+festival without refund, and being asked not to return in future. All decisions
+with regards to such situations are at the sole discretion of the festival
+organizers.
 
 Thank you for helping make this a welcoming, friendly event for all.
 
-Got a question? Drop Jen a line at producer@nzimprovfestival.co.nz
+Got a question? Drop Jen a line at
+[producer@nzimprovfestival.co.nz](mailto:producer@nzimprovfestival.co.nz),
+Clare at [clare.kerrison@gmail.com](mailto:clare.kerrison@gmail.com),
+or Matt at [fauxparse@gmail.com](mailto:fauxparse@gmail.com).

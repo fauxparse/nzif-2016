@@ -120,6 +120,9 @@ class @Activity
 
   @all: m.prop([])
 
+  @find: (id) ->
+    @_byId[id]
+
   @selected: ->
     (activity for activity in @all() when activity.selected())
 
@@ -344,7 +347,7 @@ class ActivitySelector
 
     m('article', { role: 'listitem', 'aria-selected': activity.selected() || activity.facilitating(), 'data-id': activity.id(), 'data-full': activity.full(), 'data-mine': activity.facilitating() },
       m('label',
-        (m('input[type="hidden"]', inputOptions) unless activity.canChange())
+        (m('input[type="hidden"]', inputOptions) if activity.selected() && !activity.canChange())
         m('input[type="checkbox"]', $.extend({}, inputOptions, checked: activity.selected(), disabled: !activity.canChange(), onchange: m.withAttr('checked', activity.selected)))
         m('img', { src: activity.image() })
         (m('svg', { width: 40, height: 40, viewbox: '0 0 40 40' },
@@ -543,7 +546,11 @@ class @RegistrationActivitySelector
     controller.view()
 
   constructor: (args...) ->
-    Activity.fetch(@url())
+    Activity.fetch(@url()).then(@showMessages)
+
+  showMessages: =>
+    ids = RegistrationActivitySelector.properties?.unavailable || []
+    new FullActivities(ids) if ids.length
 
   url: ->
     "/#{RegistrationActivitySelector.properties.year}/register/activities"
@@ -587,7 +594,7 @@ class @ItineraryEditor
     controller.view()
 
   constructor: ->
-    Activity.fetch()
+    Activity.fetch(ItineraryEditor.properties?.url).then(@showMessages)
     $(window).on('beforeunload.unsaved-changes, turbolinks:before-visit.unsaved-changes', @promptToSaveChanges)
 
   view: ->
@@ -645,6 +652,38 @@ class @ItineraryEditor
 
   unsavedChanges: ->
     !@_saving && Activity.unsavedChanges()
+
+  showMessages: =>
+    ids = ItineraryEditor.properties?.unavailable
+    new FullActivities(ids) if ids.length
+
+class FullActivities extends Dialog
+  _className: 'full-activities'
+
+  constructor: (ids) ->
+    @activities = m.prop(Activity.find(id) for id in ids)
+    m.mount(@contents()[0], this)
+    @loaded()
+
+  controller: -> this
+
+  view: =>
+    m('div',
+      m('header',
+        m('h2', 'Oh man, sorry!')
+        m('button', { rel: 'close' }, m('i.material-icons', 'close'))
+      )
+      m('section',
+        m('p', 'Looks like one or more of the activity slots you wanted just got snapped up:')
+        m('ul',
+          (m('li', activity.name()) for activity in @activities())
+        )
+        m('p', 'We’re really sorry. Hope you can find something else that works for you!')
+      )
+      m('footer',
+        m('button', { rel: 'close' }, 'Okay, I guess')
+      )
+    )
 
 sentence = (array) ->
   return array[0] || '' if array.length < 2

@@ -64,13 +64,19 @@ body {
     a {
       color: rgba(white, .75);
 
-      &:hover {
+      &:hover, &:active {
         color: white;
       }
 
       &[rel="back"] {
         display: flex;
         align-items: center;
+
+        span {
+          text-transform: uppercase;
+          letter-spacing: .1em;
+          font-size: $small-font-size;
+        }
 
         i {
           font-size: 100%;

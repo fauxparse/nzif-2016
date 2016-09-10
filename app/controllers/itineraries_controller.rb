@@ -5,7 +5,9 @@ class ItinerariesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
+      format.html do
+        redirect_to register_path unless registration.complete?
+      end
       format.json { render json: @itinerary }
       format.pdf do
         render pdf: 'itinerary.pdf', layout: 'pdf', show_as_html: params[:debug].present?
@@ -25,7 +27,9 @@ class ItinerariesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @itinerary.requires_additional_payment?
+        if !success
+          render :edit
+        elsif @itinerary.requires_additional_payment?
           redirect_to account_path
         else
           redirect_to itinerary_path
@@ -46,11 +50,18 @@ class ItinerariesController < ApplicationController
   private
 
   def load_itinerary
-    redirect_to register_path unless registration.present?
-    @itinerary = Itinerary.new(registration)
+    if registration.present? && registration.complete?
+      @itinerary = Itinerary.new(registration)
+    else
+      redirect_to register_path
+    end
   end
 
   def itinerary_params
-    params.require(:itinerary).permit(selections: [])
+    if params[:itinerary].present?
+      params.require(:itinerary).permit(selections: [])
+    else
+      {}
+    end
   end
 end

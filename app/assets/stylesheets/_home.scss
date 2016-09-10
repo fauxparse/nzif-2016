@@ -81,19 +81,13 @@ header[role="banner"] {
       padding: 1rem 0;
       background: $accent-color;
       color: white;
-      font-size: 2rem;
+      font-size: 1.5rem;
       vertical-align: middle;
     }
 
     span {
       flex: 1;
       font-size: $small-font-size;
-    }
-
-    li[data-summary="participants"] {
-      b {
-        font-size: 1.25rem;
-      }
     }
   }
 
@@ -102,6 +96,18 @@ header[role="banner"] {
       display: block;
       margin: 0 0 $small-spacing;
       text-align: center;
+    }
+
+    ul {
+      @include action-list;
+
+      a {
+        padding: 0 .5rem;
+
+        i:first-child {
+          margin-right: .5rem;
+        }
+      }
     }
   }
 

@@ -6,6 +6,10 @@
         %ul
           - if festival.present?
             %li= link_to t('activities.index.title', year: festival.year), activities_path(festival)
+            %li= link_to t('registrations.new.title'), register_path(festival.year)
+            %li= link_to t('prices.index.title'), pricing_path(festival.year)
+            %li= link_to t('code_of_conduct.show.title'), code_of_conduct_path(festival.year)
+            %li= link_to t('faq.index.title'), faq_path(festival.year)
 
       %section.sponsors
         %h3 Our sponsors
@@ -18,8 +22,6 @@
             %a{href: "http://www.bats.co.nz/", target: :_blank} BATS Theatre
           %li
             %a{href: "http://inkdigital.co.nz/", target: :_blank} Ink Digital
-          %li
-            %a{href: "http://www.yha.co.nz/hostels/north-island-hostels/yha-wellington/", target: :_blank} YHA Wellington
 
       %section
         %ul.social-media

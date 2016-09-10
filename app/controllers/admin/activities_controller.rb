@@ -2,10 +2,11 @@ class Admin::ActivitiesController < Admin::Controller
   wrap_parameters :activity, include: ActivityForm.parameters
 
   def index
-    @activity_list = ActivityList.new(festival, type: params[:type])
+    @activity_list = ActivityList.new(festival, type: params[:type] || "workshops")
   end
 
   def show
+    @rolls = Roll.for_activity(activity)
   end
 
   def new
