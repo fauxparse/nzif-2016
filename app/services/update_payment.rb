@@ -15,6 +15,6 @@ class UpdatePayment
   private
 
   def send_receipt
-    Postman.receipt(payment).deliver_later
+    Postman.receipt(payment).deliver_later if payment.approved?
   end
 end
