@@ -3,7 +3,7 @@ module TitleHelper
     title = [
       content_for(:title),
       festival.try(:name)
-    ].compact.join(' ┊ ')
+    ].compact.join(' ┊ ').html_safe
     content_tag :title, title
   end
 end
