@@ -20,6 +20,10 @@ class ActivityList
 
   delegate :sort_by, to: :to_ary
 
+  def scheduled
+    to_ary.select { |a| a.schedules.count > 0 }
+  end
+
   def find(id)
     scope.find_by!(slug: id)
   end

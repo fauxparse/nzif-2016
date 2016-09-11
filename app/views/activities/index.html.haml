@@ -17,7 +17,7 @@
 %section.activities
   .inner
     %section{role: 'list'}
-      = render partial: "activity", collection: @activity_list.sort_by { |a| a.schedules.sort.first.starts_at }
+      = render partial: "activity", collection: @activity_list.scheduled.sort_by { |a| a.schedules.sort.first.starts_at }
 
 :coffee
   $(document).on 'turbolinks:load', ->
