@@ -1,10 +1,9 @@
 class ActivityList
   attr_reader :festival, :type
 
-  def initialize(festival, type: nil, sort_by: :name)
+  def initialize(festival, type: nil)
     @festival = festival
     @type = activity_subclass(type)
-    @sort_by = sort_by
   end
 
   def types
@@ -18,6 +17,8 @@ class ActivityList
   def to_ary
     scope.all
   end
+
+  delegate :sort_by, to: :to_ary
 
   def find(id)
     scope.find_by!(slug: id)
@@ -44,11 +45,6 @@ class ActivityList
   def scope
     scope = festival.activities
     scope = scope.by_type(type) if type.present?
-    scope.includes(:facilitators, :schedules)
-    if @sort_by == :time
-      scope.references(:schedules).order('schedules.starts_at')
-    else
-      scope.order('activities.name')
-    end
+    scope.includes(:facilitators, :schedules).order(:name)
   end
 end
