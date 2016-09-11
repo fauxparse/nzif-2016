@@ -168,6 +168,8 @@
   aside {
     .schedules {
       li {
+        margin-bottom: $base-spacing;
+
         p {
           margin: 0;
 
@@ -182,7 +184,7 @@
           width: 100%;
           align-items: center;
           padding-left: 0;
-          margin-top: $base-spacing;
+          margin-top: $small-spacing;
 
           i {
             margin: 0 .75rem;
