@@ -1,9 +1,10 @@
 class ActivityList
   attr_reader :festival, :type
 
-  def initialize(festival, type: nil)
+  def initialize(festival, type: nil, sort_by: :name)
     @festival = festival
     @type = activity_subclass(type)
+    @sort_by = sort_by
   end
 
   def types
@@ -44,7 +45,10 @@ class ActivityList
     scope = festival.activities
     scope = scope.by_type(type) if type.present?
     scope.includes(:facilitators, :schedules)
-      .references(:schedules)
-      .order('schedules.starts_at')
+    if @sort_by == :time
+      scope.references(:schedules).order('schedules.starts_at')
+    else
+      scope.order('activities.name')
+    end
   end
 end
