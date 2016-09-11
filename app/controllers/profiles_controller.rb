@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
     if @profile.update(params)
       redirect_to profile_path, notice: "Profile updated"
     else
-      render :new
+      render :show
     end
   end
 
