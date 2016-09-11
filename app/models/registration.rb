@@ -8,6 +8,7 @@ class Registration < ApplicationRecord
   has_many :payments, dependent: :destroy
 
   validates :participant, :festival, presence: true
+  validates :festival_id, uniqueness: { scope: :participant_id }
 
   def to_param
     PleasantLawyer.convert(id).join('-')
