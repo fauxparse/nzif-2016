@@ -14,6 +14,7 @@ en:
       registration: "%{festival} registration"
       register: "Register for %{festival}"
       itinerary: "Your itinerary"
+      my_workshops: "Your workshops"
       account: "Your account balance"
       profile: "Edit profile"
 
@@ -143,6 +144,12 @@ en:
       title: "Edit your profile"
       bio: "Tell us a bit about yourself"
       submit: "Save changes"
+
+  workshops:
+    index:
+      title: "Your workshops"
+      empty: "You aren’t running any workshops at this festival."
+      itinerary_link: "For workshops you are <b>attending</b>, check out <a href=\"%{url}\">your itinerary</a>."
 
   venues:
     none: "(venue TBD)"

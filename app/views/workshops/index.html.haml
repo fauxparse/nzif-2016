@@ -1,0 +1,13 @@
+- content_for :title, t('.title')
+
+%header
+  .inner
+    %h1= t('.title')
+
+- if @rolls.any?
+  = render partial: "rolls/roll", collection: @rolls
+- else
+  %section
+    .inner
+      %p= t('.empty')
+      %p= t('.itinerary_link', url: itinerary_path(festival)).html_safe

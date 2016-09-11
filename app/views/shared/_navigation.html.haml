@@ -12,6 +12,8 @@
             = menu_link(t('header.links.account'), account_path(festival), :account_balance)
           - else
             = menu_link(t('header.links.register', festival: festival.year), register_path(festival), :assignment_ind)
+          - if participant.facilitator?
+            = menu_link(t('header.links.my_workshops'), my_workshops_path(festival), :group_work)
           - if current_user.admin?
             = menu_link(t('header.links.festival_admin'), admin_festival_path(festival), :settings)
           = menu_link(t('header.links.profile'), profile_path, :face)

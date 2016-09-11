@@ -20,12 +20,18 @@ class Participant < ApplicationRecord
     if: :has_own_non_blank_email?
   validates_attachment_content_type :avatar, :content_type => %w(image/jpeg image/jpg image/png)
 
+  scope :facilitators, -> { where('facilitators_count > 0') }
+
   def email
     [user.try(:email), super].reject(&:blank?).first
   end
 
   def user?
     user.present?
+  end
+
+  def facilitator?
+    facilitators_count > 0
   end
 
   def to_s
