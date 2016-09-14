@@ -60,7 +60,18 @@ class PaymentMethod::Paypal < PaymentMethod::Base
       payment,
       status,
       transaction_reference: params[:txn_id],
-      transaction_data: params.to_h,
+      transaction_data: sanitize_transaction_data(params.to_h),
     ).call
+  end
+
+  def sanitize_transaction_data(data)
+    if data[:charset]
+      charset = data[:charset]
+      data.to_a.each.with_object({}) do |(key, value), hash|
+        hash[key] = value.force_encoding('windows-1252').encode('utf-8')
+      end
+    else
+      data
+    end
   end
 end
