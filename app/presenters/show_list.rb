@@ -11,8 +11,6 @@ class ShowList
 
   alias :to_a :to_ary
 
-  private
-
   def shows
     festival.schedules.includes(:activity, :venue)
       .references(:activity)

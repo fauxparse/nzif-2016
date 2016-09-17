@@ -47,7 +47,7 @@ class ShowBookings
   end
 
   delegate :name, to: :show
-  delegate :starts_at, :ends_at, :to_param, to: :schedule
+  delegate :id, :starts_at, :ends_at, :to_param, :full?, to: :schedule
 
   private
 

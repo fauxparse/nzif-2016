@@ -10,3 +10,11 @@ label small {
   font-weight: $base-font-weight;
   float: right;
 }
+
+#{$all-buttons},
+[role="button"] {
+  &[rel*="delete"] {
+    background: none;
+    color: $tomato;
+  }
+}

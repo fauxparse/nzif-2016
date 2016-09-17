@@ -90,8 +90,8 @@ Rails.application.routes.draw do
 
   namespace :box_office do
     scope "/:year", constraints: { year: /\d{4}/ } do
-      resources :shows do
-        resources :tickets
+      resources :shows, only: :show do
+        resources :tickets, only: [:show, :edit, :update, :destroy]
       end
 
       root to: "shows#index"

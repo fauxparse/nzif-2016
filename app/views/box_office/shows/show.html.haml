@@ -2,7 +2,7 @@
 
 %header.activity-header
   .inner
-    = link_to box_office_shows_path(festival), rel: :back do
+    = link_to box_office_root_path(festival), rel: :back do
       = icon(:arrow_back)
       %span Bookings
     %h1= @show.name

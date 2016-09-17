@@ -380,12 +380,19 @@ en:
       paid_in_full: "That’s all you have to pay for now. If you add more activities later, you can pay for them separately."
 
   activerecord:
+    attributes:
+      selection:
+        schedule_id: "Activity"
     errors:
       models:
         package:
           attributes:
             base:
               no_price: "You must define at least one price for this package"
+        selection:
+          attributes:
+            schedule_id:
+              full: "is full"
 
   activemodel:
     models:

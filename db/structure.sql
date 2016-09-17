@@ -527,7 +527,7 @@ CREATE TABLE users (
     updated_at timestamp without time zone NOT NULL,
     name character varying,
     admin boolean DEFAULT false,
-    box_office boolean
+    box_office boolean DEFAULT false
 );
 
 
