@@ -9,7 +9,7 @@ class Admin::PaymentsController < Admin::Controller
   end
 
   def decline
-    update_payment(:declined)
+    update_payment(:failed)
     head :ok
   end
 
