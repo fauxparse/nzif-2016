@@ -1,0 +1,6 @@
+%li
+  = link_to box_office_show_path(festival, show) do
+    = fullness_graph(show.count, show.limit, text: false)
+    .details
+      %b= show.name
+      %small= [show.times, show.venue].compact.join(" in ")
