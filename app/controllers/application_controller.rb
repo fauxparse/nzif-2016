@@ -36,4 +36,8 @@ class ApplicationController < ActionController::Base
   def ensure_registered
     redirect_to register_path(festival) unless registration.present?
   end
+
+  def render_error(code)
+    render "errors/#{code}", status: code, layout: "errors"
+  end
 end

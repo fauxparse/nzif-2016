@@ -2,6 +2,10 @@
 %h1 No, but.
 %h2 You don't have access to that page.
 %p
+  Maybe try
+  = succeed "?" do
+    = link_to "logging in", login_path
+%p
   If you think this is an error, please
   = succeed "," do
     = mail_to "fauxparse@gmail.com", "email Matt"

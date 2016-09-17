@@ -1,0 +1,34 @@
+- content_for :title, 'Edit ticket'
+
+%header.activity-header
+  .inner
+    = link_to box_office_show_path(festival, activity), rel: :back do
+      = icon(:arrow_back)
+      %span= activity.name
+    %h1 Edit Ticket
+
+= form_for ticket, url: box_office_show_ticket_path(festival, activity, ticket) do |form|
+  %section
+    .inner
+      .field
+        %label Ticket holder
+        %input{type: 'text', disabled: 'true', value: ticket.name}
+      .field
+        %label Email
+        %input{type: 'email', disabled: 'true', value: ticket.email}
+      .field
+        = form.label :schedule_id do
+          Show
+        %select#selection_schedule_id{name: 'selection[schedule_id]'}
+          - ticket.available_schedules(festival).each do |date, schedules|
+            %optgroup{label: l(date, format: :full)}
+              - schedules.each do |schedule|
+                %option{value: schedule.id, disabled: schedule.full?, selected: ticket.schedule_id == schedule.id}
+                  = "[FULL]" if schedule.full?
+                  = schedule.name
+                  = "(#{schedule.times})"
+
+        = form.error_messages_for :schedule_id
+
+      = form.submit 'Change booking'
+      = link_to 'Cancel booking', box_office_show_ticket_path(festival, activity, ticket), method: :delete, rel: :delete, role: :button, data: { confirm: 'Really cancel this booking?' }

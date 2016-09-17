@@ -5,7 +5,8 @@ module RollsHelper
       :'xml:lang' => 'en',
       :width      => 160,
       :height     => 160,
-      :class      => 'graph'
+      :class      => 'graph',
+      :text       => true
     )
 
     width = options[:width]
@@ -17,11 +18,13 @@ module RollsHelper
     content_tag :svg, options do
       concat svg_circle(cx, cy, cx - 10)
       concat svg_circular_path(cx, cy, cx - 10, count * 1.0 / (limit || count))
-      if limit
-        concat svg_text(cx, cy, count, class: "count")
-        concat svg_text(cx, cy + 24, "of #{limit}", class: "limit")
-      else
-        concat svg_text(cx, cy + 14, count, class: "count")
+      if options[:text]
+        if limit
+          concat svg_text(cx, cy, count, class: "count")
+          concat svg_text(cx, cy + 24, "of #{limit}", class: "limit")
+        else
+          concat svg_text(cx, cy + 14, count, class: "count")
+        end
       end
     end
   end
