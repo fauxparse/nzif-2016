@@ -1,5 +1,6 @@
 class Admin::FestivalsController < Admin::Controller
   def show
+    @dashboard = Admin::Dashboard.new(festival)
   end
 
   def edit

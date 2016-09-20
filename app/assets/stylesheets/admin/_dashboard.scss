@@ -1,0 +1,52 @@
+.festival-dashboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: .5rem -.5rem;
+
+  > section {
+    margin: .5rem;
+    flex: 1 0 12rem;
+    max-width: 20rem;
+    box-shadow: 0 0 .5rem rgba(black, .25);
+    border-radius: $base-border-radius;
+
+    h3 {
+      border-bottom: $base-border;
+      padding: .5rem 1rem;
+      font-weight: $light-font-weight;
+      font-size: 1.5rem;
+      color: $secondary-color;
+      margin: 0;
+    }
+
+    .inner {
+      padding: 1rem;
+    }
+  }
+
+  .graph {
+    @include fullness-graph;
+  }
+
+  .payment-summary {
+    flex: 2 0 24rem;
+    max-width: 40rem;
+
+    table {
+      margin: 0;
+    }
+
+    th:not(:first-child) {
+      text-align: center;
+    }
+
+    td:not(:first-child) {
+      text-align: right;
+    }
+
+    tfoot td {
+      font-weight: $bold-font-weight;
+    }
+  }
+}

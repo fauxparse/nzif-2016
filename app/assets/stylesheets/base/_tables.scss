@@ -22,3 +22,9 @@ td,
 th {
   vertical-align: middle;
 }
+
+tr:last-child {
+  th, td {
+    border-bottom: 1px solid shade($base-border-color, 25%);
+  }
+}

@@ -7,6 +7,7 @@ class Festival < ApplicationRecord
   has_many :payment_configurations,
     class_name: 'PaymentMethod::Configuration::Base'
   has_many :vouchers, dependent: :destroy
+  has_many :selections, through: :registrations
 
   before_validation :fill_in_year, :unless => :year?
 
