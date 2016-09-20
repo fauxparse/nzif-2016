@@ -1,33 +1,37 @@
+@mixin fullness-graph {
+  width: 100%;
+  height: auto;
+
+  circle {
+    stroke: $light-grey;
+    fill: transparent;
+    stroke-width: 2px;
+  }
+
+  path {
+    stroke: $accent-color;
+    fill: transparent;
+    stroke-width: 10px;
+    stroke-linecap: round;
+  }
+
+  .count {
+    font-size: 40px;
+    text-anchor: middle;
+  }
+
+  .limit {
+    font-size: 16px;
+    text-anchor: middle;
+    fill: $secondary-color;
+  }
+}
+
 .activity-roll {
   padding-bottom: $base-spacing;
 
   .graph {
-    width: 100%;
-    height: auto;
-
-    circle {
-      stroke: $light-grey;
-      fill: transparent;
-      stroke-width: 2px;
-    }
-
-    path {
-      stroke: $accent-color;
-      fill: transparent;
-      stroke-width: 10px;
-      stroke-linecap: round;
-    }
-
-    .count {
-      font-size: 40px;
-      text-anchor: middle;
-    }
-
-    .limit {
-      font-size: 16px;
-      text-anchor: middle;
-      fill: $secondary-color;
-    }
+    @include fullness-graph;
   }
 
   h2 {

@@ -11,12 +11,20 @@ class Account
     applicable_package_price.try(&:amount)
   end
 
+  def total_excluding_vouchers
+    [total, Money.new(0), total - vouchers.map(&:amount).sum].max
+  end
+
   def deposit
     applicable_package_price.deposit
   end
 
   def total_paid
     Money.new((approved_payments + vouchers).sum(&:amount))
+  end
+
+  def total_paid_excluding_vouchers
+    Money.new((approved_payments).sum(&:amount))
   end
 
   def total_paid_including_fees

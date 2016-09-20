@@ -10,6 +10,8 @@ class Registration < ApplicationRecord
   validates :participant, :festival, presence: true
   validates :festival_id, uniqueness: { scope: :participant_id }
 
+  scope :complete, -> { where.not(completed_at: nil) }
+
   def to_param
     PleasantLawyer.convert(id).join('-')
   end

@@ -1,0 +1,24 @@
+%section.payment-summary
+  %h3 Payments
+  .inner
+    %table
+      %thead
+        %tr
+          %th Payment type
+          %th Received
+          %th Total
+      %tbody
+        - payment_summary.rows.each do |row|
+          %tr
+            %td= row.name
+            %td= m row.received
+            %td= m row.total
+        %tr
+          %td Vouchers
+          %td
+          %td= m payment_summary.voucher_total
+      %tfoot
+        %tr
+          %td TOTAL
+          %td= m payment_summary.received
+          %td= m payment_summary.total
