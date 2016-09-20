@@ -79,7 +79,7 @@ class Admin::Dashboard
     end
 
     def received
-      accounts.sum(Money.new(0), &:total_paid_excluding_vouchers)
+      accounts.sum(Money.new(0), &:total_paid_excluding_vouchers) + voucher_total
     end
 
     def rows
@@ -95,9 +95,10 @@ class Admin::Dashboard
     class Row
       attr_reader :registrations, :payment_method
 
-      def initialize(registrations, payment_method)
+      def initialize(registrations, payment_method, vouchers)
         @registrations = registrations
         @payment_method = payment_method
+        @vouchers = vouchers
       end
 
       def name
@@ -116,17 +117,36 @@ class Admin::Dashboard
 
       private
 
+      def vouchers
+        @vouchers_by_registration || @vouchers.each.with_object({}) do |voucher, vouchers|
+          registration = registrations.detect { |r| r.participant_id == voucher.participant_id }
+
+          if registration.present?
+            (vouchers[registration.id] ||= []).push voucher
+          end
+        end
+      end
+
       def payments
         @payments ||= registrations.flat_map do |registration|
-          registration.payments.select do |payment|
+          payments = registration.payments.select do |payment|
             payment.payment_method.class == payment_method
+          end
+
+          if vouchers[registration.id].present? && payments.any?(&:pending?)
+            account = Account.new(registration)
+            payments.map do |payment|
+              Payment.new(amount: [payment.amount, account.total_excluding_vouchers].min)
+            end
+          else
+            payments
           end
         end
       end
     end
 
     def row(payment_method)
-      Row.new(registrations, payment_method)
+      Row.new(registrations, payment_method, festival.vouchers)
     end
   end
 end
