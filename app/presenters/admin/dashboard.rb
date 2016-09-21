@@ -75,7 +75,7 @@ class Admin::Dashboard
     end
 
     def total
-      accounts.sum(Money.new(0), &:total_excluding_vouchers)
+      accounts.sum(Money.new(0), &:total)
     end
 
     def received
@@ -128,18 +128,9 @@ class Admin::Dashboard
       end
 
       def payments
-        @payments ||= registrations.flat_map do |registration|
-          payments = registration.payments.select do |payment|
+        @payments ||= registrations.select(&:complete?).flat_map do |registration|
+          registration.payments.select do |payment|
             payment.payment_method.class == payment_method
-          end
-
-          if vouchers[registration.id].present? && payments.any?(&:pending?)
-            account = Account.new(registration)
-            payments.map do |payment|
-              Payment.new(amount: [payment.amount, account.total_excluding_vouchers].min)
-            end
-          else
-            payments
           end
         end
       end

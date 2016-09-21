@@ -81,6 +81,10 @@ Rails.application.routes.draw do
 
       resources :vouchers
 
+      scope "/reports", constraints: { format: "csv" } do
+        get "accounts" => "reports#accounts", as: :accounting_report
+      end
+
       get "/" => "dashboards#show"
     end
 
