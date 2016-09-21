@@ -12,7 +12,7 @@ class Account
   end
 
   def total_excluding_vouchers
-    [total, Money.new(0), total - vouchers.map(&:amount).sum].max
+    [Money.new(0), total - vouchers.map(&:amount).sum].max
   end
 
   def deposit
@@ -21,6 +21,26 @@ class Account
 
   def total_paid
     Money.new((approved_payments + vouchers).sum(&:amount))
+  end
+
+  def total_paid_by(type)
+    Money.new(approved_payments_by(type).sum(&:amount))
+  end
+
+  def total_paid_by_internet_banking
+    total_paid_by(:internet_banking)
+  end
+
+  def total_paid_by_paypal
+    total_paid_by(:paypal)
+  end
+
+  def approved_payments_by(type)
+    approved_payments.select { |payment| payment.payment_type.to_sym == type }
+  end
+
+  def total_paid_by_voucher
+    Money.new(vouchers.sum(&:amount))
   end
 
   def total_paid_excluding_vouchers
@@ -68,7 +88,11 @@ class Account
   end
 
   def payments
-    registration.payments.oldest_first
+    if registration.payments.loaded?
+      registration.payments.sort_by(&:created_at)
+    else
+      registration.payments.oldest_first
+    end
   end
 
   def approved_payments
@@ -105,7 +129,11 @@ class Account
   private
 
   def prices
-    @prices ||= package.prices.expiring_first
+    @prices ||= if package.prices.loaded?
+      package.prices.sort_by(&:expires_at)
+    else
+      package.prices.expiring_first
+    end
   end
 
   def price_when_deposit_paid
