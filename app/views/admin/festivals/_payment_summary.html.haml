@@ -22,3 +22,4 @@
           %td TOTAL
           %td= m payment_summary.received
           %td= m payment_summary.total
+    = link_to "Download", admin_accounting_report_path(festival, :csv), role: :button
