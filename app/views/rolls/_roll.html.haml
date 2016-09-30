@@ -8,4 +8,4 @@
       %h3= roll.times
       %ul.participants
         - roll.participants.each do |participant|
-          %li.participant= avatar(participant)
+          %li.participant= avatar(participant, link: true)
