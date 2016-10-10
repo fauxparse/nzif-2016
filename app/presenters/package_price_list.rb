@@ -59,7 +59,10 @@ class PackagePriceList
     attr_reader :package
 
     def prices
-      @prices ||= package.prices.select(&:available?).map(&:amount).sort.uniq
+      @prices ||= begin
+        prices = package.prices.sort_by(&:amount)
+        [*prices.select(&:available?), prices.last].map(&:amount).sort.uniq
+      end
     end
 
     def lowest_price
