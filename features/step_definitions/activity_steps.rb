@@ -7,6 +7,7 @@ When(/^I select the "([^"]*)" workshop$/) do |name|
   schedule = workshop.schedules.first
 
   within(:css, "[data-id=\"#{schedule.id}\"]") do
+    expect(page).not_to have_css('input[type="checkbox"]:disabled')
     find("label").trigger("click")
   end
 end

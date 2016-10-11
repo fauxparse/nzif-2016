@@ -1,0 +1,5 @@
+- if defined?(Timecop) && Timecop.top_stack_item
+  = javascript_include_tag "sinon"
+  - unix_millis = (Time.now.to_f * 1000.0).to_i
+  :javascript
+    sinon.useFakeTimers(#{unix_millis});

@@ -1,5 +1,9 @@
 Given(/^it is the week before the festival$/) do
-  Timecop.travel(festival.start_date.midnight - 1.week)
+  Timecop.freeze(festival.start_date.midnight - 1.week)
+end
+
+After do
+  Timecop.return
 end
 
 Given(/^I am an existing participant$/) do

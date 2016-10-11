@@ -80,6 +80,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'rspec-collection_matchers'
   gem 'timecop'
+  gem 'sinon-rails'
 
   gem 'rspec', '= 3.5.0.beta4'
   gem 'rspec-core', '= 3.5.0.beta4'

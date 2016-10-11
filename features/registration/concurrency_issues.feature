@@ -6,6 +6,7 @@ Feature: Handle concurrency issues during registration
 
   Scenario: Snaked!
     Given there is a 2016 festival
+      And it is the week before the festival
       And I am on the festival homepage
       And there is a workshop called "Snaked"
      When I click the registration link
