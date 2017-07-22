@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.4.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '>= 5.0.0', '< 5.1'
+gem 'rails', '~> 5.1.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -12,15 +12,15 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 gem 'rspec-rails', '3.5.0.beta4'
-gem 'haml-rails', '~> 0.9'
+gem 'haml', '~> 5.0.1'
+gem 'haml-rails', github: 'indirect/haml-rails'
 gem 'bourbon', '>= 5.0.0.beta.5'
-gem 'neat'
-gem 'normalize-scss'
+gem 'neat', '~> 1.8.0'
 gem 'autoprefixer-rails'
 gem 'inline_svg'
 gem 'mithril_rails', github: 'fauxparse/mithril-rails'
