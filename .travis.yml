@@ -7,6 +7,7 @@ git:
 addons:
   code_climate:
     repo_token: e9d8e1e9f021d0e17fc0feb71f9aebdfa15807ab32389d9549d9c219e9f34f06
+  postgresql: "9.6"
 before_install:
   - mkdir travis-phantomjs
   - wget https://www.dropbox.com/s/1tinaanu2nqlkjg/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
