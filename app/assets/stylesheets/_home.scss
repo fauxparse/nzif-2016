@@ -32,9 +32,24 @@ header[role="banner"] {
       @include shift(1 of 4);
     }
   }
+
+  &[data-year="2017"] {
+    background: $tomato linear-gradient(135deg, $tomato, $orange);
+
+    .title {
+      height: 0;
+      padding-top: 20.4%;
+      background: image-url('2017/nzif-logo-2017.svg') no-repeat 50% 50%;
+      background-size: contain;
+
+      h1, h2 {
+         display: none;
+      }
+    }
+  }
 }
 
-.homepage-2016 {
+.homepage {
   blockquote {
     margin: 0 0 $base-spacing;
 
@@ -47,7 +62,6 @@ header[role="banner"] {
     b {
       font-weight: normal;
       color: $accent-color;
-      white-space: nowrap;
 
       &::before { content: "‘"; }
       &::after { content: "’"; }
@@ -61,6 +75,10 @@ header[role="banner"] {
       text-transform: uppercase;
       letter-spacing: .2em;
     }
+  }
+
+  &[data-year='2017'] blockquote p {
+    font-family: 'Work Sans';
   }
 
   .summary {
@@ -115,13 +133,6 @@ header[role="banner"] {
     blockquote {
       @include span-columns(1 of 4);
       text-align: right;
-
-      b {
-        position: relative;
-        white-space: nowrap;
-
-        &::after { position: absolute; left: 100%; }
-      }
 
       cite {
         display: block;

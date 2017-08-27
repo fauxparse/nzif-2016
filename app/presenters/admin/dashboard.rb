@@ -87,7 +87,7 @@ class Admin::Dashboard
     end
 
     def voucher_total
-      festival.vouchers.sum(Money.new(0), &:amount)
+      festival.vouchers.to_a.sum(Money.new(0), &:amount)
     end
 
     private

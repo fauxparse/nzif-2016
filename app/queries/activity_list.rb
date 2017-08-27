@@ -18,6 +18,10 @@ class ActivityList
     scope.all
   end
 
+  def to_a
+    to_ary.to_a
+  end
+
   delegate :sort_by, to: :to_ary
 
   def scheduled

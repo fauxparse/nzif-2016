@@ -1,0 +1,26 @@
+- content_for :title, "NZIF 2017: The Festival of Moments"
+
+- content_for :head do
+  = stylesheet_link_tag "https://fonts.googleapis.com/css?family=Work+Sans"
+ 
+%header{role: "banner", data: { year: 2017 }}
+  .inner
+    .title
+      %h1= festival.name
+      %h2= date_range(festival.start_date, festival.end_date)
+
+%section.homepage{data: { year: 2017 }}
+  .inner
+    %blockquote
+      %p
+        It’s only when you think back over what was created
+        %b in the moments
+        that you realise what small miracles have occurred.
+      %cite Theatreview
+
+    %section
+      %p The New Zealand Improv Festival gathers improvisational theatre companies from around the nation (and around the globe) to present new work, learn new skills and make connections across the industry.
+
+      %p Registrations for the Festival will open in early September. Watch this space for more information!
+
+    %aside
