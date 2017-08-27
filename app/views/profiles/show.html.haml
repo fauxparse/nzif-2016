@@ -2,7 +2,7 @@
   .inner
     %h1= t('.title')
 
-= form_for @profile, as: :profile, url: profile_path do |form|
+= form_for participant_form, as: :participant, url: profile_path do |form|
   %section
     .inner
       .details
@@ -22,7 +22,7 @@
           = form.error_messages_for :bio
 
       %aside
-        = avatar(@profile, size: :large)
+        = avatar(participant_form, size: :large)
         = form.file_field :avatar
 
   %section

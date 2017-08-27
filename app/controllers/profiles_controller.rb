@@ -1,12 +1,11 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_profile
 
   def show
   end
 
   def update
-    if @profile.update(params)
+    if participant_form.save
       redirect_to profile_path, notice: "Profile updated"
     else
       render :show
@@ -15,7 +14,9 @@ class ProfilesController < ApplicationController
 
   private
 
-  def load_profile
-    @profile = ProfileForm.new(current_user)
+  def participant_form
+    @form ||= ParticipantForm.new(participant, params)
   end
+
+  helper_method :participant_form
 end

@@ -5,11 +5,11 @@ describe ParticipantForm do
   let(:params) { ActionController::Parameters.new(participant: raw_params) }
   let(:valid_params) do
     {
-      name: "Alice",
-      email: "alice@example.com"
+      name: 'Alice',
+      email: 'alice@example.com'
     }
   end
-  let(:invalid_params) { { email: "Alice" } }
+  let(:invalid_params) { { email: 'Alice' } }
 
   context 'for a new participant' do
     let(:participant) { nil }
@@ -68,8 +68,7 @@ describe ParticipantForm do
   end
 
   context 'for an existing participant' do
-    let(:participant) { FactoryGirl.create(:participant) }
-    before { participant }
+    let!(:participant) { FactoryGirl.create(:participant) }
 
     context 'with valid params' do
       let(:raw_params) { valid_params }
@@ -80,7 +79,7 @@ describe ParticipantForm do
         it 'updates the participant' do
           expect { form.save }
             .to change { Participant.first.name }
-            .to "Alice"
+            .to 'Alice'
         end
       end
     end
@@ -94,6 +93,27 @@ describe ParticipantForm do
         it 'does not update the participant' do
           expect { form.save }
             .not_to change { Participant.first.name }
+        end
+      end
+    end
+
+    context 'with an associated user' do
+      let!(:participant) do
+        FactoryGirl.create(:participant, :with_associated_user)
+
+        context 'with valid params' do
+          let(:raw_params) { valid_params }
+
+          it { is_expected.to be_valid }
+
+          describe '#save' do
+            it 'updates the participant' do
+              expect { form.save }
+                .to change { Participant.first.user.email }
+                .to 'alice@example.com'
+              expect(form.email).to eq 'alice@example.com'
+            end
+          end
         end
       end
     end
