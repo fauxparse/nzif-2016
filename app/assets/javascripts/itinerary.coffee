@@ -208,7 +208,7 @@ class Package
 
   totalCount: ->
     @allocations().reduce (total, allocation) ->
-      total + allocation.count()
+      total + allocation.limit()
     , 0
 
   fits: (selection) =>
