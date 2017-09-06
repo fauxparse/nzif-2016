@@ -21,6 +21,22 @@
     %section
       %p The New Zealand Improv Festival gathers improvisational theatre companies from around the nation (and around the globe) to present new work, learn new skills and make connections across the industry.
 
-      %p Registrations for the Festival will open in early September. Watch this space for more information!
+      %ul.summary
+        - @summary.activities.each do |type, activities|
+          %li{data: { summary: type.to_param }}
+            %b= activities.count
+            %span= t(".summary.#{type.name.demodulize.underscore.pluralize}", url: activity_type_path(festival, type)).html_safe
+        %li{data: { summary: 'participants' }}
+          %b= @summary.participants
+          %span= t('.summary.participants', url: register_path(festival)).html_safe
 
     %aside
+      - if registration.present?
+        = link_to t('.registration'), registration_path(festival), role: :button
+      - else
+        = link_to t('.register'), register_path(festival), role: :button
+      %ul
+        %li
+          = link_to activities_path(festival) do
+            = icon :local_activity
+            %span= t('.activities')
