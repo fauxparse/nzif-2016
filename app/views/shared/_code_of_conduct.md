@@ -48,7 +48,7 @@ NZIF we are coming together in an environment that shortcuts that trust’s
 development, and this can be a recipe for misunderstanding, hurt, and occasional
 disaster. By asking all participants to agree to this COC and opening the
 conversation about our boundaries, we hope to minimise the chance of disaster
-and maximise the chance of a bloody good time.
+and maximise the chance of a jolly good time.
 
 Remember: How you prefer to work in your own creative practice is entirely up to
 you — you know your audience, your stage partners, and your personal boundaries
@@ -60,7 +60,7 @@ we have set in place.
 The New Zealand Improv Festival is governed by the New Zealand Improvisation
 Trust. Our principles, as laid out in our trust deed:
 
-> **3.** The Trust is committed, in attaining its purposes, to
+> **3.** The Trust is committed to
 >
 > > **3.1.** supporting, creating and presenting work that is accessible,
 > > diverse, and respectful of our practitioners and our audience; and

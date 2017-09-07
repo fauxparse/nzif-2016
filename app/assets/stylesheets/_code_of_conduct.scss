@@ -16,6 +16,23 @@
       }
     }
   }
+
+  ul {
+    @include bulleted-list;
+
+    ul {
+      list-style-type: circle;
+    }
+  }
+
+  ol {
+    @include bulleted-list;
+    list-style-type: decimal;
+
+    ol {
+      list-style-type: lower-alpha;
+    }
+  }
 }
 
 .code-of-conduct-accepted {
