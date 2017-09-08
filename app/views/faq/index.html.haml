@@ -6,68 +6,169 @@
 
 %section.faq
   .question
-    %p When should I be in Wellington?
+    %p How does NZIF work… for participants?
 
   .answer
     %p
-      Workshops start on the morning of Sunday 2 October at 10am. If you want to
-      do some sightseeing, why not arrive in time for Saturday 1 October and
-      enlist the company of some locals? We wrap things up late on Saturday 8
-      October, so leaving on the 9th is probably best. Give yourself time for a
-      sleep in, though.
+      NZIF welcomes any and all improvisors who find themselves in Wellington
+      during 14–21 October 2017. There are workshops you can sign up for, shows
+      you can watch (and possibly perform in), networking/forum sessions
+      covering various industry topics, and plenty of opportunities for
+      chill/fun/epic social times. All shows are cast and created the week of
+      the festival. Participants come as individuals (but often bring along
+      company mates) and everyone seems to have a pretty great time! This is our
+      ninth festival and we make changes and tweaks as needed each year to make
+      sure we’re best serving the improv community.
+
+%section.faq
+  .question
+    %p How does NZIF work… for the public?
+
+  .answer
+    %p
+      All tickets are on sale from BATS Theatre, and the public can book
+      individual tickets for $18/$15, book groups of 6 tickets for $14 each, or
+      book a three show pass for $39/30. They get to watch us do amazing improv
+      and admire us from afar. If someone asks about it from an audience
+      perspective, send them to
+      = link_to 'nzimprovfestival.co.nz', 'http://nzimprovfestival.co.nz'
+      or
+      = succeed '.' do
+        = link_to 'bats.co.nz', 'http://bats.co.nz'
 
 %section.faq
   .question
     %p
-      Where do I sleep?
+      How do I sign up?
 
   .answer
     %p
-      Anywhere you like! There’s a thread in the NZIF Green Room where locals
-      have offered spare rooms, there are hostels in Wellington, and there’s
-      always AirBNBs and such. Note: It’s World of Wearable Arts time which
-      means things may be booked up. We’re sorry about this. We’re gonna try to
-      avoid them next time.
+      Why, please
+      = link_to 'step this way!', 'http://nzif.info/2017/register'
 
 %section.faq
   .question
     %p
-      I selected a show when I registered. What’s the call time?
+      What does it cost?
 
   .answer
     %p
-      Whoa, hold on! Choosing a show in your package means you want to
-      %em watch
-      the show. Casting for shows is up to the show’s director (even if you
-      attend a casting workshop: casting policies for these are available in the
-      workshop descriptions).
+      Individual workshops cost $60 and include one show ticket. Individual show
+      tickets cost $14 (or three for $30 if you buy a season pass). But we’ve
+      packaged everything up like a sweet burger combo. Each package gets you a
+      participant pack with some sweet trinkets and info, and access to all
+      social and networking events across the week. Here’s all the options
+      (along with what it would cost if for some reason we made you buy
+      everything individually which we really would never do but aren’t numbers
+      fun?):
+
+    %table.faq-pricing
+      %thead
+        %tr
+          %th
+          %th Workshops
+          %th Shows
+          %th Total value
+          %th Package price
+      %tbody
+        %tr
+          %td Package 1
+          %td 1
+          %td 1
+          %td $74
+          %td
+            %strong
+              $60
+        %tr
+          %td Package 2
+          %td 2
+          %td 2
+          %td $148
+          %td
+            %strong
+              $110
+        %tr
+          %td Package 3
+          %td 3
+          %td 3
+          %td $222
+          %td
+            %strong
+              $150
+        %tr
+          %td Package 4
+          %td 4
+          %td 4
+          %td $306
+          %td
+            %strong
+              $190
+        %tr
+          %td Package 5
+          %td 5
+          %td 5
+          %td $370
+          %td
+            %strong
+              $220
+        %tr
+          %td Package 6
+          %td 6
+          %td 5
+          %td $430
+          %td
+            %strong
+              $240
+        %tr
+          %td Package 7
+          %td 7
+          %td 5
+          %td $490
+          %td
+            %strong
+              $260
+        %tr
+          %td Package 8
+          %td 8
+          %td 5
+          %td $550
+          %td
+            %strong
+              $280
+        %tr
+          %td Package 9
+          %td 9
+          %td 5
+          %td $610
+          %td
+            %strong
+              $330
+        %tr
+          %td Package 10
+          %td 10
+          %td 5
+          %td $670
+          %td
+            %strong
+              $315
+        %tr
+          %td Package 11
+          %td 11
+          %td 5
+          %td $730
+          %td
+            %strong
+              $330
+    %p
+      When you go to sign up, the total price you’ve booked for will display at
+      the bottom of the page, so you can quickly see what you are getting
+      yourself into.
 
 %section.faq
   .question
     %p
-      $50 for one show ticket? That’s outrageous!
-
-  .answer
-    %p
-      If the first thing you select is a show, it looks like you’re being
-      charged FIFTY BUCKS. Our shows are great, but we agree, that’s a bit much.
-
-    %p
-      What’s actually happening is this: package prices are based on the number
-      of workshops you select, and with each workshop you get a free show ticket
-      (up to a maximum of five tickets). So really it’s $50 for a workshop
-      (which is a steal), and the show costs ZERO BUCKS. Now all you have to do
-      is pick which workshop you want to do! Remember, the more you choose the
-      cheaper they get!
-
-    %ul
-      %li= link_to "Pricing information", pricing_path(festival)
-
-%section.faq
-  .question
-    %p
-      I booked a ticket for a show. Now I’m in the show. What happens to my
-      ticket?
+      I want to see more than five shows/The show I want to see says it’s booked
+      out! How? Why?
 
   .answer
     %p
@@ -77,30 +178,23 @@
 %section.faq
   .question
     %p
-      I tried to select a show as part of my itinerary, but it says “FULL”. Can
-      I still get tickets?
+      Fret not! That just means that we’ve allocated as many tickets as we can
+      to NZIF participant registrations (we spread the love around so that all
+      the shows get their share). There are definitely other ways to get in to
+      see shows:
 
   .answer
-    %p
-      Maybe! That just means that we’ve allocated as many tickets as we can to
-      NZIF participant registrations (we spread the love around so that all the
-      shows get their share). There are definitely other ways to get in to see
-      shows:
-
     %ul
       %li
         The easiest way is to
         = succeed "," do
           = link_to "book a ticket through BATS", "https://bats.co.nz/about-bats/festivals/nz-improv-festival/"
         which you can do any time from now until the doors open. You can do so
-        at
-        %em concession
-        rates.
+        at concession rates.
       %li
         If you’re feeling lucky, any paid-up Festival participant will have
         access to standby comps on the door. You’ll need your participant pass
         and to put your name down with the BATS Box Office on the night.
-
     %p
       Note that standby tickets will only be available if the show hasn't sold
       out, so your best bet is always to get a ticket in advance, whether as
@@ -119,7 +213,7 @@
       Sorry, tickets purchased as part of your registration are your personal
       property and can’t be transferred. This means that we can’t let you book
       multiple tickets to the same show with your Festival registration. Still
-      bring your friends, though! I bet they’ll love it.
+      encourage your friends to book, though! I bet they’ll love it.
     %p
       Having said that, if you get cast in a show you got a ticket to, and want
       to invite your significant other/BFF/mum along to use that ticket, we’re
@@ -143,86 +237,101 @@
 %section.faq
   .question
     %p
-      Are there T-Shirts?
+      Why does it cost this much? What am I paying for?
 
   .answer
     %p
-      Oh yes. And HOODIES. Coming soon!
+      In one sense, what you’re paying for is very simple. You’re paying for a
+      workshop led by a rad teacher, and you get a ticket to a show plus all
+      participant privileges (standby comp tickets, drink specials when
+      available, trinkets, social events, networking, a really fun time).
+    %p
+      In another sense though, you’re helping us keep this festival going. We
+      have set costs we need to cover — venue fees, room hire, tech equipment,
+      festival team, production crew, special events, marketing... boy howdy the
+      list goes on. Some of that cost is covered by the box office and by our
+      funding, but we do need to make sure we keep this thing ticking along and
+      don’t bury ourselves in a empty money hole.
+    %p
+      We don’t differentiate in price between the different workshops. This
+      means full day, half day, world premiere, spontaneous showcase and general
+      workshops are equal in price. This is to ensure accessibility of all
+      workshops, encouraging participants to register based on their
+      interest/needs rather than their budget.
 
 %section.faq
   .question
     %p
-      %b Teachers:
-      How do I get paid?
+      I can’t afford to participate. What can I do?
 
   .answer
     %p
-      Please invoice the New Zealand Improvisation Trust
-      (producer@nzimprovfestival.co.nz) by the end of the week of the festival.
-      We will pay you as soon as we can (most likely the following week) via
-      internet banking or Paypal.
+      Talk to us! There are ways of participating that don’t cost the earth. You
+      can volunteer in the festival team, arrange to pay in installments, or
+      talk to us directly and we will try to find something that is mutually
+      beneficial.
 
 %section.faq
   .question
     %p
-      %b Marketing:
-      How can I help?
+      What does being a participant mean?
 
   .answer
     %p
-      Here’s what we already have in place for promoting this festival and your performances:
-    %h3 Online promotion
-    %ul
-      %li
-        = link_to "BATS Theatre website", "http://bats.co.nz"
-        — This is where everyone can BOOK THEIR TICKETS! Everything we put out
-        is pointing people to BATS so that it’s nice and easy to book tickets.
-      %li
-        = link_to "NZIF website", "http://nzimprovfestival.co.nz"
-        — Our main website and repository of info about everything. We’ve got
-        the full programme, the workshops list, and a bunch of media releases
-        that get published as they go out. On the media releases, you can hit
-        ‘share’ to post about them on Facebook, Twitter, and a bunch of other
-        places. Go on! Do it! Tell people what you’re doing and what you’re
-        looking forward to!
-      %li
-        = link_to "Eventfinda", "http://eventfinda.co.nz"
-        — Syndicates to heaps of other sites too :)
+      You’re part of the whānau (family). You’ve signed up for a workshop,
+      you’re teaching or directing, you’re one of our crew, you’re a volunteer…
+      You get a festival pass, and can come to any and all events during the
+      week (note: workshops and shows require that you book but you generally
+      have free access!).
 
-    %h3 Social media
+%section.faq
+  .question
     %p
-      Our main presences are
-      = link_to "Facebook", "https://www.facebook.com/NZImprovFest"
-      and
-      = succeed "." do
-        = link_to "Twitter", "http://twitter.com/NZImprovFest"
-      Please like photos, retweet things, share cool posts, and use the hashtag
-      = succeed "." do
-        %b #nzif2016
-      Tag yourself in photos if we haven’t!
+      What’s the deal with the Code of Conduct?
 
-    %h3 Printed materials
-    %ul
-      %li
-        Poster campaign will be going out a few weeks before the festival opens.
-        We’ll have some spare posters - if you have a great place for some of
-        these, let us know! There is no need for individual show posters.
-      %li
-        Printed programmes will be available very soon too. Some will be
-        distributed via Phantom and go out into Wellington’s cafes - the rest
-        are for us to distribute. If you know a place in Wellington that would
-        be useful to have programmes, let Jen know (if you can get them there
-        yourself, even better!)
+  .answer
+    %p
+      There’s heaps to read on this and you can do so
+      = link_to 'here', code_of_conduct_path(2017)
 
-    %h3 Publicity
-    %ul
-      %li
-        If you’re out of town, feel free to get media coverage for your visit in
-        your own city; if you’re in Wellington, please run anything you want to
-        do past Jen (out of towners — if you want to check anything with us,
-        that’d be rad). There should be plenty already coming from us and we’d
-        rather get huge reach with our existing materials than put out mixed
-        messages!
+%section.faq
+  .question
+    %p
+      What’s the deal with Festival passes?
+
+  .answer
+    %p
+      A festival pass is a literal pass - it’s a lanyard you wear throughout the
+      week to signal your involvement in the festival. Everyone in the festival
+      will get one - whether you're a programmed teacher or performer, signed up
+      for a workshop, or volunteering for the festival. As well as access to
+      standby tickets, this sweet lanyard means you will be invited to any and
+      all social and networking events during the week.
+    %p
+      Please wear the pass (or have it on you) at festival events and at BATS
+      Theatre. You must present it in order to go on the standby list at BATS
+      for tickets — they will put your name on a list and when they know how
+      many empty seats are available, they'll call your name if you can get in.
+      First in first served, and you can only put your name down on the night.
+    %p
+      Your pass also gets you the Whānau discount at Lumen, the BATS bar (20%
+      discount on any beverage). Again, the staff will refuse you if you do not
+      have your pass.
+    %p
+      Note: The Festival team will have a different colour pass to general
+      participants. Not sure what colour yet. Maybe gold? Or glittery!
+
+%section.faq
+  .question
+    %p
+      I selected a show when I registered. What’s the call time?
+
+  .answer
+    %p
+      Whoa, hold on! Choosing a show in your package means you want to watch the
+      show. Casting for shows is up to the show’s director (even if you attend a
+      casting workshop: casting policies for these are available in the workshop
+      descriptions).
 
 %section.faq
   .question
@@ -232,13 +341,11 @@
   .answer
     %p
       This is a really common question asked both in person and raised on the
-      feedback form.
-
-    %p
-      The way the festival is set up this year, we’re aiming to have a good
-      spread of opportunities. Here’s how it’s laid out:
+      feedback form. The way the festival is set up this year, we’re aiming to
+      have a good spread of opportunities. Here’s how it’s laid out:
 
     %h3 Improdome
+
     %p
       EVERYONE can be in this show. You just need to be a festival participant
       and you can throw your name in! We’ll be opening sign ups for this soon,
@@ -246,7 +353,8 @@
       shoulder-tapping people to MC and direct. The show is 75 minutes long and
       we’re hoping to give everyone a good play with a fun bunch of new people.
 
-    %h3 Spontaneous Showcase
+    %h3 Spontaneous Showcase &amp; World Premieres
+
     %p
       These are the shows where directors lead a workshop and then cast from
       that workshop. Directors are welcome to consult with the festival director
@@ -256,58 +364,177 @@
       Remember that their priority is putting together the best cast for their
       show, with an eye on representation across the festival.
 
-    %h3 Grab Bag
-    %p
-      Another all-in opportunity. If you’re at the show, you can put your name
-      in the bag, and everyone will be pulled out to do a scene. It’s an
-      experiment!
+    %h3 Late Night Knife Fight &amp; NZ vs The World
 
-    %h3 This One Time
     %p
-      This show is by invitation only. Jen will be casting this based on her
-      knowledge of participant’s experience and relevant skills as the nights
-      have different themes. Note that the last show is titled ‘The Best of the
-      Fest’: the casting for this show will be influenced heavily by YOUR
-      FEEDBACK. Jen will be asking for input during the week about people that
-      just delight you: they’re fun to play with, they’re generous, they’re
-      great performers, and you want to see more of them. We want the last show
-      to be a real celebration of the ethos of improvisation - making each other
-      look good and putting on a good show for our audience.
-
+      These shows are by invitation only. LNKF will be cast ahead of the
+      festival, 6-8 players having a very silly time. For NZ vs the World, Jen
+      will be casting two teams (NZers and Worlders). We will be asking for
+      input during the week about people that just delight you: they’re fun to
+      play with, they’re generous, they’re great performers, and you want to see
+      more of them. We want the last show to be a real celebration of the ethos
+      of improvisation - making each other look good and putting on a good show
+      for our audience.
     %p
       It's possible that you will be disappointed by missing out on a particular
       casting opportunity. Know that there are many elements that go into the
       casting of a show, and directors must balance the needs of the show format
       with the desire to create opportunities for participants, while often
       having limited or negligible rehearsal time.
-
     %p
-      The best we can offer: come along to the opening night jam on Monday 3
+      The best we can offer: come along to the Opening Night Jam on Monday 3
       October and get up and play, so that you can interact with lots of
       players; be available for call times; and just bring your happy, healthy
       self to workshops and social times. If you have concerns during the week
       you’re more than welcome to raise them with Jen.
 
     %h3 Further notes on workshops with casting opportunities
+
     %p
       As teacher of a casting workshop, we ask that you ensure you are teaching
       more than just training for the show. We hope that those not cast in the
       performance will take away just as much as those who are.
-
     %p
       As a participant of said workshop, we hope that your engagement is on the
       level of skills development, not ‘how do I get noticed?’ Please don’t sign
       up for workshops purely because of the performance opportunity, nor use
       the time during the workshop to showboat or distract from the lessons
-      offered by the teacher.
+      offered by the teacher. In any case, even if you don’t get to perform you
+      should walk away an improved improvisor with new insights into your work.
 
     %h3 Notes on workshop quality
+
     %p
       This will always be somewhat subjective - we've all taken workshops that
       have changed our lives while leaving others completely cold. But we do ask
       that all tutors pitch their workshops accurately, that they balance class
       size with opportunity to play, and that they have clear learning
-      objectives for participants.
+      objectives for participants. We also offer feedback on workshop plans to
+      all facilitators and welcome feedback from participants.
+
+%section.faq
+  .question
+    %p
+      What if I book a ticket for a show and then I get cast in that show?
+
+  .answer
+    %p
+      If you’ve booked it through the BATS Box Office, they will either a) swap
+      your ticket for a different show or b) refund you if you paid in advance.
+      The refund part is at their discretion but they’re not jerks.
+    %p
+      If you booked it through a workshop package, jump into the registration
+      site and select a different show (note: this is subject to availability).
+    %p
+      If you’re feeling generous, give your ticket to someone you like who wants
+      to come and hasn’t got a ticket already!
+
+%section.faq
+  .question
+    %p
+      How do I know if a workshop is right for me?
+
+  .answer
+    %p
+      Our workshops are marked with their recommended experience level. Here’s
+      how we loosely classify y’all:
+
+    %ul
+      %li
+        %b Rookie:
+        &lt; 1 year, has learned the basics, limited performance experience
+      %li
+        %b Intermediate:
+        2–4 years, strong foundation, general performance experience
+      %li
+        %b Experienced:
+        4+ years, extensive performance experience, director/teacher
+      %li
+        %b Open access
+        is a mix of these: check the workshop description for more information
+        about who it is perfect for.
+    %p
+      The categories (rookie, intermediate, experienced) are a guideline only;
+      we recognise that no two improvisors’ journeys are the same. We ask that
+      participants be honest and practical with their self-evaluation.
+    %p
+      Apart from checking the recommended experience level, things you should
+      ask yourself: does this content excite me? Have I taken a workshop with
+      this teacher before? Is this workshop covering something missing in my
+      current improv? Will it stretch me? Will it bring me joy? Follow your
+      heart, friends!
+
+%section.faq
+  .question
+    %p
+      When should I be in Wellington?
+
+  .answer
+    %p
+      Workshops start on the morning of Saturday 14 October at 10am. We wrap
+      things up late on Saturday 21 October, so leaving on the 22nd is probably
+      best. Give yourself time for a sleep in, though.
+
+%section.faq
+  .question
+    %p
+      Where do we sleep?
+
+  .answer
+    %p
+      Anywhere that will have you! If you’re running a workshop and you’re from
+      out of town, we are looking after you and will be in touch to confirm
+      things if we haven’t already. If you’re simply an enthusiastic attendee,
+      great! Aim for somewhere close to Courtenay Place or Cuba St. The central
+      city is very walkable and our buses are pretty good. If you need a
+      recommendation, flick us an email or ask in the FB group.
+
+%section.faq
+  .question
+    %p
+      What's the deal with merch?
+
+  .answer
+    %p
+      We will have t-shirts and hoodies available for pre-order, and other fun
+      trinkets as we so desire to put into your participant packs. Note: you
+      must pre-order your t-shirt or hoody, or else miss out on the lovely swag.
+
+%section.faq
+  .question
+    %p
+      How can I help spread the word?
+
+  .answer
+    %ul
+      %li Direct people to BATS Theatre to book their tickets!
+      %li Direct people to nzimprovfestival.co.nz for general information!
+      %li Invite your friends to our social media - Facebook, Twitter, Instagram.
+      %li Hand out fliers! Put up a poster at your office! Ask us how!
+      %li Do you have media contacts and can help us get a story out there? Tell us!
+
+%section.faq
+  .question
+    %p
+      My company/troupe/collection of people wants to participate! Is there space for us?
+
+  .answer
+    %p
+      Heck yes! You’ll note from earlier answers that this isn’t a
+      company-focused festival. We’ve already programmed 2017’s directors and
+      teachers so we can’t fit you in there, sadly. But if you and your gang
+      want to come and take workshops and join us for the fun, please do!
+
+%section.faq
+  .question
+    %p
+      Is the festival interested in what I think about all this?
+
+  .answer
+    %p
+      Absolutely. Every year we run a participant survey after the festival to
+      find out what we did right, and what we can improve on. If you have
+      constructive thoughts during the week, you’re welcome to get in touch.
 
 %section.faq
   .question
@@ -321,25 +548,30 @@
 
     %dl
       %dt
+        General enquiries: 022 526 1519 or
+        = mail_to 'hello@nzimprovfestival.co.nz'
+      %dd
+        At least one of the team will be staffing this phone and email during
+        the week and you should get a response promptly.
+      %dt
         = organizer_image "Jennifer O'Sullivan"
         Festival Director: Jennifer O'Sullivan
       %dd
-        Ask Jen about pretty much anything but check below for particular first
-        ports of call.
-      %dt
-        Production Managers: Maddy Gibbons and Ophelia Wass
-      %dd
-        Ask these babes about tech time scheduling, set/lighting requirements,
-        call times, safety briefings, and how they stay so cool and calm and
-        awesome.
-      %dt
-        Technical Design/Operation: TBC
+        Ask Jen about casting, creative decisions, and pretty much anything else
+        but only if you can’t find someone else who can answer your question.
       %dt
         = organizer_image "Clare Kerrison"
-        Participant Liaison &amp; Workshop Coordinator: Clare Kerrison
+        Producer &amp; Workshop Coordinator: Clare Kerrison
       %dd
-        Ask Clare about workshop locations, registrations, tshirts, and her 7
+        Ask Clare about workshop locations, registrations, t-shirts, and her 7
         years in the UK.
+      %dt
+        Production Manager: Kris Evans Fee
+      %dd
+        Ask this guy about tech time scheduling, set/lighting requirements, call
+        times, safety briefings, and what it’s like being an MFA student.
+      %dt
+        Technical Design/Operation: Darryn Woods
       %dt
         = organizer_image "Matt Powell"
         Magic Web Pixie: Matt Powell
@@ -379,11 +611,18 @@
 %section.faq
   .question
     %p
-      I have more questions! They’re not here! HELP!
+      Please, I have more questions!
 
   .answer
+    %ul
+      %li
+        Make sure you’re a member of our facebook group, NZIF Green Room.
+      %li
+        Check through both our websites (nzimprovfestival.co.nz, nzif.info/2017)
+      %li
+        Ask in the group
+      %li
+        Check your emails.
     %p
-      Email
-      = succeed "." do
-        = mail_to "producer@nzimprovfestival.co.nz", "Jen"
-      I got your back.
+      And if you still have questions, just
+      = mail_to 'hello@nzimprovfestival.co.nz', 'ask us :)'
