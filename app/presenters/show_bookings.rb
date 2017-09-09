@@ -1,4 +1,6 @@
 class ShowBookings
+  include Rails.application.routes.url_helpers
+
   attr_reader :schedule
 
   def initialize(schedule)
@@ -11,6 +13,10 @@ class ShowBookings
 
   def to_partial_path
     'shows/show'
+  end
+
+  def back_path
+    send(:"admin_#{activity_type}_reports_path", schedule.activity.festival)
   end
 
   def date
@@ -50,6 +56,10 @@ class ShowBookings
   delegate :id, :starts_at, :ends_at, :to_param, :full?, to: :schedule
 
   private
+
+  def activity_type
+    schedule.activity.class.name.demodulize.underscore
+  end
 
   class Booking
     attr_reader :selection

@@ -1,4 +1,5 @@
 %section.activity-summary
   %h3= activity_summary.title
   .inner
-    = fullness_graph(activity_summary.taken, activity_summary.places)
+    = link_to activity_summary.report_link do
+      = fullness_graph(activity_summary.taken, activity_summary.places)

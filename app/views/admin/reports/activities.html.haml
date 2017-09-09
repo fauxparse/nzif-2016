@@ -1,0 +1,12 @@
+- content_for :title, @activities.title
+
+%header
+  .inner
+    %h1= @activities.title
+
+- @activities.to_a.group_by(&:date).each do |date, activities|
+  %section.box-office-list
+    .inner
+      %h3= date
+      %ul.shows
+        = render partial: 'admin/reports/activity', collection: activities
