@@ -24,6 +24,8 @@ class Admin::Dashboard
   private
 
   class ActivitySummary
+    include Rails.application.routes.url_helpers
+
     attr_reader :festival, :type
 
     def initialize(festival, type)
@@ -37,6 +39,10 @@ class Admin::Dashboard
 
     def to_partial_path
       'activity_summary'
+    end
+
+    def report_link
+      send(:"admin_#{type.name.underscore}_reports_path", festival)
     end
 
     def places

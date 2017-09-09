@@ -1,0 +1,6 @@
+%li
+  = link_to admin_show_report_path(festival, activity) do
+    = fullness_graph(activity.count, activity.limit, text: false)
+    .details
+      %b= activity.name
+      %small= [activity.times, activity.venue].compact.join(" in ")

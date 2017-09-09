@@ -285,6 +285,9 @@ en:
       edit:
         title: "Payment settings"
         save: "Save settings"
+    reports:
+      index:
+        title: "Reports"
     vouchers:
       index:
         title: "Vouchers"
