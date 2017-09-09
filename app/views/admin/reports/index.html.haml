@@ -1,0 +1,11 @@
+- content_for :title, t('.title')
+
+%header
+  .inner
+    %h1= t('.title')
+
+%section
+  .inner
+    %ul
+      %li= link_to 'Workshops', admin_workshop_reports_path(festival)
+      %li= link_to 'Shows', admin_show_reports_path(festival)
