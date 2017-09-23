@@ -9,10 +9,12 @@ class Ticket
 
   def available_schedules(festival)
     ScheduleList
-      .new(festival, type: selection.activity.class)
+      .new(festival, type: selection.activity&.class)
       .to_ary
       .group_by { |activity| activity.starts_at.to_date }
   end
+
+  delegate :activity, :registration_id, to: :selection
 
   private
 

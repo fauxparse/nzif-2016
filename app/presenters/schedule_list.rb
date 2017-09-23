@@ -11,17 +11,35 @@ class ScheduleList
   end
 
   def title
-    "#{type.name.humanize} bookings"
+    if type
+      "#{type.name.humanize} bookings"
+    else
+      'Bookings'
+    end
   end
 
   alias to_a to_ary
 
   def schedules
-    festival
+    scope = festival
       .schedules
       .includes(:activity, :venue)
       .references(:activity)
-      .where('activities.type' => type.name)
       .order(:starts_at)
+      .where('activities.type' => available_types)
+    scope
+  end
+
+  private
+
+  def available_types
+    if type
+      [type]
+    else
+      festival
+        .packages
+        .flat_map { |p| p.allocations.select(&:limited?).map(&:activity_type) }
+        .uniq
+    end
   end
 end
