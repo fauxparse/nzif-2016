@@ -26,3 +26,20 @@
     padding: .25rem .5rem;
   }
 }
+
+.itinerary {
+  border-top: $base-border;
+
+  section {
+    border-bottom: $base-border;
+    padding: $small-spacing 0;
+  }
+
+  h2 {
+    margin: 0 0 $small-spacing;
+  }
+
+  small {
+    opacity: 0.5;
+  }
+}

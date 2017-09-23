@@ -1,0 +1,10 @@
+.itinerary-list
+  - itinerary.selections.group_by { |s| s.schedule.starts_at.to_date }.each do |date, selections|
+    %section
+      %h2= l(date, format: :full)
+      %ul
+        - selections.sort_by { |s| s.schedule.starts_at }.each do |selection|
+          %li
+            = link_to edit_admin_booking_path(festival, selection) do
+              %b= selection.activity.name
+              %small= selection.activity.class.name

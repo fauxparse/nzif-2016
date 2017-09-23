@@ -8,3 +8,7 @@
   %aside
     = link_to edit_admin_participant_registration_path(festival, registration.participant) do
       = icon :edit
+
+%section.itinerary
+  .inner
+    = render partial: "itinerary", object: @itinerary
