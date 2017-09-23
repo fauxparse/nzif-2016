@@ -1,5 +1,6 @@
 class Admin::RegistrationsController < Admin::Controller
   def show
+    @itinerary = Itinerary.new(registration)
   end
 
   def new

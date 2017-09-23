@@ -6,5 +6,11 @@
     %h1= registration.participant
     %h2= festival
   %aside
+    = link_to new_admin_booking_path(festival, registration_id: registration.id) do
+      = icon :add
     = link_to edit_admin_participant_registration_path(festival, registration.participant) do
       = icon :edit
+
+%section.itinerary
+  .inner
+    = render partial: "itinerary", object: @itinerary

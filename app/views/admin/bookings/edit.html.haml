@@ -1,0 +1,6 @@
+= form_for ticket, url: admin_booking_path(festival, booking) do |form|
+  %section
+    .inner
+      = render 'form', form: form, activity_type: ticket.activity.class
+      = form.submit 'Change booking'
+      = link_to 'Cancel booking', admin_booking_path(festival, booking), method: :delete, rel: :delete, role: :button, data: { confirm: 'Really cancel this booking?' }

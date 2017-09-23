@@ -1,0 +1,5 @@
+%footer
+  %h3 Available
+  %ul
+    - registration.package.allocations.select(&:limited?).each do |allocation|
+      %li= pluralize(allocation.maximum - registration.selections.count { |s| s.activity.class == allocation.activity_type }, allocation.activity_type.name)

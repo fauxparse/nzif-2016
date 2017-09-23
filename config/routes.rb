@@ -89,6 +89,8 @@ Rails.application.routes.draw do
         get "/" => "reports#index", as: :reports
       end
 
+      resources :bookings, except: [:index, :show]
+
       scope "/reports", constraints: { format: "csv" } do
         get "accounts" => "reports#accounts", as: :accounting_report
       end

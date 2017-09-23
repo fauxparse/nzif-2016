@@ -1,0 +1,8 @@
+= form_for ticket, url: admin_bookings_path(festival) do |form|
+  = form.hidden_field :registration_id
+  %section
+    .inner
+      = render 'form', form: form, activity_type: Activity
+      = form.submit 'Add booking'
+
+  = render 'allocations', registration: ticket.registration
