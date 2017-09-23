@@ -1,24 +1,7 @@
-class ShowList
-  attr_reader :festival
+class ShowList < ScheduleList
+  alias_method :shows, :schedules
 
   def initialize(festival)
-    @festival = festival
-  end
-
-  def to_ary
-    shows.map { |show| ShowBookings.new(show) }
-  end
-
-  def title
-    'Show bookings'
-  end
-
-  alias :to_a :to_ary
-
-  def shows
-    festival.schedules.includes(:activity, :venue)
-      .references(:activity)
-      .where('activities.type' => 'Show')
-      .order(:starts_at)
+    super(festival, type: Show)
   end
 end
