@@ -2,7 +2,7 @@ class CalendarsController < ApplicationController
   def show
     respond_to do |format|
       format.ics do
-        render text: calendar.to_ics
+        render plain: calendar.to_ics, content_type: 'text/calendar'
       end
     end
   end
