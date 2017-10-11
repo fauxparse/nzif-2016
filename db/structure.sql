@@ -1,13 +1,11 @@
---
--- PostgreSQL database dump
---
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -43,7 +41,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: activities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: activities; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE activities (
@@ -83,7 +81,7 @@ ALTER SEQUENCE activities_id_seq OWNED BY activities.id;
 
 
 --
--- Name: allocations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: allocations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE allocations (
@@ -114,7 +112,7 @@ ALTER SEQUENCE allocations_id_seq OWNED BY allocations.id;
 
 
 --
--- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE ar_internal_metadata (
@@ -126,7 +124,40 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
--- Name: facilitators; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE comments (
+    id bigint NOT NULL,
+    incident_id bigint,
+    participant_id bigint,
+    content text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
+-- Name: facilitators; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE facilitators (
@@ -157,7 +188,7 @@ ALTER SEQUENCE facilitators_id_seq OWNED BY facilitators.id;
 
 
 --
--- Name: festivals; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: festivals; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE festivals (
@@ -190,7 +221,42 @@ ALTER SEQUENCE festivals_id_seq OWNED BY festivals.id;
 
 
 --
--- Name: package_prices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: incidents; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE incidents (
+    id bigint NOT NULL,
+    festival_id bigint,
+    participant_id bigint,
+    description text,
+    status character varying(32) DEFAULT 'open'::character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    comments_count integer DEFAULT 0
+);
+
+
+--
+-- Name: incidents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE incidents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: incidents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE incidents_id_seq OWNED BY incidents.id;
+
+
+--
+-- Name: package_prices; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE package_prices (
@@ -224,7 +290,7 @@ ALTER SEQUENCE package_prices_id_seq OWNED BY package_prices.id;
 
 
 --
--- Name: packages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: packages; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE packages (
@@ -258,7 +324,7 @@ ALTER SEQUENCE packages_id_seq OWNED BY packages.id;
 
 
 --
--- Name: participants; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: participants; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE participants (
@@ -299,7 +365,7 @@ ALTER SEQUENCE participants_id_seq OWNED BY participants.id;
 
 
 --
--- Name: payment_method_configurations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_method_configurations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE payment_method_configurations (
@@ -330,7 +396,7 @@ ALTER SEQUENCE payment_method_configurations_id_seq OWNED BY payment_method_conf
 
 
 --
--- Name: payments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: payments; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE payments (
@@ -372,7 +438,7 @@ ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
 
 
 --
--- Name: registrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: registrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE registrations (
@@ -407,7 +473,7 @@ ALTER SEQUENCE registrations_id_seq OWNED BY registrations.id;
 
 
 --
--- Name: related_activities; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: related_activities; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE related_activities (
@@ -437,7 +503,7 @@ ALTER SEQUENCE related_activities_id_seq OWNED BY related_activities.id;
 
 
 --
--- Name: schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schedules; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schedules (
@@ -472,7 +538,7 @@ ALTER SEQUENCE schedules_id_seq OWNED BY schedules.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -481,7 +547,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: selections; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: selections; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE selections (
@@ -513,7 +579,7 @@ ALTER SEQUENCE selections_id_seq OWNED BY selections.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE users (
@@ -551,7 +617,7 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: venues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: venues; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE venues (
@@ -584,7 +650,7 @@ ALTER SEQUENCE venues_id_seq OWNED BY venues.id;
 
 
 --
--- Name: vouchers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: vouchers; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE vouchers (
@@ -620,119 +686,133 @@ ALTER SEQUENCE vouchers_id_seq OWNED BY vouchers.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: allocations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY allocations ALTER COLUMN id SET DEFAULT nextval('allocations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+
+
+--
+-- Name: facilitators id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY facilitators ALTER COLUMN id SET DEFAULT nextval('facilitators_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: festivals id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY festivals ALTER COLUMN id SET DEFAULT nextval('festivals_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: incidents id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY incidents ALTER COLUMN id SET DEFAULT nextval('incidents_id_seq'::regclass);
+
+
+--
+-- Name: package_prices id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY package_prices ALTER COLUMN id SET DEFAULT nextval('package_prices_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: packages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY packages ALTER COLUMN id SET DEFAULT nextval('packages_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: participants id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY participants ALTER COLUMN id SET DEFAULT nextval('participants_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: payment_method_configurations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_method_configurations ALTER COLUMN id SET DEFAULT nextval('payment_method_configurations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: registrations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY registrations ALTER COLUMN id SET DEFAULT nextval('registrations_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: related_activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY related_activities ALTER COLUMN id SET DEFAULT nextval('related_activities_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: schedules id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY schedules ALTER COLUMN id SET DEFAULT nextval('schedules_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: selections id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY selections ALTER COLUMN id SET DEFAULT nextval('selections_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: venues id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY venues ALTER COLUMN id SET DEFAULT nextval('venues_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: vouchers id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY vouchers ALTER COLUMN id SET DEFAULT nextval('vouchers_id_seq'::regclass);
 
 
 --
--- Name: activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: activities activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY activities
@@ -740,7 +820,7 @@ ALTER TABLE ONLY activities
 
 
 --
--- Name: allocations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: allocations allocations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY allocations
@@ -748,7 +828,7 @@ ALTER TABLE ONLY allocations
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -756,7 +836,15 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: facilitators_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: facilitators facilitators_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY facilitators
@@ -764,7 +852,7 @@ ALTER TABLE ONLY facilitators
 
 
 --
--- Name: festivals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: festivals festivals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY festivals
@@ -772,7 +860,15 @@ ALTER TABLE ONLY festivals
 
 
 --
--- Name: package_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: incidents incidents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY incidents
+    ADD CONSTRAINT incidents_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: package_prices package_prices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY package_prices
@@ -780,7 +876,7 @@ ALTER TABLE ONLY package_prices
 
 
 --
--- Name: packages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: packages packages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY packages
@@ -788,7 +884,7 @@ ALTER TABLE ONLY packages
 
 
 --
--- Name: participants_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: participants participants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY participants
@@ -796,7 +892,7 @@ ALTER TABLE ONLY participants
 
 
 --
--- Name: payment_method_configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payment_method_configurations payment_method_configurations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_method_configurations
@@ -804,7 +900,7 @@ ALTER TABLE ONLY payment_method_configurations
 
 
 --
--- Name: payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payments
@@ -812,7 +908,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: registrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: registrations registrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY registrations
@@ -820,7 +916,7 @@ ALTER TABLE ONLY registrations
 
 
 --
--- Name: related_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: related_activities related_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY related_activities
@@ -828,7 +924,7 @@ ALTER TABLE ONLY related_activities
 
 
 --
--- Name: schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: schedules schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY schedules
@@ -836,7 +932,7 @@ ALTER TABLE ONLY schedules
 
 
 --
--- Name: schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY schema_migrations
@@ -844,7 +940,7 @@ ALTER TABLE ONLY schema_migrations
 
 
 --
--- Name: selections_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: selections selections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY selections
@@ -852,7 +948,7 @@ ALTER TABLE ONLY selections
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -860,7 +956,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: venues venues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY venues
@@ -868,7 +964,7 @@ ALTER TABLE ONLY venues
 
 
 --
--- Name: vouchers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: vouchers vouchers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY vouchers
@@ -876,259 +972,302 @@ ALTER TABLE ONLY vouchers
 
 
 --
--- Name: index_activities_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_activities_on_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_activities_on_festival_id ON activities USING btree (festival_id);
 
 
 --
--- Name: index_allocations_on_package_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_allocations_on_package_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_allocations_on_package_id ON allocations USING btree (package_id);
 
 
 --
--- Name: index_allocations_on_package_id_and_activity_type_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_allocations_on_package_id_and_activity_type_name; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_allocations_on_package_id_and_activity_type_name ON allocations USING btree (package_id, activity_type_name);
 
 
 --
--- Name: index_facilitators_on_activity_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_comments_on_incident_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_incident_id ON comments USING btree (incident_id);
+
+
+--
+-- Name: index_comments_on_incident_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_incident_id_and_created_at ON comments USING btree (incident_id, created_at);
+
+
+--
+-- Name: index_comments_on_participant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_participant_id ON comments USING btree (participant_id);
+
+
+--
+-- Name: index_facilitators_on_activity_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_facilitators_on_activity_id ON facilitators USING btree (activity_id);
 
 
 --
--- Name: index_facilitators_on_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_facilitators_on_participant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_facilitators_on_participant_id ON facilitators USING btree (participant_id);
 
 
 --
--- Name: index_festivals_on_year; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_festivals_on_year; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_festivals_on_year ON festivals USING btree (year);
 
 
 --
--- Name: index_package_prices_on_package_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_incidents_on_festival_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incidents_on_festival_id ON incidents USING btree (festival_id);
+
+
+--
+-- Name: index_incidents_on_participant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_incidents_on_participant_id ON incidents USING btree (participant_id);
+
+
+--
+-- Name: index_package_prices_on_package_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_package_prices_on_package_id ON package_prices USING btree (package_id);
 
 
 --
--- Name: index_package_prices_on_package_id_and_expires_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_package_prices_on_package_id_and_expires_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_package_prices_on_package_id_and_expires_at ON package_prices USING btree (package_id, expires_at);
 
 
 --
--- Name: index_packages_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_packages_on_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_packages_on_festival_id ON packages USING btree (festival_id);
 
 
 --
--- Name: index_participants_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_participants_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_participants_on_user_id ON participants USING btree (user_id);
 
 
 --
--- Name: index_payment_method_configurations_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_method_configurations_on_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payment_method_configurations_on_festival_id ON payment_method_configurations USING btree (festival_id);
 
 
 --
--- Name: index_payment_method_configurations_on_festival_id_and_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payment_method_configurations_on_festival_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_payment_method_configurations_on_festival_id_and_type ON payment_method_configurations USING btree (festival_id, type);
 
 
 --
--- Name: index_payments_on_payment_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payments_on_payment_type; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payments_on_payment_type ON payments USING btree (payment_type);
 
 
 --
--- Name: index_payments_on_registration_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payments_on_registration_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payments_on_registration_id ON payments USING btree (registration_id);
 
 
 --
--- Name: index_payments_on_registration_id_and_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payments_on_registration_id_and_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payments_on_registration_id_and_status ON payments USING btree (registration_id, status);
 
 
 --
--- Name: index_payments_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payments_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_payments_on_status ON payments USING btree (status);
 
 
 --
--- Name: index_payments_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_payments_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_payments_on_token ON payments USING btree (token);
 
 
 --
--- Name: index_registrations_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_registrations_on_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_registrations_on_festival_id ON registrations USING btree (festival_id);
 
 
 --
--- Name: index_registrations_on_festival_id_and_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_registrations_on_festival_id_and_participant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_registrations_on_festival_id_and_participant_id ON registrations USING btree (festival_id, participant_id);
 
 
 --
--- Name: index_registrations_on_package_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_registrations_on_package_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_registrations_on_package_id ON registrations USING btree (package_id);
 
 
 --
--- Name: index_registrations_on_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_registrations_on_participant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_registrations_on_participant_id ON registrations USING btree (participant_id);
 
 
 --
--- Name: index_registrations_on_participant_id_and_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_registrations_on_participant_id_and_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_registrations_on_participant_id_and_festival_id ON registrations USING btree (participant_id, festival_id);
 
 
 --
--- Name: index_related_activities_on_child_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_related_activities_on_child_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_related_activities_on_child_id ON related_activities USING btree (child_id);
 
 
 --
--- Name: index_related_activities_on_parent_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_related_activities_on_parent_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_related_activities_on_parent_id ON related_activities USING btree (parent_id);
 
 
 --
--- Name: index_schedules_on_activity_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_schedules_on_activity_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_schedules_on_activity_id ON schedules USING btree (activity_id);
 
 
 --
--- Name: index_schedules_on_starts_at_and_ends_at_and_activity_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_schedules_on_starts_at_and_ends_at_and_activity_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_schedules_on_starts_at_and_ends_at_and_activity_id ON schedules USING btree (starts_at, ends_at, activity_id);
 
 
 --
--- Name: index_schedules_on_venue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_schedules_on_venue_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_schedules_on_venue_id ON schedules USING btree (venue_id);
 
 
 --
--- Name: index_selections_on_registration_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_selections_on_registration_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_selections_on_registration_id ON selections USING btree (registration_id);
 
 
 --
--- Name: index_selections_on_registration_id_and_schedule_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_selections_on_registration_id_and_schedule_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_selections_on_registration_id_and_schedule_id ON selections USING btree (registration_id, schedule_id);
 
 
 --
--- Name: index_selections_on_schedule_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_selections_on_schedule_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_selections_on_schedule_id ON selections USING btree (schedule_id);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
--- Name: index_vouchers_on_admin_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_vouchers_on_admin_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_vouchers_on_admin_id ON vouchers USING btree (admin_id);
 
 
 --
--- Name: index_vouchers_on_festival_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_vouchers_on_festival_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_vouchers_on_festival_id ON vouchers USING btree (festival_id);
 
 
 --
--- Name: index_vouchers_on_festival_id_and_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_vouchers_on_festival_id_and_participant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_vouchers_on_festival_id_and_participant_id ON vouchers USING btree (festival_id, participant_id);
 
 
 --
--- Name: index_vouchers_on_participant_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_vouchers_on_participant_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_vouchers_on_participant_id ON vouchers USING btree (participant_id);
 
 
 --
--- Name: fk_rails_1003b0bc5a; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: comments fk_rails_0dc2c75d86; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fk_rails_0dc2c75d86 FOREIGN KEY (incident_id) REFERENCES incidents(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vouchers fk_rails_1003b0bc5a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY vouchers
@@ -1136,7 +1275,7 @@ ALTER TABLE ONLY vouchers
 
 
 --
--- Name: fk_rails_1378d77cf6; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: payment_method_configurations fk_rails_1378d77cf6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payment_method_configurations
@@ -1144,7 +1283,15 @@ ALTER TABLE ONLY payment_method_configurations
 
 
 --
--- Name: fk_rails_26cbb5018a; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: incidents fk_rails_1886bdb964; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY incidents
+    ADD CONSTRAINT fk_rails_1886bdb964 FOREIGN KEY (festival_id) REFERENCES festivals(id) ON DELETE CASCADE;
+
+
+--
+-- Name: schedules fk_rails_26cbb5018a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY schedules
@@ -1152,7 +1299,7 @@ ALTER TABLE ONLY schedules
 
 
 --
--- Name: fk_rails_2c18b93dc1; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: selections fk_rails_2c18b93dc1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY selections
@@ -1160,7 +1307,7 @@ ALTER TABLE ONLY selections
 
 
 --
--- Name: fk_rails_320be5a168; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: facilitators fk_rails_320be5a168; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY facilitators
@@ -1168,7 +1315,7 @@ ALTER TABLE ONLY facilitators
 
 
 --
--- Name: fk_rails_34ab5298cf; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: related_activities fk_rails_34ab5298cf; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY related_activities
@@ -1176,7 +1323,7 @@ ALTER TABLE ONLY related_activities
 
 
 --
--- Name: fk_rails_41dbad5a49; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: selections fk_rails_41dbad5a49; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY selections
@@ -1184,7 +1331,7 @@ ALTER TABLE ONLY selections
 
 
 --
--- Name: fk_rails_4604f69f81; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: registrations fk_rails_4604f69f81; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY registrations
@@ -1192,7 +1339,7 @@ ALTER TABLE ONLY registrations
 
 
 --
--- Name: fk_rails_621cdb63fe; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: registrations fk_rails_621cdb63fe; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY registrations
@@ -1200,7 +1347,7 @@ ALTER TABLE ONLY registrations
 
 
 --
--- Name: fk_rails_62b1a47e4a; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: packages fk_rails_62b1a47e4a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY packages
@@ -1208,7 +1355,7 @@ ALTER TABLE ONLY packages
 
 
 --
--- Name: fk_rails_90a7a16517; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: facilitators fk_rails_90a7a16517; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY facilitators
@@ -1216,7 +1363,7 @@ ALTER TABLE ONLY facilitators
 
 
 --
--- Name: fk_rails_988f169076; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: vouchers fk_rails_988f169076; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY vouchers
@@ -1224,7 +1371,7 @@ ALTER TABLE ONLY vouchers
 
 
 --
--- Name: fk_rails_9b577e3d90; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: related_activities fk_rails_9b577e3d90; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY related_activities
@@ -1232,7 +1379,7 @@ ALTER TABLE ONLY related_activities
 
 
 --
--- Name: fk_rails_a78a630eaf; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: allocations fk_rails_a78a630eaf; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY allocations
@@ -1240,7 +1387,7 @@ ALTER TABLE ONLY allocations
 
 
 --
--- Name: fk_rails_b9a3c50f15; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: participants fk_rails_b9a3c50f15; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY participants
@@ -1248,7 +1395,7 @@ ALTER TABLE ONLY participants
 
 
 --
--- Name: fk_rails_bb9133230f; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: payments fk_rails_bb9133230f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY payments
@@ -1256,7 +1403,7 @@ ALTER TABLE ONLY payments
 
 
 --
--- Name: fk_rails_ce75c0542b; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: schedules fk_rails_ce75c0542b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY schedules
@@ -1264,7 +1411,7 @@ ALTER TABLE ONLY schedules
 
 
 --
--- Name: fk_rails_d199bf6a26; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: vouchers fk_rails_d199bf6a26; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY vouchers
@@ -1272,7 +1419,7 @@ ALTER TABLE ONLY vouchers
 
 
 --
--- Name: fk_rails_d55f2d8599; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: activities fk_rails_d55f2d8599; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY activities
@@ -1280,7 +1427,15 @@ ALTER TABLE ONLY activities
 
 
 --
--- Name: fk_rails_efbc49fd36; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: comments fk_rails_db8b8e9fe8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fk_rails_db8b8e9fe8 FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
+
+
+--
+-- Name: registrations fk_rails_efbc49fd36; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY registrations
@@ -1291,8 +1446,48 @@ ALTER TABLE ONLY registrations
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20160515213613'), ('20160516143627'), ('20160516205314'), ('20160516221434'), ('20160527034133'), ('20160601200449'), ('20160601203051'), ('20160606102150'), ('20160608235807'), ('20160611030610'), ('20160611233554'), ('20160612050518'), ('20160614230425'), ('20160617213530'), ('20160618022829'), ('20160618031224'), ('20160618031424'), ('20160619002642'), ('20160619105435'), ('20160622235037'), ('20160625013819'), ('20160630031714'), ('20160630055040'), ('20160703202853'), ('20160717043606'), ('20160717065120'), ('20160717105154'), ('20160717223316'), ('20160723221958'), ('20160829091713'), ('20160829203009'), ('20160830092051'), ('20160901012943'), ('20160902061243'), ('20160903211632'), ('20160904004604'), ('20160910235529'), ('20160917002708');
+INSERT INTO "schema_migrations" (version) VALUES
+('20160515213613'),
+('20160516143627'),
+('20160516205314'),
+('20160516221434'),
+('20160527034133'),
+('20160601200449'),
+('20160601203051'),
+('20160606102150'),
+('20160608235807'),
+('20160611030610'),
+('20160611233554'),
+('20160612050518'),
+('20160614230425'),
+('20160617213530'),
+('20160618022829'),
+('20160618031224'),
+('20160618031424'),
+('20160619002642'),
+('20160619105435'),
+('20160622235037'),
+('20160625013819'),
+('20160630031714'),
+('20160630055040'),
+('20160703202853'),
+('20160717043606'),
+('20160717065120'),
+('20160717105154'),
+('20160717223316'),
+('20160723221958'),
+('20160829091713'),
+('20160829203009'),
+('20160830092051'),
+('20160901012943'),
+('20160902061243'),
+('20160903211632'),
+('20160904004604'),
+('20160910235529'),
+('20160917002708'),
+('20170923032134'),
+('20171011072859');
 
 

@@ -1,0 +1,18 @@
+- content_for :title, t('.title')
+
+%header
+  %section
+    %h1= t('.title')
+    %p
+      = link_to_unless @incidents.status == :open, t('.open'), '?status=open' do
+        %span= t('.open')
+      = link_to_unless @incidents.status == :closed, t('.closed'), '?status=closed' do
+        %span= t('.closed')
+
+%section
+  .incidents{role: :list}
+    %header
+      %input{type: :search, placeholder: t('.search')}
+      %label= icon :search
+    = render @incidents
+    = render 'empty' if @incidents.none?

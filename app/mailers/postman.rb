@@ -37,4 +37,14 @@ class Postman < ApplicationMailer
       subject: I18n.t('postman.receipt.subject')
     )
   end
+
+  def incident_report_notification(incident)
+    @incident = incident
+    @festival = incident.festival
+
+    mail(
+      to: User.admin.map(&:email),
+      subject: I18n.t('postman.incident_report_notification.subject')
+    )
+  end
 end

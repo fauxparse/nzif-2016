@@ -7,4 +7,6 @@ class User < ApplicationRecord
   has_many :participants, dependent: :nullify
 
   validates :name, presence: true
+
+  scope :admin, -> { where(admin: true) }
 end

@@ -1,0 +1,19 @@
+- content_for :title, t('.title')
+
+%header
+  .inner
+    %h1= t('.title')
+
+%section.incident-report
+  .inner
+    = form_for @incident, url: incidents_path(festival) do |form|
+      .field
+        = form.label :description
+        %p= t('.prompt')
+        = form.text_area :description, rows: 10
+      .field
+        = form.label :anonymous do
+          = form.check_box :anonymous
+          = t('.anonymous')
+        %p= t('.anonymous_info')
+      = form.submit t('.submit')

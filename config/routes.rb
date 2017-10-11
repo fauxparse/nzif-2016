@@ -31,7 +31,12 @@ Rails.application.routes.draw do
     end
 
     get "/activities" => "activities#index", as: :activities
-    get "/code-of-conduct" => "code_of_conduct#show", as: :code_of_conduct
+
+    scope "/code-of-conduct" do
+      get "/" => "code_of_conduct#show", as: :code_of_conduct
+      resources :incidents, only: [:new, :create]
+    end
+
     get "/pricing" => "prices#index", as: :pricing
     get "/faq" => "faq#index", as: :faq
     get "/" => "festivals#show", as: :festival
@@ -93,6 +98,15 @@ Rails.application.routes.draw do
 
       scope "/reports", constraints: { format: "csv" } do
         get "accounts" => "reports#accounts", as: :accounting_report
+      end
+
+      resources :incidents, only: [:index, :show] do
+        resources :comments, except: [:index, :show]
+
+        member do
+          post :close
+          post :reopen
+        end
       end
 
       get "/" => "dashboards#show"

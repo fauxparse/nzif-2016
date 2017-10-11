@@ -1,0 +1,103 @@
+.incidents {
+  .incident {
+    display: flex;
+    padding: $small-spacing 0;
+  }
+
+  .date,
+  .latest-comment {
+    font-size: $small-font-size;
+    line-height: $base-line-height * $base-font-size / $small-font-size;
+    flex: 0;
+    color: $secondary-color;
+  }
+
+  .summary {
+    flex: 1;
+
+    > * {
+      @include ellipsis;
+    }
+  }
+
+  .date {
+    margin-right: $base-spacing;
+  }
+
+  .latest-comment {
+    text-align: right;
+    margin-left: $base-spacing;
+
+    i.material-icons {
+      font-size: 100%;
+      margin-right: 0.25em;
+    }
+
+    > * {
+      white-space: nowrap;
+    }
+  }
+}
+
+.incident-description {
+  .reporter {
+    color: $secondary-color;
+  }
+}
+
+.incident-actions {
+  margin-top: $base-spacing;
+  border-top: $base-border;
+  padding: $small-spacing 0;
+}
+
+.incident-comments {
+  .comment {
+    border-top: $base-border;
+    padding-top: $base-spacing;
+    margin-bottom: $base-spacing;
+
+    .content {
+      ul {
+        @include bulleted-list;
+      }
+
+      ol {
+        @include bulleted-list;
+        list-style: decimal;
+      }
+    }
+
+    &.editing {
+      > .content,
+      > .buttons {
+        display: none;
+      }
+    }
+
+    &:not(.editing) > form {
+      display: none;
+    }
+  }
+
+  .posted {
+    flex: 1;
+    color: $secondary-color;
+
+    i.material-icons {
+      font-size: 100%;
+      margin-right: 0.25em;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: $small-font-size;
+
+    #{$all-buttons} {
+      margin-left: $small-spacing;
+    }
+  }
+}

@@ -84,6 +84,21 @@ body {
         }
       }
     }
+
+    .button {
+      background: transparent;
+      color: white;
+      transition: none;
+      border: 1px solid white;
+      padding: calc(#{$small-spacing} - 1px);
+      font-size: $small-font-size;
+
+      &:hover,
+      &:active {
+        background: white;
+        color: $accent-color;
+      }
+    }
   }
 
   > footer {

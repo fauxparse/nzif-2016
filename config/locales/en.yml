@@ -158,6 +158,24 @@ en:
     show:
       title: "Code of Conduct"
       accepted: "You accepted the code of conduct on %{date} as part of your registration."
+      report: "Report an incident"
+
+  incidents:
+    new:
+      title: "Report an incident"
+      prompt: "Tell us in your own words what happened, where, and when. If you can, include who was involved, including anyone else who may have observed the incident. You don’t have to say why you feel this was a breach of the Code of Conduct: if anything at the Festival has made you feel uncomfortable, we’d love to hear about it so that we can improve the experience for you and for other participants."
+      anonymous: "I’d like to stay anonymous"
+      anonymous_info: "We record your details with this incident report so that we can contact you to follow up. If you’d rather make an anonymous report, please check this box and we won’t store those details in the system."
+      submit: "Submit report"
+    create:
+      title: "Incident report submitted"
+      thanks: "Thank you for submitting your report. We’re sorry you've had a negative experience at the Festival, but we’re grateful for the opportunity to address what happened in a constructive way."
+      what_now:
+        title: "What happens now?"
+        next_steps:
+          one: "The Festival team will review your report, including checking for any other reports involving similar behaviour or people."
+          two: "We will contact the people involved to discuss next steps."
+          three: "If you have chosen to attach your name to the report, we will contact you directly to follow up."
 
   prices:
     index:
@@ -288,6 +306,27 @@ en:
     reports:
       index:
         title: "Reports"
+    incidents:
+      index:
+        title: "Incidents"
+        search: "Search"
+      empty:
+        empty: "Nothing to show here"
+      incident:
+        anonymous: '(Anonymous)'
+        commenter: '%{name}'
+      show:
+        title: "Incident report"
+        close: "Mark as closed"
+        reopen: "Reopen"
+        add_comment: "Add comment"
+    comments:
+      comment:
+        edit: "Edit"
+        delete: "Delete"
+        save: "Save"
+        cancel: "Cancel"
+        confirm: "Really delete this comment?"
     vouchers:
       index:
         title: "Vouchers"
@@ -360,6 +399,7 @@ en:
       ampm: "%l:%M %p"
       full: "%l:%M %p, %A, %e %B"
       compact: "%a %-d %b, %l:%M %p"
+      incident: "%A, %l:%M %p"
 
   postman:
     registration_confirmation:
@@ -381,6 +421,10 @@ en:
       remaining: "You have %{outstanding} left to pay. You can do that by visiting your account page here:"
       account_link: "My %{festival} account"
       paid_in_full: "That’s all you have to pay for now. If you add more activities later, you can pay for them separately."
+    incident_report_notification:
+      subject: "New incident report"
+      text: "There is a new incident report awaiting review."
+      link: "Click here to view details"
 
   activerecord:
     attributes:
