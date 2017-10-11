@@ -3,6 +3,7 @@
 %header
   .inner
     %h1= t('.title')
+    = link_to t('.report'), new_incident_path(festival), class: :button
 
 - if registration.present? && registration.code_of_conduct_accepted?
   %section.code-of-conduct-accepted

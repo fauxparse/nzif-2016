@@ -158,6 +158,7 @@ en:
     show:
       title: "Code of Conduct"
       accepted: "You accepted the code of conduct on %{date} as part of your registration."
+      report: "Report an incident"
 
   incidents:
     new:
