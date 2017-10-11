@@ -320,6 +320,8 @@ en:
         close: "Mark as closed"
         reopen: "Reopen"
         add_comment: "Add comment"
+      closed: "*Marked this incident as closed.*"
+      reopened: "*Reopened this incident.*"
     comments:
       comment:
         edit: "Edit"

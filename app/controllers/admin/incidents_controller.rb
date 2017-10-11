@@ -9,11 +9,13 @@ module Admin
     end
 
     def close
+      create_marker_comment(:closed)
       incident.closed!
       redirect_to admin_incident_path(festival, incident)
     end
 
     def reopen
+      create_marker_comment(:reopened)
       incident.open!
       redirect_to admin_incident_path(festival, incident)
     end
@@ -31,5 +33,12 @@ module Admin
     end
 
     helper_method :incident
+
+    def create_marker_comment(content)
+      incident.comments.create!(
+        content: I18n.t(content, scope: 'admin.incidents'),
+        participant: participant
+      )
+    end
   end
 end

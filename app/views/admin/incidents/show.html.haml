@@ -23,6 +23,6 @@
     = render incident.comments.sort_by(&:created_at)
     = form_for incident.comments.build, url: admin_incident_comments_path(festival, incident) do |f|
       .field
-        = f.text_area :content
+        = f.text_area :content, rows: 6
       .buttons
         = f.submit t('.add_comment')
