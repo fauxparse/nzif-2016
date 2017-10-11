@@ -100,7 +100,12 @@ Rails.application.routes.draw do
         get "accounts" => "reports#accounts", as: :accounting_report
       end
 
-      resources :incidents
+      resources :incidents, only: [:index, :show] do
+        member do
+          post :close
+          post :reopen
+        end
+      end
 
       get "/" => "dashboards#show"
     end

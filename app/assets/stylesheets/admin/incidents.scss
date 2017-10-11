@@ -1,0 +1,17 @@
+.incidents {
+  .incident {
+    display: flex;
+  }
+
+  .date {
+    font-size: $small-font-size;
+    line-height: $base-line-height * $base-font-size / $small-font-size;
+    margin-right: $base-spacing;
+    flex: 0;
+    color: $secondary-color;
+  }
+
+  .summary {
+    flex: 1;
+  }
+}

@@ -1,0 +1,18 @@
+- content_for :title, t('.title')
+- content_for :navigation_button, back_button(admin_incidents_path)
+
+%header
+  %section
+    %h1= [t('.title'), l(incident.time, format: :incident)].join(': ')
+
+%section.incident-description
+  .inner
+    %p
+      Reported by
+      = incident.reporter
+    :markdown
+      #{incident.description}
+%section.incident-actions
+  .inner
+    = button_to t('.close'), close_admin_incident_path(festival, incident) if incident.open?
+    = button_to t('.reopen'), reopen_admin_incident_path(festival, incident) if incident.closed?

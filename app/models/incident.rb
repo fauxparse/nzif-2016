@@ -13,11 +13,16 @@ class Incident < ApplicationRecord
   validates :participant_id, absence: true, if: :anonymous?
 
   scope :anonymous, -> { where(participant_id: nil) }
+  scope :newest_first, -> { order(created_at: :desc) }
 
   attr_accessor :anonymous
 
   def anonymous?
-    !!anonymous
+    if anonymous.nil?
+      participant.blank?
+    else
+      anonymous
+    end
   end
 
   private

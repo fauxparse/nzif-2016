@@ -1,0 +1,7 @@
+.incident{role: :listitem}
+  .date
+    .day= incident.created_at.strftime('%A')
+    .time= l(incident.created_at, format: :ampm)
+  = link_to admin_incident_path(festival, incident), class: 'summary' do
+    .participant= incident.participant || t('.anonymous')
+    .description= incident.description

@@ -305,6 +305,18 @@ en:
     reports:
       index:
         title: "Reports"
+    incidents:
+      index:
+        title: "Incidents"
+        search: "Search"
+      empty:
+        empty: "Nothing to show here"
+      incident:
+        anonymous: '(Anonymous)'
+      show:
+        title: "Incident record"
+        close: "Mark as closed"
+        reopen: "Reopen"
     vouchers:
       index:
         title: "Vouchers"
@@ -377,6 +389,7 @@ en:
       ampm: "%l:%M %p"
       full: "%l:%M %p, %A, %e %B"
       compact: "%a %-d %b, %l:%M %p"
+      incident: "%A, %l:%M %p"
 
   postman:
     registration_confirmation:
