@@ -313,10 +313,19 @@ en:
         empty: "Nothing to show here"
       incident:
         anonymous: '(Anonymous)'
+        commenter: '%{name}'
       show:
-        title: "Incident record"
+        title: "Incident report"
         close: "Mark as closed"
         reopen: "Reopen"
+        add_comment: "Add comment"
+    comments:
+      comment:
+        edit: "Edit"
+        delete: "Delete"
+        save: "Save"
+        cancel: "Cancel"
+        confirm: "Really delete this comment?"
     vouchers:
       index:
         title: "Vouchers"

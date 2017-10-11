@@ -1,0 +1,17 @@
+.comment{id: dom_id(comment)}
+  .content
+    :markdown
+      #{comment.content}
+  .buttons
+    %span.posted
+      = icon(:comment)
+      = [comment.participant, time_ago_in_words(comment.created_at) + ' ago'].join(', ')
+    - if comment.participant == participant
+      %button{rel: :edit}= t('.edit')
+      = button_to t('.delete'), admin_incident_comment_path(festival, comment.incident, comment), method: :delete, data: { confirm: t('.confirm') }
+  = form_for comment, url: admin_incident_comment_path(festival, comment.incident, comment), class: 'comment', id: dom_id(comment) do |f|
+    = f.text_area :content, rows: 6
+    .buttons
+      = f.submit t('.save')
+      %button{rel: :cancel}= t('.cancel')
+

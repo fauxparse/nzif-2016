@@ -101,6 +101,8 @@ Rails.application.routes.draw do
       end
 
       resources :incidents, only: [:index, :show] do
+        resources :comments, except: [:index, :show]
+
         member do
           post :close
           post :reopen

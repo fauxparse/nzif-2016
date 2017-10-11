@@ -30,6 +30,6 @@ class IncidentList
     @scope ||= Incident
       .where(status: status)
       .newest_first
-      .includes(:participant)
+      .includes(:participant, latest_comment: :participant)
   end
 end

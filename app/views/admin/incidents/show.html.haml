@@ -7,12 +7,22 @@
 
 %section.incident-description
   .inner
-    %p
+    %p.reporter
       Reported by
       = incident.reporter
     :markdown
       #{incident.description}
+
 %section.incident-actions
   .inner
     = button_to t('.close'), close_admin_incident_path(festival, incident) if incident.open?
     = button_to t('.reopen'), reopen_admin_incident_path(festival, incident) if incident.closed?
+
+%section.incident-comments
+  .inner
+    = render incident.comments.sort_by(&:created_at)
+    = form_for incident.comments.build, url: admin_incident_comments_path(festival, incident) do |f|
+      .field
+        = f.text_area :content
+      .buttons
+        = f.submit t('.add_comment')

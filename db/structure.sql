@@ -124,6 +124,39 @@ CREATE TABLE ar_internal_metadata (
 
 
 --
+-- Name: comments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE comments (
+    id bigint NOT NULL,
+    incident_id bigint,
+    participant_id bigint,
+    content text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+
+
+--
 -- Name: facilitators; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -198,7 +231,8 @@ CREATE TABLE incidents (
     description text,
     status character varying(32) DEFAULT 'open'::character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    comments_count integer DEFAULT 0
 );
 
 
@@ -666,6 +700,13 @@ ALTER TABLE ONLY allocations ALTER COLUMN id SET DEFAULT nextval('allocations_id
 
 
 --
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+
+
+--
 -- Name: facilitators id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -792,6 +833,14 @@ ALTER TABLE ONLY allocations
 
 ALTER TABLE ONLY ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
 
 
 --
@@ -941,6 +990,27 @@ CREATE INDEX index_allocations_on_package_id ON allocations USING btree (package
 --
 
 CREATE UNIQUE INDEX index_allocations_on_package_id_and_activity_type_name ON allocations USING btree (package_id, activity_type_name);
+
+
+--
+-- Name: index_comments_on_incident_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_incident_id ON comments USING btree (incident_id);
+
+
+--
+-- Name: index_comments_on_incident_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_incident_id_and_created_at ON comments USING btree (incident_id, created_at);
+
+
+--
+-- Name: index_comments_on_participant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_participant_id ON comments USING btree (participant_id);
 
 
 --
@@ -1189,6 +1259,14 @@ CREATE INDEX index_vouchers_on_participant_id ON vouchers USING btree (participa
 
 
 --
+-- Name: comments fk_rails_0dc2c75d86; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fk_rails_0dc2c75d86 FOREIGN KEY (incident_id) REFERENCES incidents(id) ON DELETE CASCADE;
+
+
+--
 -- Name: vouchers fk_rails_1003b0bc5a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1349,6 +1427,14 @@ ALTER TABLE ONLY activities
 
 
 --
+-- Name: comments fk_rails_db8b8e9fe8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY comments
+    ADD CONSTRAINT fk_rails_db8b8e9fe8 FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE;
+
+
+--
 -- Name: registrations fk_rails_efbc49fd36; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1401,6 +1487,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20160904004604'),
 ('20160910235529'),
 ('20160917002708'),
-('20170923032134');
+('20170923032134'),
+('20171011072859');
 
 

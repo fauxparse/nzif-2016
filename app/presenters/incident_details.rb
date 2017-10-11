@@ -3,8 +3,12 @@ class IncidentDetails < SimpleDelegator
 
   alias_method :incident, :__getobj__
 
-  def description
-    pretty(incident.description)
+  def description(markup = true)
+    if markup
+      pretty(incident.description)
+    else
+      incident.description
+    end
   end
 
   def date
