@@ -3,7 +3,7 @@ class Incident < ApplicationRecord
   belongs_to :participant, optional: true
   has_many :comments, dependent: :destroy
   has_one :latest_comment,
-    -> { order(created_at: :desc) },
+    -> { order(created_at: :desc).merge(Comment.not_deleted) },
     class_name: 'Comment'
 
   enum status: {
