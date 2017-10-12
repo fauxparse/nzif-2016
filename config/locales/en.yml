@@ -329,6 +329,7 @@ en:
         save: "Save"
         cancel: "Cancel"
         confirm: "Really delete this comment?"
+        edited: "(edited)"
     vouchers:
       index:
         title: "Vouchers"

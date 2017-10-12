@@ -134,7 +134,8 @@ CREATE TABLE comments (
     content text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted boolean DEFAULT false
+    deleted boolean DEFAULT false,
+    revisions_count integer DEFAULT 0
 );
 
 
@@ -504,6 +505,38 @@ ALTER SEQUENCE related_activities_id_seq OWNED BY related_activities.id;
 
 
 --
+-- Name: revisions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE revisions (
+    id bigint NOT NULL,
+    comment_id bigint,
+    content text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: revisions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE revisions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: revisions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE revisions_id_seq OWNED BY revisions.id;
+
+
+--
 -- Name: schedules; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -778,6 +811,13 @@ ALTER TABLE ONLY related_activities ALTER COLUMN id SET DEFAULT nextval('related
 
 
 --
+-- Name: revisions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY revisions ALTER COLUMN id SET DEFAULT nextval('revisions_id_seq'::regclass);
+
+
+--
 -- Name: schedules id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -922,6 +962,14 @@ ALTER TABLE ONLY registrations
 
 ALTER TABLE ONLY related_activities
     ADD CONSTRAINT related_activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: revisions revisions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY revisions
+    ADD CONSTRAINT revisions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1173,6 +1221,20 @@ CREATE INDEX index_related_activities_on_child_id ON related_activities USING bt
 --
 
 CREATE INDEX index_related_activities_on_parent_id ON related_activities USING btree (parent_id);
+
+
+--
+-- Name: index_revisions_on_comment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_revisions_on_comment_id ON revisions USING btree (comment_id);
+
+
+--
+-- Name: index_revisions_on_comment_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_revisions_on_comment_id_and_created_at ON revisions USING btree (comment_id, created_at);
 
 
 --
@@ -1490,6 +1552,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20160917002708'),
 ('20170923032134'),
 ('20171011072859'),
-('20171012051228');
+('20171012051228'),
+('20171012060458');
 
 

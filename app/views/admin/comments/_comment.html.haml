@@ -6,6 +6,7 @@
     %span.posted
       = icon(:comment)
       = [comment.participant, time_ago_in_words(comment.created_at) + ' ago'].join(', ')
+      = t('.edited') if comment.edited?
     - if comment.participant == participant
       %button{rel: :edit}= t('.edit')
       = button_to t('.delete'), admin_incident_comment_path(festival, comment.incident, comment), method: :delete, data: { confirm: t('.confirm') }
