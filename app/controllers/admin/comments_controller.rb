@@ -12,7 +12,7 @@ class Admin::CommentsController < ApplicationController
   end
 
   def destroy
-    comment.destroy
+    comment.mark_as_deleted!
     redirect_to admin_incident_path(festival, incident)
   end
 

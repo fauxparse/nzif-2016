@@ -27,6 +27,10 @@ class IncidentDetails < SimpleDelegator
     end
   end
 
+  def comments
+    incident.comments.not_deleted.oldest_first
+  end
+
   def self.new(incident)
     incident && super(incident)
   end

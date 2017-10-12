@@ -133,7 +133,8 @@ CREATE TABLE comments (
     participant_id bigint,
     content text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted boolean DEFAULT false
 );
 
 
@@ -1000,10 +1001,10 @@ CREATE INDEX index_comments_on_incident_id ON comments USING btree (incident_id)
 
 
 --
--- Name: index_comments_on_incident_id_and_created_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_comments_on_incident_id_and_deleted_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_comments_on_incident_id_and_created_at ON comments USING btree (incident_id, created_at);
+CREATE INDEX index_comments_on_incident_id_and_deleted_and_created_at ON comments USING btree (incident_id, deleted, created_at);
 
 
 --
@@ -1488,6 +1489,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20160910235529'),
 ('20160917002708'),
 ('20170923032134'),
-('20171011072859');
+('20171011072859'),
+('20171012051228');
 
 
